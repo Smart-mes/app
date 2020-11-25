@@ -88,11 +88,11 @@
             },
             "splashscreen" : {
                 "android" : {
-                    "hdpi" : "D:/work/其他/PSD/smart.app图标和启动封面/star.png",
-                    "xhdpi" : "D:/work/其他/PSD/smart.app图标和启动封面/star.png",
-                    "xxhdpi" : "D:/work/其他/PSD/smart.app图标和启动封面/star.png"
+                    "hdpi" : "D:/work/其他/PSD/smart.app图标和启动封面/.9/hdpi.9.png",
+                    "xhdpi" : "D:/work/其他/PSD/smart.app图标和启动封面/.9/xhdpi.9.png",
+                    "xxhdpi" : "D:/work/其他/PSD/smart.app图标和启动封面/.9/xxhdpi.9.png"
                 },
-                "androidStyle" : "common",
+                "androidStyle" : "default",
                 "iosStyle" : "common"
             }
         }
