@@ -57,7 +57,7 @@ const state = {
 	// 车间
 	workShopList: [],
 	// 常用菜单
-	usuallyMenu: uni.getStorageSync('usuallyMenu') || [{ icon: 'plus-circle', title: '添加' }]
+	usuallyMenu: uni.getStorageSync('usuallyMenu') || [{ icon: 'plus-circle', title: '添加',url:'/pages/index/addMenu' }]
 }
 const mutations = {
 	login(state, provider) {
