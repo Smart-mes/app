@@ -1,6 +1,6 @@
 <template>
   <view class="info-wrap">
-    <u-navbar title="我的消息" :is-back="true" :background="navbar.background">
+    <u-navbar title="我的消息" :is-back="true" :background="navbar.background" title-color="#333">
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
           <u-badge size="mini" count="20" :offset="[-17,20]" type="error" />
@@ -12,7 +12,7 @@
     <view class="info">
       <view class="info-row">
         <view class="icon-col">
-          <u-badge size="small" type="error" :offset="[8,-10]" :is-dot="true" />
+          <u-badge size="small" type="error" :offset="[15,-10]" :is-dot="true" />
           <u-icon class="info-icon" name="volume-up" color="#fff" size="50" />
         </view>
         <view class="text-col" @tap="linkInfo('系统自动取消订单提醒')">
@@ -65,7 +65,7 @@ export default {
 <style lang="scss" scoped>
 .info-wrap {
   min-height: 100%;
-  background-color: $white-color;
+  // background-color: $white-color;
 }
 
 .navbar-icon {
@@ -77,12 +77,14 @@ export default {
     position: relative;
     display: flex;
     flex-direction: row;
+	margin-bottom: 15rpx;
     padding: 25rpx;
-    @include line(100rpx);
+	background-color:$white-color ;
+    // @include line(100rpx);
     .icon-col {
       position: relative;
-      margin-right: 20rpx;
-      width: 70rpx;
+      margin-right: 25rpx;
+      width: 80rpx;
     }
     .text-col {
       flex: auto;
@@ -90,29 +92,29 @@ export default {
     }
     .text-col-title {
       display: flex;
-      flex-direction: row;
+      flex-direction:column;
     }
   }
   .info-icon {
-    margin-top: 10rpx;
-    padding: 10rpx;
+    margin-top: 25rpx;
+    padding: 15rpx;
     border-radius: 50%;
     background-color: #5782f5;
   }
   .info-name {
-    font-size:$font-30;
-    flex: auto;
+	flex: auto;  
+    font-size:$font-32;
+    color: #333;
   }
   .info-time {
-    width: 120rpx;
     font-size: $font-20;
     color: $font-light-gray;
   }
   .info-text {
-    margin-top: 10rpx;
+    margin-top: 15rpx;
     width: 610rpx;
-    font-size: $font-24;
-    color: $font-light-gray;
+    font-size: $font-26;
+    color: $font-gray;
   }
 }
 </style>

@@ -1,9 +1,12 @@
 <template>
   <view class="effect">
-    <u-navbar :is-back="true" :background="navbar.background">
+    <u-navbar 
+    :height="50" 
+    :is-back="true" 
+    :background="navbar.background">
       <view class="navbar-left">
         <view class="title">效率管理</view>
-        <view class="subTitle">{{wsName}}</view>
+        <!-- <view class="subTitle">{{wsName}}</view> -->
       </view>
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
@@ -19,6 +22,7 @@
       </view>
     </u-navbar>
     <!-- nav -->
+    <view class="nav-subTitle">{{ wsName }}</view>
     <u-row class="effect-list">
       <u-col span="4">
         <view class="effect-item">

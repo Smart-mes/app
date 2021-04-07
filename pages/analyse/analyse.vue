@@ -1,40 +1,58 @@
 <template>
   <view>
-    <u-navbar :is-back="navbar.isBack" :background="navbar.background">
+    <u-navbar
+    :height="50" 
+    :is-back="navbar.isBack" 
+    :background="navbar.background">
       <view class="navbar-left">
         <view class="title">效率分析</view>
-        <view class="subTitle">{{selected.label||'设备'}}列表</view>
+        <!-- <view class="subTitle">{{selected.label||'设备'}}列表</view> -->
       </view>
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
-          <u-icon class="icon-item" name="grid" color="#333" size="45" @click.native="handleMenu" />
+          <u-icon
+            class="icon-item"
+            name="grid"
+            color="#333"
+            size="45"
+            @click.native="handleMenu"
+          />
         </view>
       </view>
     </u-navbar>
     <!-- nav -->
-    <view class="list">
-      <view
-        class="list-item"
-        v-for="machine of MachineList"
-        :key="machine.id"
-        @tap="link(machine.machineName,machine.machineCode)"
-      >
-        <view class="list-left">
-          <view class="row">
-            <view class="col-name">名称：</view>
-            <view class="col-text">{{machine.machineName}}</view>
+    <view class="u-page">
+      <view class="nav-subTitle">{{selected.label||'设备'}}列表</view>
+      <view class="list">
+        <view
+          class="list-item"
+          v-for="machine of MachineList"
+          :key="machine.id"
+          @tap="link(machine.machineName, machine.machineCode)"
+        >
+          <view class="list-left">
+            <view class="row">
+              <view class="col-name">名称：</view>
+              <view class="col-text">{{ machine.machineName }}</view>
+            </view>
+            <view class="row">
+              <view class="col-name">编号：</view>
+              <view class="col-text">{{ machine.machineCode }}</view>
+            </view>
           </view>
-          <view class="row">
-            <view class="col-name">编号：</view>
-            <view class="col-text">{{machine.machineCode}}</view>
+          <view class="list-right">
+            <text class="iconfont icon-arrow-right" />
           </view>
-        </view>
-        <view class="list-right">
-          <text class="iconfont icon-arrow-right" />
         </view>
       </view>
+      <u-empty
+        v-if="!MachineList.length"
+        margin-top="30"
+        icon-size="100"
+        text="数据为空"
+        mode="data"
+      />
     </view>
-    <u-empty v-if="!MachineList.length" margin-top="30" icon-size="100" text="数据为空" mode="data" />
     <!-- 列表 -->
     <ly-tree-drawer
       class="tree"
@@ -127,7 +145,7 @@ export default {
         this.machineAjax();
       }
     },
-    link(machineName,machineCode) {
+    link(machineName, machineCode) {
       uni.navigateTo({
         url: `/pages/analyse/analyseDetail?machineName=${machineName}&machineCode=${machineCode}`,
       });
@@ -162,22 +180,24 @@ export default {
 // 列表
 .list {
   font-size: $font-28;
-  background-color: $white-color;
+  // background-color: $white-color;
   .list-item {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin: 15rpx 15rpx 0 15rpx;
     padding: 10px 30upx;
-    border-bottom: 1px solid $line-dark-color;
-    &:nth-child(even) {
-      background-color: $bj-gray;
-    }
+    border-radius: 10rpx;
+    background-color: $white-color;
+    // border-bottom: 1px solid $line-dark-color;
+    // &:nth-child(even) {
+    //   background-color: $bj-gray;
+    // }
 
     &:active {
       background-color: $hover-color;
     }
-
     .list-left {
       flex: 1;
     }
@@ -189,14 +209,11 @@ export default {
         color: $font-light-gray;
       }
     }
-
     .row {
       display: flex;
-
       .col-name {
         color: $font-light-gray;
       }
-
       .col-text {
         flex: 1;
       }
@@ -207,7 +224,6 @@ export default {
 .progress {
   color: $font-light-gray;
 }
-
 .tree {
   /deep/.ly-tree--highlight-current
     .ly-tree-node.is-current

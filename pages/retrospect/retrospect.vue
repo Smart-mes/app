@@ -1,6 +1,13 @@
 <template>
   <view>
-    <u-navbar :title="navbar.title" :is-back="navbar.isBack" :background="navbar.background" />
+    <u-navbar
+    :height="50" 
+    :is-back="navbar.isBack" 
+    :background="navbar.background">
+      <view class="navbar-left m-l35">
+        <view class="title">{{navbar.title}}</view>
+      </view>
+    </u-navbar>
     <!-- nav -->
     <view class="u-page">
       <u-tabs
@@ -18,7 +25,7 @@
       />
       <!-- tabs -->
       <view class="tabs-content">
-        <u-form label-width="130" v-show="ative==='Product'">
+        <u-form label-width="130" v-show="ative === 'Product'">
           <u-form-item label="工单">
             <u-input v-model="fabric.orderNo" placeholder="请输入工单" />
           </u-form-item>
@@ -31,7 +38,7 @@
                 <u-input
                   v-model="fabric.startDay"
                   placeholder="输入开始时间"
-                  @click="this.timeVisible=!this.timeVisible"
+                  @click="handleTime"
                 />
               </u-col>
               <u-col span="2">至</u-col>
@@ -39,14 +46,14 @@
                 <u-input
                   v-model="fabric.endDay"
                   placeholder="输入结束时间"
-                  @click="this.timeVisible=!this.timeVisible"
+                  @click="handleTime"
                 />
               </u-col>
             </u-row>
           </u-form-item>
         </u-form>
         <!-- 产品追溯 -->
-        <u-form label-width="130" v-show="ative==='Material'">
+        <u-form label-width="130" v-show="ative === 'Material'">
           <u-form-item label="工单">
             <u-input v-model="matCodes.matCode" placeholder="请输入工单" />
           </u-form-item>
@@ -61,7 +68,9 @@
               <u-button size="medium" @click="clear">清空</u-button>
             </u-col>
             <u-col span="6">
-              <u-button type="primary" size="medium" @click="search">查询</u-button>
+              <u-button type="primary" size="medium" @click="search"
+                >查询</u-button
+              >
             </u-col>
           </u-row>
         </view>
@@ -79,12 +88,19 @@
         />
       </view>
     </view>
-    <u-calendar v-model="timeVisible" mode="medium" max-date="2050-12-31" @change="timeChange" />
+    <u-calendar
+      v-model="timeVisible"
+      mode="medium"
+      max-date="2050-12-31"
+      @change="timeChange"
+    />
     <!--page-->
     <u-tabbar
+	  :icon-size="nav.iconSize"
       :list="nav.list"
       :mid-button="nav.isMid"
       :active-color="nav.activeColor"
+      :inactive-color="nav.inactiveolor"
     />
   </view>
 </template>
@@ -99,11 +115,11 @@ export default {
   data() {
     return {
       navbar: {
-        title:"工艺追溯",
+        title: "工艺追溯",
         background: {
           backgroundColor: "#ffffff",
         },
-        isBack:false,
+        isBack: false,
       },
       //数据字典
       productDict: {},
@@ -158,6 +174,10 @@ export default {
     this.getFetchDicts();
   },
   methods: {
+    handleTime(){
+      uni.hideKeyboard();
+      this.timeVisible = !this.timeVisible
+    },
     tabsChange(index) {
       this.tabsCurrent = index;
       this.ative = this.tabsList[index].value;
@@ -208,8 +228,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .tabs-content {
-  margin-top: 20rpx;
+  margin: 20rpx 15rpx 0 15rpx;
   padding: 20rpx;
+  border-radius: 10rpx;
   background-color: $white-color;
   .btn {
     margin-top: 20rpx;
@@ -221,7 +242,9 @@ export default {
 }
 .reviewTree {
   overflow: hidden;
-  margin: 20upx 0;
-  background-color: $white-color;
+  margin: 20upx auto;
+  width: 720rpx;
+  border-radius: 10rpx;
+  background:$white-color;
 }
 </style>

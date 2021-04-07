@@ -1,6 +1,7 @@
 html,body{
 	height: 100%;
 	width: 100%;
+	font-family: "Microsoft YaHei";
 	background-color:$bgColor;
 }
 // 省列号
@@ -12,7 +13,9 @@ html,body{
   color: $font-text-color;
   line-height: initial;
   .title {
-    font-size: $font-30;
+    font-size:38rpx;
+    font-weight:bold;
+    line-height: 50rpx;
   }
   .subTitle {
     font-size: $font-24;
@@ -26,30 +29,39 @@ html,body{
     }
   }
 }
+.nav-subTitle{
+  padding: 15rpx 35rpx;
+  color: $font-gray;
+}
 .navbar-title{
 	font-size:34rpx;
 }
 .m-l35{margin-left: 35rpx;}
+.sub-info{
+  display: flex;
+  flex-direction: row;
+  padding:15rpx 35rpx;
+  .nav-subTitle{flex: auto;padding: 0;}
+  .tips{ margin: 0;flex-basis: 360rpx;}
+}
 .tips {
   display: flex;
-  margin: 30upx 0 10upx 0;
-  padding: 0 40upx;
+  // margin: 30upx 0 10upx 0;
+  // padding: 0 40upx;
   color: $font-gray;
 
   .tips-item {
     display: flex;
     align-items: center;
-    margin-right: 40upx;
+    margin-left: 40upx;
     font-size: 22rpx;
   }
-
   .tips-icon {
     margin-right: 10upx;
     width: 20upx;
     height: 8upx;
     background: $blue-color;
   }
-
   .green-icon {
     background: $green-color;
   }

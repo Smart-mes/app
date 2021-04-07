@@ -1,6 +1,15 @@
 <template>
   <view class="quality">
-    <u-navbar :title="navbar.title" :is-back="navbar.isBack"  :background="navbar.background"/>
+    <u-navbar
+      :height="50"  
+      :is-back="navbar.isBack"
+      :background="navbar.background"
+    >
+      <view class="navbar-left">
+        <view class="title">{{navbar.title}}</view>
+        <!-- <view class="subTitle">{{wsName}}</view> -->
+      </view>
+    </u-navbar>
     <!-- nav -->
     <view class="quality-box">
       <view class="quality-charts">
@@ -44,8 +53,8 @@ export default {
   data() {
     return {
       navbar: {
-        title:"工单不良汇总",
-        isBack:true,
+        title: "工单不良汇总",
+        isBack: true,
         background: {
           backgroundColor: "#ffffff",
         },

@@ -1,6 +1,7 @@
 <template>
   <view class="failureForm">
     <u-navbar
+      :height="50"  
       :title="'报障_' + stationName"
       :is-back="navbar.isBack"
       :background="navbar.background"

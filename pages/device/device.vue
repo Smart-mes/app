@@ -1,9 +1,12 @@
 <template>
   <view>
-    <u-navbar :is-back="navbar.isBack" :background="navbar.background">
+    <u-navbar
+      :height="50"
+      :is-back="navbar.isBack"
+      :background="navbar.background"     
+    >
       <view class="navbar-left m-l35">
         <view class="title">设备管理</view>
-        <view class="subTitle">{{ wsName }}</view>
       </view>
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
@@ -40,14 +43,17 @@
         @change="tabsChange"
       />
       <!-- nav -->
-      <view class="tips">
-        <view class="tips-item">
-          <text class="tips-icon green-icon"></text>
-          <text>工单进度</text>
-        </view>
-        <view class="tips-item">
-          <text class="tips-icon"></text>
-          <text>模具维修进度</text>
+      <view class="sub-info">
+        <view class="nav-subTitle">{{ wsName }}</view>
+        <view class="tips">
+          <view class="tips-item">
+            <text class="tips-icon green-icon"></text>
+            <text>工单进度</text>
+          </view>
+          <view class="tips-item">
+            <text class="tips-icon"></text>
+            <text>模具维修进度</text>
+          </view>
         </view>
       </view>
       <!-- 提示  -->
@@ -221,9 +227,11 @@
     <popup ref="popup" @getWorkShop="getWorkShop" />
     <!-- popup -->
     <u-tabbar
+	  :icon-size="nav.iconSize"
       :list="nav.list"
       :mid-button="nav.isMid"
       :active-color="nav.activeColor"
+      :inactive-color="nav.inactiveolor"
     />
   </view>
 </template>
@@ -370,12 +378,19 @@ export default {
       });
     },
   },
+  onload() {
+    uni.startPullDownRefresh();
+  },
+  onPullDownRefresh() {
+    this.deviceAjax().then(() => {
+      uni.stopPullDownRefresh();
+    });
+  },
 };
 </script>
 <style lang="scss" scoped>
-// 设备
 .device-list {
-  margin: 0 20rpx 20rpx 20rpx;
+  margin: 0 15rpx 20rpx 15rpx;
   background-color: $white-color;
   border-radius: 10rpx;
 
@@ -391,7 +406,6 @@ export default {
     .device-name {
       flex: 1;
     }
-
     .iconfont {
       width: 30upx;
       font-size: $font-26;
@@ -409,7 +423,7 @@ export default {
     .device-item {
       box-sizing: border-box;
       padding: 10upx 15upx;
-      width: 335upx;
+      width: 340upx;
       .device-item-box {
         height: 240upx;
         border: 1px solid #ccc;

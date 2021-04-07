@@ -7,7 +7,7 @@
             v-for="(workShop,i) in workShopList"
             :key="workShop.wsid"
             :title="workShop.wsName"
-            :title-style="{color:current===i?'#1890ff':'#333'}"
+            :title-style="{color:current===i?'#1890ff':'#333','font-size': '32rpx'}"
             @click="handleWorkShop(i)"
           />
         </u-cell-group>

@@ -1,165 +1,196 @@
 <template>
   <view>
-    <u-navbar :is-back="navbar.isBack" :background="navbar.background">
-      <view class="navbar-title">{{ machineName }}</view>
-    </u-navbar>
+    <u-navbar
+      title-color="#000000"
+      :title="machineName"
+      :height="50"
+      :is-back="navbar.isBack"
+      :background="navbar.background"
+    />
+    <!-- <view class="navbar-title">{{ machineName }}</view>
+    </u-navbar> -->
     <!-- nav -->
-    <view class="search">
-      <u-section title="搜索">
-        <view slot="right" @click="searchVisible = !searchVisible">
-          <u-icon
-            :name="searchVisible ? 'arrow-up-fill' : 'arrow-down-fill'"
-            size="22"
-            color="#ccc"
-          />
-        </view>
-      </u-section>
-      <view v-show="searchVisible">
-        <u-form label-width="130" :model="form" ref="uForm">
-          <u-form-item label="开始时间" prop="startTime">
-            <u-input
-              v-model="form.startTime"
-              @click="handlePickerType('start')"
+    <view class="u-page">
+      <view class="search">
+        <u-section
+          title="搜索"
+          font-size="30"
+          :show-line="false"
+          :right="false"
+        >
+          <view slot="right" @click="searchVisible = !searchVisible">
+            <u-icon
+              :name="searchVisible ? 'arrow-up-fill' : 'arrow-down-fill'"
+              size="22"
+              color="#ccc"
             />
-          </u-form-item>
-          <u-form-item label="结束时间" prop="endTime">
-            <u-input v-model="form.endTime" @click="handlePickerType('end')" />
-          </u-form-item>
-        </u-form>
-        <view class="btn">
-          <u-row gutter="20">
-            <u-col span="6">
-              <u-button size="medium" @click="clear">清空</u-button>
-            </u-col>
-            <u-col span="6">
-              <u-button type="primary" size="medium" @click="search">
-                查询
-              </u-button>
-            </u-col>
-          </u-row>
-        </view>
-      </view>
-    </view>
-    <!-- 搜索 -->
-    <view class="mix">
-      <view class="mix-title">
-        <u-section title="占比图" :right="false" />
-      </view>
-      <view v-if="minMixList.length">
-        <view class="min-state">
-          <view
-            class="state-item"
-            v-for="(value, key) in machineType"
-            :key="key"
-          >
-            <text class="state-color" :style="{ background: value.color }" />
-            <text class="state-font">{{ value.name }}</text>
+          </view>
+        </u-section>
+        <view v-show="searchVisible">
+          <u-form label-width="130" :model="form" ref="uForm">
+            <u-form-item label="开始时间" prop="startTime">
+              <u-input
+                v-model="form.startTime"
+                @click="handlePickerType('start')"
+              />
+            </u-form-item>
+            <u-form-item label="结束时间" prop="endTime">
+              <u-input
+                v-model="form.endTime"
+                @click="handlePickerType('end')"
+              />
+            </u-form-item>
+          </u-form>
+          <view class="btn">
+            <u-row gutter="20">
+              <u-col span="6">
+                <u-button size="medium" @click="clear">清空</u-button>
+              </u-col>
+              <u-col span="6">
+                <u-button type="primary" size="medium" @click="search">
+                  查询
+                </u-button>
+              </u-col>
+            </u-row>
           </view>
         </view>
-        <!-- hd -->
-        <view class="mix-content">
-          <canvas
-            canvas-id="mixCanvasStack"
-            id="mixCanvasStack"
-            class="minCharts"
+      </view>
+      <!-- 搜索 -->
+      <view class="mix">
+        <view class="mix-title">
+          <u-section
+            title="占比图"
+            font-size="30"
+            :show-line="false"
+            :right="false"
           />
         </view>
-      </view>
-      <u-empty
-        v-if="!minMixList.length"
-        margin-top="30"
-        icon-size="100"
-        text="数据为空"
-        mode="data"
-      />
-    </view>
-    <!-- 占比 -->
-    <view class="device">
-      <view class="device-title">
-        <u-section title="设备效率饼图" :right="false" />
-      </view>
-      <view v-if="tableData.length">
-        <canvas
-          canvas-id="canvasPie"
-          id="canvasPie"
-          class="charts-pie"
-          @touchstart="touchPie"
+        <view v-if="minMixList.length">
+          <view class="min-state">
+            <view
+              class="state-item"
+              v-for="(value, key) in machineType"
+              :key="key"
+            >
+              <text class="state-color" :style="{ background: value.color }" />
+              <text class="state-font">{{ value.name }}</text>
+            </view>
+          </view>
+          <!-- hd -->
+          <view class="mix-content">
+            <canvas
+              canvas-id="mixCanvasStack"
+              id="mixCanvasStack"
+              class="minCharts"
+            />
+          </view>
+        </view>
+        <u-empty
+          v-if="!minMixList.length"
+          margin-top="30"
+          icon-size="100"
+          text="数据为空"
+          mode="data"
         />
-        <view class="device-info">
-          <u-table :font-size="24">
-            <u-tr>
-              <u-th :width="600">设备编号</u-th>
-              <u-th>干扰类型</u-th>
-              <u-th>延误时间</u-th>
-            </u-tr>
-            <u-tr v-for="(tableItem, i) in tableData" :key="i">
-              <u-td :width="500">{{ tableItem.machineCode }}</u-td>
-              <u-td>{{ workType(tableItem.troubleCoed) }}</u-td>
-              <u-td>{{ tableItem.time }}</u-td>
-            </u-tr>
-          </u-table>
-        </view>
       </view>
-      <!-- 内容 -->
-      <u-empty
-        v-if="!tableData.length"
-        margin-top="30"
-        icon-size="100"
-        text="数据为空"
-        mode="data"
-      />
-    </view>
-    <!-- 饼图，列表 -->
-    <view class="formula">
-      <view class="formula-title">
-        <u-section title="计算公式" :right="false" />
+      <!-- 占比 -->
+      <view class="device">
+        <view class="device-title">
+          <u-section
+            title="设备效率饼图"
+            font-size="30"
+            :show-line="false"
+            :right="false"
+          />
+        </view>
+        <view v-if="tableData.length">
+          <canvas
+            canvas-id="canvasPie"
+            id="canvasPie"
+            class="charts-pie"
+            @touchstart="touchPie"
+          />
+          <view class="device-info">
+            <u-table :font-size="24">
+              <u-tr>
+                <u-th :width="600">设备编号</u-th>
+                <u-th>干扰类型</u-th>
+                <u-th>延误时间</u-th>
+              </u-tr>
+              <u-tr v-for="(tableItem, i) in tableData" :key="i">
+                <u-td :width="500">{{ tableItem.machineCode }}</u-td>
+                <u-td>{{ workType(tableItem.troubleCoed) }}</u-td>
+                <u-td>{{ tableItem.time }}</u-td>
+              </u-tr>
+            </u-table>
+          </view>
+        </view>
+        <!-- 内容 -->
+        <u-empty
+          v-if="!tableData.length"
+          margin-top="30"
+          icon-size="100"
+          text="数据为空"
+          mode="data"
+        />
       </view>
-      <view  v-if="Object.keys(formula).length" class="formula-list">
-        <view class="formula-item">
-          <view class="formula-name">
-            时间稼动率（实际生产时间/计划生产时间）：
+      <!-- 饼图，列表 -->
+      <view class="formula">
+        <view class="formula-title">
+          <u-section
+            title="计算公式"
+            font-size="30"
+            :show-line="false"
+            :right="false"
+          />
+        </view>
+        <view v-if="Object.keys(formula).length" class="formula-list">
+          <view class="formula-item">
+            <view class="formula-name">
+              时间稼动率（实际生产时间/计划生产时间）：
+            </view>
+            <view class="formula-text">
+              {{ formula.runTimeLong }} / {{ formula.produTimeLong }} x 100% ={{
+                timeRate
+              }}%
+            </view>
           </view>
-          <view class="formula-text">
-            {{ formula.runTimeLong }} / {{ formula.produTimeLong }} x 100% ={{
-              timeRate
-            }}%
+          <view class="formula-item">
+            <view class="formula-name">
+              性能稼动率（理论节拍x产量/稼动时间）：
+            </view>
+            <view class="formula-text">
+              {{ formula.rate }} x {{ formula.output }} /{{
+                formula.runTimeLong
+              }}
+              x 100% = {{ natureRate }}%
+            </view>
+          </view>
+          <view class="formula-item">
+            <view class="formula-name">良品率（良品量/生产量）：</view>
+            <view class="formula-text"
+              >{{ formula.quality }} / {{ formula.output }} x 100% =
+              {{ yieldRate }}%</view
+            >
+          </view>
+          <view class="formula-item">
+            <view class="formula-name">
+              设备综合效率=时间稼动率x性能稼动率x良品率：
+            </view>
+            <view class="formula-text"
+              >{{ timeRate / 100 }} x {{ natureRate / 100 }} x
+              {{ yieldRate / 100 }} x 100% = {{ multipleRate }} %</view
+            >
           </view>
         </view>
-        <view class="formula-item">
-          <view class="formula-name">
-            性能稼动率（理论节拍x产量/稼动时间）：
-          </view>
-          <view class="formula-text">
-            {{ formula.rate }} x {{ formula.output }} /{{
-              formula.runTimeLong
-            }}
-            x 100% = {{ natureRate }}%
-          </view>
-        </view>
-        <view class="formula-item">
-          <view class="formula-name">良品率（良品量/生产量）：</view>
-          <view class="formula-text"
-            >{{ formula.quality }} / {{ formula.output }} x 100% =
-            {{ yieldRate }}%</view
-          >
-        </view>
-        <view class="formula-item">
-          <view class="formula-name">
-            设备综合效率=时间稼动率x性能稼动率x良品率：
-          </view>
-          <view class="formula-text"
-            >{{ timeRate / 100 }} x {{ natureRate / 100 }} x
-            {{ yieldRate / 100 }} x 100% = {{ multipleRate }} %</view
-          >
-        </view>
+        <u-empty
+          v-if="!Object.keys(formula).length"
+          margin-top="30"
+          icon-size="100"
+          text="数据为空"
+          mode="data"
+        />
       </view>
-      <u-empty
-        v-if="!Object.keys(formula).length"
-        margin-top="30"
-        icon-size="100"
-        text="数据为空"
-        mode="data"
-      />
     </view>
     <!-- 公式 -->
     <u-picker
@@ -174,7 +205,7 @@
 
 <script>
 import uCharts from "@/components/uni/u-charts/u-charts";
-import config from '@/util/config';
+import config from "@/util/config";
 
 let _self;
 let mixCanvas = null;
@@ -260,8 +291,10 @@ export default {
   },
   onLoad(option) {
     // 设置标题
-    this.machineName = option.machineName ? option.machineName : "设备效率分析详情";
-    this.machineCode=option.machineCode;
+    this.machineName = option.machineName
+      ? option.machineName
+      : "设备效率分析详情";
+    this.machineCode = option.machineCode;
 
     // 初始化图标
     _self = this;
@@ -349,12 +382,12 @@ export default {
         })
         .then(() => {
           // 占比图
-          this.minWidth = uni.upx2px(750);
+          this.minWidth = uni.upx2px(720);
           this.minHeight = uni.upx2px(200);
 
           this.getMinData();
           //设备效率图
-          this.cWidth = uni.upx2px(750);
+          this.cWidth = uni.upx2px(720);
           this.cHeight = uni.upx2px(500);
           this.getDeviceData();
           // this.drawMix();
@@ -376,6 +409,7 @@ export default {
       }
     },
     handlePickerType(type) {
+      uni.hideKeyboard();
       this.pickerType = type;
       this.picker.visible = true;
     },
@@ -514,22 +548,23 @@ export default {
 
 <style lang="scss" scoped>
 .search {
+  margin: 15rpx 15rpx 0 15rpx;
   padding: 30rpx;
+  border-radius: 10rpx;
   background-color: $white-color;
 
   .btn {
     margin-top: 20rpx;
-
     /deep/.u-btn {
       width: 100%;
       padding: 0;
     }
   }
 }
-
 .mix {
   overflow: hidden;
-  margin: 20upx 0;
+  margin: 15rpx 15rpx 0 15rpx;
+  border-radius: 10rpx;
   background-color: $white-color;
   .mix-title {
     margin: 30rpx 30rpx 0 30rpx;
@@ -551,7 +586,7 @@ export default {
     }
   }
   .minCharts {
-    width: 750upx;
+    width: 720upx;
     height: 200upx;
   }
 }
@@ -591,6 +626,8 @@ export default {
 
 .device {
   overflow: hidden;
+  margin: 15rpx 15rpx 0 15rpx;
+  border-radius: 10rpx;
   background: $white-color;
 
   .device-title {
@@ -598,14 +635,17 @@ export default {
   }
 
   .charts-pie {
-    width: 750rpx;
+    width: 720rpx;
     height: 500rpx;
   }
-  .device-info{margin: 30rpx;}
+  .device-info {
+    margin: 30rpx;
+  }
 }
 .formula {
-  margin-top: 20upx;
+  margin: 15rpx 15rpx 0 15rpx;
   padding: 30upx;
+  border-radius: 10rpx;
   background: $white-color;
 
   .formula-title {

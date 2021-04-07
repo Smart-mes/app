@@ -69,11 +69,11 @@ export default {
       processData: [],
     };
   },
-  watch: {
-    treeData(val){
-      console.log('treeData',val)
-    }
-  },
+  // watch: {
+  //   treeData(val){
+  //     console.log('treeData',val)
+  //   }
+  // },
   methods: {
     date(val) {
       return this.$formatdate(val).split(" ")[0];
@@ -96,21 +96,21 @@ export default {
           this.treeData = this._buildTree(res);
           this.processData = res.processData.map((item) => {
             return {
-              工单: item.orderNo,
-              批次号: item.sfc,
-              产品编号: item.productCode,
-              产品名称: this.productMap[item.productCode],
-              顺序: item.idx,
-              工步名称: this.stepMap[item.stepId],
-              工步类型: item.stepType,
-              值: item.val,
-              物料编号: item.matCode,
-              数量: item.qty,
-              时间: item.inputTime,
-              班别编号: item.classCode,
-              车间编号: item.workshop,
-              工位编号: item.stationCode,
-              员工编号: item.empCode,
+              '工单': item.orderNo,
+              '批次号': item.sfc,
+              '产品编号': item.productCode,
+              '产品名称': this.productMap[item.productCode],
+              '顺序': item.idx,
+              '工步名称': this.stepMap[item.stepId],
+              '工步类型': item.stepType,
+              '值': item.val,
+              '物料编号': item.matCode,
+              '数量': item.qty,
+              '时间': item.inputTime,
+              '班别编号': item.classCode,
+              '车间编号': item.workshop,
+              '工位编号': item.stationCode,
+              '员工编号': item.empCode,
             };
           });
         })
@@ -222,6 +222,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .review-scroll {
-  width: 750upx;
+  width: 720upx;
 }
 </style>

@@ -1,18 +1,21 @@
 <template>
   <view class="my">
-    <u-navbar
-      title="我的"
-      title-color="#ffffff"
-      :is-back="navbar.isBack"
-      :border-bottom="false"
-      :background="navbar.background"
-    />
+	<u-navbar
+	:border-bottom="false"
+	:is-back="navbar.isBack" 
+	:background="navbar.background"
+	:height="50">
+	  <view class="navbar-left m-l35">
+	    <view class="title">我的</view>
+	  </view>
+	</u-navbar>
+	<!-- nav -->
     <view class="u-page">
       <view class="user">
         <view class="user-icon">
           <u-icon name="account-fill" color="#ddd" size="120" top="30"></u-icon>
         </view>
-        <text class="user-info">你好，{{userInfo.userName}}</text>
+        <text class="user-info">你好，{{ userInfo.userName }}</text>
       </view>
       <!-- 用户信息 -->
       <view class="my-info">
@@ -46,7 +49,13 @@
         <u-button type="default" @click="signOut">退出登录</u-button>
       </view>
     </view>
-    <u-tabbar :list="nav.list" :mid-button="nav.isMid" :active-color="nav.activeColor" />
+    <u-tabbar
+	  :icon-size="nav.iconSize"
+      :list="nav.list"
+      :mid-button="nav.isMid"
+      :active-color="nav.activeColor"
+      :inactive-color="nav.inactiveolor"
+    />
   </view>
 </template>
 
@@ -81,16 +90,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.title{color:$white-color;}	
 .user {
-  padding: 50px 0;
+  padding: 10rpx 0 50rpx 0;
   text-align: center;
   background: $blue-color;
-
   .user-icon {
     margin: 0 auto 15upx auto;
     text-align: center;
-    width: 180upx;
-    height: 180upx;
+    width: 180rpx;
+    height: 180rpx;
     text-align: center;
     color: $blue-color;
     border-radius: 50%;
@@ -101,7 +110,6 @@ export default {
     color: $white-color;
   }
 }
-
 .loginOut {
   padding: 40upx 30upx;
 }

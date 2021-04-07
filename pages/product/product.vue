@@ -1,13 +1,21 @@
 <template>
   <view>
-    <u-navbar :is-back="navbar.isBack" :background="navbar.background">
+    <u-navbar 
+    :is-back="navbar.isBack" 
+    :background="navbar.background"
+    :height="50">
       <view class="navbar-left m-l35">
         <view class="title">生产详情</view>
-        <view class="subTitle">{{wsName}}</view>
       </view>
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
-          <u-icon class="icon-item" name="grid" color="#333" size="45" @click.native="handleMenu" />
+          <u-icon
+            class="icon-item"
+            name="grid"
+            color="#333"
+            size="45"
+            @click.native="handleMenu"
+          />
           <u-icon
             class="icon-item"
             name="reload"
@@ -20,22 +28,23 @@
     </u-navbar>
     <!-- nav -->
     <view class="u-page">
+      <view class="nav-subTitle">{{ wsName }}</view>
       <view class="product">
-        <view class="product-item" v-for="(product,i) in productList" :key="i">
+        <view class="product-item" v-for="(product, i) in productList" :key="i">
           <view class="product-hd">
             <view class="row">
               <view class="col col-info">
                 <view class="hd-item">
                   <text class="name">产线：</text>
-                  <text>{{product.lineName}}</text>
+                  <text>{{ product.lineName }}</text>
                 </view>
                 <view class="hd-item">
                   <text class="name">工单：</text>
-                  <text>{{product.orderNo}}</text>
+                  <text>{{ product.orderNo }}</text>
                 </view>
                 <view class="hd-item ellipsis">
                   <text class="name">产品：</text>
-                  <text>{{product.productName}}</text>
+                  <text>{{ product.productName }}</text>
                 </view>
               </view>
               <view class="col col-progress">
@@ -47,13 +56,19 @@
                   duration="1000"
                   :percent="product.percent"
                 >
-                  {{product.percent === 0 ? "未生产" : product.percent === 100 ? "已完成" : "生产中"}}
-                  {{product.percent}}%
+                  {{
+                    product.percent === 0
+                      ? "未生产"
+                      : product.percent === 100
+                      ? "已完成"
+                      : "生产中"
+                  }}
+                  {{ product.percent }}%
                 </u-circle-progress>
               </view>
               <view class="col col-icon">
                 <u-icon
-                  :name="product.visible?'arrow-up-fill':'arrow-down-fill'"
+                  :name="product.visible ? 'arrow-up-fill' : 'arrow-down-fill'"
                   color="#ccc"
                   size="22"
                   @tap="accordion(product)"
@@ -69,21 +84,23 @@
                 <u-col span="6">
                   <view class="info-item">
                     <text class="info-name">完&ensp;成&ensp;数：</text>
-                    <text class="info-text text-dec">{{product.cpltQty}}</text>
+                    <text class="info-text text-dec">{{
+                      product.cpltQty
+                    }}</text>
                   </view>
                   <view class="info-item">
                     <text class="info-name">良&emsp;&emsp;率：</text>
-                    <text class="info-text text-dec">{{product.yield}}%</text>
+                    <text class="info-text text-dec">{{ product.yield }}%</text>
                   </view>
                   <view class="info-item">
                     <text class="info-name">客&emsp;&emsp;户：</text>
-                    <text class="info-text">{{product.customer}}</text>
+                    <text class="info-text">{{ product.customer }}</text>
                   </view>
                 </u-col>
                 <u-col span="6">
                   <view class="info-item">
                     <text class="info-name">计&ensp;划&ensp;数：</text>
-                    <text class="info-text text-dec">{{product.qty}}</text>
+                    <text class="info-text text-dec">{{ product.qty }}</text>
                   </view>
                   <view class="info-item">
                     <text class="info-name">备&emsp;&emsp;料：</text>
@@ -91,39 +108,49 @@
                   </view>
                   <view class="info-item">
                     <text class="info-name">版&emsp;&emsp;本：</text>
-                    <text class="info-text">{{product.bomVersion}}</text>
+                    <text class="info-text">{{ product.bomVersion }}</text>
                   </view>
                 </u-col>
               </u-row>
             </view>
-            <u-line color="#eee" border-style="dashed" />
+            <u-line color="#ccc" border-style="dashed" />
             <view class="prouct-assist">
               <view>
                 <text class="assist-name">工&emsp;&emsp;艺：</text>
-                <text class="assist-text">{{product.flowName}}</text>
+                <text class="assist-text">{{ product.flowName }}</text>
               </view>
               <view class="ellipsis">
                 <text class="assist-name">备&emsp;&emsp;注：</text>
-                <text class="assist-text">{{product.remarks}}</text>
+                <text class="assist-text">{{ product.remarks }}</text>
               </view>
               <view>
                 <text class="assist-name">计划时间：</text>
-                <text class="assist-time">{{$formatdate(product.plannedTime)}}</text>
+                <text class="assist-time">{{
+                  $formatdate(product.plannedTime)
+                }}</text>
               </view>
             </view>
           </view>
           <!-- bd -->
         </view>
       </view>
-      <u-empty v-if="!productList.length" margin-top="30" icon-size="100" text="数据为空" mode="data" />
+      <u-empty
+        v-if="!productList.length"
+        margin-top="30"
+        icon-size="100"
+        text="数据为空"
+        mode="data"
+      />
     </view>
     <!-- page -->
     <popup ref="popup" @getWorkShop="getWorkShop" />
     <!-- popup -->
     <u-tabbar
+	  :icon-size="nav.iconSize"
       :list="nav.list"
       :mid-button="nav.isMid"
       :active-color="nav.activeColor"
+      :inactive-color="nav.inactiveolor"
     />
   </view>
 </template>
@@ -202,13 +229,22 @@ export default {
       this.$set(item, "visible", !item.visible);
     },
   },
+  onload(){
+      uni.startPullDownRefresh();
+  },
+  onPullDownRefresh() {
+    this.productAjax().then(() => {
+      uni.stopPullDownRefresh();
+    });
+  },
 };
 </script>
 <style lang="scss" scoped>
 // 产线
 .product {
   .product-item {
-    margin-bottom: 20rpx;
+    margin: 0 15rpx 20rpx 15rpx;
+    border-radius: 10rpx;
     background-color: $white-color;
   }
   .progress {
@@ -228,7 +264,7 @@ export default {
         width: 500rpx;
       }
       .col-progress {
-        margin: 10rpx 20rpx 0 20rpx;
+        margin: 10rpx 5rpx 0 20rpx;
         width: 132rpx;
       }
       .col-icon {

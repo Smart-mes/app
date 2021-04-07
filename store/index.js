@@ -50,7 +50,9 @@ const state = {
 			pagePath: "/pages/my/my"
 		},
 		],
+		iconSize:35,
 		activeColor: '#1890ff',
+		inactiveolor:'#666',
 		// current: 0,
 		isMid: false
 	},
@@ -82,7 +84,7 @@ const mutations = {
 	logout(state) {
 		state.hasLogin = false;
 		state.userInfo = '';
-		state.usuallyMenu = [{ icon: 'plus-circle', title: '添加' }];
+		state.usuallyMenu =  [{ icon: 'plus-circle', title: '添加',url:'/pages/index/addMenu' }];
 		uni.clearStorageSync();
 	},
 	add_usuallyMenu(state, payload) {

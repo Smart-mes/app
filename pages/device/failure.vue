@@ -1,9 +1,12 @@
 <template>
   <view>
-    <u-navbar :is-back="true" :background="navbar.background">
+    <u-navbar
+    :height="50"  
+    :is-back="true" 
+    :background="navbar.background">
       <view class="navbar-left">
         <view class="title">设备报障</view>
-        <view class="subTitle">{{ wsName }}</view>
+        <!-- <view class="subTitle">{{ wsName }}</view> -->
       </view>
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
@@ -18,14 +21,21 @@
       </view>
     </u-navbar>
     <!-- nav -->
-    <view class="tips">
-      <view v-for="device in deviceState" :key="device.value" class="tips-item">
-        <text class="tips-icon" :style="{ background: device.color }" />
-        <text>{{ device.name }}</text>
+    <view class="sub-info">
+      <view class="nav-subTitle">{{ wsName }}</view>
+      <view class="tips">
+        <view
+          v-for="device in deviceState"
+          :key="device.value"
+          class="tips-item"
+        >
+          <text class="tips-icon" :style="{ background: device.color }" />
+          <text>{{ device.name }}</text>
+        </view>
       </view>
     </view>
     <!-- 提示-->
-    <view v-for="(item, i) in allList" :key="i" class="device-list">
+    <view v-for="(item, i) in allList" :key="i" class="failure-item">
       <view class="device-hd" @tap="accordion(item)">
         <text class="device-name">{{ item.processName }}</text>
         <u-icon
@@ -218,14 +228,14 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.tips-item {
-  margin-right: 30rpx;
-}
+// .tips-item {
+//   margin-right: 30rpx;
+// }
 // 设备
-.device-list {
-  margin: 0 20rpx 20rpx 20rpx;
-  background-color: $white-color;
+.failure-item {
+  margin: 0 15rpx 20rpx 15rpx;
   border-radius: 10rpx;
+  background-color: $white-color;
   .device-hd {
     display: flex;
     align-items: center;

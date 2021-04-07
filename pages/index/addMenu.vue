@@ -4,7 +4,11 @@
 		<!-- nav -->
 		<view class="menu">
 			<view class="menu-title">
-				<u-section title="常用" :right="false" />
+				<u-section 
+				title="常用" 
+				font-size="30"
+				:show-line="false" 
+				:right="false" />
 			</view>
 			<u-grid :col="4">
 				<u-grid-item v-for="(item,i) in len" :key="i">
@@ -18,10 +22,14 @@
 			</u-grid>
 		</view>
 		<!-- 常用菜单 -->
-		<u-gap height="20" />
+		<!-- <u-gap height="20" /> -->
 		<view class="menu">
 			<view class="menu-title">
-				<u-section title="全部" :right="false" />
+				<u-section 
+				title="全部" 
+				font-size="30"
+				:show-line="false" 
+				:right="false"  />
 			</view>
 			<u-grid :col="4">
 				<u-grid-item v-for="(menuItem,i) in menuList" :key="i">
@@ -142,14 +150,14 @@
 	};
 </script>
 <style lang="scss" scoped>
-	.menu {
+	.menu {	
+		margin:20rpx 15rpx 0 15rpx ;
 		padding: 25rpx 0;
+		border-radius: 10rpx;
 		background-color: $white-color;
-
 		.menu-title {
 			padding: 0 25rpx 20rpx 25rpx;
 		}
-
 		.menu-icon {
 			position: absolute;
 			top: 10rpx;
@@ -172,7 +180,6 @@
 			padding: 50rpx 0;
 		}
 	}
-
 	.grid-text {
 		margin-top: 10rpx;
 		color: #444;
