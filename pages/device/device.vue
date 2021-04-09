@@ -6,7 +6,7 @@
       :background="navbar.background"     
     >
       <view class="navbar-left m-l35">
-        <view class="title">设备管理</view>
+        <view class="title">{{navbar.title}}</view>
       </view>
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
@@ -245,6 +245,7 @@ export default {
         background: {
           backgroundColor: "#fff",
         },
+		title:"设备管理",
         isBack: false,
       },
       // 车间

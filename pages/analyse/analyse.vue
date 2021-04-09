@@ -5,7 +5,7 @@
     :is-back="navbar.isBack" 
     :background="navbar.background">
       <view class="navbar-left">
-        <view class="title">效率分析</view>
+        <view class="title">{{navbar.title}}</view>
         <!-- <view class="subTitle">{{selected.label||'设备'}}列表</view> -->
       </view>
       <view class="navbar-right" slot="right">
@@ -78,6 +78,7 @@ export default {
           backgroundColor: "#ffffff",
         },
         isBack: true,
+		title:"效率分析"
       },
       // tree
       showTree: false,

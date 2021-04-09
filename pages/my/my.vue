@@ -6,7 +6,7 @@
 	:background="navbar.background"
 	:height="50">
 	  <view class="navbar-left m-l35">
-	    <view class="title">我的</view>
+	    <view class="title">{{navbar.title}}</view>
 	  </view>
 	</u-navbar>
 	<!-- nav -->
@@ -69,6 +69,7 @@ export default {
           backgroundColor: "#1890ff",
         },
         isBack: false,
+		title:"我的"
       },
       spotVisible: false,
     };

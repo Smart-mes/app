@@ -5,7 +5,7 @@
     :is-back="true" 
     :background="navbar.background">
       <view class="navbar-left">
-        <view class="title">效率管理</view>
+        <view class="title">{{navbar.title}}</view>
         <!-- <view class="subTitle">{{wsName}}</view> -->
       </view>
       <view class="navbar-right" slot="right">
@@ -117,6 +117,7 @@ export default {
         background: {
           backgroundColor: "#ffffff",
         },
+		title:"效率管理"
       },
       // 车间
       wsName: "车间列表",

@@ -1,6 +1,12 @@
 <template>
   <view class="info-wrap">
-    <u-navbar title="我的消息" :is-back="true" :background="navbar.background" title-color="#333">
+    <u-navbar 
+	:is-back="true" 
+	:background="navbar.background" 
+	>
+	 <view class="navbar-left m-l35">
+	   <view class="title">{{navbar.title}}</view>
+	 </view>
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
           <u-badge size="mini" count="20" :offset="[-17,20]" type="error" />
@@ -50,6 +56,7 @@ export default {
         background: {
           backgroundColor: "#ffffff",
         },
+		title:"我的消息"
       },
     };
   },
