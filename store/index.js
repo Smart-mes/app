@@ -50,7 +50,7 @@ const state = {
 			pagePath: "/pages/my/my"
 		},
 		],
-		iconSize:35,
+		iconSize:40,
 		activeColor: '#1890ff',
 		inactiveolor:'#666',
 		// current: 0,

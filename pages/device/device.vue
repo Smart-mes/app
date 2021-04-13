@@ -3,10 +3,10 @@
     <u-navbar
       :height="50"
       :is-back="navbar.isBack"
-      :background="navbar.background"     
+      :background="navbar.background"
     >
       <view class="navbar-left m-l35">
-        <view class="title">{{navbar.title}}</view>
+        <view class="title">{{ navbar.title }}</view>
       </view>
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
@@ -78,15 +78,15 @@
                       <u-icon name="calendar" size="60" color="#999" />
                     </view>
                     <view class="device-item-right">
-                      <text class="ellipsis"
-                        >工单：{{ device.orderNo || "无" }}</text
-                      >
+                      <text class="ellipsis">
+                        工单：{{ device.orderNo || "无" }}
+                      </text>
                       <text>状态：{{ device.stopreasonName || "无" }}</text>
                     </view>
                   </view>
-                  <view class="device-item-trouble ellipsis">{{
-                    device.troubleDesc
-                  }}</view>
+                  <view class="device-item-trouble ellipsis">
+                    {{ device.troubleDesc }}
+                  </view>
                   <view class="device-item-progress">
                     <view class="progress-bar">
                       <u-line-progress
@@ -126,11 +126,9 @@
                       <u-icon name="calendar" size="60" color="#999" />
                     </view>
                     <view class="device-item-right">
-                      <text
-                        >{{ device.stepTimeHours }}天{{
-                          device.stepTimeMinutes
-                        }}小时{{ device.stepTimeSeconds }}分</text
-                      >
+                      <text>
+                        {{ device.stepTimeHours }}小时{{device.stepTimeMinutes}}分{{ device.stepTimeSeconds }}秒
+                        </text>
                       <text>状态：{{ device.stopreasonName || "无" }}</text>
                     </view>
                   </view>
@@ -176,11 +174,9 @@
                       <u-icon name="calendar" size="60" color="#999" />
                     </view>
                     <view class="device-item-right">
-                      <text
-                        >{{ device.stepTimeHours }}天{{
-                          device.stepTimeMinutes
-                        }}小时{{ device.stepTimeSeconds }}分</text
-                      >
+                      <text>
+                        {{ device.stepTimeHours }}小时{{ device.stepTimeMinutes}}分{{ device.stepTimeSeconds }}秒
+                      </text>
                       <text>状态：{{ device.stopreasonName || "无" }}</text>
                     </view>
                   </view>
@@ -227,7 +223,7 @@
     <popup ref="popup" @getWorkShop="getWorkShop" />
     <!-- popup -->
     <u-tabbar
-	  :icon-size="nav.iconSize"
+      :icon-size="nav.iconSize"
       :list="nav.list"
       :mid-button="nav.isMid"
       :active-color="nav.activeColor"
@@ -245,7 +241,7 @@ export default {
         background: {
           backgroundColor: "#fff",
         },
-		title:"设备管理",
+        title: "设备管理",
         isBack: false,
       },
       // 车间
