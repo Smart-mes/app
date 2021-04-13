@@ -66,3 +66,45 @@ html,body{
     background: $green-color;
   }
 }
+// list
+.task-list{
+  .list {
+  font-size: $font-28;
+  }
+  .list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 15rpx 15rpx 0 15rpx;
+    padding: 10px 30upx;
+    border-radius: 10rpx;
+    background-color: $white-color;
+    &:active {
+      background-color: $hover-color;
+      box-shadow: 0 0 3px #999;
+    }
+    .list-left {
+      flex: 1;
+    }
+
+    .list-right {
+      padding-left: 100upx;
+
+      .iconfont {
+        color: $font-light-gray;
+      }
+    }
+    .row {
+      display: flex;
+      .col-name {
+        color: $font-light-gray;
+      }
+      .col-text {
+        flex: 1;
+      }
+    }
+  }
+
+}
+

@@ -1,12 +1,12 @@
 <template>
   <view>
     <u-navbar
-    :height="50" 
-    :is-back="navbar.isBack" 
-    :background="navbar.background">
+      :height="50"
+      :is-back="navbar.isBack"
+      :background="navbar.background"
+    >
       <view class="navbar-left">
-        <view class="title">{{navbar.title}}</view>
-        <!-- <view class="subTitle">{{selected.label||'设备'}}列表</view> -->
+        <view class="title">{{ navbar.title }}</view>
       </view>
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
@@ -22,26 +22,28 @@
     </u-navbar>
     <!-- nav -->
     <view class="u-page">
-      <view class="nav-subTitle">{{selected.label||'设备'}}列表</view>
-      <view class="list">
-        <view
-          class="list-item"
-          v-for="machine of MachineList"
-          :key="machine.id"
-          @tap="link(machine.machineName, machine.machineCode)"
-        >
-          <view class="list-left">
-            <view class="row">
-              <view class="col-name">名称：</view>
-              <view class="col-text">{{ machine.machineName }}</view>
+      <view class="nav-subTitle">{{ selected.label || "设备" }}列表</view>
+      <view class="task-list">
+        <view class="list">
+          <view
+            class="list-item"
+            v-for="machine of MachineList"
+            :key="machine.id"
+            @tap="link(machine.machineName, machine.machineCode)"
+          >
+            <view class="list-left">
+              <view class="row">
+                <view class="col-name">名称：</view>
+                <view class="col-text">{{ machine.machineName }}</view>
+              </view>
+              <view class="row">
+                <view class="col-name">编号：</view>
+                <view class="col-text">{{ machine.machineCode }}</view>
+              </view>
             </view>
-            <view class="row">
-              <view class="col-name">编号：</view>
-              <view class="col-text">{{ machine.machineCode }}</view>
+            <view class="list-right">
+              <text class="iconfont icon-arrow-right" />
             </view>
-          </view>
-          <view class="list-right">
-            <text class="iconfont icon-arrow-right" />
           </view>
         </view>
       </view>
@@ -78,7 +80,7 @@ export default {
           backgroundColor: "#ffffff",
         },
         isBack: true,
-		title:"效率分析"
+        title: "效率分析",
       },
       // tree
       showTree: false,
@@ -179,49 +181,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 // 列表
-.list {
-  font-size: $font-28;
-  // background-color: $white-color;
-  .list-item {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin: 15rpx 15rpx 0 15rpx;
-    padding: 10px 30upx;
-    border-radius: 10rpx;
-    background-color: $white-color;
-    // border-bottom: 1px solid $line-dark-color;
-    // &:nth-child(even) {
-    //   background-color: $bj-gray;
-    // }
-
-    &:active {
-      background-color: $hover-color;
-    }
-    .list-left {
-      flex: 1;
-    }
-
-    .list-right {
-      padding-left: 100upx;
-
-      .iconfont {
-        color: $font-light-gray;
-      }
-    }
-    .row {
-      display: flex;
-      .col-name {
-        color: $font-light-gray;
-      }
-      .col-text {
-        flex: 1;
-      }
-    }
-  }
+.task-list .list-item .row .col-name{
+    flex-basis:85rpx;
 }
-
+  
 .progress {
   color: $font-light-gray;
 }
