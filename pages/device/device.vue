@@ -128,7 +128,7 @@
                     <view class="device-item-right">
                       <text>
                         {{ device.stepTimeHours }}小时{{device.stepTimeMinutes}}分{{ device.stepTimeSeconds }}秒
-                        </text>
+                      </text>
                       <text>状态：{{ device.stopreasonName || "无" }}</text>
                     </view>
                   </view>
