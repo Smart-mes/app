@@ -37,8 +37,6 @@
 				var cid = pinf.clientid; //客户端标识
 				console.log('cid：' + cid);
 
-				
-
 				plus.push.addEventListener('click', function(msg) {
 					console.log('click:', msg);
 				}, false);
