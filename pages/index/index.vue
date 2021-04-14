@@ -170,7 +170,7 @@ export default {
         },
         {
           icon: "coupon-fill",
-          title: "效力分析",
+          title: "效率分析",
           url: "/pages/analyse/analyse",
         },
         {
@@ -185,7 +185,7 @@ export default {
         },
         {
           icon: "hourglass-half-fill",
-          title: "效力管理",
+          title: "效率管理",
           url: "/pages/effect/effect",
         },
         {
