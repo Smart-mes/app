@@ -16,13 +16,13 @@
             size="45"
             @click.native="handleMenu"
           />
-          <u-icon
+          <!-- <u-icon
             class="icon-item"
             name="reload"
             color="#333"
             size="45"
             @click.native="handleRefresh"
-          />
+          /> -->
         </view>
       </view>
     </u-navbar>

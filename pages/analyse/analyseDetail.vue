@@ -7,8 +7,6 @@
       :is-back="navbar.isBack"
       :background="navbar.background"
     />
-    <!-- <view class="navbar-title">{{ machineName }}</view>
-    </u-navbar> -->
     <!-- nav -->
     <view class="u-page">
       <view class="search">
@@ -65,7 +63,7 @@
             :right="false"
           />
         </view>
-        <view v-if="minMixList.length">
+        <view v-if="columnData.series && columnData.series.length">
           <view class="min-state">
             <view
               class="state-item"
@@ -77,16 +75,18 @@
             </view>
           </view>
           <!-- hd -->
-          <view class="mix-content">
-            <canvas
-              canvas-id="mixCanvasStack"
-              id="mixCanvasStack"
-              class="minCharts"
+          <view class="minCharts">
+            <qiun-data-charts
+              type="column"
+              :opts="columnOpt"
+              :chartData="columnData"
+              :animation="true"
+              background="none"
             />
           </view>
         </view>
         <u-empty
-          v-if="!minMixList.length"
+          v-else
           margin-top="30"
           icon-size="100"
           text="数据为空"
@@ -103,13 +103,17 @@
             :right="false"
           />
         </view>
-        <view v-if="tableData.length">
-          <canvas
-            canvas-id="canvasPie"
-            id="canvasPie"
-            class="charts-pie"
-            @touchstart="touchPie"
-          />
+        <view v-if="tableList.length">
+          <!-- 图形2 -->
+          <view class="charts-pie">
+            <qiun-data-charts
+              type="pie"
+              :opts="pieOpt"
+              :chartData="pieData"
+              :animation="true"
+              background="none"
+            />
+          </view>
           <view class="device-info">
             <u-table :font-size="24">
               <u-tr>
@@ -117,9 +121,9 @@
                 <u-th>干扰类型</u-th>
                 <u-th>延误时间</u-th>
               </u-tr>
-              <u-tr v-for="(tableItem, i) in tableData" :key="i">
+              <u-tr v-for="(tableItem, i) in tableList" :key="i">
                 <u-td :width="500">{{ tableItem.machineCode }}</u-td>
-                <u-td>{{ workType(tableItem.troubleCoed) }}</u-td>
+                <u-td>{{ workType[tableItem.troubleCoed] }}</u-td>
                 <u-td>{{ tableItem.time }}</u-td>
               </u-tr>
             </u-table>
@@ -127,7 +131,7 @@
         </view>
         <!-- 内容 -->
         <u-empty
-          v-if="!tableData.length"
+          v-if="!tableList.length"
           margin-top="30"
           icon-size="100"
           text="数据为空"
@@ -162,25 +166,25 @@
             <view class="formula-text">
               {{ formula.rate }} x {{ formula.output }} /{{
                 formula.runTimeLong
-              }}
-              x 100% = {{ natureRate }}%
+              }}x 100% = {{ natureRate }}%
             </view>
           </view>
           <view class="formula-item">
             <view class="formula-name">良品率（良品量/生产量）：</view>
-            <view class="formula-text"
-              >{{ formula.quality }} / {{ formula.output }} x 100% =
-              {{ yieldRate }}%</view
-            >
+            <view class="formula-text">
+              {{ formula.quality }} / {{ formula.output }} x 100% ={{
+                yieldRate
+              }}%
+            </view>
           </view>
           <view class="formula-item">
             <view class="formula-name">
               设备综合效率=时间稼动率x性能稼动率x良品率：
             </view>
-            <view class="formula-text"
-              >{{ timeRate / 100 }} x {{ natureRate / 100 }} x
-              {{ yieldRate / 100 }} x 100% = {{ multipleRate }} %</view
-            >
+            <view class="formula-text">
+              {{ timeRate / 100 }} x {{ natureRate / 100 }} x
+              {{ yieldRate / 100 }} x 100% = {{ multipleRate }} %
+            </view>
           </view>
         </view>
         <u-empty
@@ -204,12 +208,7 @@
 </template>
 
 <script>
-import uCharts from "@/components/uni/u-charts/u-charts";
 import config from "@/util/config";
-
-let _self;
-let mixCanvas = null;
-let canvaPie = null;
 const url = config.oeeServerApi.baseURL;
 
 export default {
@@ -237,8 +236,8 @@ export default {
       },
       pickerType: "start",
       form: {
-        startTime: "2020-03-01 00:00:00",
-        endTime: "2020-04-01 23:59:59",
+        startTime: "",
+        endTime: "",
       },
       rules: {
         startTime: {
@@ -251,10 +250,8 @@ export default {
         },
       },
       searchVisible: true,
-      isSearch: false,
       // 数据
-      minMixList: [],
-      tableData: [],
+      tableList: [],
       formula: {},
       // 设备
       machineType: {
@@ -275,15 +272,52 @@ export default {
           color: "#f3ce49",
         },
       },
-      // 占比图
-      minWidth: "",
-      minHeight: "",
+      workType: { "001": "不良", "002": "工具", "003": "短缺" },
+      // 柱行图
+      columnOpt: {
+        dataLabel: false,
+        tooltipShow: false,
+        rotate: true,
+        padding: [10,0,0,0],
+        extra: {
+          column: {
+            type: "stack",
+            activeBgColor: "#ffffff",
+            width: 200,
+          },
+          tooltip: { showBox: false },
+        },
+        xAxis: {
+          disabled: true,
+          axisLine: false,
+        },
+        yAxis: {
+          disabled: true,
+          disableGrid: true,
+        },
+        legend: {
+          show: false,
+        },
+      },
+      columnData: {},
       // 饼图
-      cWidth: "",
-      cHeight: "",
-      pixelRatio: 1,
-      serverData: "",
-      piearr: [],
+      pieOpt: {
+        animation: true,
+        timing: "easeOut",
+        duration: 1000,
+        color: ["#1890ff", "#2fc25b", "#facc14"],
+        padding: [20,20,20,20],
+        legend: {
+          show: true,
+          position: "right",
+          float: "center",
+          lineHeight: 20,
+        },
+        tooltip: {
+          showBox: false,
+        },
+      },
+      pieData: {},
     };
   },
   onReady() {
@@ -291,20 +325,16 @@ export default {
   },
   onLoad(option) {
     // 设置标题
-    this.machineName = option.machineName
-      ? option.machineName
-      : "设备效率分析详情";
-    this.machineCode = option.machineCode;
-
-    // 初始化图标
-    _self = this;
+    const { machineName, machineCode } = option;
+    this.machineName = machineName ? machineName : "设备效率分析详情";
+    this.machineCode = machineCode;
+	// this.machineName = "动平衡机";
+	// this.machineCode = "CZ190430-11-04";
+    // 时间
+    this.form.startTime = "2020-03-01 00:00:00";
+    this.form.endTime = "2020-04-01 23:59:59";
   },
   computed: {
-    pieSeries() {
-      return this.tableData.map(({ troubleCoed, time }) => {
-        return { data: Number(time), name: this.workType(troubleCoed) };
-      });
-    },
     // 公式
     timeRate() {
       const runTimeLong = parseInt(this.formula.runTimeLong);
@@ -336,21 +366,9 @@ export default {
       return multipleRate || "";
     },
   },
-  watch: {
-    isSearch(val) {
-      if (!val) {
-        this.minMixList = [];
-        this.tableData = [];
-        this.formula = {};
-
-        this.getMinData();
-        this.getDeviceData();
-      }
-    },
-  },
   methods: {
     async analysisAjax() {
-      // this.loading = true;
+      this.loading = true;
       const params = {
         startDate: this.form.startTime,
         endDate: this.form.endTime,
@@ -375,26 +393,38 @@ export default {
         }),
       ])
         .then(([res1, res2, res3]) => {
-          // this.loading = false;
+          this.loading = false;
           this.formula = res1[1].data.data;
-          this.minMixList = res2[1].data.data;
-          this.tableData = res3[1].data.data;
-        })
-        .then(() => {
-          // 占比图
-          this.minWidth = uni.upx2px(720);
-          this.minHeight = uni.upx2px(200);
+          this.tableList = res3[1].data.data;
+          // 柱形图
+          this.columnData = {
+            categories: ["时间占比图"],
+            series: res2[1].data.data.map(({ state, time }) => {
+              const { name, color } = this.machineType[state];
+              return {
+                data: [time],
+                name,
+                color,
+              };
+            }),
+          };
 
-          this.getMinData();
-          //设备效率图
-          this.cWidth = uni.upx2px(720);
-          this.cHeight = uni.upx2px(500);
-          this.getDeviceData();
-          // this.drawMix();
-          // this.drawPie();
+          // 饼图
+          this.pieData = {
+            series: [
+              {
+                data: this.tableList.map(({ troubleCoed, time }) => {
+                  return {
+                    name: this.workType[troubleCoed],
+                    value: Number(time),
+                  };
+                }),
+              },
+            ],
+          };
         })
         .catch(() => {
-          // this.loading = false;
+          this.loading = false;
         });
     },
     // 时间占比图
@@ -417,130 +447,21 @@ export default {
       Object.keys(this.form).forEach((key) => {
         this.form[key] = "";
       });
-      this.isSearch = false;
+      // this.isSearch = false;
       this.$refs.uForm.resetFields();
+      // 清空数据
+      this.formula = {};
+      this.tableList = [];
+      this.columnData = {};
+      this.pieData = {};
     },
     search() {
       this.$refs.uForm.validate((valid) => {
         if (valid) {
-          this.isSearch = true;
+          // this.isSearch = true;
           this.analysisAjax();
         }
       });
-    },
-    //---------------------------------------
-    // 饼图
-    getDeviceData() {
-      const Pie = {
-        series: [],
-      };
-      Pie.series = this.pieSeries;
-      _self.showPie("canvasPie", Pie);
-    },
-    showPie(canvasId, chartData) {
-      canvaPie = new uCharts({
-        $this: _self,
-        canvasId: canvasId,
-        type: "pie",
-        fontSize: 11,
-        legend: {
-          show: true,
-          position: "right",
-          float: "center",
-          itemGap: 10,
-          padding: 5,
-          lineHeight: 26,
-          margin: 5,
-          borderWidth: 1,
-        },
-        background: "#FFFFFF",
-        pixelRatio: _self.pixelRatio,
-        series: chartData.series,
-        animation: true,
-        width: _self.cWidth * _self.pixelRatio,
-        height: _self.cHeight * _self.pixelRatio,
-        dataLabel: true,
-        extra: {
-          pie: {
-            labelWidth: 15,
-          },
-        },
-      });
-      this.piearr = canvaPie.opts.series;
-    },
-    touchPie(e) {
-      canvaPie.showToolTip(e, {
-        format: function (item) {
-          return item.name + ":" + item.data;
-        },
-      });
-    },
-    // echarts
-    onViewClick(options) {
-      console.log(options);
-    },
-    // 占比图
-    getMinData() {
-      let ColumnStack = {
-        categories: ["时间占比图"],
-        series: [],
-      };
-      ColumnStack.series = this.minMixList.map(({ state, time }) => {
-        const { name, color } = this.machineType[state];
-        return {
-          data: [time],
-          name,
-          color,
-        };
-      });
-      _self.showColumnStack("mixCanvasStack", ColumnStack);
-    },
-    showColumnStack(canvasId, chartData) {
-      mixCanvas = new uCharts({
-        $this: _self,
-        canvasId: canvasId,
-        type: "column",
-        rotate: true,
-        legend: {
-          show: false,
-        },
-        fontSize: 11,
-        background: "#FFFFFF",
-        pixelRatio: _self.pixelRatio,
-        animation: true,
-        categories: chartData.categories,
-        series: chartData.series,
-        xAxis: {
-          disabled: true,
-          disableGrid: true,
-          gridColor: "#ffffff",
-        },
-        yAxis: {
-          disabled: true,
-          disableGrid: true,
-          gridColor: "#ffffff",
-        },
-        dataLabel: false,
-        width: _self.minWidth * _self.pixelRatio,
-        height: _self.minHeight * _self.pixelRatio,
-        extra: {
-          column: {
-            type: "stack",
-            width:
-              (_self.minWidth * _self.pixelRatio * 0.5) /
-              chartData.categories.length,
-          },
-        },
-      });
-    },
-    workType(type) {
-      if (type === "001") {
-        return "不良";
-      } else if (type === "002") {
-        return "工具";
-      } else if (type === "003") {
-        return "短缺";
-      }
     },
   },
 };
@@ -586,8 +507,9 @@ export default {
     }
   }
   .minCharts {
-    width: 720upx;
-    height: 200upx;
+    margin: 40rpx 0 40rpx 0;
+    width: 720rpx;
+    height: 100rpx;
   }
 }
 
@@ -613,11 +535,7 @@ export default {
   display: flex;
   flex-direction: row;
   margin-right: 30upx;
-
-  .sub-title {
-    flex: 1;
-  }
-
+  .sub-title {flex: 1;}
   .iconfont {
     padding-left: 15upx;
     color: $font-light-gray;
@@ -629,13 +547,12 @@ export default {
   margin: 15rpx 15rpx 0 15rpx;
   border-radius: 10rpx;
   background: $white-color;
-
   .device-title {
     padding: 30rpx 30rpx 20rpx 30rpx;
   }
 
   .charts-pie {
-    width: 720rpx;
+    width: 700rpx;
     height: 500rpx;
   }
   .device-info {
@@ -656,12 +573,10 @@ export default {
     .formula-item {
       position: relative;
       padding: 20upx;
-      border-bottom: 1px solid $line-dark-color;
-
+      border-bottom: 1px solid #eee;
       &:nth-child(even) {
         background: $bj-gray;
       }
-
       .formula-name {
         margin-bottom: 15rpx;
         font-size: $font-24;

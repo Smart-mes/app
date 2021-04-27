@@ -1,6 +1,6 @@
 <template>
   <view class="infoDetails">
-    <u-navbar title="我的消息详情" :is-back="true" :background="navbar.background" />
+    <u-navbar title="我的消息详情" :is-back="true" :background="navbar.background" :color="navbar.color"/>
     <!--    <view class="navbar-title">我的消息详情</view> -->
     <!--  </u-navbar> -->
     <!-- nav -->
@@ -62,7 +62,7 @@ export default {
       navbar: {
         background: {
           backgroundColor: "#ffffff",
-        },
+        }
       },
       content: `
       <p>巴尼小镇是云南省怒江傈僳族自治州首个易地扶贫搬迁集中安置点。从山上的金满村搬迁到巴尼小镇，近3年的时间里，搬迁户们的生活发生了可喜的变化。</p>

@@ -34,8 +34,9 @@
 			<u-grid :col="4">
 				<u-grid-item v-for="(menuItem,i) in menuList" :key="i">
 					<view class="menu-icon" @tap="addMenu(menuItem)">
+						<u-icon name="add" custom-prefix="custom-icon" color="#1699f8" size="28"/>
 						<!-- <u-icon slot="icon" name="add" custom-prefix="custom-icon" size="28" color="#1699f8" /> -->
-						<text class="custom-icon custom-icon-add" />
+						<!-- <text class="custom-icon custom-icon-add" /> -->
 					</view>
 					<u-icon :name="menuItem.icon" color="#3ba7f6" size="50" />
 					<view class="grid-text">{{menuItem.title}}</view>

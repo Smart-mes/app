@@ -67,7 +67,7 @@
 </script>
 
 <style lang="scss">
-	@import "static/style/iconfont.css";
+	@import "static/style/font/iconfont.css";
 	@import "static/style/style.scss";
 	@import "uview-ui/index.scss";
 	@import url("components/ly-tree/ly-tree.css");
