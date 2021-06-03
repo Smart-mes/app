@@ -1,19 +1,20 @@
 <template>
   <view>
     <u-navbar
-    :height="50"  
-    :is-back="true" 
-    :background="navbar.background">
-      <view class="navbar-left">
-        <view class="title">{{navbar.title}}</view>
-        <!-- <view class="subTitle">{{ wsName }}</view> -->
-      </view>
+      :title="navbar.title"
+      :is-back="navbar.isBack"
+      :title-color="navbar.color"
+      :title-size="navbar.size"
+      :height="navbar.height"
+      :background="navbar.background"
+      title-bold
+    >
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
           <u-icon
             class="icon-item"
-            name="grid"
-            color="#333"
+            name="list"
+            color="#666"
             size="45"
             @click.native="handleMenu"
           />
@@ -94,10 +95,14 @@ export default {
   data() {
     return {
       navbar: {
+        title: "设备报障",
+        isBack: true,
+        color: "#333",
+        size: "36",
+        height: "50",
         background: {
           backgroundColor: "#ffffff",
         },
-		title:"设备报障"
       },
       // 车间
       wsName: "车间列表",

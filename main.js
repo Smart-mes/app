@@ -1,12 +1,14 @@
 import Vue from 'vue';
 import App from './App';
 import store from 'store/index';
+import moment from "moment";
 import http from '@/util/http';
 
 import formatdate from '@/common/formatdate';
 import popup from "@/components/popup.vue";
 
 Vue.config.productionTip = false;
+Object.defineProperty(Vue.prototype, '$moment', { value: moment });
 Object.defineProperty(Vue.prototype, '$formatdate', { value: formatdate });
 Object.defineProperty(Vue.prototype, '$http', { value: http });
 Vue.component('popup',popup);

@@ -1,13 +1,17 @@
 <template>
   <view>
     <u-navbar
-    :height="50" 
-    :is-back="navbar.isBack" 
-    :background="navbar.background">
-      <view class="navbar-left m-l35">
+      :title="navbar.title"
+      :title-color="navbar.color" 
+      :title-size="navbar.size"
+      :is-back="navbar.isBack"
+      :height="navbar.height"
+      :background="navbar.background"
+       title-bold />
+      <!-- <view class="navbar-left m-l35">
         <view class="title">{{navbar.title}}</view>
       </view>
-    </u-navbar>
+    </u-navbar> -->
     <!-- nav -->
     <view class="u-page">
       <u-tabs
@@ -96,11 +100,11 @@
     />
     <!--page-->
     <u-tabbar
-	  :icon-size="nav.iconSize"
-      :list="nav.list"
-      :mid-button="nav.isMid"
-      :active-color="nav.activeColor"
-      :inactive-color="nav.inactiveolor"
+      :icon-size="navTab.iconSize"
+      :list="navTab.list"
+      :mid-button="navTab.isMid"
+      :active-color="navTab.activeColor"
+      :inactive-color="navTab.inactiveolor"
     />
   </view>
 </template>
@@ -115,11 +119,14 @@ export default {
   data() {
     return {
       navbar: {
-        title: "工艺追溯",
         background: {
-          backgroundColor: "#ffffff",
+          backgroundColor: "#fff",
         },
+        title: "工艺追溯",
         isBack: false,
+        color:"#333",
+        height:"50",
+        size:"36"
       },
       //数据字典
       productDict: {},
@@ -155,7 +162,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["nav"]),
+    ...mapState(["navTab"]),
     form() {
       const isMaterial = this.ative !== "Product";
       if (isMaterial) {

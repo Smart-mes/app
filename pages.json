@@ -1,7 +1,7 @@
 {
-  "easycom": {
-        "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
-    },
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
 	"pages": [
 		{
 			"path": "pages/login/login",
@@ -32,7 +32,7 @@
 				"navigationBarTitleText": "产品详情",
 				"navigationStyle": "custom",
 				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh":true
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -41,7 +41,7 @@
 				"navigationBarTitleText": "设备管理",
 				"navigationStyle": "custom",
 				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh":true
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -77,9 +77,12 @@
 			}
 		},
 		{
-			"path": "pages/search/search",
+			"path": "pages/scanCode/scanCode",
 			"style": {
-				"navigationBarTitleText": "相关查询"
+				"navigationBarTitleText": "扫码查询",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -136,7 +139,16 @@
 				"navigationBarTitleText": "demo"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/meaus/meaus",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "宫格菜单",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",
 		"navigationBarTextStyle": "black",
@@ -150,7 +162,8 @@
 		"selectedColor": "#303133",
 		"backgroundColor": "#FFFFFF",
 		"borderStyle": "black",
-		"list": [{
+		"list": [
+			{
 				"pagePath": "pages/index/index",
 				"text": "首页"
 			},
@@ -186,10 +199,12 @@
 				"name": "device",
 				"path": "pages/device/device"
 			},
-			{   "name": "failure",
+			{
+				"name": "failure",
 				"path": "pages/device/failure"
 			},
-			{   "name": "failureForm",
+			{
+				"name": "failureForm",
 				"path": "pages/device/failureForm"
 			},
 			{
@@ -225,12 +240,16 @@
 				"path": "pages/my/my"
 			},
 			{
-				"name":"addMeaus",
+				"name": "addMeaus",
 				"path": "pages/index/addMenu"
 			},
 			{
-				"name":"demo",
-				"path": "pages/demo/demo"
+				"name": "scanCode",
+				"path": "pages/scanCode/scanCode"
+			},
+			{
+				"name":"gongGe",
+				"path" : "pages/meaus/meaus"
 			}
 		]
 	}

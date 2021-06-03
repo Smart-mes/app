@@ -1,7 +1,6 @@
 <template>
   <view>
     <u-navbar
-      title-color="#000000"
       :title="machineName"
       :height="50"
       :is-back="navbar.isBack"

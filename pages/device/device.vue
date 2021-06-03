@@ -1,19 +1,23 @@
 <template>
   <view>
     <u-navbar
-      :height="50"
+      :title="navbar.title"
+      :title-color="navbar.color" 
+      :title-size="navbar.size"
       :is-back="navbar.isBack"
+      :height="navbar.height"
       :background="navbar.background"
+       title-bold  
     >
-      <view class="navbar-left m-l35">
+      <!-- <view class="navbar-left m-l35">
         <view class="title">{{ navbar.title }}</view>
-      </view>
+      </view> -->
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
           <u-icon
             class="icon-item"
-            name="grid"
-            color="#333"
+            name="list"
+            color="#666"
             size="45"
             @click.native="handleMenu"
           />
@@ -223,11 +227,11 @@
     <popup ref="popup" @getWorkShop="getWorkShop" />
     <!-- popup -->
     <u-tabbar
-      :icon-size="nav.iconSize"
-      :list="nav.list"
-      :mid-button="nav.isMid"
-      :active-color="nav.activeColor"
-      :inactive-color="nav.inactiveolor"
+      :icon-size="navTab.iconSize"
+      :list="navTab.list"
+      :mid-button="navTab.isMid"
+      :active-color="navTab.activeColor"
+      :inactive-color="navTab.inactiveolor"
     />
   </view>
 </template>
@@ -243,6 +247,9 @@ export default {
         },
         title: "设备管理",
         isBack: false,
+        color:"#333",
+        height:"50",
+        size:"36"
       },
       // 车间
       wsName: "车间列表",
@@ -276,7 +283,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["nav"]),
+    ...mapState(["navTab"]),
     procedureSet() {
       return new Set(this.procedureList.map((p) => p.processCode));
     },

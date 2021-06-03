@@ -1,19 +1,20 @@
 <template>
   <view>
     <u-navbar
-      :height="50"
+      :title="navbar.title"
       :is-back="navbar.isBack"
+      :title-color="navbar.color"
+      :title-size="navbar.size"
+      :height="navbar.height"
       :background="navbar.background"
+      title-bold
     >
-      <view class="navbar-left">
-        <view class="title">{{ navbar.title }}</view>
-      </view>
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
           <u-icon
             class="icon-item"
-            name="grid"
-            color="#333"
+            name="list"
+            color="#666"
             size="45"
             @click.native="handleMenu"
           />
@@ -76,11 +77,14 @@ export default {
     return {
       // nav
       navbar: {
+        title: "效率分析",
+        isBack: true,
+        color: "#333",
+        size: "36",
+        height: "50",
         background: {
           backgroundColor: "#ffffff",
         },
-        isBack: true,
-        title: "效率分析",
       },
       // tree
       showTree: false,
@@ -181,10 +185,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 // 列表
-.task-list .list-item .row .col-name{
-    flex-basis:85rpx;
+.task-list .list-item .row .col-name {
+  flex-basis: 85rpx;
 }
-  
+
 .progress {
   color: $font-light-gray;
 }

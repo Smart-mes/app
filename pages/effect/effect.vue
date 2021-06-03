@@ -1,25 +1,23 @@
 <template>
   <view class="effect">
-    <u-navbar :height="50" :is-back="true" :background="navbar.background">
-      <view class="navbar-left">
-        <view class="title">{{ navbar.title }}</view>
-      </view>
+    <u-navbar
+      :title="navbar.title"
+      :is-back="navbar.isBack"
+      :title-color="navbar.color"
+      :title-size="navbar.size"
+      :height="navbar.height"
+      :background="navbar.background"
+      title-bold
+    >
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
           <u-icon
             class="icon-item"
-            name="grid"
+            name="list"
             color="#333"
             size="45"
             @click.native="handleMenu"
           />
-          <!-- <u-icon
-            class="icon-item"
-            name="reload"
-            color="#333"
-            size="45"
-            @click.native="handleRefresh"
-          /> -->
         </view>
       </view>
     </u-navbar>
@@ -109,10 +107,14 @@ export default {
   data() {
     return {
       navbar: {
+        title: "效率管理",
+        isBack: true,
+        color: "#333",
+        size: "36",
+        height: "50",
         background: {
           backgroundColor: "#ffffff",
         },
-        title: "效率管理",
       },
       // 车间
       wsName: "车间列表",
@@ -155,7 +157,7 @@ export default {
           offsetX: 0,
           offsetY: 13,
         },
-        subtitle: {name: ""},
+        subtitle: { name: "" },
         extra: {
           gauge: {
             type: "default",
@@ -166,7 +168,7 @@ export default {
             startNumber: 0,
             endNumber: 100,
             format: "",
-            labelOffset:8, 
+            labelOffset: 8,
             splitLine: {
               fixRadius: 0,
               splitNumber: 10,
@@ -217,7 +219,7 @@ export default {
       const { wsName, wsCode } = item;
       this.wsName = wsName;
       this.wsCode = wsCode;
-    }
+    },
   },
 };
 </script>

@@ -13,19 +13,19 @@ html,body{
   color: $font-text-color;
   line-height: initial;
   .title {
-    font-size:38rpx;
+    font-size:36rpx;
     font-weight:bold;
     line-height: 50rpx;
   }
-  .subTitle {
-    font-size: $font-24;
-    color:$font-gray;
-  }
+  // .subTitle {
+  //   font-size: $font-24;
+  //   color:$font-gray;
+  // }
 }
 .navbar-right {
   .navbar-icon {
     .icon-item {
-      margin-right: 35rpx;
+      margin-right: 25rpx;
     }
   }
 }

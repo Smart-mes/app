@@ -1,19 +1,20 @@
 <template>
   <view class="my">
-	<u-navbar
-	:border-bottom="false"
-	:is-back="navbar.isBack" 
-	:background="navbar.background"
-	:height="50">
-	  <view class="navbar-left m-l35">
-	    <view class="title">{{navbar.title}}</view>
-	  </view>
-	</u-navbar>
-	<!-- nav -->
+    <u-navbar
+      :title="navbar.title"
+      :title-color="navbar.color"
+      :title-size="navbar.size"
+      :is-back="navbar.isBack"
+      :height="navbar.height"
+      :background="navbar.background"
+      :border-bottom="false"
+      title-bold
+    />
+    <!-- nav -->
     <view class="u-page">
       <view class="user">
         <view class="user-icon">
-          <u-icon name="account-fill" color="#ddd" size="120" top="30"></u-icon>
+          <u-icon name="account-fill" color="#ddd" size="100" top="20" />
         </view>
         <text class="user-info">你好，{{ userInfo.userName }}</text>
       </view>
@@ -50,11 +51,11 @@
       </view>
     </view>
     <u-tabbar
-	  :icon-size="nav.iconSize"
-      :list="nav.list"
-      :mid-button="nav.isMid"
-      :active-color="nav.activeColor"
-      :inactive-color="nav.inactiveolor"
+      :icon-size="navTab.iconSize"
+      :list="navTab.list"
+      :mid-button="navTab.isMid"
+      :active-color="navTab.activeColor"
+      :inactive-color="navTab.inactiveolor"
     />
   </view>
 </template>
@@ -65,18 +66,21 @@ export default {
   data() {
     return {
       navbar: {
-        background: {
-          backgroundColor: "#1890ff",
-        },
+        title: "我的",
         isBack: false,
-		title:"我的"
+        color: "#fff",
+        height: "50",
+        size: "36",
+        background: {
+          backgroundColor: "#1c7de6",
+        },
       },
       spotVisible: false,
     };
   },
   onLoad() {},
   computed: {
-    ...mapState(["userInfo", "nav"]),
+    ...mapState(["userInfo", "navTab"]),
   },
   methods: {
     ...mapMutations(["logout"]),
@@ -91,23 +95,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.title{color:$white-color;}	
+.title {
+  color: $white-color;
+}
 .user {
-  padding: 10rpx 0 50rpx 0;
+  padding: 20rpx 0 50rpx 0;
   text-align: center;
   background: $blue-color;
   .user-icon {
-    margin: 0 auto 15upx auto;
-    text-align: center;
-    width: 180rpx;
-    height: 180rpx;
-    text-align: center;
+    margin: 0 auto 10rpx auto;
+    width: 150rpx;
+    height: 150rpx;
     color: $blue-color;
     border-radius: 50%;
     background: $white-color;
   }
   .user-info {
-    font-size: 30upx;
+    font-size: 28rpx;
     color: $white-color;
   }
 }

@@ -76,7 +76,8 @@ export default {
   // },
   methods: {
     date(val) {
-      return this.$formatdate(val).split(" ")[0];
+      return $moment().format('YYYY-MM-DD')
+      // return this.$formatdate(val).split(" ")[0];
     },
     // tree树形
     fetchData(form) {

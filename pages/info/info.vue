@@ -1,16 +1,18 @@
 <template>
   <view class="info-wrap">
-    <u-navbar 
-	:is-back="true" 
-	:background="navbar.background" 
-	>
-	 <view class="navbar-left m-l35">
-	   <view class="title">{{navbar.title}}</view>
-	 </view>
+    <u-navbar
+      :title="navbar.title"
+      :is-back="navbar.isBack"
+      :title-color="navbar.color"
+      :title-size="navbar.size"
+      :height="navbar.height"
+      :background="navbar.background"
+      title-bold
+    >
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
-          <u-badge size="mini" count="20" :offset="[-17,20]" type="error" />
-          <u-icon  class="icon-item" name="chat" color="#333" size="45" />
+          <u-badge size="mini" count="20" :offset="[-17, 20]" type="error" />
+          <u-icon class="icon-item" name="chat" color="#333" size="45" />
         </view>
       </view>
     </u-navbar>
@@ -18,7 +20,12 @@
     <view class="info">
       <view class="info-row">
         <view class="icon-col">
-          <u-badge size="small" type="error" :offset="[15,-10]" :is-dot="true" />
+          <u-badge
+            size="small"
+            type="error"
+            :offset="[15, -10]"
+            :is-dot="true"
+          />
           <u-icon class="info-icon" name="volume-up" color="#fff" size="50" />
         </view>
         <view class="text-col" @tap="linkInfo('系统自动取消订单提醒')">
@@ -26,7 +33,9 @@
             <text class="info-name">系统自动取消订单提醒</text>
             <text class="info-time">2018-01-23</text>
           </view>
-          <view class="info-text ellipsis">这里说的图片图标，指的是小图标，起作用定位为"icon"图标作用，而非大尺寸的图片展示场景</view>
+          <view class="info-text ellipsis"
+            >这里说的图片图标，指的是小图标，起作用定位为"icon"图标作用，而非大尺寸的图片展示场景</view
+          >
         </view>
       </view>
     </view>
@@ -40,7 +49,9 @@
             <text class="info-name">系统自动取消订单提醒</text>
             <text class="info-time">2018-01-23</text>
           </view>
-          <view class="info-text ellipsis">这里说的图片图标，指的是小图标，起作用定位为"icon"图标作用，而非大尺寸的图片展示场景</view>
+          <view class="info-text ellipsis"
+            >这里说的图片图标，指的是小图标，起作用定位为"icon"图标作用，而非大尺寸的图片展示场景</view
+          >
         </view>
       </view>
     </view>
@@ -53,10 +64,14 @@ export default {
   data() {
     return {
       navbar: {
+        title: "我的消息",
+        isBack: true,
+        color: "#333",
+        size: "36",
+        height: "50",
         background: {
           backgroundColor: "#ffffff",
         },
-		title:"我的消息"
       },
     };
   },
@@ -84,9 +99,9 @@ export default {
     position: relative;
     display: flex;
     flex-direction: row;
-	margin-bottom: 15rpx;
+    margin-bottom: 15rpx;
     padding: 25rpx;
-	background-color:$white-color ;
+    background-color: $white-color;
     // @include line(100rpx);
     .icon-col {
       position: relative;
@@ -99,7 +114,7 @@ export default {
     }
     .text-col-title {
       display: flex;
-      flex-direction:column;
+      flex-direction: column;
     }
   }
   .info-icon {
@@ -109,8 +124,8 @@ export default {
     background-color: #5782f5;
   }
   .info-name {
-	flex: auto;  
-    font-size:$font-32;
+    flex: auto;
+    font-size: $font-32;
     color: #333;
   }
   .info-time {

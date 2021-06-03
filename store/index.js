@@ -8,8 +8,55 @@ const state = {
 	// 登录
 	hasLogin: !!userInfo,
 	userInfo,
-	// 菜单
-	nav: {
+	menuList: [
+		{   
+			icon: "produce",
+			title: "生产详情",
+			url: "/pages/product/product",
+		},
+		{
+			icon: "devices",
+			title: "设备管理",
+			url: "/pages/device/device",
+		},
+		{
+			icon: "analyse",
+			title: "效率分析",
+			url: "/pages/analyse/analyse",
+		},
+		{
+			icon: "review",
+			title: "工艺追溯",
+			url: "/pages/retrospect/retrospect",
+		},
+		{
+			icon: "fault",
+			title: "设备报障",
+			url: "/pages/device/failure",
+		},
+		{
+			icon: "meter",
+			title: "效率管理",
+			url: "/pages/effect/effect",
+		},
+		{
+			icon: "quality",
+			title: "质量管理",
+			url: "/pages/quality/quality",
+		},
+		{
+			icon: "scan",
+			title: "扫码查询",
+			url: "/pages/scanCode/scanCode",
+		},
+		{
+			icon: "info",
+			title: "我的消息",
+			url: "/pages/info/info",
+		},
+	],
+	// 菜单navTab
+	navTab: {
 		list: [{
 			iconPath: "home",
 			selectedIconPath: "home-fill",
@@ -50,16 +97,16 @@ const state = {
 			pagePath: "/pages/my/my"
 		},
 		],
-		iconSize:40,
+		iconSize: 40,
 		activeColor: '#1890ff',
-		inactiveolor:'#666',
+		inactiveolor: '#666',
 		// current: 0,
 		isMid: false
 	},
 	// 车间
 	workShopList: [],
 	// 常用菜单
-	usuallyMenu: uni.getStorageSync('usuallyMenu') || [{ icon: 'plus-circle', title: '添加',url:'/pages/index/addMenu' }]
+	usuallyMenu: uni.getStorageSync('usuallyMenu') || [{ icon: 'line-add', title: '添加', url: '/pages/index/addMenu' }]
 }
 const mutations = {
 	login(state, provider) {
@@ -84,13 +131,13 @@ const mutations = {
 	logout(state) {
 		state.hasLogin = false;
 		state.userInfo = '';
-		state.usuallyMenu =  [{ icon: 'plus-circle', title: '添加',url:'/pages/index/addMenu' }];
+		state.usuallyMenu = [{ icon: 'line-add', title: '添加', url: '/pages/index/addMenu' }];
 		uni.clearStorageSync();
 	},
 	add_usuallyMenu(state, payload) {
 		// state
 		const { usuallyMenu } = state;
-		const index = usuallyMenu.length-1;
+		const index = usuallyMenu.length - 1;
 		usuallyMenu.splice(index, 0, payload);
 
 		uni.setStorage({
