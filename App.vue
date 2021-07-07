@@ -31,18 +31,15 @@
 			},
 			cid() {
 				// #ifdef APP-PLUS
-				console.log('执行手机编译的内容')
 				var pinf = plus.push.getClientInfo();
 				console.log(pinf)
 				var cid = pinf.clientid; //客户端标识
 				console.log('cid：' + cid);
 
-				plus.push.addEventListener('click', function(msg) {
-					console.log('click:', msg);
-				}, false);
-				plus.push.addEventListener('receive', function(msg) {
+				plus.push.addEventListener('click', (msg)=>{console.log('click:', msg);}, false);
+				
+				plus.push.addEventListener('receive', (msg)=> {
 					plus.runtime.setBadgeNumber(8);
-					console.log('receive:', msg);
 					plus.push.createMessage('receive', msg);
 				}, false);
 				// #endif
