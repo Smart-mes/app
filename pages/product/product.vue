@@ -37,15 +37,8 @@
 								</view>
 							</view>
 							<view class="col col-progress">
-								<u-circle-progress class="progress" type="primary" width="132" border-width="6"
-									duration="1000" :percent="product.percent">
-									{{
-                    product.percent === 0
-                      ? "未生产"
-                      : product.percent === 100
-                      ? "已完成"
-                      : "生产中"
-                  }}
+								<u-circle-progress class="progress" type="primary" width="132" border-width="6" duration="1000" :percent="product.percent">
+									{{product.percent === 0? "未生产": product.percent === 100? "已完成": "生产中"}}
 									{{ product.percent }}%
 								</u-circle-progress>
 							</view>
@@ -63,9 +56,7 @@
 								<u-col span="6">
 									<view class="info-item">
 										<text class="info-name">完&ensp;成&ensp;数：</text>
-										<text class="info-text text-dec">{{
-                      product.cpltQty
-                    }}</text>
+										<text class="info-text text-dec">{{ product.cpltQty}}</text>
 									</view>
 									<view class="info-item">
 										<text class="info-name">良&emsp;&emsp;率：</text>
@@ -105,7 +96,8 @@
 							<view>
 								<text class="assist-name">计划时间：</text>
 								<text class="assist-time">
-									{{ $moment().format('YYYY-MM-DD HH:mm:ss')}}
+									{{product.plannedTime}}
+									<!-- {{ $moment().format('YYYY-MM-DD HH:mm:ss')}}===00 -->
 								</text>
 							</view>
 						</view>
@@ -123,9 +115,8 @@
 	</view>
 </template>
 <script>
-	import {
-		mapState
-	} from "vuex";
+	import {mapState} from "vuex";
+	import moment from "moment";
 
 	export default {
 		name: "Product",
@@ -157,11 +148,7 @@
 			handleRefresh() {
 				this.productAjax();
 			},
-			getWorkShop(item) {
-				const {
-					wsName,
-					wsCode
-				} = item;
+			getWorkShop({wsName,wsCode}) {
 				this.wsName = wsName;
 				this.wsCode = wsCode;
 				this.productAjax();
@@ -180,9 +167,7 @@
 							wsCode: this.wsCode,
 						},
 					})
-					.then(({
-						productList
-					}) => {
+					.then(({productList}) => {
 						uni.hideLoading();
 						this.setProduct(productList);
 					})
@@ -201,6 +186,9 @@
 						// nameline百分比
 						let percentNum = product.cpltQty / product.qty;
 						product.percent = Math.round(percentNum * 100);
+						//time
+						product.plannedTime=moment(product.plannedTime).format('YYYY-MM-DD h:mm:ss')
+					
 						return product;
 					}
 				});

@@ -21,6 +21,7 @@
 </template>
 
 <script>
+ import moment from "moment";
 import LyTree from "@/components/ly-tree/ly-tree.vue";
 
 var _self;
@@ -69,15 +70,10 @@ export default {
       processData: [],
     };
   },
-  // watch: {
-  //   treeData(val){
-  //     console.log('treeData',val)
-  //   }
-  // },
+ 
   methods: {
     date(val) {
-      return $moment().format('YYYY-MM-DD')
-      // return this.$formatdate(val).split(" ")[0];
+      return moment().format('YYYY-MM-DD')
     },
     // tree树形
     fetchData(form) {
@@ -151,9 +147,7 @@ export default {
         }
         const node = {
           id: `${Date.parse(new Date())}${Math.random() * 5}`,
-          title: `工序【${this.processMap[item.processCode]}】 ${this.date(
-            item.inputTime
-          )} 【${this.empMap[item.empCode] || item.empCode}】`,
+          title: `工序【${this.processMap[item.processCode]}】 ${this.date(item.inputTime)} 【${this.empMap[item.empCode] || item.empCode}】`,
         };
         if (dataMap[item.ioGuid]) {
           node.children = dataMap[item.ioGuid];
