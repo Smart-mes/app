@@ -139,6 +139,15 @@
 				"navigationBarTitleText": "demo"
 			}
 		}
+        ,{
+            "path" : "pages/passRate/passRate",
+			"style": {
+				"navigationBarTitleText": "直通率",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",
@@ -178,7 +187,8 @@
 	},
 	"condition": {
 		"current": 7,
-		"list": [{
+		"list": [
+			{
 				"name": "index",
 				"path": "pages/index/index"
 			},
@@ -241,6 +251,10 @@
 			{
 				"name":"gongGe",
 				"path" : "pages/meaus/meaus"
+			},
+			{
+				"name": "passRate",
+				"path": "pages/passRate/passRate"
 			}
 		]
 	}
