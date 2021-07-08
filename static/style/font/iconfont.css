@@ -1,6 +1,8 @@
 @font-face {
   font-family: "custom-icon"; /* Project id 2033516 */
-  src:url('https://at.alicdn.com/t/font_2033516_i8btro2t41.ttf?t=1620980120856') format('truetype');
+  src: url('//at.alicdn.com/t/font_2033516_g3wo1ju69fg.woff2?t=1625733474586') format('woff2'),
+       url('//at.alicdn.com/t/font_2033516_g3wo1ju69fg.woff?t=1625733474586') format('woff'),
+       url('//at.alicdn.com/t/font_2033516_g3wo1ju69fg.ttf?t=1625733474586') format('truetype');
 }
 
 .custom-icon {
@@ -9,6 +11,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.custom-icon-pass:before {
+  content: "\e691";
 }
 
 .custom-icon-line-add:before {

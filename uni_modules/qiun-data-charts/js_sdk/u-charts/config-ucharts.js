@@ -42,9 +42,9 @@ module.exports = {
       	return '其他我没改'+item.data+'天'
       }
     },
-    "pieDemo":function(val, index, series){
+    "pie":function(val, index, series){
       if(index !== undefined){
-        return series[index].name+'：'+series[index].data+'元'
+        return series[index].name+'：'+series[index].data
       }
     },
   },

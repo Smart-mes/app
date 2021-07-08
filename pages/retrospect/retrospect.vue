@@ -8,10 +8,6 @@
       :height="navbar.height"
       :background="navbar.background"
        title-bold />
-      <!-- <view class="navbar-left m-l35">
-        <view class="title">{{navbar.title}}</view>
-      </view>
-    </u-navbar> -->
     <!-- nav -->
     <view class="u-page">
       <u-tabs
@@ -72,9 +68,7 @@
               <u-button size="medium" @click="clear">清空</u-button>
             </u-col>
             <u-col span="6">
-              <u-button type="primary" size="medium" @click="search"
-                >查询</u-button
-              >
+              <u-button type="primary" size="medium" @click="search">查询</u-button>
             </u-col>
           </u-row>
         </view>
@@ -113,9 +107,7 @@ import { mapState, mapMutations } from "vuex";
 import reviewTree from "./component/reviewTree.vue";
 export default {
   name: "Retrospect",
-  components: {
-    reviewTree,
-  },
+  components: {reviewTree},
   data() {
     return {
       navbar: {
@@ -181,13 +173,14 @@ export default {
     this.getFetchDicts();
   },
   methods: {
-    handleTime(){
-      uni.hideKeyboard();
-      this.timeVisible = !this.timeVisible
-    },
+
     tabsChange(index) {
       this.tabsCurrent = index;
       this.ative = this.tabsList[index].value;
+    },
+        handleTime(){
+      uni.hideKeyboard();
+      this.timeVisible = !this.timeVisible
     },
     timeChange(e) {
       const { startDate, endDate } = e;

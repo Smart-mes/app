@@ -54,6 +54,11 @@ const state = {
 			title: "我的消息",
 			url: "/pages/info/info",
 		},
+		{
+			icon: "pass",
+			title: "直通率",
+			url: "/pages/passRate/passRate",
+		} 
 	],
 	// 菜单navTab
 	navTab: {

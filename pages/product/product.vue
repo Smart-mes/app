@@ -5,13 +5,6 @@
 			<view class="navbar-right" slot="right">
 				<view class="navbar-icon">
 					<u-icon class="icon-item" name="list" color="#666" size="45" @click.native="handleMenu" />
-					<!-- <u-icon
-            class="icon-item"
-            name="reload"
-            color="#333"
-            size="45"
-            @click.native="handleRefresh"
-          /> -->
 				</view>
 			</view>
 		</u-navbar>

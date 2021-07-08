@@ -6,7 +6,6 @@
       :background="navbar.background"
     />
     <!-- nav -->
-
     <view class="menu">
       <view class="menu-title">
         <u-section
@@ -52,8 +51,6 @@
               color="#1699f8"
               size="28"
             />
-            <!-- <u-icon slot="icon" name="add" custom-prefix="custom-icon" size="28" color="#1699f8" /> -->
-            <!-- <text class="custom-icon custom-icon-add" /> -->
           </view>
           <u-icon
             custom-prefix="custom-icon"

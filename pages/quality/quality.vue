@@ -1,5 +1,5 @@
 <template>
-  <view class="quality">
+  <view id="quality">
     <u-navbar
       :title="navbar.title"
       :is-back="navbar.isBack"
@@ -84,7 +84,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.quality {
+#quality {
   .quality-box {
     padding: 30upx 0;
     background: $white-color;
