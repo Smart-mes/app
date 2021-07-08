@@ -173,12 +173,11 @@ export default {
     this.getFetchDicts();
   },
   methods: {
-
     tabsChange(index) {
       this.tabsCurrent = index;
       this.ative = this.tabsList[index].value;
     },
-        handleTime(){
+   handleTime(){
       uni.hideKeyboard();
       this.timeVisible = !this.timeVisible
     },
