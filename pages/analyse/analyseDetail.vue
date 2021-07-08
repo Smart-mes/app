@@ -1,14 +1,14 @@
 <template>
-  <view>
+  <view id="analyseDetail">
     <u-navbar
-      :title="machineName"
-      :height="50"
+      :title="navbar.title"
+      :height="navbar.height"
       :is-back="navbar.isBack"
       :background="navbar.background"
     />
     <!-- nav -->
     <view class="u-page">
-      <view class="search">
+      <view class="search-box">
         <u-section
           title="搜索"
           font-size="30"
@@ -215,13 +215,14 @@ export default {
     return {
       // nav
       navbar: {
+        title:'设备效率分析详情',
+        height:50,
         background: {
           backgroundColor: "#ffffff",
         },
         isBack: true,
       },
-      machineName: "动平衡机",
-      machineCode: "CZ190430-11-04",
+      machineCode: "",
       picker: {
         visible: false,
         params: {
@@ -325,7 +326,7 @@ export default {
   onLoad(option) {
     // 设置标题
     const { machineName, machineCode } = option;
-    this.machineName = machineName ? machineName : "设备效率分析详情";
+    this.navbar.title = machineName ? machineName : "设备效率分析详情";
     this.machineCode = machineCode;
 	// this.machineName = "动平衡机";
 	// this.machineCode = "CZ190430-11-04";
@@ -467,20 +468,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.search {
-  margin: 15rpx 15rpx 0 15rpx;
-  padding: 30rpx;
-  border-radius: 10rpx;
-  background-color: $white-color;
 
-  .btn {
-    margin-top: 20rpx;
-    /deep/.u-btn {
-      width: 100%;
-      padding: 0;
-    }
-  }
-}
 .mix {
   overflow: hidden;
   margin: 15rpx 15rpx 0 15rpx;
