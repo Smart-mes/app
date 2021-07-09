@@ -190,7 +190,7 @@
 				this.$set(item, "visible", !item.visible);
 			},
 		},
-		onload() {
+		onLoad() {
 			uni.startPullDownRefresh();
 		},
 		onPullDownRefresh() {

@@ -382,7 +382,7 @@ export default {
       });
     },
   },
-  onload() {
+  onLoad() {
     uni.startPullDownRefresh();
   },
   onPullDownRefresh() {
