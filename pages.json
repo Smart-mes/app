@@ -148,6 +148,15 @@
 			}
             
         }
+        ,{
+            "path" : "pages/CPH/CPH",
+			"style": {
+				"navigationBarTitleText": "CPH",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",
@@ -255,6 +264,10 @@
 			{
 				"name": "passRate",
 				"path": "pages/passRate/passRate"
+			},
+			{
+				"name": "CPH",
+				"path" : "pages/CPH/CPH"
 			}
 		]
 	}

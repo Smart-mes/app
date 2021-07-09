@@ -58,7 +58,12 @@ const state = {
 			icon: "pass",
 			title: "直通率",
 			url: "/pages/passRate/passRate",
-		} 
+		},
+		 {
+		 	icon: "pass",
+		 	title: "CPH",
+		 	url: "/pages/CPH/CPH",
+		 } 
 	],
 	// 菜单navTab
 	navTab: {

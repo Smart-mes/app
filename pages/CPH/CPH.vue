@@ -56,21 +56,21 @@
 			<view class="chart-box">
 				<view class="chart-title">
 					<u-section
-						title="设备效率饼图"
+						title="每小时产量线图"
 						font-size="30"
 						:show-line="false"
 						:right="false"
 					/>
 				</view>
 			<view class="charts-pie">
+			<view class="charts-box">
 			<qiun-data-charts
-			   animation
-				type="pie"
-				background="none"			
+				type="tline"
+				:ontouch="true"
 				:chartData="chartData"
-				:opts="opts"
-				:tooltipFormat='tooltipDemo1'			
+				background="none"
 			/>
+			</view>
 			</view>
 
 			</view>
@@ -91,11 +91,12 @@
 
 <script>
    import { mapState } from "vuex";
+   import moment from 'moment';
 	export default {
 		data() {
 			return {
 				navbar: {
-					title: "直通率",
+					title: "每小时产量",
 					isBack: true,
 					color: "#333",
 					size: "36",
@@ -116,11 +117,10 @@
 				timeVisible:false,
 				//pie
 				chartData:{
-					series: [{data: [],format:"pie"}]
-			    },
-				opts: {				
-					color: ["#1890FF", "#91CB74"]		
-				}
+					series:[]
+				},
+				// 工序
+				procedureList:[]
 			}
 		},
 		computed: {
@@ -137,6 +137,11 @@
 		  },
 		  wsList(){
 			 return this.workShopList.map(({wsName:text,wsCode})=>{return {text,wsCode}})
+		  },
+		  procedureDict(){
+			  let obj ={}
+			  this.procedureList.forEach(({processCode,processName})=>obj[processCode]=processName);
+			  return obj;
 		  }
         },
 		methods: {
@@ -185,27 +190,89 @@
 			this.form.endDate = endDate;
 			},
 			search() {
+				this.procedureFetch();
+				// 
 				const {	ws,line,startDate,endDate}=this.form
 				this.$http
 						.request({
-						url: "/api/ProduceReport/FPY",
+						url: "/api/ProduceReport/UPH",
 						method: "GET",
 						data:{
 							wsCode:this.wsDict[ws],
-							lineCode:this.BLDict[line]?this.BLDict[line]:'',
+							lineCode:this.BLDict[line],
+							processCode:'',
 							startDate,
 							endDate
 						}
 						})
 					 .then(data=>{
-						const list=[]
-						 for (const [key, value] of Object.entries(data)) {
-							 list.push({name:key==='a'?'优良品':'其他',value})
-						}
-						 this.chartData.series[0].data=list
+						 const obj={}
+						 const resList=[]
+
+						 data.map(item=>{
+							 const {processCode,date}=item
+							 item.name=this.procedureDict[processCode]
+							 return item
+						 })
+						 .sort((a,b)=>a.date-b.date)
+						
+						const maxTime =data.slice(-1)[0].date;
+						const preTime =moment( +new Date(maxTime)-1000*60*60*24).format();
+						
+
+
+				
+					
+
+					
+                         
+
+						//  data.map(item=>{
+						// 	 const {processCode,date}=item
+						// 	 item.name=this.procedureDict[processCode]
+						// 	 item.date=moment(date).valueOf()
+						// 	 return item
+						//  })
+						//  .sort((a,b)=>a.date-b.date)
+						//  .forEach(({name,date,qty})=>{
+						// 	 if(!obj[name]){obj[name]=[]};
+						// 	obj[name].push([date,qty])
+						//  })
+						
+						
+						// for (const [key, value] of Object.entries(obj)) {
+						//    value.sort((a,b)=>a.date-b.date)
+					
+						   
+						//    resList.push({name:key,data:value})
+						// }
+ 
+						// this.chartData.series=resList
+
+
 					 })
+
+
+					 
+			},
+			procedureFetch() {
+				this.$http.request({
+					url: "/api/BProcessList",
+					method: "GET",
+				})
+				.then((data)=>{
+				this.procedureList =data
+				})
 			}
-	    }
+	    },
+	   onLoad(){
+		//    console.log(moment('2019-12-12T14:00:00').valueOf())
+        //    console.log(moment(1576130400000).format())
+
+
+			this.procedureFetch()
+		
+		}
 	}
 </script>
 

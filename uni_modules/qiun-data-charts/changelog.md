@@ -1,3 +1,74 @@
+## 2.3.3-20210706（2021-07-06）
+- uCharts.js 增加雷达图开启数据点值（opts.dataLabel）的显示
+## 2.3.2-20210627（2021-06-27）
+- 秋云图表组件 修复tooltipCustom个别情况下传值不正确报错TypeError: Cannot read property 'name' of undefined的bug
+## 2.3.1-20210616（2021-06-16）
+- uCharts.js 修复圆角柱状图使用4角圆角时，当数值过大时不正确的bug
+## 2.3.0-20210612（2021-06-12）
+- uCharts.js 【重要】uCharts增加nvue兼容，可在nvue项目中使用gcanvas组件渲染uCharts，[详见码云uCharts-demo-nvue](https://gitee.com/uCharts/uCharts)
+- 秋云图表组件 增加tapLegend属性，是否开启图例点击交互事件
+- 秋云图表组件 getIndex事件中增加返回uCharts实例中的opts参数，以便在页面中调用参数
+- 示例项目 pages/other/other.vue增加app端自定义tooltip的方法，详见showOptsTooltip方法
+## 2.2.1-20210603（2021-06-03）
+- uCharts.js 修复饼图、圆环图、玫瑰图，当起始角度不为0时，tooltip位置不准确的bug
+- uCharts.js 增加温度计式柱状图开启顶部半圆形的配置
+## 2.2.0-20210529（2021-05-29）
+- uCharts.js 增加条状图type="bar"
+- 示例项目 pages/ucharts/ucharts.vue增加条状图的demo
+## 2.1.7-20210524（2021-05-24）
+- uCharts.js 修复大数据量模式下曲线图不平滑的bug
+## 2.1.6-20210523（2021-05-23）
+- 秋云图表组件 修复小程序端开启滚动条更新数据后滚动条位置不符合预期的bug
+## 2.1.5-2021051702（2021-05-17）
+- uCharts.js 修复自定义Y轴min和max值为0时不能正确显示的bug
+## 2.1.5-20210517（2021-05-17）
+- uCharts.js 修复Y轴自定义min和max时，未按指定的最大值最小值显示坐标轴刻度的bug
+## 2.1.4-20210516（2021-05-16）
+- 秋云图表组件 优化onWindowResize防抖方法
+- 秋云图表组件 修复APP端uCharts更新数据时，清空series显示loading图标后再显示图表，图表抖动的bug
+- uCharts.js 修复开启canvas2d后，x轴、y轴、series自定义字体大小未按比例缩放的bug
+- 示例项目 修复format-e.vue拼写错误导致app端使用uCharts渲染图表
+## 2.1.3-20210513（2021-05-13）
+- 秋云图表组件 修改uCharts变更chartData数据为updateData方法，支持带滚动条的数据动态打点
+- 秋云图表组件 增加onWindowResize防抖方法 fix by ど誓言，如尘般染指流年づ 
+- 秋云图表组件 H5或者APP变更chartData数据显示loading图表时，原数据闪现的bug
+- 秋云图表组件 props增加errorReload禁用错误点击重新加载的方法
+- uCharts.js 增加tooltip显示category（x轴对应点位）标题的功能，opts.extra.tooltip.showCategory，默认为false
+- uCharts.js 修复mix混合图只有柱状图时，tooltip的分割线显示位置不正确的bug
+- uCharts.js 修复开启滚动条，图表在拖动中动态打点，滚动条位置不正确的bug
+- uCharts.js 修复饼图类数据格式为echarts数据格式，series为空数组报错的bug
+- 示例项目 修改uCharts.js更新到v2.1.2版本后，@getIndex方法获取索引值变更为e.currentIndex.index
+- 示例项目 pages/updata/updata.vue增加滚动条拖动更新（数据动态打点）的demo
+- 示例项目 pages/other/other.vue增加errorReload禁用错误点击重新加载的demo
+## 2.1.2-20210509（2021-05-09）
+秋云图表组件 修复APP端初始化时就传入chartData或lacaldata不显示图表的bug
+## 2.1.1-20210509（2021-05-09）
+- 秋云图表组件 变更ECharts的eopts配置在renderjs内执行，支持在config-echarts.js配置文件内写function配置。
+- 秋云图表组件 修复APP端报错Prop being mutated: "onmouse"错误的bug。
+- 秋云图表组件 修复APP端报错Error: Not Found：Page[6][-1,27] at view.umd.min.js:1的bug。
+## 2.1.0-20210507（2021-05-07）
+- 秋云图表组件 修复初始化时就有数据或者数据更新的时候loading加载动画闪动的bug
+- uCharts.js 修复x轴format方法categories为字符串类型时返回NaN的bug
+- uCharts.js 修复series.textColor、legend.fontColor未执行全局默认颜色的bug
+## 2.1.0-20210506（2021-05-06）
+- 秋云图表组件 修复极个别情况下报错item.properties undefined的bug
+- 秋云图表组件 修复极个别情况下关闭加载动画reshow不起作用，无法显示图表的bug
+- 示例项目 pages/ucharts/ucharts.vue 增加时间轴折线图（type="tline"）、时间轴区域图（type="tarea"）、散点图（type="scatter"）、气泡图demo（type="bubble"）、倒三角形漏斗图（opts.extra.funnel.type="triangle"）、金字塔形漏斗图（opts.extra.funnel.type="pyramid"）
+- 示例项目 pages/format-u/format-u.vue 增加X轴format格式化示例
+- uCharts.js 升级至v2.1.0版本
+- uCharts.js 修复 玫瑰图面积模式点击tooltip位置不正确的bug
+- uCharts.js 修复 玫瑰图点击图例，只剩一个类别显示空白的bug
+- uCharts.js 修复 饼图类图点击图例，其他图表tooltip位置某些情况下不准的bug
+- uCharts.js 修复 x轴为矢量轴（时间轴）情况下，点击tooltip位置不正确的bug
+- uCharts.js 修复 词云图获取点击索引偶尔不准的bug
+- uCharts.js 增加 直角坐标系图表X轴format格式化方法（原生uCharts.js用法请使用formatter）
+- uCharts.js 增加 漏斗图扩展配置，倒三角形（opts.extra.funnel.type="triangle"），金字塔形（opts.extra.funnel.type="pyramid"）
+- uCharts.js 增加 散点图（opts.type="scatter"）、气泡图（opts.type="bubble"）
+- 后期计划 完善散点图、气泡图，增加markPoints标记点，增加横向条状图。
+## 2.0.0-20210502（2021-05-02）
+- uCharts.js 修复词云图获取点击索引不正确的bug
+## 2.0.0-20210501（2021-05-01）
+- 秋云图表组件 修复QQ小程序、百度小程序在关闭动画效果情况下，v-for循环使用图表，显示不正确的bug
 ## 2.0.0-20210426（2021-04-26）
 - 秋云图表组件 修复QQ小程序不支持canvas2d的bug
 - 秋云图表组件 修复钉钉小程序某些情况点击坐标计算错误的bug
