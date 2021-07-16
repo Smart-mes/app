@@ -9,9 +9,6 @@
       :background="navbar.background"
        title-bold  
     >
-      <!-- <view class="navbar-left m-l35">
-        <view class="title">{{ navbar.title }}</view>
-      </view> -->
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
           <u-icon
@@ -21,13 +18,6 @@
             size="45"
             @click.native="handleMenu"
           />
-          <!-- <u-icon
-            class="icon-item"
-            name="reload"
-            color="#333"
-            size="45"
-            @click.native="handleRefresh"
-          /> -->
         </view>
       </view>
     </u-navbar>
@@ -217,7 +207,7 @@
       </view>
       <!-- 内容 -->
       <u-empty
-        v-if="!allList.length"
+        v-show="!allList.length"
         margin-top="30"
         icon-size="100"
         text="数据为空"
@@ -382,9 +372,7 @@ export default {
       });
     },
   },
-  onLoad() {
-    uni.startPullDownRefresh();
-  },
+  onLoad(){},
   onPullDownRefresh() {
     this.deviceAjax().then(() => {
       uni.stopPullDownRefresh();

@@ -241,7 +241,8 @@ export default {
 }
 .reviewTree {
   overflow: hidden;
-  margin: 20upx auto;
+  margin: 15rpx auto;
+  padding: 20rpx 0;
   width: 720rpx;
   border-radius: 10rpx;
   background:$white-color;

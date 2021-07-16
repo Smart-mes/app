@@ -53,6 +53,31 @@ const state = {
 			icon: "info",
 			title: "我的消息",
 			url: "/pages/info/info",
+		},
+		{
+			icon: "through",
+			title: "直通率",
+			url: "/pages/passRate/passRate",
+		},
+		 {
+			icon: "product",
+		 	title: "小时产量",
+		 	url: "/pages/UPH/UPH",
+		 },
+		  {
+		  	icon: "pass",
+		  	title: "计划达成",
+		  	url: "/pages/PAR/PAR",
+		  },
+		  {
+			  icon: "qitao",
+			  title: "齐套分析",
+			  url:"/pages/qitao/qitao"
+		  },
+		{
+			icon: "qualityTest",
+			title: "质检",
+			url: "/pages/qualityTest/qualityTest"
 		}
 	],
 	// 菜单navTab

@@ -98,7 +98,7 @@
 					<!-- bd -->
 				</view>
 			</view>
-			<u-empty v-if="!productList.length" margin-top="30" icon-size="100" text="数据为空" mode="data" />
+			<u-empty v-show="!productList.length" margin-top="30" icon-size="100" text="数据为空" mode="data" />
 		</view>
 		<!-- page -->
 		<popup ref="popup" @getWorkShop="getWorkShop" />
@@ -190,9 +190,7 @@
 				this.$set(item, "visible", !item.visible);
 			},
 		},
-		onLoad() {
-			uni.startPullDownRefresh();
-		},
+		onLoad(){},
 		onPullDownRefresh() {
 			this.productAjax().then(() => {
 				uni.stopPullDownRefresh();
@@ -267,7 +265,6 @@
 			.assist-name {
 				color: $font-light-gray;
 			}
-
 			.info-text,
 			.assist-text {
 				color: #3333cc;

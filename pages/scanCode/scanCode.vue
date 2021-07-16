@@ -88,16 +88,19 @@ export default {
 <style lang="scss" scoped>
 .scanCode {
   min-height: 100%;
-  background-color: $white-color;
+  
 }
 
 .scanForm {
-  margin: 0 25rpx;
+  background-color: $white-color;
+  border-radius: 15px;
+  margin:15rpx;
+  padding:25rpx  15px;
   .row {
     display: flex;
     flex-direction: row;
     .col-input {
-      width: 540rpx;
+      width: 510rpx;
     }
     .col-icon {
       padding: 0 10rpx;

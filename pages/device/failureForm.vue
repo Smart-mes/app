@@ -203,10 +203,12 @@ export default {
 <style lang="scss" scoped>
 .failureForm {
   min-height: 100%;
-  background: $white-color;
 }
 
 .form-box {
-  margin: 0 30upx;
+  margin: 15rpx 15rpx 0 15rpx;
+  padding: 30rpx;
+  border-radius: 10rpx;
+  background-color: $white-color;
 }
 </style>

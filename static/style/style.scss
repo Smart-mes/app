@@ -4,6 +4,7 @@ html,body{
 	font-family: "Microsoft YaHei";
 	background-color:$bgColor;
 }
+.hidden{display: none;}
 // 省列号
 .ellipsis{
 	white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
@@ -39,7 +40,11 @@ html,body{
   padding:15rpx 35rpx;
   .nav-subTitle{flex: auto;padding: 0;}
   .tips{ margin: 0;flex-basis: 360rpx;}
+  /*  #ifndef H5*/
+      .tips{ flex-basis: 380rpx;}
+  /*   #endif */
 }
+
 .tips {
   display: flex;
   // margin: 30upx 0 10upx 0;

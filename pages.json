@@ -81,8 +81,7 @@
 			"style": {
 				"navigationBarTitleText": "扫码查询",
 				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": true
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
@@ -139,6 +138,57 @@
 				"navigationBarTitleText": "demo"
 			}
 		}
+        ,{
+            "path" : "pages/passRate/passRate",
+			"style": {
+				"navigationBarTitleText": "直通率",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+            
+        }
+        ,{
+            "path" : "pages/UPH/UPH",
+			"style": {
+				"navigationBarTitleText": "小时产量",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}           
+        }
+        ,{
+            "path" : "pages/PAR/PAR",
+			"style": {
+				"navigationBarTitleText": "计划达成率",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+            
+        }
+        ,{
+            "path" : "pages/qitao/qitao",                                                                                   
+			"style": {
+				"navigationBarTitleText": "齐套分析",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+            
+        }
+        ,{
+            "path" : "pages/qualityTest/qualityTest",
+			"style": {
+				"navigationBarTitleText": "质检",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}    
+        },
+		{
+			"path": "pages/qualityTest/qualityTestDetail",
+			"style": {
+				"navigationBarTitleText": "质检详情",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		}
     ],
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",
@@ -178,7 +228,8 @@
 	},
 	"condition": {
 		"current": 7,
-		"list": [{
+		"list": [
+			{
 				"name": "index",
 				"path": "pages/index/index"
 			},
@@ -241,6 +292,18 @@
 			{
 				"name":"gongGe",
 				"path" : "pages/meaus/meaus"
+			},
+			{
+				"name": "passRate",
+				"path": "pages/passRate/passRate"
+			},
+			{
+				"name": "UPH",
+				"path" : "pages/UPH/UPH"
+			},
+			{
+				"name": "qitao", 
+				"path" : "pages/qitao/qitao"
 			}
 		]
 	}

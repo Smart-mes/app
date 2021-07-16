@@ -80,7 +80,7 @@
     </view>
     <!-- list -->
     <u-empty
-      v-if="!allList.length"
+      v-show="!allList.length"
       margin-top="30"
       icon-size="100"
       text="数据为空"
