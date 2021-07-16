@@ -5,22 +5,24 @@
     </u-navbar>
     <!-- nav -->
     <view class="u-page">
-      <view class="banner">
-        <image :src="bannerUrl" mode="aspectFill" />
-      </view>
-      <!-- banner -->
-      <view class="notice">
-        <u-notice-bar
-          type="info"
-          mode="vertical"
-          duration="4500"
-          bg-color="#ffffff"
-          padding="25rpx 35rpx"
-          volume-size="35"
-          :more-icon="true"
-          :is-circular="false"
-          :list="noticeList"
-        />
+      <view class="ad">
+        <view class="banner">
+          <image :src="bannerUrl" mode="aspectFill" />
+        </view>
+        <!-- banner -->
+        <view class="notice">
+          <u-notice-bar
+            type="info"
+            mode="vertical"
+            duration="4500"
+            bg-color="#ffffff"
+            padding="25rpx 35rpx"
+            volume-size="35"
+            :more-icon="true"
+            :is-circular="false"
+            :list="noticeList"
+          />
+        </view>
       </view>
       <!-- notice -->
       <view class="menu">
@@ -175,9 +177,13 @@ export default {
   font-weight: bold;
   letter-spacing: 1rpx;
 }
+.ad{
+ overflow: hidden;
+ margin: 15rpx; 
+ border-radius: 10rpx;
+ }
 .banner {
   overflow: hidden;
-  margin: 0 15rpx;
   height: 250rpx;
   background-color: #1890ff;
   image {
@@ -187,9 +193,6 @@ export default {
 }
 .notice {
   overflow: hidden;
-  margin: 0 15rpx;
-  border-bottom-left-radius: 10rpx;
-  border-bottom-right-radius: 10rpx;
   /deep/.uicon-volume-fill {
     color: #ff9900;
   }

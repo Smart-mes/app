@@ -55,15 +55,30 @@ const state = {
 			url: "/pages/info/info",
 		},
 		{
-			icon: "pass",
+			icon: "through",
 			title: "直通率",
 			url: "/pages/passRate/passRate",
 		},
 		 {
-		 	icon: "pass",
-		 	title: "CPH",
-		 	url: "/pages/CPH/CPH",
-		 } 
+			icon: "product",
+		 	title: "小时产量",
+		 	url: "/pages/UPH/UPH",
+		 },
+		  {
+		  	icon: "pass",
+		  	title: "计划达成",
+		  	url: "/pages/PAR/PAR",
+		  },
+		  {
+			  icon: "qitao",
+			  title: "齐套分析",
+			  url:"/pages/qitao/qitao"
+		  },
+		{
+			icon: "qualityTest",
+			title: "质检",
+			url: "/pages/qualityTest/qualityTest"
+		}
 	],
 	// 菜单navTab
 	navTab: {

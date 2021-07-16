@@ -81,8 +81,7 @@
 			"style": {
 				"navigationBarTitleText": "扫码查询",
 				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": true
+				"navigationBarTextStyle": "black"
 			}
 		},
 		{
@@ -149,14 +148,47 @@
             
         }
         ,{
-            "path" : "pages/CPH/CPH",
+            "path" : "pages/UPH/UPH",
 			"style": {
-				"navigationBarTitleText": "CPH",
+				"navigationBarTitleText": "小时产量",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}           
+        }
+        ,{
+            "path" : "pages/PAR/PAR",
+			"style": {
+				"navigationBarTitleText": "计划达成率",
 				"navigationStyle": "custom",
 				"navigationBarTextStyle": "black"
 			}
             
         }
+        ,{
+            "path" : "pages/qitao/qitao",                                                                                   
+			"style": {
+				"navigationBarTitleText": "齐套分析",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+            
+        }
+        ,{
+            "path" : "pages/qualityTest/qualityTest",
+			"style": {
+				"navigationBarTitleText": "质检",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}    
+        },
+		{
+			"path": "pages/qualityTest/qualityTestDetail",
+			"style": {
+				"navigationBarTitleText": "质检详情",
+				"navigationStyle": "custom",
+				"navigationBarTextStyle": "black"
+			}
+		}
     ],
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",
@@ -266,8 +298,12 @@
 				"path": "pages/passRate/passRate"
 			},
 			{
-				"name": "CPH",
-				"path" : "pages/CPH/CPH"
+				"name": "UPH",
+				"path" : "pages/UPH/UPH"
+			},
+			{
+				"name": "qitao", 
+				"path" : "pages/qitao/qitao"
 			}
 		]
 	}

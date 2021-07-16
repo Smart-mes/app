@@ -49,7 +49,7 @@
         </view>
       </view>
       <u-empty
-        v-if="!MachineList.length"
+        v-show="!MachineList.length"
         margin-top="30"
         icon-size="100"
         text="数据为空"

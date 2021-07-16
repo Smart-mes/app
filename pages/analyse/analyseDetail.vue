@@ -62,56 +62,45 @@
             :right="false"
           />
         </view>
-        <view v-if="columnData.series && columnData.series.length">
-          <view class="min-state">
-            <view
-              class="state-item"
-              v-for="(value, key) in machineType"
-              :key="key"
-            >
-              <text class="state-color" :style="{ background: value.color }" />
-              <text class="state-font">{{ value.name }}</text>
-            </view>
-          </view>
           <!-- hd -->
-          <view class="minCharts">
-            <qiun-data-charts
-              type="column"
-              :opts="columnOpt"
-              :chartData="columnData"
-              :animation="true"
-              background="none"
+          <view  class="charts-box">
+            <view  class="minCharts"  v-show="columnData.series[0]!==null">
+              <qiun-data-charts 
+              type="column" 
+              :eopts="columneopts" 
+              :chartData="columnData" 
+              :echartsH5="true" 
+              :echartsApp="true"  
+              :tooltipShow="false"
+              :reshow="columnData.series[0]!==null"/>
+            </view>
+            <u-empty
+              v-show="columnData.series[0]===null"
+              margin-top="30"
+              icon-size="100"
+              text="数据为空"
+              mode="data"
             />
-          </view>
-        </view>
-        <u-empty
-          v-else
-          margin-top="30"
-          icon-size="100"
-          text="数据为空"
-          mode="data"
-        />
+           </view>
       </view>
       <!-- 占比 -->
       <view class="device">
         <view class="device-title">
-          <u-section
-            title="设备效率饼图"
-            font-size="30"
-            :show-line="false"
-            :right="false"
-          />
+          <u-section title="设备效率饼图" font-size="30" :show-line="false" :right="false"/>
         </view>
-        <view v-if="tableList.length">
+        <view >
+          <view class="charts-bd">
           <!-- 图形2 -->
-          <view class="charts-pie">
-            <qiun-data-charts
-              type="pie"
-              :opts="pieOpt"
-              :chartData="pieData"
-              :animation="true"
-              background="none"
-            />
+            <view v-show="tableList.length"  class="charts-pie">
+              <qiun-data-charts
+                type="pie"
+                :opts="pieOpt"
+                :chartData="pieData"
+                :animation="true"
+                background="none"
+              />
+            </view>
+            <u-empty v-show="!tableList.length"  margin-top="30" icon-size="100" text="数据为空" mode="data" />
           </view>
           <view class="device-info">
             <u-table :font-size="24">
@@ -126,16 +115,15 @@
                 <u-td>{{ tableItem.time }}</u-td>
               </u-tr>
             </u-table>
+            <u-empty
+                v-show="!tableList.length"
+                margin-top="30"
+                icon-size="100"
+                text="数据为空"
+                mode="data"
+              />
           </view>
         </view>
-        <!-- 内容 -->
-        <u-empty
-          v-if="!tableList.length"
-          margin-top="30"
-          icon-size="100"
-          text="数据为空"
-          mode="data"
-        />
       </view>
       <!-- 饼图，列表 -->
       <view class="formula">
@@ -274,32 +262,29 @@ export default {
       },
       workType: { "001": "不良", "002": "工具", "003": "短缺" },
       // 柱行图
-      columnOpt: {
-        dataLabel: false,
-        tooltipShow: false,
-        rotate: true,
-        padding: [10,0,0,0],
-        extra: {
-          column: {
-            type: "stack",
-            activeBgColor: "#ffffff",
-            width: 200,
-          },
-          tooltip: { showBox: false },
+      columneopts:{
+        notMerge:true,
+        grid: {
+          top:0,
+          left:10,
+          right: 10,
+          bottom:50
         },
-        xAxis: {
-          disabled: true,
-          axisLine: false,
+        xAxis: {       
+          type: 'value',
+          show: false
         },
         yAxis: {
-          disabled: true,
-          disableGrid: true,
+           type: 'category',
+           show: false
         },
-        legend: {
-          show: false,
-        },
+        seriesTemplate:{
+          "label": {
+          	"show": false
+          },
+        }
       },
-      columnData: {},
+      columnData: {categories:["时间占比图"],series:[null]},
       // 饼图
       pieOpt: {
         animation: true,
@@ -317,7 +302,7 @@ export default {
           showBox: false,
         },
       },
-      pieData: {},
+      pieData:{series: [{data: []}]}
     };
   },
   onReady() {
@@ -328,8 +313,7 @@ export default {
     const { machineName, machineCode } = option;
     this.navbar.title = machineName ? machineName : "设备效率分析详情";
     this.machineCode = machineCode;
-	// this.machineName = "动平衡机";
-	// this.machineCode = "CZ190430-11-04";
+
     // 时间
     this.form.startTime = "2020-03-01 00:00:00";
     this.form.endTime = "2020-04-01 23:59:59";
@@ -346,7 +330,6 @@ export default {
       const rate = parseFloat(this.formula.rate);
       const output = parseInt(this.formula.output);
       const runTimeLong = parseInt(this.formula.runTimeLong);
-
       const natureRate = Math.round(((rate * output) / runTimeLong) * 100);
 
       return natureRate || "";
@@ -397,31 +380,25 @@ export default {
           this.formula = res1[1].data.data;
           this.tableList = res3[1].data.data;
           // 柱形图
-          this.columnData = {
-            categories: ["时间占比图"],
-            series: res2[1].data.data.map(({ state, time }) => {
+          const columnData=res2[1].data.data.map(({ state, time }) => {
               const { name, color } = this.machineType[state];
               return {
-                data: [time],
                 name,
-                color,
-              };
-            }),
-          };
+                "barWidth":50,
+                "stack": 'state',
+                data: [{value:time,color}],
+                };
+            });  
+
+          this.columnData.series =columnData.length? columnData:[null];
 
           // 饼图
-          this.pieData = {
-            series: [
-              {
-                data: this.tableList.map(({ troubleCoed, time }) => {
+          this.pieData.series[0].data= this.tableList.map(({ troubleCoed, time }) => {
                   return {
                     name: this.workType[troubleCoed],
-                    value: Number(time),
-                  };
-                }),
-              },
-            ],
-          };
+                    value: Number(time)};
+             });
+       
         })
         .catch(() => {
           this.loading = false;
@@ -447,20 +424,11 @@ export default {
       Object.keys(this.form).forEach((key) => {
         this.form[key] = "";
       });
-      // this.isSearch = false;
       this.$refs.uForm.resetFields();
-      // 清空数据
-      this.formula = {};
-      this.tableList = [];
-      this.columnData = {};
-      this.pieData = {};
     },
     search() {
       this.$refs.uForm.validate((valid) => {
-        if (valid) {
-          // this.isSearch = true;
-          this.analysisAjax();
-        }
+        if (valid) {this.analysisAjax()}
       });
     },
   },
@@ -477,27 +445,12 @@ export default {
   .mix-title {
     margin: 30rpx 30rpx 0 30rpx;
   }
-  .min-state {
-    display: flex;
-    flex-direction: row-reverse;
-    margin-bottom: -30rpx;
-    .state-item {
-      margin-right: 20rpx;
-      font-size: $font-22;
-    }
-    .state-color {
-      display: inline-block;
-      margin-right: 5rpx;
-      width: 20rpx;
-      height: 15rpx;
-      border-radius: 5rpx;
-    }
-  }
-  .minCharts {
+  .minCharts,.charts-box {
     margin: 40rpx 0 40rpx 0;
     width: 720rpx;
-    height: 100rpx;
+    height: 150rpx;
   }
+  .minCharts{margin: 0;}
 }
 
 // 饼图
@@ -538,7 +491,8 @@ export default {
     padding: 30rpx 30rpx 20rpx 30rpx;
   }
 
-  .charts-pie {
+  .charts-pie,
+  .charts-bd {
     width: 700rpx;
     height: 500rpx;
   }

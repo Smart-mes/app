@@ -56,23 +56,30 @@
 			<view class="chart-box">
 				<view class="chart-title">
 					<u-section
-						title="每小时产量线图"
+						title="每小时产量图"
 						font-size="30"
 						:show-line="false"
 						:right="false"
 					/>
 				</view>
-			<view class="charts-pie">
-			<view class="charts-box">
-			<qiun-data-charts
-				type="tline"
-				:ontouch="true"
-				:chartData="chartData"
-				background="none"
-			/>
-			</view>
-			</view>
-
+             <view class="charts-bd">
+				<view class="charts-line" v-show="chartData.series[0]!==null">
+				<qiun-data-charts 		 
+					type="line" 
+					:echartsH5="true" 
+					:echartsApp="true" 
+					:eopts="eopts" 
+					:chartData="chartData"
+					:reshow="chartData.series[0]!==null"	
+					/>
+				</view>
+				<u-empty 
+				v-show="chartData.series[0]===null"  
+				margin-top="30" 
+				icon-size="100" 
+				text="数据为空" 
+				mode="data" />
+           </view> 
 			</view>
             <!--饼图-->
 		</view>
@@ -106,18 +113,20 @@
 					},
 				},
 				form:{
-					ws:'',
+					ws:'1车间',
 					line:'',
-					startDate:'',
-					endDate:''
+					startDate:'2019-4-5',
+					endDate:'2021-7-14'
 				},
 				BLList:[],
 				wsShow:false,
 				BLShow:false,
 				timeVisible:false,
 				//pie
-				chartData:{
-					series:[]
+				chartData:{series:[null]},
+				eopts:{						
+					notMerge:true,				
+					xAxis: {type:'time'},
 				},
 				// 工序
 				procedureList:[]
@@ -190,8 +199,6 @@
 			this.form.endDate = endDate;
 			},
 			search() {
-				this.procedureFetch();
-				// 
 				const {	ws,line,startDate,endDate}=this.form
 				this.$http
 						.request({
@@ -201,60 +208,46 @@
 							wsCode:this.wsDict[ws],
 							lineCode:this.BLDict[line],
 							processCode:'',
-							startDate,
-							endDate
-						}
+							startDate:'',
+							endDate:''
+						},
+						errorMessage:'暂无数据'
 						})
-					 .then(data=>{
-						 const obj={}
-						 const resList=[]
+					 .then(data=>{					 
+						 if(!data.length){
+							 this.chartData.series=[null];
+							  return false;
+						 }
 
-						 data.map(item=>{
-							 const {processCode,date}=item
-							 item.name=this.procedureDict[processCode]
-							 return item
-						 })
-						 .sort((a,b)=>a.date-b.date)
-						
-						const maxTime =data.slice(-1)[0].date;
-						const preTime =moment( +new Date(maxTime)-1000*60*60*24).format();
-						
-
-
-				
-					
-
-					
-                         
-
-						//  data.map(item=>{
-						// 	 const {processCode,date}=item
-						// 	 item.name=this.procedureDict[processCode]
-						// 	 item.date=moment(date).valueOf()
-						// 	 return item
-						//  })
-						//  .sort((a,b)=>a.date-b.date)
-						//  .forEach(({name,date,qty})=>{
-						// 	 if(!obj[name]){obj[name]=[]};
-						// 	obj[name].push([date,qty])
-						//  })
-						
-						
-						// for (const [key, value] of Object.entries(obj)) {
-						//    value.sort((a,b)=>a.date-b.date)
-					
-						   
-						//    resList.push({name:key,data:value})
-						// }
+						 const dict={};
+						 const resList=[];
+						data= data.map(item => {
+                              item.date = new Date(item.date)
+							  item.name=this.procedureDict[item.processCode]
+							  item.time=+item.date;
+                              return item;
+                          }).sort((a,b)=>a.date-b.date)
  
-						// this.chartData.series=resList
-
-
+                        const maxTime=Math.max(...data.map(x => x.date));
+						const maxDate=new Date(maxTime);
+						const preDate=new Date(maxTime-1000*60*60*24);
+										
+						data.filter(({date})=>preDate<=date&&date<=maxDate)
+						.forEach(({name,time,qty}) => {	
+													
+							 if(!dict[name]){dict[name]=[]};
+							 dict[name].push([time,qty])
+							
+						});
+					
+					   for (const [key, value] of Object.entries(dict)) {						   
+						   resList.push({type: 'line',name:key,data:value})
+						}
+						
+						this.chartData.series=resList;
 					 })
-
-
-					 
-			},
+					
+	        },
 			procedureFetch() {
 				this.$http.request({
 					url: "/api/BProcessList",
@@ -266,22 +259,19 @@
 			}
 	    },
 	   onLoad(){
-		//    console.log(moment('2019-12-12T14:00:00').valueOf())
-        //    console.log(moment(1576130400000).format())
-
-
-			this.procedureFetch()
-		
+			this.procedureFetch()		
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 #passRate{overflow: hidden;}
-.charts-pie{
+.charts-line,.charts-bd{
 	margin-top: 20rpx;
 	width: 730rpx;
 	height: 500rpx;
 	background:$white-color;
 }
+.charts-line{margin-top: 0;}
+
 </style>
