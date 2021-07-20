@@ -27,11 +27,11 @@ export default {
   data() {
     return {
       visible: false,
-      current:0,
+      current:3,
     };
   },
   mounted() {   
-    this.workShopList.length&&this.handleWorkShop(0)
+    this.workShopList.length&&this.handleWorkShop(this.current)
   },
   methods: {
     handleWorkShop(i){

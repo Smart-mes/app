@@ -59,16 +59,20 @@
 						:right="false"
 					/>
 				</view>
-			<view class="charts-bd">	
+			<view class="charts-bd">
+				  <view class="charts-tip" :style="qiaoStyle" v-show="qiao!==void 0&&qiao.length">
+					<view class="tip-item" v-for="(qiaoItem,i) in qiao" :key="i">{{qiaoItem.matCode}}   {{qiaoItem.needQty}}/{{qiaoItem.qty}}</view>
+					</view>	
 				<view 
 					class="charts-bar"
 					v-show="chartsData.categories.length"  
 				>
 					<qiun-data-charts
-					type="bar" 
+					type="bar"
 					:opts="opts" 
 					:chartData="chartsData"
-					:reshow="!!chartsData.categories.length"/>
+					:reshow="!!chartsData.categories.length"
+					@getIndex="showOptsTooltip"/>
 				</view>
 				<u-empty
 				v-show="!chartsData.categories.length" 
@@ -115,25 +119,16 @@
 				wsShow:false,		
 				timeVisible:false,
 				//bar
-				chartsData: {
-					categories: [],
-					series: [
-						{
-						name: "已有数量",
-						data: []
-					}, 
-					{
-						name: "缺少数量",
-						data: []
-					}
-					]
-				},
+				chartsData: {categories: []},
 				opts:{
 					dataLabel:false,
 					fontSize:12,
 					xAxis:{max:70},
 					extra:{bar:{type:'stack'}},
-					}
+					extra:{tooltip: {"showBox": false}}
+					},
+				qiao:[],
+				qiaoStyle:{}	
 			}
 		},
 		computed: {
@@ -151,26 +146,25 @@
 			wsSheetClick(i) {
 				const {text,wsCode}=this.wsList[i];
 				this.form.ws=text;
-
 			},
 			wsClose(){
 				this.form.ws='';
 				this.BLList=[];
 			},
 			clear() {  
-			Object.keys(this.form).forEach((key) => {
-				this.form[key] = "";
-			});
-			this.BLList=[];
+				Object.keys(this.form).forEach((key) => {
+					this.form[key] = "";
+				});
+				this.BLList=[];
 			},
 			handleTime(){
-			uni.hideKeyboard();
-			this.timeVisible = !this.timeVisible
+				uni.hideKeyboard();
+				this.timeVisible = !this.timeVisible
 			},
 			timeChange(e) {
-			const { startDate, endDate } = e;
-			this.form.startDate = startDate;
-			this.form.endDate = endDate;
+				const { startDate, endDate } = e;
+				this.form.startDate = startDate;
+				this.form.endDate = endDate;
 			},
 			search() {								
 				const {	ws,startDate,endDate}=this.form
@@ -185,43 +179,60 @@
 						}
 						})
 					 .then(data=>{	
-						
+
+						const dict={};
+						const orderNoDict={};
 						const chartsData={
 							categories: [],
 							series: [
-								{
-								name: "已有数量",
-								data: []
-							}, 
-							{
-								name: "缺少数量",
-								data: []
-							}
+								{name: "已备料",dict:{},data: [],color:null},
+								{name: "缺料", dict:{},data: [],color:null}
 							]};
-						const dict={};
-							
-						data.forEach(item=>{
-							const {orderNo,needQty,qty}=item
+												
+						data.forEach(({orderNo,matCode,needQty,qty})=>{											
 							let reduce=needQty-qty;
 							reduce=reduce<0?0:reduce;
-							// lack
+							// dict
 							if(!dict[orderNo]){
-								dict[orderNo]={qty:0,lackQty:0}
+								dict[orderNo]={qty:0,needQty:0}
+								orderNoDict[orderNo]=[]
 							}
 							dict[orderNo].qty+=qty
-							dict[orderNo].lackQty+=reduce
-						});
+							dict[orderNo].needQty+=reduce
+							orderNoDict[orderNo].push({matCode,qty,needQty,reduce})
+						});	
+                        //排序
+						for (let key in orderNoDict){
+							orderNoDict[key].sort((a,b)=> a.reduce-a.reduce)
+							orderNoDict[key].splice(3,orderNoDict[key].length)
+							orderNoDict[key]=orderNoDict[key].map(({matCode,qty,needQty})=>{return {matCode,qty,needQty}})
+						}
+												
 						for (const [key, value] of Object.entries(dict)) {
-							const qty= Math.round(value.qty/(value.qty+value.lackQty)*100);
-							const lackQty=100-qty;
-
-							chartsData.categories.push(key)
-							chartsData.series[0].data.push(qty)
-							chartsData.series[1].data.push(lackQty)
-			  
+							let {qty,needQty}=value;
+							if(needQty===0){
+								qty=100
+							}else if(qty===0){
+								needQty=100
+							}else{
+								qty= parseInt(qty/(qty+needQty)*100);
+								needQty=100-qty
+							};
+          
+							chartsData.categories.push(key);
+							chartsData.series[0].data.push(qty);												
+							chartsData.series[1].data.push(needQty);
+										  
 			            }
+						chartsData.series[0].dict=orderNoDict;	
+						
 						this.chartsData=chartsData;	
 					})
+			},
+			showOptsTooltip(e){
+			   const {currentIndex:{index},event:{x,y},opts:{categories,_series_:[{dict}]}}=e
+			   this.qiao=dict[categories[index]]
+			   this.qiaoStyle={left:x+'px',top:y+'px'}
 			}
 	    }
 	}
@@ -230,10 +241,24 @@
 <style lang="scss" scoped>
 #passRate{overflow: hidden;}
 .charts-bar,.charts-bd{
+	position: relative;
 	margin-top: 20rpx;
 	width: 730rpx;
 	height: 600rpx;
 	background:$white-color;
 }
+.charts-tip{
+	z-index: 99; 
+	position: absolute;
+	padding: 10rpx; 
+	font-size: 24rpx;
+	background-color:#000;
+	opacity: 0.7;	
+	color: #fff;
+	.tip-item{
+		white-space: nowrap;
+		line-height: 35rpx;
+	}
+	}
 .charts-bar{margin-top: 0;}
 </style>

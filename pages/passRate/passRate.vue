@@ -65,12 +65,12 @@
              <view class="charts-bd">
 				<view class="charts-pie" v-show="!!chartData.series[0].data.length">
 				<qiun-data-charts
-				animation
+				    animation
 					type="pie"
 					background="none"			
 					:chartData="chartData"
 					:opts="opts"
-					:reshow="!!chartData.series[0].data.length"					
+					:reshow="!!chartData.series[0].data.length"				
 				/>
 				</view>
 				<u-empty v-show="!chartData.series[0].data.length"  margin-top="30" icon-size="100" text="数据为空" mode="data" />
