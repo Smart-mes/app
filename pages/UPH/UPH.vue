@@ -126,7 +126,7 @@
 				chartData:{series:[null]},
 				eopts:{						
 					notMerge:true,
-					grid: {top:10,left:40,right: 30,bottom:60},					
+					grid: {top:10,left:40,right: 30,bottom:60},				
 					xAxis: {type:'time'},
 				},
 				// 工序
