@@ -60,8 +60,12 @@
 					/>
 				</view>
 			<view class="charts-bd">
-				  <view class="charts-tip" :style="qiaoStyle" v-show="qiao!==void 0&&qiao.length">
-					<view class="tip-item" v-for="(qiaoItem,i) in qiao" :key="i">{{qiaoItem.matCode}}   {{qiaoItem.needQty}}/{{qiaoItem.qty}}</view>
+				  <view class="charts-tip" :style="qiaoStyle" v-show="qiao.length">
+					  <view class="tip-item" v-for="(qiaoItem,i) in qiao" :key="i">
+						<view class="tip-col tip-name">{{qiaoItem.matCode}}</view>
+						<view class="tip-col"><text class="tip-icon"/> {{  Math.round(qiaoItem.qty* 100) / 100}}</view>
+						<view class="tip-col"><text class="tip-icon yellow"/>{{ Math.round(qiaoItem.needQty* 100) / 100}}</view>						
+					 </view>
 					</view>	
 				<view 
 					class="charts-bar"
@@ -125,7 +129,8 @@
 					fontSize:12,
 					xAxis:{max:70},
 					extra:{bar:{type:'stack'}},
-					extra:{tooltip: {"showBox": false}}
+					extra:{tooltip: {"showBox": false}},
+					color:["#91cb74","#fac858"]
 					},
 				qiao:[],
 				qiaoStyle:{}	
@@ -167,7 +172,8 @@
 				this.form.endDate = endDate;
 			},
 			search() {								
-				const {	ws,startDate,endDate}=this.form
+				const {	ws,startDate,endDate}=this.form;
+				this.qiao=[];
 				this.$http
 						.request({
 						url: "/api/ProduceReport/CSR",
@@ -204,7 +210,7 @@
                         //排序
 						for (let key in orderNoDict){
 							orderNoDict[key].sort((a,b)=> a.reduce-a.reduce)
-							orderNoDict[key].splice(3,orderNoDict[key].length)
+							orderNoDict[key].splice(5,orderNoDict[key].length)
 							orderNoDict[key]=orderNoDict[key].map(({matCode,qty,needQty})=>{return {matCode,qty,needQty}})
 						}
 												
@@ -231,15 +237,16 @@
 			},
 			showOptsTooltip(e){
 			   const {currentIndex:{index},event:{x,y},opts:{categories,_series_:[{dict}]}}=e
-			   this.qiao=dict[categories[index]]
-			   this.qiaoStyle={left:x+'px',top:y+'px'}
+			   this.qiao=!categories[index]?[]:dict[categories[index]];
+			   this.qiaoStyle={left:x+'px',top:y+'px'};
 			}
 	    }
 	}
 </script>
 
 <style lang="scss" scoped>
-#passRate{overflow: hidden;}
+// #passRate{overflow: hidden;}
+.chart-box{overflow: initial;}
 .charts-bar,.charts-bd{
 	position: relative;
 	margin-top: 20rpx;
@@ -256,9 +263,20 @@
 	opacity: 0.7;	
 	color: #fff;
 	.tip-item{
+		display: flex;
 		white-space: nowrap;
 		line-height: 35rpx;
 	}
+	.tip-col{width:85rpx;}
+	.tip-name{width: 160rpx;}
+	.tip-icon{
+		display: inline-block;
+		margin: 5rpx 8rpx;
+		width: 10rpx;
+		height: 10rpx;
+		background:#91cb74;	
+		 }
+	 .yellow{background: #fac858;}	 
 	}
 .charts-bar{margin-top: 0;}
 </style>
