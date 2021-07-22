@@ -229,8 +229,7 @@
 							chartsData.series[1].data.push(needQty);
 										  
 			            }
-						chartsData.series[0].dict=orderNoDict;	
-						
+						chartsData.series[0].dict=orderNoDict;							
 						this.chartsData=chartsData;	
 					})
 			},
@@ -266,8 +265,8 @@
 		white-space: nowrap;
 		line-height: 35rpx;
 	}
-	.tip-col{width:85rpx;}
-	.tip-name{width: 160rpx;}
+	.tip-col{overflow: hidden; width:100rpx;}
+	.tip-name{overflow: hidden;width: 160rpx;}
 	.tip-icon{
 		display: inline-block;
 		margin: 5rpx 8rpx;
