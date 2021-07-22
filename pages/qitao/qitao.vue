@@ -248,7 +248,7 @@
 .charts-bar,.charts-bd{
 	position: relative;
 	margin-top: 20rpx;
-	width: 730rpx;
+	width: 720rpx;
 	height: 600rpx;
 	background:$white-color;
 }
