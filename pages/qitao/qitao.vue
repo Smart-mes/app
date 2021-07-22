@@ -128,8 +128,7 @@
 					dataLabel:false,
 					fontSize:12,
 					xAxis:{max:70},
-					extra:{bar:{type:'stack'}},
-					extra:{tooltip: {"showBox": false}},
+					extra:{bar:{type:'stack'},tooltip: {"showBox": false}},
 					color:["#91cb74","#fac858"]
 					},
 				qiao:[],
@@ -230,8 +229,7 @@
 							chartsData.series[1].data.push(needQty);
 										  
 			            }
-						chartsData.series[0].dict=orderNoDict;	
-						
+						chartsData.series[0].dict=orderNoDict;							
 						this.chartsData=chartsData;	
 					})
 			},
@@ -250,7 +248,7 @@
 .charts-bar,.charts-bd{
 	position: relative;
 	margin-top: 20rpx;
-	width: 730rpx;
+	width: 720rpx;
 	height: 600rpx;
 	background:$white-color;
 }
@@ -267,8 +265,8 @@
 		white-space: nowrap;
 		line-height: 35rpx;
 	}
-	.tip-col{width:85rpx;}
-	.tip-name{width: 160rpx;}
+	.tip-col{overflow: hidden; width:100rpx;}
+	.tip-name{overflow: hidden;width: 160rpx;}
 	.tip-icon{
 		display: inline-block;
 		margin: 5rpx 8rpx;
