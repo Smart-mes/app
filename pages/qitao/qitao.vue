@@ -128,8 +128,7 @@
 					dataLabel:false,
 					fontSize:12,
 					xAxis:{max:70},
-					extra:{bar:{type:'stack'}},
-					extra:{tooltip: {"showBox": false}},
+					extra:{bar:{type:'stack'},tooltip: {"showBox": false}},
 					color:["#91cb74","#fac858"]
 					},
 				qiao:[],
