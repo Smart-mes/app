@@ -76,7 +76,7 @@ const state = {
 		  },
 		{
 			icon: "qualityTest",
-			title: "质检",
+			title: "抽检",
 			url: "/pages/qualityTest/qualityTest"
 		}
 	],
