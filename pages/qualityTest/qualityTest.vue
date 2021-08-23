@@ -19,7 +19,7 @@
 		data() {
 			return {
 				navbar: {
-					title: "质检",
+					title: "抽检",
 					isBack: true,
 					color: "#333",
 					size: "36",

@@ -16,7 +16,7 @@
 		data() {
 			return {
 				navbar: {
-					title:'质检详情',
+					title:'抽检详情',
 					height:50,
 					background: {
 					backgroundColor: "#ffffff",
