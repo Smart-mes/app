@@ -163,6 +163,8 @@
 					.then(({productList}) => {
 						uni.hideLoading();
 						this.setProduct(productList);
+						console.log('p:',this.productList);
+						console.log('productList',JSON.stringify(this.productList,null,4));
 					})
 					.catch(() => {
 						uni.hideLoading();

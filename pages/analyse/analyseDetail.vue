@@ -436,7 +436,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .mix {
   overflow: hidden;
   margin: 15rpx 15rpx 0 15rpx;

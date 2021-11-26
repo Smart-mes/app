@@ -75,7 +75,7 @@
                       <text class="ellipsis">
                         工单：{{ device.orderNo || "无" }}
                       </text>
-                      <text>状态：{{ device.stopreasonName || "无" }}</text>
+                      <text  class="ellipsis">状态：{{ device.stopreasonName || "无" }}</text>
                     </view>
                   </view>
                   <view class="device-item-trouble ellipsis">
@@ -123,7 +123,7 @@
                       <text>
                         {{ device.stepTimeHours }}小时{{device.stepTimeMinutes}}分{{ device.stepTimeSeconds }}秒
                       </text>
-                      <text>状态：{{ device.stopreasonName || "无" }}</text>
+                      <text  class="ellipsis">状态：{{ device.stopreasonName || "无" }}</text>
                     </view>
                   </view>
                   <view class="device-item-trouble ellipsis">{{
@@ -171,12 +171,10 @@
                       <text>
                         {{ device.stepTimeHours }}小时{{ device.stepTimeMinutes}}分{{ device.stepTimeSeconds }}秒
                       </text>
-                      <text>状态：{{ device.stopreasonName || "无" }}</text>
+                      <text  class="ellipsis">状态：{{ device.stopreasonName || "无" }}</text>
                     </view>
                   </view>
-                  <view class="device-item-trouble ellipsis">{{
-                    device.troubleDesc
-                  }}</view>
+                  <view class="device-item-trouble ellipsis">{{ device.troubleDesc}}</view>
                   <view class="device-item-progress">
                     <view class="progress-bar">
                       <u-line-progress
@@ -444,7 +442,7 @@ export default {
           flex-direction: column;
           color: $font-text-color;
           line-height: 1.5;
-          font-size: $font-26;
+          font-size: $font-24;
         }
         .device-item-progress {
           margin: 0 20upx;

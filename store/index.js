@@ -78,6 +78,11 @@ const state = {
 			icon: "qualityTest",
 			title: "抽检",
 			url: "/pages/qualityTest/qualityTest"
+		},
+		{
+			icon: "assets",
+			title: "资产管理",
+			url: "/pages/asset/asset"
 		}
 	],
 	// 菜单navTab
