@@ -5,6 +5,7 @@
     </u-navbar>
     <!-- nav -->
     <view class="u-page">
+      <view v-if="farm.length" @click="selectShow=!selectShow">{{farm[0].label}}-{{farm[1].label}}</view>
       <view class="ad">
         <view class="banner">
           <image :src="bannerUrl" mode="aspectFill" />
@@ -95,6 +96,14 @@
       </view>
       <!--我的消息-->
     </view>
+    <!-- page -->
+    <u-select
+      v-model="selectShow"
+      mode="mutil-column-auto"
+      :list="farmList"
+      @confirm="selectConfirm"
+    />
+    <!-- select -->
     <u-tabbar
       :icon-size="navTab.iconSize"
       :list="navTab.list"
@@ -105,7 +114,7 @@
   </view>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapMutations  } from "vuex";
 import juNavigatorGrid from "@/components/ju-navigator-grid/ju-navigator-grid";
 export default {
   name: "Index",
@@ -128,20 +137,19 @@ export default {
         dotColor: "rgba(204,204,204,.6)",
         activeColor: "#4ca2fb",
       },
+      // select
+      selectShow: false
     };
   },
-  onLoad() {},
   computed: {
-    ...mapState(["navTab", "menuList", "usuallyMenu"]),
+    ...mapState(["navTab", "menuList", "usuallyMenu","farmList","farm"]),
     dailyMenu() {
       return this.usuallyMenu.map(({ icon, title, url }) => {
         return {
           title,
           url,
-          openType:
-            title === "生产详情" || title === "设备管理" || title === "工艺追溯"
-              ? "switchTab"
-              : "navigateTo",
+          openType:"navigateTo",
+          // title === "生产详情" || title === "设备管理" || title === "工艺追溯" ? "switchTab": "navigateTo",
           iconfont: true,
           icon: `custom-icon custom-icon-${icon}`,
           iconColor: title === "添加" ? "#999" : "#1c7de6",
@@ -153,10 +161,10 @@ export default {
         return {
           title,
           url,
-          openType:
-            title === "生产详情" || title === "设备管理" || title === "工艺追溯"
-              ? "switchTab"
-              : "navigateTo",
+          openType:"navigateTo",
+            // title === "生产详情" || title === "设备管理" || title === "工艺追溯"
+            //   ? "switchTab"
+            //   : "navigateTo",
           iconfont: true,
           icon: `custom-icon custom-icon-${icon}`,
           iconColor: "#1c7de6",
@@ -164,7 +172,12 @@ export default {
       });
     },
   },
-  methods: {},
+  methods: {
+    ...mapMutations(['set_farm']),
+    selectConfirm(e){
+      this.set_farm(e)
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -177,11 +190,11 @@ export default {
   font-weight: bold;
   letter-spacing: 1rpx;
 }
-.ad{
- overflow: hidden;
- margin: 15rpx; 
- border-radius: 10rpx;
- }
+.ad {
+  overflow: hidden;
+  margin: 15rpx 15rpx;
+  border-radius: 10rpx;
+}
 .banner {
   overflow: hidden;
   height: 250rpx;
@@ -198,7 +211,7 @@ export default {
   }
 }
 .menu {
-  margin: 15rpx;
+  margin: 15rpx 15rpx;
   padding: 20rpx 0;
   border-radius: 10rpx;
   background-color: $white-color;
@@ -215,7 +228,7 @@ export default {
 
 .my-info {
   overflow: hidden;
-  margin: 15rpx;
+  margin: 15rpx 15rpx;
   padding: 20rpx 0;
   border-radius: 10rpx;
   background-color: $white-color;

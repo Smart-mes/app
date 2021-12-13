@@ -1,92 +1,66 @@
 @import 'uview-ui/theme.scss';
 /* 颜色变量 */
 /* 行为相关颜色 */
-$uni-color-primary: #007aff; 
-$uni-color-success: #4cd964;
-$uni-color-warning: #f0ad4e;
-$uni-color-error: #dd524d;
+// $uni-color-primary: #007aff; 
+// $uni-color-success: #4cd964;
+// $uni-color-warning: #f0ad4e;
+// $uni-color-error: #dd524d;
 
-/* 文字基本颜色 */
-$uni-text-color:#333;//基本色
-$uni-text-color-inverse:#fff;//反色
-$uni-text-color-grey:#999;//辅助灰色，如加载更多的提示信息
-$uni-text-color-placeholder: #808080;
-$uni-text-color-disable:#c0c0c0;
+// /* 文字基本颜色 */
+// $uni-text-color:#333;//基本色
+// $uni-text-color-inverse:#fff;//反色
+// $uni-text-color-grey:#999;//辅助灰色，如加载更多的提示信息
+// $uni-text-color-placeholder: #808080;
+// $uni-text-color-disable:#c0c0c0;
 
-/* 背景颜色 */
-$uni-bg-color:#ffffff;
-$uni-bg-color-grey:#f8f8f8;
-$uni-bg-color-hover:#f1f1f1;//点击状态颜色
-$uni-bg-color-mask:rgba(0, 0, 0, 0.4);//遮罩颜色
+// /* 背景颜色 */
+// $uni-bg-color:#ffffff;
+// $uni-bg-color-grey:#f8f8f8;
+// $uni-bg-color-hover:#f1f1f1;//点击状态颜色
+// $uni-bg-color-mask:rgba(0, 0, 0, 0.4);//遮罩颜色
 
-/* 边框颜色 */
-$uni-border-color:#c8c7cc;
+// /* 边框颜色 */
+// $uni-border-color:#c8c7cc;
 
-/* 尺寸变量 */
+// /* 尺寸变量 */
 
-/* 文字尺寸 */
-$uni-font-size-sm:24upx;
-$uni-font-size-base:28upx;
-$uni-font-size-lg:32upx;
+// /* 文字尺寸 */
+// $uni-font-size-sm:24upx;
+// $uni-font-size-base:28upx;
+// $uni-font-size-lg:32upx;
 
-/* 图片尺寸 */
-$uni-img-size-sm:40upx;
-$uni-img-size-base:52upx;
-$uni-img-size-lg:80upx;
+// /* 图片尺寸 */
+// $uni-img-size-sm:40upx;
+// $uni-img-size-base:52upx;
+// $uni-img-size-lg:80upx;
 
-/* Border Radius */
-$uni-border-radius-sm: 4upx;
-$uni-border-radius-base: 6upx;
-$uni-border-radius-lg: 12upx;
-$uni-border-radius-circle: 50%;
+// /* Border Radius */
+// $uni-border-radius-sm: 4upx;
+// $uni-border-radius-base: 6upx;
+// $uni-border-radius-lg: 12upx;
+// $uni-border-radius-circle: 50%;
 
-/* 水平间距 */
-$uni-spacing-row-sm: 10px;
-$uni-spacing-row-base: 20upx;
-$uni-spacing-row-lg: 30upx;
+// /* 水平间距 */
+// $uni-spacing-row-sm: 10px;
+// $uni-spacing-row-base: 20upx;
+// $uni-spacing-row-lg: 30upx;
 
-/* 垂直间距 */
-$uni-spacing-col-sm: 8upx;
-$uni-spacing-col-base: 16upx;
-$uni-spacing-col-lg: 24upx;
+// /* 垂直间距 */
+// $uni-spacing-col-sm: 8upx;
+// $uni-spacing-col-base: 16upx;
+// $uni-spacing-col-lg: 24upx;
 
-/* 透明度 */
-$uni-opacity-disabled: 0.3; // 组件禁用态的透明度
+// /* 透明度 */
+// $uni-opacity-disabled: 0.3; // 组件禁用态的透明度
 
-/* 文章场景相关 */
-$uni-font-size-title:40upx;
-$uni-color-title: #2C405A; // 文章标题颜色
-$uni-color-subtitle: #555555; // 二级标题颜色
-$uni-font-size-subtitle:36upx;
-$uni--color-paragraph: #3F536E; // 文章段落颜色
-$uni-font-size-paragraph:30upx;
+// /* 文章场景相关 */
+// $uni-font-size-title:40upx;
+// $uni-color-title: #2C405A; // 文章标题颜色
+// $uni-color-subtitle: #555555; // 二级标题颜色
+// $uni-font-size-subtitle:36upx;
+// $uni--color-paragraph: #3F536E; // 文章段落颜色
+// $uni-font-size-paragraph:30upx;
 
-// ----------------------------------------------------------------------------------
-// app
-
-$line-color:#eee;
-$line-dark-color:#ddd;
-// $blue-color:#3a89fc;
-$red-color:#ff0000;
-
-
-//背景颜色 
-$gray-bj-color:#f5f5f5;
-
-//手按上颜色
-$hover-color:#edf7ff;
-
-
-
-//背景颜色
-$bj-current-blue:#73afe7;
-$bj-gray: #f8f8f8;
-
-//文字大小
-$font-32:32upx;
-$font-36:36upx;
-
-// -----------最新-------------------------------------------------------------------
 // 函数
 @mixin line($left:30upx) {
 			&:after {
@@ -102,6 +76,16 @@ $font-36:36upx;
 				background-color: #c8c7cc;
 			}	
 }
+
+//背景颜色 
+$gray-bj-color:#f5f5f5;
+
+//手按上颜色
+$hover-color:#cae9fb;
+
+//背景颜色
+$bj-current-blue:#73afe7;
+$bj-gray: #f8f8f8;
 $bgColor:#f1f2f7;
 
 // 颜色
@@ -114,6 +98,18 @@ $orange-color:#f39e43;
 // 关机
 $shutDown-color:#696969;
 
+// 字体颜色
+$font-text-color:#333;
+$font-gray:#666;
+$font-light-gray:#999;
+$font-bule:#3333cc;
+$font-dark-green:#15b59e;
+$font-orange:#ee8216;
+$disabled-color:#bbb;
+
+$line-color:#eee;
+$line-dark-color:#ddd;
+
 // 字体大小
 $font-20:20rpx;
 $font-22:22rpx;
@@ -123,16 +119,8 @@ $font-28:28rpx;
 $font-30:30rpx;
 $font-32:32rpx;
 $font-35:35rpx;
+$font-36:36upx;
 
-// 字体颜色
-$font-text-color:#333;
-$font-gray:#666;
 
-// 文字颜色
-$font-gray:#666;
-$font-light-gray:#999;
-$font-bule:#3333cc;
-$font-dark-green:#15b59e;
-$font-orange:#ee8216;
-$disabled-color:#bbb;
+
 

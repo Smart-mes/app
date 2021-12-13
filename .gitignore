@@ -87,5 +87,10 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
-unpackage/
+
 .hbuilderx/launch.json
+
+#禁止提交
+node_modules/
+uni_modules/
+unpackage/

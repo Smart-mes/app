@@ -69,48 +69,31 @@ html,body{
 }
 // list
 .task-list{
-  .list {
-  font-size: $font-28;
-  }
-  .list-item {
+  padding-bottom: 15rpx;
+  .task-item {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin: 15rpx 15rpx 0 15rpx;
-    padding: 10px 30upx;
+    margin:15rpx 15rpx;
+    padding: 20rpx;
+    font-size: $font-28;
     border-radius: 10rpx;
     background-color: $white-color;
-    &:active {
-      background-color: $hover-color;
-      box-shadow: 0 0 3px #999;
-    }
-    .list-left {
-      flex: 1;
-    }
-
-    .list-right {
-      padding-left: 100upx;
-
-      .iconfont {
-        color: $font-light-gray;
-      }
-    }
+    &:active { background-color: $hover-color;}
+    .task-left {flex: 1;line-height: 1.6;}
+    .task-right { padding-left: 50rpx;}
     .row {
       display: flex;
-      .col-name {
-        color: $font-light-gray;
-      }
-      .col-text {
-        flex: 1;
-      }
+      .col-name {color: $font-light-gray;}
+      .col-text {flex: 1;}
     }
   }
 
 }
 // search
 .search-box {
-  margin: 15rpx 15rpx 0 15rpx;
+  margin:15rpx 15rpx;
   padding: 30rpx;
   border-radius: 10rpx;
   background-color: $white-color;
@@ -126,8 +109,37 @@ html,body{
 //chart 
 .chart-box{
     overflow: hidden;
-    margin: 15rpx 15rpx 0 15rpx;
+    margin:15rpx 15rpx;
     border-radius: 10rpx;
     background-color: $white-color;
     .chart-title{padding: 30rpx 30rpx 0 30rpx;}
+}
+// basic
+.basic-box{
+  overflow: hidden;
+  margin:15rpx 15rpx;
+  padding: 30rpx;
+  border-radius: 10rpx;
+  background-color: $white-color;
+}
+
+// 展开收起列表
+.develop-list{
+  line-height: 1.75;
+	.develop-item{
+		@extend .basic-box;
+	}
+  .info{
+    .name{
+      margin-right: 10px;
+      color: $font-gray;
+     }
+  }
+  .hd{
+    display: flex;
+    .left{flex: 1;}
+  }
+  .bd{
+    .info{font-size: $font-26;}
+  }
 }

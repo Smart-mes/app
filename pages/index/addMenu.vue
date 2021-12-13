@@ -123,7 +123,7 @@ export default {
 <style lang="scss" scoped>
 .menu {
   overflow: hidden;
-  margin: 15rpx 15rpx 0 15rpx;
+  margin:15rpx 15rpx;
   padding-top: 25rpx;
   // padding: 25rpx 0;
   border-radius: 10rpx;

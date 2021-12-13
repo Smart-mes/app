@@ -382,7 +382,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .device-list {
-  margin: 0 15rpx 20rpx 15rpx;
+  margin: 15rpx 15rpx;
   background-color: $white-color;
   border-radius: 10rpx;
 

@@ -4,30 +4,31 @@ import http from '@/util/http'
 Vue.use(Vuex)
 
 const userInfo = uni.getStorageSync('userInfo');
+const farm= uni.getStorageSync('farm')||[];
 const state = {
 	// 登录
 	hasLogin: !!userInfo,
 	userInfo,
 	menuList: [
-		{   
-			icon: "produce",
-			title: "生产详情",
-			url: "/pages/product/product",
-		},
-		{
-			icon: "devices",
-			title: "设备管理",
-			url: "/pages/device/device",
-		},
+		// {   
+		// 	icon: "produce",
+		// 	title: "生产详情",
+		// 	url: "/pages/product/product",
+		// },
+		// {
+		// 	icon: "devices",
+		// 	title: "设备管理",
+		// 	url: "/pages/device/device",
+		// },
+		// {
+		// 	icon: "review",
+		// 	title: "工艺追溯",
+		// 	url: "/pages/retrospect/retrospect",
+		// },
 		{
 			icon: "analyse",
 			title: "效率分析",
 			url: "/pages/analyse/analyse",
-		},
-		{
-			icon: "review",
-			title: "工艺追溯",
-			url: "/pages/retrospect/retrospect",
 		},
 		{
 			icon: "fault",
@@ -77,8 +78,24 @@ const state = {
 		{
 			icon: "qualityTest",
 			title: "抽检",
+			// url:'/pages/andon/addAndon'
 			url: "/pages/qualityTest/qualityTest"
-		}
+		},
+		{
+			icon: "qualityTest",
+			title: "首检",
+			url: "/pages/firstCheck/firstCheck"
+		},
+		{
+			icon: "qualityTest",
+			title: "安灯管理",
+			url: "/pages/andon/andon"
+		},
+		// {
+		// 	icon: "qualityTest",
+		// 	title: "添加安灯",
+		// 	url: "/pages/andon/addAndon"
+		// }
 	],
 	// 菜单navTab
 	navTab: {
@@ -131,31 +148,25 @@ const state = {
 	// 车间
 	workShopList: [],
 	// 常用菜单
-	usuallyMenu: uni.getStorageSync('usuallyMenu') || [{ icon: 'line-add', title: '添加', url: '/pages/index/addMenu' }]
+	usuallyMenu: uni.getStorageSync('usuallyMenu') || [{ icon: 'line-add', title: '添加', url: '/pages/index/addMenu' }],
+  farmList:[],
+	farm:farm,
+	// 字典
+	BLineDict:null,
 }
 const mutations = {
 	login(state, provider) {
-		const {
-			token,
-			userInfo
-		} = provider
-
+		const {token,userInfo} = provider
 		state.hasLogin = true
 		state.userInfo = userInfo
-
-		uni.setStorage({
-			key: 'userInfo',
-			data: userInfo
-		});
-		uni.setStorage({
-			key: 'userToken',
-			data: token
-		});
+		uni.setStorage({key: 'userInfo',data: userInfo});
+		uni.setStorage({key: 'userToken',data: token});
 	},
 	//退出登录
 	logout(state) {
 		state.hasLogin = false;
 		state.userInfo = '';
+		state.farm=[];
 		state.usuallyMenu = [{ icon: 'line-add', title: '添加', url: '/pages/index/addMenu' }];
 		uni.clearStorageSync();
 	},
@@ -184,16 +195,30 @@ const mutations = {
 				state[key] = payload[key]
 			}
 		}
-	},
+	}
+	,set_farm(state, payload){
+		state.farm=payload
+		uni.setStorage({key: 'farm',data: payload});
+	}
 };
 
 const actions = {
 	async getWorkShop({ commit }) {
-		const workShopList = await http.request({
-			url: "/api/BWorkShop",
-			method: "GET"
-		});
+		const workShopList = await http.request({url: "/api/BWorkShop",method: "GET"});
 		commit('set_state', { workShopList })
+	},
+	async getFarm({ commit }){
+		const farmList = await http.request({url: "/api/BLine/CascadeOption",method: "GET"});
+
+		commit('set_state', { farmList });
+		if(farm.length===0){
+			const {label,value,children}=farmList[0]			
+			commit('set_state',{farm:[{label,value},{...children[0]}]})
+		}		
+	},
+	async getDict({ commit },payload){
+		return await http.request({url:payload.url,method: "GET", data: payload.parame});
+		// commit('set_state',{BLineDict:{BLine}})
 	}
 }
 

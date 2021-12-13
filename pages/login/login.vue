@@ -65,17 +65,14 @@
 		},
 		methods: {
 			...mapMutations(['login']),
-			...mapActions(["getWorkShop"]),
+			...mapActions(["getWorkShop","getFarm"]),
 			submit() {
 				this.$refs.loginForm.validate(valid => {
 					valid && this.loginAjax()
 				});
 			},
 			loginAjax() {
-				const {
-					user,
-					password
-				} = this.form;
+				const {user,password} = this.form;
 
 				this.loading = true;
 				this.$http.request({
@@ -86,15 +83,11 @@
 						password: password
 					}
 				}).then((res) => {
-					const {empName} = res
+					const {empName,empCode} = res
 					this.loading = false;
-					this.login({
-						token: "",
-						userInfo: {
-							userName: empName
-						}
-					});
+					this.login({token: "",userInfo: {empName,empCode}});
 					this.getWorkShop();
+					this.getFarm();
 				}).then(() => {	
 					uni.reLaunch({url: '/pages/index/index'})
 				}).catch(() => {

@@ -78,8 +78,20 @@
 			</view>
             <!--饼图-->
 		</view>
-		<u-action-sheet :list="wsList" @click="wsSheetClick" @close="wsClose" v-model="wsShow"/>
-		<u-action-sheet :list="BLList" @click="BLSheetClick" @close="BLClose" v-model="BLShow"/>
+		<u-action-sheet 
+		:list="wsList" 
+		:cancel-btn="true"
+		v-model="wsShow"
+		@click="wsSheetClick" 
+		@close="wsClose" 
+		/>
+		<u-action-sheet 
+		:list="BLList" 
+		:cancel-btn="true"
+		v-model="BLShow"
+		@click="BLSheetClick" 
+		@close="BLClose" 
+		/>
 		<!-- sheet -->
 		<u-calendar
 		v-model="timeVisible"

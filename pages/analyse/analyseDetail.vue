@@ -439,7 +439,7 @@ export default {
 
 .mix {
   overflow: hidden;
-  margin: 15rpx 15rpx 0 15rpx;
+  margin:15rpx 15rpx;
   border-radius: 10rpx;
   background-color: $white-color;
   .mix-title {
@@ -484,7 +484,7 @@ export default {
 
 .device {
   overflow: hidden;
-  margin: 15rpx 15rpx 0 15rpx;
+  margin:15rpx 15rpx;
   border-radius: 10rpx;
   background: $white-color;
   .device-title {
@@ -501,7 +501,7 @@ export default {
   }
 }
 .formula {
-  margin: 15rpx 15rpx 0 15rpx;
+  margin:15rpx 15rpx;
   padding: 30upx;
   border-radius: 10rpx;
   background: $white-color;

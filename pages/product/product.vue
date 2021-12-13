@@ -1,7 +1,13 @@
 <template>
 	<view>
-		<u-navbar :title="navbar.title" :is-back="navbar.isBack" :title-color="navbar.color" :title-size="navbar.size"
-			:height="navbar.height" :background="navbar.background" title-bold>
+		<u-navbar 
+		:title="navbar.title" 
+		:is-back="navbar.isBack" 
+		:title-color="navbar.color" 
+		:title-size="navbar.size"
+		:height="navbar.height" 
+		:background="navbar.background" 
+		 title-bold>
 			<view class="navbar-right" slot="right">
 				<view class="navbar-icon">
 					<u-icon class="icon-item" name="list" color="#666" size="45" @click.native="handleMenu" />
@@ -30,14 +36,14 @@
 								</view>
 							</view>
 							<view class="col col-progress">
-								<u-circle-progress class="progress" type="primary" width="132" border-width="6" duration="1000" :percent="product.percent">
+								<u-circle-progress class="progress" type="primary" width="132" border-width="6"
+									duration="1000" :percent="product.percent">
 									{{product.percent === 0? "未生产": product.percent === 100? "已完成": "生产中"}}
 									{{ product.percent }}%
 								</u-circle-progress>
 							</view>
 							<view class="col col-icon">
-								<u-icon :name="product.visible ? 'arrow-up-fill' : 'arrow-down-fill'" color="#ccc"
-									size="22" @tap="accordion(product)" />
+								<u-icon :name="product.visible ? 'arrow-up-fill' : 'arrow-down-fill'" color="#ccc"	size="22" @tap="accordion(product)" />
 							</view>
 						</view>
 					</view>
@@ -108,7 +114,9 @@
 	</view>
 </template>
 <script>
-	import {mapState} from "vuex";
+	import {
+		mapState
+	} from "vuex";
 	import moment from "moment";
 
 	export default {
@@ -160,7 +168,9 @@
 							wsCode: this.wsCode,
 						},
 					})
-					.then(({productList}) => {
+					.then(({
+						productList
+					}) => {
 						uni.hideLoading();
 						this.setProduct(productList);
 					})
@@ -180,8 +190,8 @@
 						let percentNum = product.cpltQty / product.qty;
 						product.percent = Math.round(percentNum * 100);
 						//time
-						product.plannedTime=moment(product.plannedTime).format('YYYY-MM-DD h:mm:ss')
-					
+						product.plannedTime = moment(product.plannedTime).format('YYYY-MM-DD h:mm:ss')
+
 						return product;
 					}
 				});
@@ -190,7 +200,7 @@
 				this.$set(item, "visible", !item.visible);
 			},
 		},
-		onLoad(){},
+		onLoad() {},
 		onPullDownRefresh() {
 			this.productAjax().then(() => {
 				uni.stopPullDownRefresh();
@@ -202,7 +212,7 @@
 	// 产线
 	.product {
 		.product-item {
-			margin: 0 15rpx 20rpx 15rpx;
+			margin: 15rpx 15rpx;
 			border-radius: 10rpx;
 			background-color: $white-color;
 		}
@@ -214,7 +224,7 @@
 
 		.product-hd {
 			padding: 25rpx;
-			line-height: 1.8;
+			line-height: 1.75;
 
 			.name {
 				color: $font-gray;
@@ -265,6 +275,7 @@
 			.assist-name {
 				color: $font-light-gray;
 			}
+
 			.info-text,
 			.assist-text {
 				color: #3333cc;

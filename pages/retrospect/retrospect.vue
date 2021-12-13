@@ -227,7 +227,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .tabs-content {
-  margin: 20rpx 15rpx 0 15rpx;
+  margin:15rpx 15rpx;
   padding: 20rpx;
   border-radius: 10rpx;
   background-color: $white-color;
@@ -241,7 +241,7 @@ export default {
 }
 .reviewTree {
   overflow: hidden;
-  margin: 15rpx auto;
+  margin: 20rpx auto;
   padding: 20rpx 0;
   width: 720rpx;
   border-radius: 10rpx;

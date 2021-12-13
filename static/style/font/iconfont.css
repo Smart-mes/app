@@ -1,8 +1,8 @@
 @font-face {
   font-family: "custom-icon"; /* Project id 2033516 */
-  src: url('https://at.alicdn.com/t/font_2033516_olxa3ixzpxi.woff2?t=1626342649483') format('woff2'),
-       url('https://at.alicdn.com/t/font_2033516_olxa3ixzpxi.woff?t=1626342649483') format('woff'),
-       url('https://at.alicdn.com/t/font_2033516_olxa3ixzpxi.ttf?t=1626342649483') format('truetype');
+  src: url('https://at.alicdn.com/t/font_2033516_lfizkoz5sp.woff2?t=1638413941157') format('woff2'),
+       url('https://at.alicdn.com/t/font_2033516_lfizkoz5sp.woff?t=1638413941157') format('woff'),
+       url('https://at.alicdn.com/t/font_2033516_lfizkoz5sp.ttf?t=1638413941157') format('truetype');
 }
 
 .custom-icon {
@@ -11,6 +11,22 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.custom-icon-check:before {
+  content: "\e6e1";
+}
+
+.custom-icon-arrow-right:before {
+  content: "\e633";
+}
+
+.custom-icon-arrow-left:before {
+  content: "\e635";
+}
+
+.custom-icon-assets:before {
+  content: "\e683";
 }
 
 .custom-icon-qualityTest:before {

@@ -239,7 +239,7 @@ export default {
 // }
 // 设备
 .failure-item {
-  margin: 0 15rpx 20rpx 15rpx;
+  margin: 15rpx 15rpx;
   border-radius: 10rpx;
   background-color: $white-color;
   .device-hd {

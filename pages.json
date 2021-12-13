@@ -14,16 +14,14 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/index/addMenu",
 			"style": {
 				"navigationBarTitleText": "添加常用",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -31,7 +29,6 @@
 			"style": {
 				"navigationBarTitleText": "产品详情",
 				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black",
 				"enablePullDownRefresh": true
 			}
 		},
@@ -40,7 +37,6 @@
 			"style": {
 				"navigationBarTitleText": "设备管理",
 				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black",
 				"enablePullDownRefresh": true
 			}
 		},
@@ -48,80 +44,70 @@
 			"path": "pages/analyse/analyse",
 			"style": {
 				"navigationBarTitleText": "设备效率分析",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/analyse/analyseDetail",
 			"style": {
 				"navigationBarTitleText": "设备效率分析详情",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/effect/effect",
 			"style": {
 				"navigationBarTitleText": "效率管理",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/quality/quality",
 			"style": {
 				"navigationBarTitleText": "工单不良汇总",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/scanCode/scanCode",
 			"style": {
 				"navigationBarTitleText": "扫码查询",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/info/info",
 			"style": {
 				"navigationBarTitleText": "我的消息",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/info/infoDetails",
 			"style": {
 				"navigationBarTitleText": "我的消息详情",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/my/my",
 			"style": {
 				"navigationBarTitleText": "我的",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/retrospect/retrospect",
 			"style": {
 				"navigationBarTitleText": "工艺追溯",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/device/failure",
 			"style": {
 				"navigationBarTitleText": "设备报障",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -133,62 +119,106 @@
 			}
 		},
 		{
-			"path": "pages/demo/demo",
-			"style": {
-				"navigationBarTitleText": "demo"
-			}
-		}
-        ,{
-            "path" : "pages/passRate/passRate",
+			"path": "pages/passRate/passRate",
 			"style": {
 				"navigationBarTitleText": "直通率",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
+				"navigationStyle": "custom"
 			}
-            
-        }
-        ,{
-            "path" : "pages/UPH/UPH",
+		},
+		{
+			"path": "pages/UPH/UPH",
 			"style": {
 				"navigationBarTitleText": "小时产量",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
-			}           
-        }
-        ,{
-            "path" : "pages/PAR/PAR",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/PAR/PAR",
 			"style": {
 				"navigationBarTitleText": "计划达成率",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
+				"navigationStyle": "custom"
 			}
-            
-        }
-        ,{
-            "path" : "pages/qitao/qitao",                                                                                   
+		},
+		{
+			"path": "pages/qitao/qitao",
 			"style": {
 				"navigationBarTitleText": "齐套分析",
 				"navigationStyle": "custom",
 				"navigationBarTextStyle": "black"
 			}
-            
-        }
-        ,{
-            "path" : "pages/qualityTest/qualityTest",
+		},
+		{
+			"path": "pages/qualityTest/qualityTest",
 			"style": {
 				"navigationBarTitleText": "质检",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
-			}    
-        },
+				"navigationStyle": "custom"
+			}
+		},
 		{
 			"path": "pages/qualityTest/qualityTestDetail",
 			"style": {
 				"navigationBarTitleText": "质检详情",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/firstCheck/firstCheck",
+			"style": {
+				"navigationBarTitleText": "首检",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/firstCheck/createBill",
+			"style": {
+				"navigationBarTitleText": "创建首件检验单据",
+				"navigationStyle": "custom"
 			}
 		}
+	    ,{
+            "path" : "pages/firstCheck/historyBill",
+            "style" :{
+                "navigationBarTitleText": "历史单据",
+                "navigationStyle": "custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/firstCheck/fillBill",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "填报单据",
+                "navigationStyle": "custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/andon/andon",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "安灯管理",
+                 "navigationStyle": "custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/andon/addAndon",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "添加安灯",
+                 "navigationStyle": "custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/andon/closeAndon",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "关闭安灯",
+                "navigationStyle": "custom"
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",
@@ -227,84 +257,92 @@
 		]
 	},
 	"condition": {
-		"current": 7,
+		"current": 0,
 		"list": [
 			{
-				"name": "index",
-				"path": "pages/index/index"
+				"name": "firstCheck",
+				"path": "pages/firstCheck/firstCheck"
 			},
 			{
-				"name": "product",
-				"path": "pages/product/product"
-			},
-			{
-				"name": "device",
-				"path": "pages/device/device"
-			},
-			{
-				"name": "failure",
-				"path": "pages/device/failure"
-			},
-			{
-				"name": "failureForm",
-				"path": "pages/device/failureForm"
-			},
-			{
-				"name": "retrospect",
-				"path": "pages/retrospect/retrospect"
-			},
-			{
-				"name": "effect",
-				"path": "pages/effect/effect"
-			},
-			{
-				"name": "quality",
-				"path": "pages/quality/quality"
-			},
-			{
-				"name": "info",
-				"path": "pages/info/info"
-			},
-			{
-				"name": "infoDetails",
-				"path": "pages/info/infoDetails"
-			},
-			{
-				"name": "analyse",
-				"path": "pages/analyse/analyse"
-			},
-			{
-				"name": "analyseDetail",
-				"path": "pages/analyse/analyseDetail"
-			},
-			{
-				"name": "my",
-				"path": "pages/my/my"
-			},
-			{
-				"name": "addMeaus",
-				"path": "pages/index/addMenu"
-			},
-			{
-				"name": "scanCode",
-				"path": "pages/scanCode/scanCode"
-			},
-			{
-				"name":"gongGe",
-				"path" : "pages/meaus/meaus"
-			},
-			{
-				"name": "passRate",
-				"path": "pages/passRate/passRate"
-			},
-			{
-				"name": "UPH",
-				"path" : "pages/UPH/UPH"
-			},
-			{
-				"name": "qitao", 
-				"path" : "pages/qitao/qitao"
+				"name": "addAndon",
+				"path": "pages/andon/addAndon"
 			}
+			// {
+			// 	"name": "index",
+			// 	"path": "pages/index/index"
+			// },
+			// {
+			// 	"name": "product",
+			// 	"path": "pages/product/product"
+			// },
+			// {
+			// 	"name": "device",
+			// 	"path": "pages/device/device"
+			// },
+			// {
+			// 	"name": "failure",
+			// 	"path": "pages/device/failure"
+			// },
+			// {
+			// 	"name": "failureForm",
+			// 	"path": "pages/device/failureForm"
+			// },
+			// {
+			// 	"name": "retrospect",
+			// 	"path": "pages/retrospect/retrospect"
+			// },
+			// {
+			// 	"name": "effect",
+			// 	"path": "pages/effect/effect"
+			// },
+			// {
+			// 	"name": "quality",
+			// 	"path": "pages/quality/quality"
+			// },
+			// {
+			// 	"name": "info",
+			// 	"path": "pages/info/info"
+			// },
+			// {
+			// 	"name": "infoDetails",
+			// 	"path": "pages/info/infoDetails"
+			// },
+			// {
+			// 	"name": "analyse",
+			// 	"path": "pages/analyse/analyse"
+			// },
+			// {
+			// 	"name": "analyseDetail",
+			// 	"path": "pages/analyse/analyseDetail"
+			// },
+			// {
+			// 	"name": "my",
+			// 	"path": "pages/my/my"
+			// },
+			// {
+			// 	"name": "addMeaus",
+			// 	"path": "pages/index/addMenu"
+			// },
+			// {
+			// 	"name": "scanCode",
+			// 	"path": "pages/scanCode/scanCode"
+			// },
+			// {
+			// 	"name":"gongGe",
+			// 	"path" : "pages/meaus/meaus"
+			// },
+			// {
+			// 	"name": "passRate",
+			// 	"path": "pages/passRate/passRate"
+			// },
+			// {
+			// 	"name": "UPH",
+			// 	"path" : "pages/UPH/UPH"
+			// },
+			// {
+			// 	"name": "qitao", 
+			// 	"path" : "pages/qitao/qitao"
+			// }
 		]
 	}
 }

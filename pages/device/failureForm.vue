@@ -35,11 +35,13 @@
     <!-- u-action-sheet -->
     <u-action-sheet
       :list="faultSheetList"
+      :cancel-btn="true"
       v-model="faultSheetShow"
       @click="faultSheetCallback"
     />
     <u-action-sheet
       :list="gradeSheetList"
+      :cancel-btn="true"
       v-model="gradeSheetShow"
       @click="gradeSheetCallback"
     />
@@ -190,10 +192,7 @@ export default {
           });
         })
         .catch(() => {
-          this.$refs.uToast.show({
-            title: "提交失败",
-            type: "error",
-          });
+          this.$refs.uToast.show({title: "提交失败",type: "error"});
         });
     },
   },
@@ -206,7 +205,7 @@ export default {
 }
 
 .form-box {
-  margin: 15rpx 15rpx 0 15rpx;
+  margin:15rpx 15rpx;
   padding: 30rpx;
   border-radius: 10rpx;
   background-color: $white-color;

@@ -16,7 +16,7 @@
         <view class="user-icon">
           <u-icon name="account-fill" color="#ddd" size="100" top="20" />
         </view>
-        <text class="user-info">你好，{{ userInfo.userName }}</text>
+        <text class="user-info">你好，{{ userInfo.empName }}</text>
       </view>
       <!-- 用户信息 -->
       <view class="my-info">

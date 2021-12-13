@@ -25,26 +25,28 @@
     <view class="u-page">
       <view class="nav-subTitle">{{ selected.label || "设备" }}列表</view>
       <view class="task-list">
-        <view class="list">
-          <view
-            class="list-item"
-            v-for="machine of MachineList"
-            :key="machine.id"
-            @tap="link(machine.machineName, machine.machineCode)"
-          >
-            <view class="list-left">
-              <view class="row">
-                <view class="col-name">名称：</view>
-                <view class="col-text">{{ machine.machineName }}</view>
-              </view>
-              <view class="row">
-                <view class="col-name">编号：</view>
-                <view class="col-text">{{ machine.machineCode }}</view>
-              </view>
+        <view
+          class="task-item"
+          v-for="machine of MachineList"
+          :key="machine.id"
+          @tap="link(machine.machineName, machine.machineCode)"
+        >
+          <view class="task-left">
+            <view class="row">
+              <view class="col-name">名称：</view>
+              <view class="col-text">{{ machine.machineName }}</view>
             </view>
-            <view class="list-right">
-              <text class="iconfont icon-arrow-right" />
+            <view class="row">
+              <view class="col-name">编号：</view>
+              <view class="col-text">{{ machine.machineCode }}</view>
             </view>
+          </view>
+          <view class="task-right">
+            <u-icon
+              name="arrow-right"
+              color="#999"
+              size="30"
+            />
           </view>
         </view>
       </view>
@@ -140,11 +142,7 @@ export default {
       this.showTree = false;
     },
     confirm(data) {
-      const {
-        id,
-        label,
-        data: { children },
-      } = data;
+      const {id,label,data: { children }} = data;
       this.showTree = false;
 
       if (!children) {

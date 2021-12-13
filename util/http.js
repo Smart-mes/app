@@ -21,7 +21,7 @@ const request = (opt) => {
 		header: headers
 	}).then(result => {
 		let [error, res] = result;
-		if (res.statusCode === 200||res.statusCode === 204) {
+		if (res.statusCode === 200||res.statusCode === 204||res.statusCode === 201) {
 			resolve(res.data);
 		}else {
 			throw res

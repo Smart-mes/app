@@ -14,7 +14,7 @@
 			...mapState(["hasLogin", "userInfo"]),
 		},
 		methods: {
-			...mapActions(["getWorkShop"]),
+			...mapActions(["getWorkShop","getFarm"]),
 			init() {
 				// 锁定竖屏
 				// #ifdef APP-PLUS  
@@ -22,6 +22,7 @@
 				// #endif
 				if (this.hasLogin) {
 					this.getWorkShop();
+					this.getFarm();
 					// #ifdef APP-PLUS 
 					uni.reLaunch({
 						url: "pages/index/index"
