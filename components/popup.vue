@@ -44,6 +44,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .popup {
+  touch-action: none; 
   margin-top: 100rpx;
 }
 </style>

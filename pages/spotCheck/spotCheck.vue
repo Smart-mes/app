@@ -1,36 +1,16 @@
 <template>
   <view>
     <navBar :title="navBar.title" :is-back="navBar.isBack" />
+    <!-- navBar -->
     <view class="u-page">
       <view class="search-box">
-        <u-form>
-          <u-form-item label="时间">
-            <u-row>
-              <u-col span="5">
-                <u-input
-                  v-model="form.startDate"
-                  placeholder="输入开始时间"
-                  @click="handleTime"
-                />
-              </u-col>
-              <u-col span="2">至</u-col>
-              <u-col span="5">
-                <u-input
-                  v-model="form.endDate"
-                  placeholder="输入结束时间"
-                  @click="handleTime"
-                />
-              </u-col>
-            </u-row>
-          </u-form-item>
-        </u-form>
         <view class="btn">
           <u-row gutter="20">
             <u-col span="6">
-              <u-button  @click="reset">重置</u-button>
+              <u-button @click="createLink">创建单据</u-button>
             </u-col>
             <u-col span="6">
-              <u-button type="primary" @click="BillTaskAjax">搜索</u-button>
+              <u-button type="primary" @click="historyLink">历史单据</u-button>
             </u-col>
           </u-row>
         </view>
@@ -67,9 +47,8 @@
                   :custom-style="customStyle"
                   disabled
                   >
-								  查看
-									</u-button
-                >
+                  填报
+                  </u-button>
               </view>
             </view>
           </block>
@@ -82,64 +61,38 @@
           mode="data"
         />
       </view>
-      <!-- 列表 -->
     </view>
-    <!-- page -->
-    <u-calendar
-      v-model="timeVisible"
-      mode="medium"
-      max-date="2050-01-01" 
-      @change="timeChange"
-    />
-    <!--calendar -->
-    <u-toast ref="uToast" />
   </view>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import uForm from "../../uview-ui/components/u-form/u-form.vue";
-import moment from "moment";
-
+import { mapState, mapActions } from "vuex";
 export default {
-  components: {
-    uForm,
-  },
   data() {
     return {
-      name: "HistoryBill",
+      name: "SpotCheck",
       navBar: {
-        title: "首检历史单据",
+        title: "抽检",
         isBack: true,
       },
-      // form
-      billCode: "FAI",
-      form: {
-        startDate: "",
-        endDate: "",
-      },
-      timeVisible: false,
       // 填报列表
       customStyle: {
         height: "60rpx",
         lineHeigh: "60rpx",
       },
+      billCode: "CI",
       billTaskList: [],
     };
   },
   computed: {
     ...mapState(["farm"]),
   },
-  onLoad() {
-    this.reset();
-    this.BillTaskAjax();
+  // onLoad() {},
+  onShow() {
+    this.billTaskAjax();
   },
   methods: {
-
-    BillTaskAjax() {
-      if (!this.form.startDate || !this.form.endDate) {
-        return void this.$refs.uToast.show({ title: "请输入日期再查询", type: "error" });
-      }
+    billTaskAjax() {
       uni.showLoading({ title: "加载中", mask: true });
       return this.$http
         .request({
@@ -147,11 +100,9 @@ export default {
           method: "GET",
           data: {
             billCode: this.billCode,
-            state: 2,
+            state: 1,
             prop: "lineCode",
             value: this.farm[1].value,
-            startDay: this.form.startDate,
-            endDay: this.form.endDate,
           },
         })
         .then((res) => {
@@ -163,24 +114,15 @@ export default {
         })
         .catch(() => uni.hideLoading());
     },
-    // form
-    reset() {
-      this.form.startDate = moment().subtract(3, "days").format("YYYY-MM-DD");
-      this.form.endDate = moment().format("YYYY-MM-DD");
-      // this.$refs.uForm.resetFields();
+    createLink() {
+      uni.navigateTo({ url: "/pages/spotCheck/createSpot" });
     },
-    handleTime() {
-      uni.hideKeyboard();
-      this.timeVisible = !this.timeVisible;
+    historyLink() {
+      uni.navigateTo({ url: "/pages/spotCheck/historySpot" });
     },
-    timeChange(e) {
-      const { startDate, endDate } = e;
-      this.form.startDate = startDate;
-      this.form.endDate = endDate;
-    },
-		billLink(taskCode) {
+    billLink(taskCode) {
       uni.navigateTo({
-        url: `/pages/firstCheck/fillBill?taskCode=${taskCode}&type='preview'`,
+        url: `/pages/spotCheck/historySpot?taskCode=${taskCode}`,
       });
     },
   },
@@ -194,7 +136,6 @@ export default {
   border-radius: 10rpx;
   background-color: $white-color;
 }
-
 .task-list {
   margin-top: 20rpx;
   .task-icon {
@@ -209,7 +150,6 @@ export default {
       background-color: #fff;
     }
   }
-
   .col-name {
     width: 140rpx;
   }

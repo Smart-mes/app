@@ -147,20 +147,20 @@
 				"navigationBarTextStyle": "black"
 			}
 		},
-		{
-			"path": "pages/qualityTest/qualityTest",
-			"style": {
-				"navigationBarTitleText": "质检",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/qualityTest/qualityTestDetail",
-			"style": {
-				"navigationBarTitleText": "质检详情",
-				"navigationStyle": "custom"
-			}
-		},
+		// {
+		// 	"path": "pages/qualityTest/qualityTest",
+		// 	"style": {
+		// 		"navigationBarTitleText": "质检",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/qualityTest/qualityTestDetail",
+		// 	"style": {
+		// 		"navigationBarTitleText": "质检详情",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
 		{
 			"path": "pages/firstCheck/firstCheck",
 			"style": {
@@ -171,55 +171,95 @@
 		{
 			"path": "pages/firstCheck/createBill",
 			"style": {
-				"navigationBarTitleText": "创建首件检验单据",
+				"navigationBarTitleText": "首检创建任务",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/firstCheck/historyBill",
+			"style": {
+				"navigationBarTitleText": "首检历史单据",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/firstCheck/fillBill",
+			"style": {
+				"navigationBarTitleText": "首检填单",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/spotCheck/spotCheck",
+			"style": {
+				"navigationBarTitleText": "抽检",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/spotCheck/createSpot",
+			"style": {
+				"navigationBarTitleText": "抽检创建任务",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/spotCheck/historySpot",
+			"style": {
+				"navigationBarTitleText": "抽检历史单据",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/spotCheck/fillSpot",
+			"style": {
+				"navigationBarTitleText": "抽检填单",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/andon/andon",
+			"style": {
+				"navigationBarTitleText": "安灯管理",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/andon/addAndon",
+			"style": {
+				"navigationBarTitleText": "添加安灯",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/andon/closeAndon",
+			"style": {
+				"navigationBarTitleText": "关闭安灯",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/TPM/TPM",
+			"style": {
+				"navigationBarTitleText": "设备保养",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/TPM/TPMbill",
+			"style": {
+				"navigationBarTitleText": "保养填单",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/TPM/historyTPM",
+			"style": {
+				"navigationBarTitleText": "保养历史单据",
 				"navigationStyle": "custom"
 			}
 		}
-	    ,{
-            "path" : "pages/firstCheck/historyBill",
-            "style" :{
-                "navigationBarTitleText": "历史单据",
-                "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/firstCheck/fillBill",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "填报单据",
-                "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/andon/andon",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "安灯管理",
-                 "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/andon/addAndon",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "添加安灯",
-                 "navigationStyle": "custom"
-            }
-            
-        }
-        ,{
-            "path" : "pages/andon/closeAndon",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "关闭安灯",
-                "navigationStyle": "custom"
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",
 		"navigationBarTextStyle": "black",

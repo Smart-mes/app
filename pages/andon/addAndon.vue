@@ -28,6 +28,8 @@ export default {
         title: "添加安灯登记",
         isBack: true,
       },
+      // from
+      btnLoading:false,
       formSeletData: {
         lineCode: "",
         productCode: "",
@@ -213,14 +215,17 @@ export default {
     },
     //添加
     addAjax(formData) {
+      this.btnLoading=true;
       this.$http
         .request({ url: "/api/PAndonList", method: "POST", data: formData })
-        .then(() =>
-          this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/andon/andon",})
-        )
-        .catch(() =>
+        .then(() =>{
+            this.btnLoading=false;
+            this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/firstCheck/firstCheck"})
+        })
+        .catch(() =>{
+           this.btnLoading=false;
           this.$refs.uToast.show({ title: "提交失败", type: "error" })
-        );
+        });
     },
   },
 };

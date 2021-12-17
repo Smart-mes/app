@@ -5,7 +5,9 @@
     </u-navbar>
     <!-- nav -->
     <view class="u-page">
-      <view v-if="farm.length" @click="selectShow=!selectShow">{{farm[0].label}}-{{farm[1].label}}</view>
+      <view class="farm" v-if="farm.length" @click="selectShow=!selectShow">
+        {{farm[0].label}}-{{farm[1].label}}     
+      </view>
       <view class="ad">
         <view class="banner">
           <image :src="bannerUrl" mode="aspectFill" />
@@ -181,9 +183,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-/deep/.uni-scroll-view::-webkit-scrollbar {
-  display: none;
-}
+/deep/.uni-scroll-view::-webkit-scrollbar {display: none;}
 .nav-name {
   margin-left: 35rpx;
   font-size: 38rpx;
@@ -195,6 +195,11 @@ export default {
   margin: 15rpx 15rpx;
   border-radius: 10rpx;
 }
+.farm{
+  margin: 15rpx;
+  padding: 0 10rpx;
+  color:$font-gray;
+  }
 .banner {
   overflow: hidden;
   height: 250rpx;

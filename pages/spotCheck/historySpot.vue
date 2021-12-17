@@ -109,11 +109,11 @@ export default {
     return {
       name: "HistoryBill",
       navBar: {
-        title: "首检历史单据",
+        title: "抽检历史单据",
         isBack: true,
       },
       // form
-      billCode: "FAI",
+      billCode: "CI",
       form: {
         startDate: "",
         endDate: "",
@@ -180,7 +180,7 @@ export default {
     },
 		billLink(taskCode) {
       uni.navigateTo({
-        url: `/pages/firstCheck/fillBill?taskCode=${taskCode}&type='preview'`,
+        url: `/pages/spotCheck/fillSpot?taskCode=${taskCode}&type='preview'`,
       });
     },
   },

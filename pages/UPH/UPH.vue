@@ -101,7 +101,7 @@
     <u-calendar
       v-model="timeVisible"
       mode="medium"
-      max-date="2050-12-31"
+      max-year="2050" 
       @change="timeChange"
     />
     <!--calendar -->

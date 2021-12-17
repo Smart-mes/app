@@ -39,7 +39,7 @@
               </view>
             </view>
             <view class="center">
-              <view class="btn" @click="colseLink(andonItem)">关闭</view>
+              <view class="btn" @click="colseLink(andonItem.id)">关闭</view>
             </view>
             <view class="right">
               <u-icon :name="andonItem.visible ? 'arrow-up-fill' : 'arrow-down-fill'" color="#ccc"	size="22" @tap="andonItem.visible=!andonItem.visible" />
@@ -98,8 +98,7 @@ export default {
   computed: {},
   onLoad() {
     // 字典
-    this.DictAjax().then(()=>this.andonAjax())
-  
+    this.DictAjax().then(()=>this.andonAjax())  
   },
   methods: {
     ...mapActions(["getDict"]),
@@ -112,9 +111,6 @@ export default {
             this.BProductDict = BProduct;
             this.SEmployeeDict = SEmployee;
           }),
-
-
-
           this.getDict({url:"/api/SDataTranslation",parame:{ searchText: "P_AndonList" }})
           .then((res) => res.map( ({ value, label }) => this.eventDict[value] = label.toString())),
       ])
@@ -143,10 +139,9 @@ export default {
     addLink() {
       uni.navigateTo({ url: "/pages/andon/addAndon" });
     },
-    colseLink(andonItem){
-      const andon=JSON.stringify(andonItem);
+    colseLink(id){
       uni.navigateTo({
-        url: `/pages/andon/closeAndon?andon=${andon}`,
+        url: `/pages/andon/closeAndon?id=${id}`,
       });
     }
   },

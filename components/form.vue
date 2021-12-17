@@ -1,6 +1,6 @@
 <template>
   <view>
-    <u-form :model="form" ref="uForm" label-width="120">
+    <u-form :model="form" ref="uForm" :label-width="labelWidth">
       <u-form-item
         v-for="(formItem, index) in formList"
         :key="formItem.props"
@@ -37,12 +37,12 @@
         <template v-else-if="formItem.type === 'radio'">
           <u-radio-group v-model="form[formItem.props]">
             <u-radio
-              v-for="(radioItem, key) in formItem.radioList"
-              :key="key"
+              v-for="radioItem in formItem.radioList"
+              :key="radioItem.name"
               :name="radioItem.name"
               :disabled="radioItem.disabled"
             >
-              {{ radioItem.name }}
+            {{ radioItem.label }}
             </u-radio>
           </u-radio-group>
         </template>
@@ -56,7 +56,11 @@
         </template>
       </u-form-item>
     </u-form>
-    <u-button type="primary" class="btn"  @click="getFormData()">提交</u-button>
+    <slot name="submit">
+      <u-button type="primary" class="btn" @click="getFormData()"
+        >提交</u-button
+      ></slot
+    >
     <u-select
       v-model="selectShow"
       mode="single-column"
@@ -69,6 +73,10 @@
 export default {
   name: "Form",
   props: {
+    labelWidth:{
+      type:String,
+      default:'130'
+    },
     form: {
       type: Object,
       default: null,
@@ -89,10 +97,10 @@ export default {
       type: Boolean,
       default: false,
     },
-    loading:{
+    loading: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
@@ -106,7 +114,7 @@ export default {
     };
   },
   mounted() {
-    this.$refs.uForm.setRules(this.rules);
+     this.validator();
   },
   watch: {
     selectShow(val) {
@@ -116,6 +124,9 @@ export default {
     },
   },
   methods: {
+    validator (){
+       this.$refs.uForm.setRules(this.rules);
+    },
     formGroupChange(e) {
       this.form[this.propsType] = e;
     },
@@ -139,26 +150,35 @@ export default {
     getFormData() {
       this.$refs.uForm.validate((val) => {
         if (val) {
-
-         const form={};   
-          for(let key in this.form){    
-              form[key]=this.seletform!==null&&this.seletform[key]?this.seletform[key]:this.form[key];
-          }
-
-         
- 
-          this.$emit("getFormData",form);
+          const form=this.getData(); 
+          this.$emit("getFormData", form);
         }
       });
     },
+    getData(){
+       const form = {};
+       for (let key in this.form) {
+            form[key] = this.seletform !== null && this.seletform[key] ? this.seletform[key]: this.form[key];
+       };
+       return form;
+    },
+    validateForm(){
+      return  new Promise(resolve=>
+          this.$refs.uForm.validate((val) => resolve(val))
+      )
+    },
     resetForm() {
       this.$refs.uForm.resetFields();
+      return Promise.resolve();
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-.btn {
-  margin-top: 30rpx;
+.form {
+    /deep/.u-btn {
+      width: 100%;
+      padding: 0;
+    }
 }
 </style>

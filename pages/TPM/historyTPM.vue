@@ -68,8 +68,7 @@
                   disabled
                   >
 								  查看
-									</u-button
-                >
+									</u-button>
               </view>
             </view>
           </block>
@@ -107,13 +106,13 @@ export default {
   },
   data() {
     return {
-      name: "HistoryBill",
+      name: "HistoryTPM",
       navBar: {
-        title: "首检历史单据",
+        title: "保养历史单据",
         isBack: true,
       },
       // form
-      billCode: "FAI",
+      billCode: "EM",
       form: {
         startDate: "",
         endDate: "",
@@ -137,10 +136,11 @@ export default {
   methods: {
 
     BillTaskAjax() {
+         
       if (!this.form.startDate || !this.form.endDate) {
         return void this.$refs.uToast.show({ title: "请输入日期再查询", type: "error" });
       }
-      uni.showLoading({ title: "加载中", mask: true });
+
       return this.$http
         .request({
           url: "/api/BillTask",
@@ -148,10 +148,8 @@ export default {
           data: {
             billCode: this.billCode,
             state: 2,
-            prop: "lineCode",
-            value: this.farm[1].value,
-            startDay: this.form.startDate,
-            endDay: this.form.endDate,
+            // startDay: this.form.startDate,
+            // endDay: this.form.endDate,
           },
         })
         .then((res) => {
@@ -167,7 +165,6 @@ export default {
     reset() {
       this.form.startDate = moment().subtract(3, "days").format("YYYY-MM-DD");
       this.form.endDate = moment().format("YYYY-MM-DD");
-      // this.$refs.uForm.resetFields();
     },
     handleTime() {
       uni.hideKeyboard();
@@ -180,7 +177,7 @@ export default {
     },
 		billLink(taskCode) {
       uni.navigateTo({
-        url: `/pages/firstCheck/fillBill?taskCode=${taskCode}&type='preview'`,
+        url: `/pages/TPM/TPMbill?taskCode=${taskCode}&type='preview'`,
       });
     },
   },

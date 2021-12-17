@@ -25,13 +25,13 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      name:"CreateBill",
+      name:"CreateSpot",
       navBar: {
-        title: "首检创建任务",
+        title: "抽检创建任务",
         isBack: true,
       },
       flowId:'',
-      billCode:'FAI',
+      billCode:'CI',
       // form
       btnLoading:false,
       formData: {
@@ -169,7 +169,7 @@ export default {
         .request({ url: "/api/BillTask/Create", method: "POST", data: parame })
         .then(() =>{
           this.btnLoading=false;
-          this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/firstCheck/firstCheck"});
+          this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/spotCheck/spotCheck"});
         })
         .catch(() =>{
            this.btnLoading=false;

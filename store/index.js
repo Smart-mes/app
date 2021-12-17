@@ -79,7 +79,7 @@ const state = {
 			icon: "qualityTest",
 			title: "抽检",
 			// url:'/pages/andon/addAndon'
-			url: "/pages/qualityTest/qualityTest"
+			url: "/pages/spotCheck/spotCheck"
 		},
 		{
 			icon: "qualityTest",
@@ -87,15 +87,15 @@ const state = {
 			url: "/pages/firstCheck/firstCheck"
 		},
 		{
-			icon: "qualityTest",
+			icon: "andon",
 			title: "安灯管理",
 			url: "/pages/andon/andon"
 		},
-		// {
-		// 	icon: "qualityTest",
-		// 	title: "添加安灯",
-		// 	url: "/pages/andon/addAndon"
-		// }
+		{
+			icon: "maintain",
+			title: "设备保养",
+			url: "/pages/TPM/TPM"
+		}
 	],
 	// 菜单navTab
 	navTab: {

@@ -42,13 +42,6 @@ export default {
         { label: "关闭说明", props: "closeComment", type: "textarea" },
       ],
       rules: {
-        // lineCode: [
-        //   {
-        //     required: true,
-        //     message: "不能为空",
-        //     trigger: "blur,change",
-        //   },
-        // ],
         closeComment: [
           {
             required: true,
@@ -57,27 +50,33 @@ export default {
           },
         ],
       },
-			BLineDict:{},
-			andon:{}
+			BLineDict:null,
+			andon:null
     };
   },
 	onLoad(options){
-   this.getOptions(options)
-   .then(()=>{
-     this.getBLineDict()
-     .then(()=>this.formData.lineCode=this.BLineDict[this.andon.lineCode]);
-   });	
+   this.andonAjax(options.id)
+    .then(res=>{
+      console.log('res:',res);
+      this.andon=res
+    })
+    .then(()=>{
+      this.getBLineDict()
+       .then(()=>this.formData.lineCode=this.BLineDict[this.andon.lineCode]);
+    });	
 	},
   methods: {
 		...mapActions(["getDict"]),
 
-    getOptions({andon}){
-       this.andon=JSON.parse(andon);
-       return Promise.resolve();
+    andonAjax(id){
+       return this.$http.request({
+          url:`/api/PAndonList/${id}`,
+          method: "GET"
+       });
     },
-    
 		getBLineDict(){
-		  return	this.getDict({url:"/api/Dictionary",parame:{keys:"BLine"}}).then(({ BLine }) => (this.BLineDict = BLine));
+		  return this.getDict({url:"/api/Dictionary",parame:{keys:"BLine"}})
+        .then(({ BLine }) => this.BLineDict = BLine);
 		},
     getFormData(formData) {
 			 this.andon.state=0;
@@ -87,7 +86,7 @@ export default {
 				 ()=> this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/andon/andon"})
 			 )
 			 .catch(
-				 this.$refs.uToast.show({ title: "提交失败", type: "error" })
+				 ()=>this.$refs.uToast.show({ title: "提交失败", type: "error" })
 			 )
 		},
   },

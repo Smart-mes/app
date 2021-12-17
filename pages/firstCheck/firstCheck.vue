@@ -24,36 +24,37 @@
           :right="false"
         />
         <view class="task-list">
-          <view
-            class="task-item"
-            v-for="(bill, key) in BillTaskList"
-            :key="key"
-            @click="billLink"
-          >
-            <view class="task-left">
-              <view class="row">
-                <view class="col-name">工单号：</view>
-                <view class="col-text">{{ bill.order }}</view>
+          <block v-for="billTask in billTaskList" :key="billTask.taskCode">
+            <view class="task-item" @click="billLink(billTask.taskCode)">
+              <view class="task-left">
+                <view class="row">
+                  <view class="col-name">单据号</view>
+                  <view class="col-text">{{ billTask.taskCode }}</view>
+                </view>
+                <view
+                  class="row"
+                  v-for="value in billTask.headerData"
+                  :key="value.label"
+                >
+                  <view class="col-name">{{ value.label }}</view>
+                  <view class="col-text">{{ value.displayValue }}</view>
+                </view>
               </view>
-              <view class="row">
-                <view class="col-name">工序：</view>
-                <view class="col-text">{{ bill.procedure }}</view>
-              </view>
-              <view class="row">
-                <view class="col-name">批次数量：</view>
-                <view class="col-text">{{ bill.quantity }}</view>
+              <view class="task-right">
+                <u-button
+                  type="success"
+                  plain
+                  :custom-style="customStyle"
+                  disabled
+                  >
+                  填报
+                  </u-button>
               </view>
             </view>
-            <view class="task-right">
-              <u-button type="success" plain :custom-style="customStyle"
-                >填报</u-button
-              >
-             
-            </view>
-          </view>
+          </block>
         </view>
         <u-empty
-          v-show="!BillTaskList.length"
+          v-show="!billTaskList.length"
           margin-top="30"
           icon-size="100"
           text="数据为空"
@@ -79,57 +80,50 @@ export default {
         height: "60rpx",
         lineHeigh: "60rpx",
       },
-      BillTaskList: [
-        {
-          order: "FGD131DFAS01",
-          procedure: "FDA464DG",
-          quantity: 100,
-        },
-        {
-          order: "FGD131DFAS02",
-          procedure: "FDA464DG",
-          quantity: 150,
-        },
-        {
-          order: "FGD131DFAS03",
-          procedure: "FDA464DG",
-          quantity: 120,
-        },
-      ],
+      billCode: "FAI",
+      billTaskList: [],
     };
   },
   computed: {
     ...mapState(["farm"]),
   },
-  onLoad() {
-    let parame = {
-      billCode: "FAI",
-      state: 1,
-      prop: "lineCode",
-      value: "xb02",
-    };
-    this.billTaskAjax(parame);
+  // onLoad() {},
+  onShow() {
+    this.billTaskAjax();
   },
   methods: {
-    billTaskAjax(parame) {
+    billTaskAjax() {
       uni.showLoading({ title: "加载中", mask: true });
       return this.$http
         .request({
           url: "/api/BillTask",
           method: "GET",
-          data: parame,
+          data: {
+            billCode: this.billCode,
+            state: 1,
+            prop: "lineCode",
+            value: this.farm[1].value,
+          },
         })
-        .then(res => uni.hideLoading())
+        .then((res) => {
+          uni.hideLoading();
+          this.billTaskList = res.map((item) => {
+            item.headerData = JSON.parse(item.headerData);
+            return item;
+          });
+        })
         .catch(() => uni.hideLoading());
     },
     createLink() {
-      uni.navigateTo({ url: "/pages/firstCheck/createLinkBill" });
+      uni.navigateTo({ url: "/pages/firstCheck/createBill" });
     },
     historyLink() {
       uni.navigateTo({ url: "/pages/firstCheck/historyBill" });
     },
-    billLink() {
-      uni.navigateTo({ url: "/pages/firstCheck/fillBill" });
+    billLink(taskCode) {
+      uni.navigateTo({
+        url: `/pages/firstCheck/fillBill?taskCode=${taskCode}`,
+      });
     },
   },
 };

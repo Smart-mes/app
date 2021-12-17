@@ -4,6 +4,8 @@ html,body{
 	font-family: "Microsoft YaHei";
 	background-color:$bgColor;
 }
+.m-l35{margin-left: 35rpx;}
+.u-page{overflow: hidden;}
 .hidden{display: none;}
 // 省列号
 .ellipsis{
@@ -33,7 +35,7 @@ html,body{
 .navbar-title{
 	font-size:34rpx;
 }
-.m-l35{margin-left: 35rpx;}
+
 .sub-info{
   display: flex;
   flex-direction: row;

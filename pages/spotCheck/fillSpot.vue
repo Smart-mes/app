@@ -46,7 +46,7 @@
             <view class="btn">
               <u-row gutter="20">
                 <u-col span="6">
-                  <u-button @click="save" :disabled="!!pageType">保存</u-button>
+                  <u-button @click="save" :disabled="!!this.pageType">保存</u-button>
                 </u-col>
                 <u-col span="6">
                   <u-button
@@ -162,13 +162,13 @@ function getAQL(lotQty, level, aqlValue) {
 export default {
   data() {
     return {
-      name: "FillBill",
+      name: "FillSpot",
       navBar: {
-        title: "首检填单",
+        title: "抽检填单",
         isBack: true,
       },
       // 参数
-      billCode: "FAI",
+      billCode: "CI",
       headerData: {},
       // form
       formList: [],
