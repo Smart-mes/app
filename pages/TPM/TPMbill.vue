@@ -84,7 +84,7 @@ export default {
       })
       .then(() => {
         this.templateAjax().then((res) => {
-          this.formData.maintain = JSON.parse(this.taskState.bodyData);
+          this.formData.maintain = JSON.parse(this.taskState.bodyData)||[]
           res.forEach((el) => {
             this.formList[0].checkboxList.push({
               name: el.label,
@@ -128,11 +128,21 @@ export default {
 
     },
     submit() {
-      const formData = { ...this.taskState, bodyData: JSON.stringify(this.formData.maintain)};
+      const taskState = { ...this.taskState, bodyData: JSON.stringify(this.formData.maintain)};
+      const taskLog = {
+          taskCode: taskState.taskCode,
+          roleId: taskState.assignRole,
+          empCode: taskState.receiveEmp,
+          step: taskState.step,
+          result: 1,
+          description: ''
+        }
+
+      debugger
       this.$http.request({
           url: '/api/BillTask/Submit', 
             method: "POST",
-            data: formData
+            data: { taskState, taskLog }
           }).then(() => {             
               this.submitDisabled=true;
               this.$refs.uToast.show({ title: "提交成功",type: "success"});

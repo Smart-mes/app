@@ -10,21 +10,6 @@ const state = {
 	hasLogin: !!userInfo,
 	userInfo,
 	menuList: [
-		// {   
-		// 	icon: "produce",
-		// 	title: "生产详情",
-		// 	url: "/pages/product/product",
-		// },
-		// {
-		// 	icon: "devices",
-		// 	title: "设备管理",
-		// 	url: "/pages/device/device",
-		// },
-		// {
-		// 	icon: "review",
-		// 	title: "工艺追溯",
-		// 	url: "/pages/retrospect/retrospect",
-		// },
 		{
 			icon: "analyse",
 			title: "效率分析",

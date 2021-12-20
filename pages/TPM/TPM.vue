@@ -72,7 +72,7 @@ export default {
     return {
       name: "FirstCheck",
       navBar: {
-        title: "首检",
+        title: "设备保养",
         isBack: true,
       },
       // 填报列表
