@@ -128,7 +128,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["farm"]),
+    ...mapState(["line"]),
   },
   onLoad() {
     this.reset();
@@ -138,7 +138,7 @@ export default {
 
     BillTaskAjax() {
       if (!this.form.startDate || !this.form.endDate) {
-        return void this.$refs.uToast.show({ title: "请输入日期再查询", type: "error" });
+        return void this.$refs.uToast.show({ title: "请输入日期再查询"});
       }
       uni.showLoading({ title: "加载中", mask: true });
       return this.$http
@@ -149,7 +149,7 @@ export default {
             billCode: this.billCode,
             state: 2,
             prop: "lineCode",
-            value: this.farm[1].value,
+            value: this.line[1].value,
             startDay: this.form.startDate,
             endDay: this.form.endDate,
           },

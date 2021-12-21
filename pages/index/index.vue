@@ -5,8 +5,8 @@
     </u-navbar>
     <!-- nav -->
     <view class="u-page">
-      <view class="farm" v-if="farm.length" @click="selectShow=!selectShow">
-        {{farm[0].label}}-{{farm[1].label}}     
+      <view class="farm" v-if="line.length" @click="selectShow=!selectShow">
+        {{line[0].label}}-{{line[1].label}}     
       </view>
       <view class="ad">
         <view class="banner">
@@ -102,7 +102,7 @@
     <u-select
       v-model="selectShow"
       mode="mutil-column-auto"
-      :list="farmList"
+      :list="lineList"
       @confirm="selectConfirm"
     />
     <!-- select -->
@@ -116,7 +116,7 @@
   </view>
 </template>
 <script>
-import { mapState, mapMutations  } from "vuex";
+import { mapState, mapMutations,mapActions} from "vuex";
 import juNavigatorGrid from "@/components/ju-navigator-grid/ju-navigator-grid";
 export default {
   name: "Index",
@@ -140,18 +140,19 @@ export default {
         activeColor: "#4ca2fb",
       },
       // select
-      selectShow: false
+      selectShow: false,
+      lineList:[]
     };
   },
   computed: {
-    ...mapState(["navTab", "menuList", "usuallyMenu","farmList","farm"]),
+    ...mapState(["navTab", "menuList", "usuallyMenu","line"]),
     dailyMenu() {
-      return this.usuallyMenu.map(({ icon, title, url }) => {
+      return this.usuallyMenu.concat([{ icon: 'line-add', title: '添加', url: '/pages/index/addMenu' }])
+      .map(({ icon, title, url }) => {
         return {
           title,
           url,
           openType:"navigateTo",
-          // title === "生产详情" || title === "设备管理" || title === "工艺追溯" ? "switchTab": "navigateTo",
           iconfont: true,
           icon: `custom-icon custom-icon-${icon}`,
           iconColor: title === "添加" ? "#999" : "#1c7de6",
@@ -164,9 +165,6 @@ export default {
           title,
           url,
           openType:"navigateTo",
-            // title === "生产详情" || title === "设备管理" || title === "工艺追溯"
-            //   ? "switchTab"
-            //   : "navigateTo",
           iconfont: true,
           icon: `custom-icon custom-icon-${icon}`,
           iconColor: "#1c7de6",
@@ -174,10 +172,14 @@ export default {
       });
     },
   },
+  onLoad(){
+   this.getLine().then(res=> this.lineList=res);
+  },
   methods: {
-    ...mapMutations(['set_farm']),
+    ...mapMutations(['set_line']),
+    ...mapActions(["getLine"]),  
     selectConfirm(e){
-      this.set_farm(e)
+      this.set_line(e);
     },
   },
 };

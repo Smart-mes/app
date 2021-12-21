@@ -244,8 +244,8 @@ export default {
               props: c.name,
               type: c.condition === "人工判断" ? "radio" : "input",
               radioList: [
-                { name: 0, label: "NG" },
-                { name: 1, label: "OK" },
+                { name: 0, label: "NG",disabled:!!this.pageType},
+                { name: 1, label: "OK",disabled:!!this.pageType},
               ],
               disabled:!!this.pageType
             });
@@ -335,16 +335,19 @@ export default {
               empCode: taskState.receiveEmp,
               step: taskState.step,
               result: 1,
-              description: ''
+              description: '提交'
             }
+            this.submitDisabled=true;
             this.$http.request({
               url: '/api/BillTask/Submit', 
               method: "POST",
               data: { taskState, taskLog }
             }).then(() => {
-              this.submitDisabled=true;
+              //  this.submitDisabled=true;
+               this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/firstCheck/historyBill"});
             }).catch(()=>{
               this.submitDisabled=false;
+              this.$refs.uToast.show({ title: "提交失败", type: "error" });
             })      
           }
         });

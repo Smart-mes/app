@@ -1,7 +1,7 @@
 <template>
   <view>
-    <navBar :title="navBar.title" :is-back="navBar.isBack">
-      <view class="navbar-right" slot="navbarRight">
+    <navBar :title="navBar.title" :is-back="navBar.isBack"/>
+      <!-- <view class="navbar-right" slot="navbarRight">
         <view class="navbar-icon">
           <u-icon
             class="icon-item"
@@ -11,10 +11,23 @@
             @click="addLink"
           />
         </view>
-      </view>
-    </navBar>
+      </view> -->
+    <!-- </navBar> -->
     <!-- navBar -->
     <view class="u-page">
+      <view class="search-box">
+        <view class="btn">
+          <u-row gutter="20">
+            <u-col span="6">
+              <u-button @click="createLink">登记</u-button>
+            </u-col>
+            <u-col span="6">
+              <u-button type="primary" @click="historyLink">历史</u-button>
+            </u-col>
+          </u-row>
+        </view>
+      </view>
+      <!-- 搜索 -->      
       <view class="develop-list">
         <view
           class="develop-item"
@@ -95,7 +108,9 @@ export default {
       eventDict: {},
     };
   },
-  computed: {},
+  computed: {
+    ...mapState(["line"])
+  },
   onLoad() {
     // 字典
     this.DictAjax().then(()=>this.andonAjax())  
@@ -123,7 +138,10 @@ export default {
         .request({
           url: "/api/PAndonList",
           method: "GET",
-          data: { state: 1 },
+          data: {
+            lineCode: this.line[1].value, 
+            state: 1
+          },
         })
         .then((res) => {
           uni.hideLoading();
@@ -136,8 +154,11 @@ export default {
           uni.hideLoading();
         });
     },
-    addLink() {
+    createLink() {
       uni.navigateTo({ url: "/pages/andon/addAndon" });
+    },
+    historyLink(){
+       uni.navigateTo({ url: "/pages/andon/addAndon" });
     },
     colseLink(id){
       uni.navigateTo({

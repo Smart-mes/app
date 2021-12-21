@@ -57,7 +57,6 @@ export default {
 	onLoad(options){
    this.andonAjax(options.id)
     .then(res=>{
-      console.log('res:',res);
       this.andon=res
     })
     .then(()=>{

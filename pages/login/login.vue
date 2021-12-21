@@ -28,7 +28,7 @@
 	</view>
 </template>
 <script>
-	import {mapMutations,mapActions} from "vuex";
+	import {mapMutations} from "vuex";
 	export default {
 		data() {
 			return {
@@ -65,7 +65,6 @@
 		},
 		methods: {
 			...mapMutations(['login']),
-			...mapActions(["getWorkShop","getFarm"]),
 			submit() {
 				this.$refs.loginForm.validate(valid => {
 					valid && this.loginAjax()
@@ -73,7 +72,6 @@
 			},
 			loginAjax() {
 				const {user,password} = this.form;
-
 				this.loading = true;
 				this.$http.request({
 					url: '/api/SEmployee/Login',
@@ -82,13 +80,13 @@
 						empCode: user,
 						password: password
 					}
-				}).then((res) => {
+				})
+				 .then((res) => {
 					const {empName,empCode} = res
 					this.loading = false;
 					this.login({token: "",userInfo: {empName,empCode}});
-					this.getWorkShop();
-					this.getFarm();
-				}).then(() => {	
+				})
+				.then(() => {	
 					uni.reLaunch({url: '/pages/index/index'})
 				}).catch(() => {
 					this.loading = false;

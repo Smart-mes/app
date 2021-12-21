@@ -85,7 +85,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["farm"]),
+    ...mapState(["line"])
   },
   // onLoad() {},
   onShow() {
@@ -102,7 +102,7 @@ export default {
             billCode: this.billCode,
             state: 1,
             // prop: "lineCode",
-            // value: this.farm[1].value,
+            // value: this.line[1].value,
           },
         })
         .then((res) => {

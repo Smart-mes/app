@@ -1,8 +1,5 @@
 <script>
-	import {
-		mapState,
-		mapActions
-	} from "vuex";
+	import {mapState} from "vuex";
 	export default {
 		onLaunch: function() {
 			this.cid();
@@ -14,19 +11,14 @@
 			...mapState(["hasLogin", "userInfo"]),
 		},
 		methods: {
-			...mapActions(["getWorkShop","getFarm"]),
 			init() {
 				// 锁定竖屏
 				// #ifdef APP-PLUS  
 				plus.screen.lockOrientation("portrait-primary");
 				// #endif
 				if (this.hasLogin) {
-					this.getWorkShop();
-					this.getFarm();
 					// #ifdef APP-PLUS 
-					uni.reLaunch({
-						url: "pages/index/index"
-					});
+					uni.reLaunch({url: "pages/index/index"});
 					// #endif
 				}
 			},

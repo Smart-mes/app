@@ -122,7 +122,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["farm","userInfo"]),
+    ...mapState(["line","userInfo"]),
   },
   onLoad() {
     this.lineCodeHandle();
@@ -208,7 +208,7 @@ export default {
       });
     },
     lineCodeHandle() {
-      const { label, value } = this.farm[1];
+      const { label, value } = this.line[1];
       this.formList[0].optionList = [{ label, value }];
       this.formData.lineCode = label;
       this.formSeletData.lineCode = value;

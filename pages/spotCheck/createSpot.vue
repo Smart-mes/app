@@ -27,7 +27,7 @@ export default {
     return {
       name:"CreateSpot",
       navBar: {
-        title: "抽检创建任务",
+        title: "创建抽检任务",
         isBack: true,
       },
       flowId:'',
@@ -96,7 +96,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["farm","userInfo"]),
+    ...mapState(["line","userInfo"]),
   },
   onLoad() {
     this.init();
@@ -104,8 +104,8 @@ export default {
   methods: {
     // 初始化
     init() {
-      this.formData.lineCode=this.farm[1].label;
-      this.formSeletData.lineCode=this.farm[1].value;
+      this.formData.lineCode=this.line[1].label;
+      this.formSeletData.lineCode=this.line[1].value;
       this.orderAjax()
         .then(res=>{
           if(res.length){
@@ -121,7 +121,7 @@ export default {
      return this.$http.request({
         url: "/api/POrderInLine",
         method: "GET",
-        data: { lineCode: this.farm[1].value},
+        data: { lineCode: this.line[1].value},
       });
     },
     pidAjax(){
@@ -173,7 +173,7 @@ export default {
         })
         .catch(() =>{
            this.btnLoading=false;
-           this.$refs.uToast.show({ title: "提交失败", type: "error" })
+           this.$refs.uToast.show({ title: "提交失败", type: "error" });
         });
     }, 
   },

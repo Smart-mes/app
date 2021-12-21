@@ -43,9 +43,9 @@
                 <u-button size="medium" @click="clear">清空</u-button>
               </u-col>
               <u-col span="6">
-                <u-button type="primary" size="medium" @click="search"
-                  >查询</u-button
-                >
+                <u-button type="primary" size="medium" @click="search">
+                  查询
+                </u-button>
               </u-col>
             </u-row>
           </view>
@@ -115,7 +115,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
+import {mapActions} from "vuex";
 export default {
   data() {
     return {
@@ -134,6 +135,7 @@ export default {
         startDate: "2019-4-5",
         endDate: "2021-7-14",
       },
+      workShopList:[],
       wsShow: false,
       timeVisible: false,
       //bar
@@ -150,7 +152,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["workShopList"]),
+    // ...mapState(["workShopList"]),
     wsDict() {
       const obj = {};
       this.workShopList.forEach(({ wsName, wsCode }) => (obj[wsName] = wsCode));
@@ -162,7 +164,11 @@ export default {
       });
     },
   },
+  onLoad(){
+   this.BWorkShopAjax();
+  },
   methods: {
+    ...mapActions(["getWorkShop"]),  
     wsSheetClick(i) {
       const { text, wsCode } = this.wsList[i];
       this.form.ws = text;
@@ -264,6 +270,9 @@ export default {
       this.qiao = !categories[index] ? [] : dict[categories[index]];
       this.qiaoStyle = { left: x + "px", top: y + "px" };
     },
+    BWorkShopAjax(){
+        this.$http.request({url: "/api/BWorkShop",method: "GET"}).then(res=>this.workShopList=res)
+    }
   },
 };
 </script>

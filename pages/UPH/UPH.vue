@@ -143,10 +143,11 @@ export default {
       },
       // 工序
       procedureList: [],
+      workShopList:[]
     };
   },
   computed: {
-    ...mapState(["workShopList"]),
+    // ...mapState(["workShopList"]),
     wsDict() {
       const obj = {};
       this.workShopList.forEach(({ wsName, wsCode }) => (obj[wsName] = wsCode));
@@ -169,6 +170,10 @@ export default {
       );
       return obj;
     },
+  },
+  onLoad() {
+    this.procedureFetch();
+    this.BWorkShopAjax();
   },
   methods: {
     wsSheetClick(i) {
@@ -279,10 +284,10 @@ export default {
           this.procedureList = data;
         });
     },
-  },
-  onLoad() {
-    this.procedureFetch();
-  },
+    BWorkShopAjax(){
+      this.$http.request({url: "/api/BWorkShop",method: "GET"}).then(res=>this.workShopList=res)
+    }
+  }
 };
 </script>
 

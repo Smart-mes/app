@@ -49,15 +49,21 @@ export default {
       // form
       submitDisabled:false,
       formData: {
-        maintain: [],
+        checkItems: [],
+        description:""
       },
       formList: [
         {
           label: "维保项目",
-          props: "maintain",
+          props: "checkItems",
           type: "checkbox",
           checkboxList: [],
         },
+        {
+          label:"维保说明",
+          props:"description",
+          type:"textarea",
+        }
       ],
       rules: {},
       // 保养
@@ -77,6 +83,7 @@ export default {
       this.navBar.title = "保养填单";
     }
 
+    this.formList[1].disabled=!!this.pageType;
     this.taskAjax(taskCode)
       .then(([data]) => {
         this.taskState = data;
@@ -84,14 +91,20 @@ export default {
       })
       .then(() => {
         this.templateAjax().then((res) => {
-          this.formData.maintain = JSON.parse(this.taskState.bodyData)||[]
+          // form
+          const bodyData= JSON.parse(this.taskState.bodyData)||{};
+          for(let key in bodyData){
+            this.formData[key]=bodyData[key];
+          }
+          // formList
           res.forEach((el) => {
             this.formList[0].checkboxList.push({
               name: el.label,
-              checked: this.formData.maintain.includes(el.label),
+              checked: this.formData.checkItems.includes(el.label),
               disabled:!!this.pageType
             });
           });
+
         });
       });
   },
@@ -114,7 +127,7 @@ export default {
     },
     //form
     save() {
-      const formData = { ...this.taskState, bodyData: JSON.stringify(this.formData.maintain)};
+      const formData = { ...this.taskState, bodyData: JSON.stringify(this.formData)};
       this.$http.request({
         url: '/api/BillTask/Save', 
           method: "POST",
@@ -128,7 +141,7 @@ export default {
 
     },
     submit() {
-      const taskState = { ...this.taskState, bodyData: JSON.stringify(this.formData.maintain)};
+      const taskState = { ...this.taskState, bodyData: JSON.stringify(this.formData)};
       const taskLog = {
           taskCode: taskState.taskCode,
           roleId: taskState.assignRole,
@@ -138,14 +151,13 @@ export default {
           description: ''
         }
 
-      debugger
       this.$http.request({
           url: '/api/BillTask/Submit', 
             method: "POST",
             data: { taskState, taskLog }
           }).then(() => {             
               this.submitDisabled=true;
-              this.$refs.uToast.show({ title: "提交成功",type: "success"});
+              this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/TPM/historyTPM" });
           }).catch(()=>{
               this.submitDisabled=false;
               this.$refs.uToast.show({ title: "提交失败", type: "error" })

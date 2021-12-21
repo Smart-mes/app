@@ -7,7 +7,7 @@
         <view class="btn">
           <u-row gutter="20">
             <u-col span="6">
-              <u-button @click="createLink">创建单据</u-button>
+              <u-button @click="createLink">创建任务</u-button>
             </u-col>
             <u-col span="6">
               <u-button type="primary" @click="historyLink">历史单据</u-button>
@@ -85,7 +85,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["farm"]),
+    ...mapState(["line"]),
   },
   // onLoad() {},
   onShow() {
@@ -102,7 +102,7 @@ export default {
             billCode: this.billCode,
             state: 1,
             prop: "lineCode",
-            value: this.farm[1].value,
+            value: this.line[1].value,
           },
         })
         .then((res) => {
@@ -121,9 +121,7 @@ export default {
       uni.navigateTo({ url: "/pages/spotCheck/historySpot" });
     },
     billLink(taskCode) {
-      uni.navigateTo({
-        url: `/pages/spotCheck/historySpot?taskCode=${taskCode}`,
-      });
+      uni.navigateTo({ url: `/pages/spotCheck/fillSpot?taskCode=${taskCode}`});
     },
   },
 };

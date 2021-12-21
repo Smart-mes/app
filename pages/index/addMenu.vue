@@ -16,18 +16,18 @@
         />
       </view>
       <u-grid :col="4">
-        <u-grid-item v-for="(item, i) in len" :key="i">
+        <u-grid-item v-for="(item,i) in usuallyMenu" :key="i">
           <view class="menu-icon" @tap="deleteMenu(i)">
             <!-- <u-icon slot="icon" name="close" custom-prefix="custom-icon" size="28" color="#999" /> -->
             <text class="custom-icon custom-icon-close" />
           </view>
           <u-icon
             custom-prefix="custom-icon"
-            :name="usuallyMenu[i].icon"
+            :name="item.icon"
             color="#017be7"
             size="50"
           />
-          <view class="grid-text">{{ usuallyMenu[i].title }}</view>
+          <view class="grid-text">{{item.title }}</view>
         </u-grid-item>
       </u-grid>
     </view>
@@ -82,31 +82,26 @@ export default {
   },
   computed: {
     ...mapState(["menuList", "usuallyMenu"]),
-    len() {
-      return this.usuallyMenu.length
-        ? this.usuallyMenu.length - 1
-        : this.usuallyMenu.length;
-    },
+    // len() {
+    //   return this.usuallyMenu.length
+    //     ? this.usuallyMenu.length - 1
+    //     : this.usuallyMenu.length;
+    // },
   },
   methods: {
     ...mapMutations(["add_usuallyMenu", "delete_usuallyMenu"]),
     addMenu(item) {
       const isHas = this.check(item);
-      if (isHas) {
-        this.$refs.uToast.show({
-          title: "不可以重复添加",
-          type: "error",
-        });
-      }
+      if (this.usuallyMenu.length === 7) {
+       return void this.$refs.uToast.show({ title: "添加不能超过7个", type: "error"});
+      };
 
-      if (this.len === 7) {
-        this.$refs.uToast.show({
-          title: "添加不能超过7个",
-          type: "error",
-        });
-        return false;
-      }
-      !isHas && this.add_usuallyMenu(item);
+      if (isHas) {
+        this.$refs.uToast.show({ title: "不可以重复添加",type: "error",});
+      }else{
+        this.add_usuallyMenu(item);
+      };
+      
     },
     deleteMenu(i) {
       this.delete_usuallyMenu(i);

@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -141,10 +141,11 @@ export default {
         fontSize: 12,
         color: ["#1890FF", "#91CB74"],
       },
+      workShopList:[]
     };
   },
   computed: {
-    ...mapState(["workShopList"]),
+    // ...mapState(["workShopList"]),
     wsDict() {
       const obj = {};
       this.workShopList.forEach(({ wsName, wsCode }) => (obj[wsName] = wsCode));
@@ -155,6 +156,9 @@ export default {
         return { text, wsCode };
       });
     },
+  },
+  onLoad(){
+   this.BWorkShopAjax();
   },
   methods: {
     wsSheetClick(i) {
@@ -209,6 +213,9 @@ export default {
       this.chartsData.series[0].data = [];
       this.chartsData.series[1].data = [];
     },
+    BWorkShopAjax(){
+        this.$http.request({url: "/api/BWorkShop",method: "GET"}).then(res=>this.workShopList=res)
+    }
   },
 };
 </script>

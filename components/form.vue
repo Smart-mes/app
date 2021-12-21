@@ -57,10 +57,10 @@
       </u-form-item>
     </u-form>
     <slot name="submit">
-      <u-button type="primary" class="btn" @click="getFormData()"
-        >提交</u-button
-      ></slot
-    >
+      <u-button type="primary" class="btn" :loading="loading" @click="getFormData()">
+        提交
+      </u-button>
+    </slot>
     <u-select
       v-model="selectShow"
       mode="single-column"

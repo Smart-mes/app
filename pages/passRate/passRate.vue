@@ -114,7 +114,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -141,10 +141,11 @@ export default {
       //pie
       chartData: { series: [{ data: [], format: "pieTip" }] },
       opts: { color: ["#1890FF", "#91CB74"] },
+      workShopList:[]
     };
   },
   computed: {
-    ...mapState(["workShopList"]),
+    // ...mapState(["workShopList"]),
     wsDict() {
       const obj = {};
       this.workShopList.forEach(({ wsName, wsCode }) => (obj[wsName] = wsCode));
@@ -160,6 +161,9 @@ export default {
         return { text, wsCode };
       });
     },
+  },
+  onLoad(){
+   this.BWorkShopAjax();
   },
   methods: {
     wsSheetClick(i) {
@@ -227,6 +231,9 @@ export default {
           this.chartData.series[0].data = list;
         });
     },
+    BWorkShopAjax(){
+        this.$http.request({url: "/api/BWorkShop",method: "GET"}).then(res=>this.workShopList=res)
+    }
   },
 };
 </script>

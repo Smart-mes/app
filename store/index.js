@@ -4,7 +4,6 @@ import http from '@/util/http'
 Vue.use(Vuex)
 
 const userInfo = uni.getStorageSync('userInfo');
-const farm= uni.getStorageSync('farm')||[];
 const state = {
 	// 登录
 	hasLogin: !!userInfo,
@@ -130,12 +129,10 @@ const state = {
 		// current: 0,
 		isMid: false
 	},
-	// 车间
-	workShopList: [],
 	// 常用菜单
-	usuallyMenu: uni.getStorageSync('usuallyMenu') || [{ icon: 'line-add', title: '添加', url: '/pages/index/addMenu' }],
-  farmList:[],
-	farm:farm,
+	usuallyMenu: uni.getStorageSync('usuallyMenu')||[] ,
+  // farmList:[],
+	line:uni.getStorageSync('line')||[],
 	// 字典
 	BLineDict:null,
 }
@@ -152,7 +149,7 @@ const mutations = {
 		state.hasLogin = false;
 		state.userInfo = '';
 		state.farm=[];
-		state.usuallyMenu = [{ icon: 'line-add', title: '添加', url: '/pages/index/addMenu' }];
+		state.usuallyMenu = [];
 		uni.clearStorageSync();
 	},
 	add_usuallyMenu(state, payload) {
@@ -181,29 +178,23 @@ const mutations = {
 			}
 		}
 	}
-	,set_farm(state, payload){
-		state.farm=payload
-		uni.setStorage({key: 'farm',data: payload});
+	,set_line(state, payload){
+		state.line=payload
+		uni.setStorage({key:'line',data: payload});
 	}
 };
 
 const actions = {
-	async getWorkShop({ commit }) {
-		const workShopList = await http.request({url: "/api/BWorkShop",method: "GET"});
-		commit('set_state', { workShopList })
-	},
-	async getFarm({ commit }){
+	async getLine({ commit,state }){
 		const farmList = await http.request({url: "/api/BLine/CascadeOption",method: "GET"});
-
-		commit('set_state', { farmList });
-		if(farm.length===0){
+		if(state.line.length===0){
 			const {label,value,children}=farmList[0]			
-			commit('set_state',{farm:[{label,value},{...children[0]}]})
-		}		
+			commit('set_line',[{label,value},{...children[0]}])
+		}
+		return farmList;				
 	},
 	async getDict({ commit },payload){
 		return await http.request({url:payload.url,method: "GET", data: payload.parame});
-		// commit('set_state',{BLineDict:{BLine}})
 	}
 }
 
