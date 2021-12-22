@@ -160,6 +160,7 @@ function getAQL(lotQty, level, aqlValue) {
 }
 
 export default {
+  name:"FillBill",
   data() {
     return {
       name: "FillBill",

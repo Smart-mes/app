@@ -97,16 +97,12 @@
 
 <script>
 import { mapState } from "vuex";
-import uForm from "../../uview-ui/components/u-form/u-form.vue";
 import moment from "moment";
 
 export default {
-  components: {
-    uForm,
-  },
+  name: "HistoryTPM",
   data() {
-    return {
-      name: "HistoryTPM",
+    return {  
       navBar: {
         title: "保养历史单据",
         isBack: true,
@@ -204,7 +200,6 @@ export default {
       background-color: #fff;
     }
   }
-
   .col-name {
     width: 140rpx;
   }

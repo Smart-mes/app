@@ -22,6 +22,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
+  name:"AddAndon",
   data() {
     return {
       navBar: {

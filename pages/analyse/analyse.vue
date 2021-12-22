@@ -72,9 +72,7 @@
 <script>
 import LyTreeDrawer from "../component/ly-tree-drawer.vue";
 export default {
-  components: {
-    LyTreeDrawer,
-  },
+  name:"Analyse",
   data() {
     return {
       // nav
@@ -96,6 +94,7 @@ export default {
       MachineList: [],
     };
   },
+  components: {LyTreeDrawer},
   onLoad() {
     this.treeAjax();
   },

@@ -160,9 +160,9 @@ function getAQL(lotQty, level, aqlValue) {
 }
 
 export default {
+  name: "FillSpot",
   data() {
     return {
-      name: "FillSpot",
       navBar: {
         title: "抽检填单",
         isBack: true,

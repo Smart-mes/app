@@ -259,7 +259,15 @@
 				"navigationStyle": "custom"
 			}
 		}
-	],
+   ,{
+      "path" : "pages/equip/equip",
+      "style" :{
+          "navigationBarTitleText": "",
+           "navigationStyle": "custom"
+        }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",
 		"navigationBarTextStyle": "black",

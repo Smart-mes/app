@@ -46,6 +46,7 @@
 
 <script>
 export default {
+  name:"Quality",
   data() {
     return {
       navbar: {

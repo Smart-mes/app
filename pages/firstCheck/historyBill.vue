@@ -98,13 +98,10 @@
 
 <script>
 import { mapState } from "vuex";
-import uForm from "../../uview-ui/components/u-form/u-form.vue";
 import moment from "moment";
 
 export default {
-  components: {
-    uForm,
-  },
+  name:"historyBill",
   data() {
     return {
       name: "HistoryBill",
@@ -207,7 +204,6 @@ export default {
       background-color: #fff;
     }
   }
-
   .col-name {
     width: 140rpx;
   }

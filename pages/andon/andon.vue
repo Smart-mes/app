@@ -1,18 +1,6 @@
 <template>
   <view>
     <navBar :title="navBar.title" :is-back="navBar.isBack"/>
-      <!-- <view class="navbar-right" slot="navbarRight">
-        <view class="navbar-icon">
-          <u-icon
-            class="icon-item"
-            name="plus-circle"
-            color="#666"
-            size="45"
-            @click="addLink"
-          />
-        </view>
-      </view> -->
-    <!-- </navBar> -->
     <!-- navBar -->
     <view class="u-page">
       <view class="search-box">
@@ -89,6 +77,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
+  name:"Andon",
   data() {
     return {
       navBar: {

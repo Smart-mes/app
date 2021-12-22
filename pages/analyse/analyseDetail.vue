@@ -199,6 +199,7 @@ import config from "@/util/config";
 const url = config.oeeServerApi.baseURL;
 
 export default {
+  name:"AnalyseDetail",
   data() {
     return {
       // nav

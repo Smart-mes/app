@@ -107,7 +107,6 @@ import { mapState, mapMutations } from "vuex";
 import reviewTree from "./component/reviewTree.vue";
 export default {
   name: "Retrospect",
-  components: {reviewTree},
   data() {
     return {
       navbar: {
@@ -153,6 +152,7 @@ export default {
       timeVisible: false,
     };
   },
+  components: {reviewTree},
   computed: {
     ...mapState(["navTab"]),
     form() {

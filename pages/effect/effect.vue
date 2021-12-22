@@ -104,6 +104,7 @@
 
 <script>
 export default {
+  name:"Effect",
   data() {
     return {
       navbar: {

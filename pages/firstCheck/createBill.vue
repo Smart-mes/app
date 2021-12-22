@@ -23,6 +23,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  name:"CreateBill",
   data() {
     return {
       name:"CreateBill",

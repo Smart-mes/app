@@ -92,6 +92,7 @@
 
 <script>
 export default {
+  name:"Failure",
   data() {
     return {
       navbar: {

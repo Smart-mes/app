@@ -39,9 +39,9 @@
 
 <script>
 export default {
+   name: "TPMbill",
   data() {
-    return {
-      name: "TPMbill",
+    return {  
       navBar: {
         title: "保养填单",
         isBack: true,

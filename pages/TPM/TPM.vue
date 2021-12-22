@@ -68,9 +68,9 @@
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
+  name: "FirstCheck",
   data() {
-    return {
-      name: "FirstCheck",
+    return {   
       navBar: {
         title: "设备保养",
         isBack: true,

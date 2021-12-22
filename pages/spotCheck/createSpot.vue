@@ -23,9 +23,9 @@
 <script>
 import { mapState } from "vuex";
 export default {
+  name:"CreateSpot",
   data() {
-    return {
-      name:"CreateSpot",
+    return {     
       navBar: {
         title: "创建抽检任务",
         isBack: true,

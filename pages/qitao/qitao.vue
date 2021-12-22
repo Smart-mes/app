@@ -118,6 +118,7 @@
 // import { mapState } from "vuex";
 import {mapActions} from "vuex";
 export default {
+  name:"Qitao",
   data() {
     return {
       navbar: {

@@ -62,7 +62,6 @@ const state = {
 		{
 			icon: "qualityTest",
 			title: "抽检",
-			// url:'/pages/andon/addAndon'
 			url: "/pages/spotCheck/spotCheck"
 		},
 		{
@@ -131,7 +130,6 @@ const state = {
 	},
 	// 常用菜单
 	usuallyMenu: uni.getStorageSync('usuallyMenu')||[] ,
-  // farmList:[],
 	line:uni.getStorageSync('line')||[],
 	// 字典
 	BLineDict:null,
@@ -148,7 +146,7 @@ const mutations = {
 	logout(state) {
 		state.hasLogin = false;
 		state.userInfo = '';
-		state.farm=[];
+		state.line=[];
 		state.usuallyMenu = [];
 		uni.clearStorageSync();
 	},
@@ -157,19 +155,12 @@ const mutations = {
 		const { usuallyMenu } = state;
 		const index = usuallyMenu.length - 1;
 		usuallyMenu.splice(index, 0, payload);
-
-		uni.setStorage({
-			key: 'usuallyMenu',
-			data: usuallyMenu
-		});
+		uni.setStorage({key: 'usuallyMenu',data: usuallyMenu});
 	},
 	delete_usuallyMenu(i) {
 		const { usuallyMenu } = state
 		usuallyMenu.splice(i, 1);
-		uni.setStorage({
-			key: 'usuallyMenu',
-			data: usuallyMenu
-		});
+		uni.setStorage({key: 'usuallyMenu',data: usuallyMenu});
 	},
 	set_state(state, payload) {
 		if (payload && typeof (payload) === 'object') {
@@ -187,9 +178,9 @@ const mutations = {
 const actions = {
 	async getLine({ commit,state }){
 		const farmList = await http.request({url: "/api/BLine/CascadeOption",method: "GET"});
-		if(state.line.length===0){
-			const {label,value,children}=farmList[0]			
-			commit('set_line',[{label,value},{...children[0]}])
+		if(!state.line.length){
+			const {label,value,children}=farmList[0];			
+			commit('set_line',[{label,value},{...children[0]}]);
 		}
 		return farmList;				
 	},

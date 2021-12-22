@@ -63,6 +63,7 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 export default {
+  name:"My",
   data() {
     return {
       navbar: {

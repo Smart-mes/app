@@ -51,6 +51,7 @@
 
 <script>
 export default {
+  name:"FailureForm",
   data() {
     return {
       // 参数

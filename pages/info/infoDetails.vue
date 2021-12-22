@@ -25,6 +25,7 @@
 
 <script>
 export default {
+  name:"infoDetails",
   data() {
     return {
     navbar: {
