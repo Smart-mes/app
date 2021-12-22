@@ -262,11 +262,10 @@
    ,{
       "path" : "pages/equip/equip",
       "style" :{
-          "navigationBarTitleText": "",
+          "navigationBarTitleText": "设备工装",
            "navigationStyle": "custom"
-        }
-            
-        }
+        }          
+    }
     ],
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",
