@@ -43,16 +43,13 @@ html,body{
   .nav-subTitle{flex: auto;padding: 0;}
   .tips{ margin: 0;flex-basis: 360rpx;}
   /*  #ifndef H5*/
-      .tips{ flex-basis: 380rpx;}
+      .tips{ flex-basis: 400rpx;}
   /*   #endif */
 }
 
 .tips {
   display: flex;
-  // margin: 30upx 0 10upx 0;
-  // padding: 0 40upx;
   color: $font-gray;
-
   .tips-item {
     display: flex;
     align-items: center;

@@ -96,11 +96,13 @@ export default {
 // nag
 .info {
   .info-row {
+    overflow: hidden;
     position: relative;
     display: flex;
     flex-direction: row;
-    margin-bottom: 15rpx;
+    margin: 15rpx;
     padding: 25rpx;
+    border-radius: 10rpx;
     background-color: $white-color;
     // @include line(100rpx);
     .icon-col {
@@ -134,7 +136,7 @@ export default {
   }
   .info-text {
     margin-top: 15rpx;
-    width: 610rpx;
+    width: 500rpx;
     font-size: $font-26;
     color: $font-gray;
   }
