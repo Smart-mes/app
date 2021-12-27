@@ -56,11 +56,14 @@
         </template>
       </u-form-item>
     </u-form>
+    <!-- v-show="buttonShow" -->
+    <view v-show="buttonHide">
     <slot name="submit">
       <u-button type="primary" class="btn" :loading="loading" @click="getFormData()">
         提交
       </u-button>
     </slot>
+    </view>
     <u-select
       v-model="selectShow"
       mode="single-column"
@@ -101,6 +104,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    buttonHide:{
+     type: Boolean,
+      default: true,
+    }
   },
   data() {
     return {
@@ -176,9 +183,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .form {
-    /deep/.u-btn {
-      width: 100%;
-      padding: 0;
-    }
+    /deep/.u-btn {width: 100%;padding: 0;}
 }
 </style>

@@ -45,9 +45,7 @@ export default {
     },
     background: {
       type: Object,
-      default: () => {
-        backgroundColor: "#ffffff";
-      },
+      default: ()=> {return {backgroundColor:'#fff'}}
     },
     titleBold: {
       type: Boolean,

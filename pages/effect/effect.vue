@@ -126,21 +126,6 @@ export default {
         animation: true,
         timing: "easeOut",
         duration: 1000,
-        // axisLabel: {
-        //   distance: -60,
-        // },
-        // canvasId: "",
-        // color: [
-        //   "#1890FF",
-        //   "#91CB74",
-        //   "#FAC858",
-        //   "#EE6666",
-        //   "#73C0DE",
-        //   "#3CA272",
-        //   "#FC8452",
-        //   "#9A60B4",
-        //   "#ea7ccc",
-        // ],
         rotate: false,
         reserve: false,
         fontSize: 9,
@@ -226,6 +211,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+uni-page-body{height: 100%;}
 .effect {
   min-height: 100%;
   background: $white-color;

@@ -38,12 +38,17 @@
 							<view class="col col-progress">
 								<u-circle-progress class="progress" type="primary" width="132" border-width="6"
 									duration="1000" :percent="product.percent">
-									{{product.percent === 0? "未生产": product.percent === 100? "已完成": "生产中"}}
-									{{ product.percent }}%
+								   <text>
+										 	{{product.percent === 0? "未生产": product.percent === 100? "已完成": "生产中"}}{{ product.percent }}%
+									 </text>
 								</u-circle-progress>
 							</view>
 							<view class="col col-icon">
-								<u-icon :name="product.visible ? 'arrow-up-fill' : 'arrow-down-fill'" color="#ccc"	size="22" @tap="accordion(product)" />
+								<u-icon 
+								:name="product.visible ? 'arrow-up-fill' : 'arrow-down-fill'" 
+								color="#ccc"	
+								size="22"  
+								@click="product.visible=!product.visible" />
 							</view>
 						</view>
 					</view>
@@ -109,14 +114,17 @@
 		<!-- page -->
 		<popup ref="popup" @getWorkShop="getWorkShop" />
 		<!-- popup -->
-		<u-tabbar :icon-size="navTab.iconSize" :list="navTab.list" :mid-button="navTab.isMid"
-			:active-color="navTab.activeColor" :inactive-color="navTab.inactiveolor" />
+		<u-tabbar 
+		 :icon-size="navTab.iconSize" 
+		 :list="navTab.list" 
+		 :mid-button="navTab.isMid"
+		 :active-color="navTab.activeColor" 
+		 :inactive-color="navTab.inactiveolor" />
 	</view>
 </template>
 <script>
 	import {mapState} from "vuex";
 	import moment from "moment";
-
 	export default {
 		name: "Product",
 		data() {
@@ -153,11 +161,7 @@
 				this.productAjax();
 			},
 			productAjax() {
-				uni.showLoading({
-					title: "加载中",
-					mask: true,
-				});
-
+				uni.showLoading({title: "加载中",mask: true});
 				return this.$http
 					.request({
 						url: "/api/ProduceReport/wsCodeProduct",
@@ -166,15 +170,11 @@
 							wsCode: this.wsCode,
 						},
 					})
-					.then(({
-						productList
-					}) => {
+					.then(({productList}) => {
 						uni.hideLoading();
 						this.setProduct(productList);
 					})
-					.catch(() => {
-						uni.hideLoading();
-					});
+					.catch(() => uni.hideLoading());
 			},
 			setProduct(productList) {
 				this.productList = productList.map((product, i) => {
@@ -194,9 +194,9 @@
 					}
 				});
 			},
-			accordion(item) {
-				this.$set(item, "visible", !item.visible);
-			},
+			// accordion(item) {
+			// 	this.$set(item, "visible", !item.visible);
+			// },
 		},
 		onLoad() {},
 		onPullDownRefresh() {

@@ -102,7 +102,6 @@ function getAQLCode(lotQty, level) {
 
   return Object.entries(codeMap).filter(([k, v]) => k <= lotQty)[0][1][lvlIdx];
 }
-
 function getAQL(lotQty, level, aqlValue) {
   lotQty = +lotQty;
   aqlValue = +aqlValue;
@@ -158,12 +157,10 @@ function getAQL(lotQty, level, aqlValue) {
     re: aqlMap[code].ac[index] + 1,
   };
 }
-
 export default {
   name:"FillBill",
   data() {
     return {
-      name: "FillBill",
       navBar: {
         title: "首检填单",
         isBack: true,

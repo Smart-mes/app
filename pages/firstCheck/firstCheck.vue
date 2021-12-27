@@ -1,9 +1,16 @@
 <template>
   <view>
-    <navBar :title="navBar.title" :is-back="navBar.isBack" />
+    <navBar :title="navBar.title" :is-back="navBar.isBack">
+      <view class="navbar-right" slot="navbarRight">
+        <view class="navbar-info">
+          <view class="info-item" @click="createLink">添加</view>
+          <view class="info-item" @click="historyLink">历史</view>
+        </view>
+      </view>
+    </navBar>
     <!-- navBar -->
     <view class="u-page">
-      <view class="search-box">
+      <!-- <view class="search-box">
         <view class="btn">
           <u-row gutter="20">
             <u-col span="6">
@@ -14,7 +21,7 @@
             </u-col>
           </u-row>
         </view>
-      </view>
+      </view> -->
       <!-- 搜索 -->
       <view class="bill">
         <u-section
@@ -46,9 +53,9 @@
                   plain
                   :custom-style="customStyle"
                   disabled
-                  >
+                >
                   填报
-                  </u-button>
+                </u-button>
               </view>
             </view>
           </block>

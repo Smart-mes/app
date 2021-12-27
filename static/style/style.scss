@@ -23,8 +23,16 @@ html,body{
 }
 .navbar-right {
   .navbar-icon {
+    display: flex;
     .icon-item {
       margin-right: 25rpx;
+    }
+  }
+  .navbar-info{
+    display: flex;
+    .info-item{   
+      margin-right: 25rpx;
+      color:$font-gray;
     }
   }
 }
@@ -99,10 +107,7 @@ html,body{
 
   .btn {
     margin-top: 20rpx;
-    /deep/.u-btn {
-      width: 100%;
-      padding: 0;
-    }
+    /deep/.u-btn {width: 100%;padding: 0;}
   }
 }
 //chart 

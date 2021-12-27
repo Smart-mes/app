@@ -174,9 +174,9 @@
                       <text>状态：{{ device.stopreasonName || "无" }}</text>
                     </view>
                   </view>
-                  <view class="device-item-trouble ellipsis">{{
-                    device.troubleDesc
-                  }}</view>
+                  <view class="device-item-trouble ellipsis">
+                    {{ device.troubleDesc}}
+                  </view>
                   <view class="device-item-progress">
                     <view class="progress-bar">
                       <u-line-progress

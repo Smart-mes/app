@@ -104,7 +104,6 @@ export default {
   name:"historyBill",
   data() {
     return {
-      name: "HistoryBill",
       navBar: {
         title: "首检历史单据",
         isBack: true,

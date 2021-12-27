@@ -27,7 +27,7 @@ export default {
   data() {
     return {     
       navBar: {
-        title: "创建抽检任务",
+        title: "添加抽检任务",
         isBack: true,
       },
       flowId:'',
@@ -106,22 +106,20 @@ export default {
     init() {
       this.formData.lineCode=this.line[1].label;
       this.formSeletData.lineCode=this.line[1].value;
-      this.orderAjax()
-        .then(res=>{
-          if(res.length){
-            this.formData.orderNo=res[0].orderNo;
-            this.flowId=res[0].flowId
-          }
-        })
-        .then(()=>{
-           this.pidAjax().then(res=>this.formList[2].optionList=res);
-        });
+      this.orderAjax().then(()=>this.pidAjax());
+        
     },
     orderAjax(){
      return this.$http.request({
         url: "/api/POrderInLine",
         method: "GET",
         data: { lineCode: this.line[1].value},
+      })
+      .then(res=>{
+          if(res.length){
+            this.formData.orderNo=res[0].orderNo;
+            this.flowId=res[0].flowId
+          }
       });
     },
     pidAjax(){
@@ -129,7 +127,10 @@ export default {
         url: "/api/BProcessFlowDetail/QualityProces",
         method: "GET",
         data: {type:this.billCode,flowId:this.flowId},
-      });      
+      })
+      .then(
+        res=>this.formList[2].optionList=res
+      );     
     },
     // form
     selectChange(propsType, [{ value, label }]) {

@@ -26,9 +26,8 @@ export default {
   name:"CreateBill",
   data() {
     return {
-      name:"CreateBill",
       navBar: {
-        title: "创建首检任务",
+        title: "添加首检任务",
         isBack: true,
       },
       flowId:'',
@@ -107,30 +106,29 @@ export default {
     init() {
       this.formData.lineCode=this.line[1].label;
       this.formSeletData.lineCode=this.line[1].value;
-      this.orderAjax()
-        .then(res=>{
-          if(res.length){
-            this.formData.orderNo=res[0].orderNo;
-            this.flowId=res[0].flowId
-          }
-        })
-        .then(()=>{
-           this.pidAjax().then(res=>this.formList[2].optionList=res);
-        });
+      this.orderAjax().then(()=>this.pidAjax());
+       
     },
     orderAjax(){
      return this.$http.request({
         url: "/api/POrderInLine",
         method: "GET",
         data: { lineCode: this.line[1].value},
-      });
+      })
+      .then(res=>{
+          if(res.length){
+            this.formData.orderNo=res[0].orderNo;
+            this.flowId=res[0].flowId
+          }
+      })
     },
     pidAjax(){
      return this.$http.request({
         url: "/api/BProcessFlowDetail/QualityProces",
         method: "GET",
         data: {type:this.billCode,flowId:this.flowId},
-      });      
+      })
+       .then(res=>this.formList[2].optionList=res);      
     },
     // form
     selectChange(propsType, [{ value, label }]) {

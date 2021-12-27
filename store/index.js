@@ -78,6 +78,11 @@ const state = {
 			icon: "maintain",
 			title: "设备保养",
 			url: "/pages/TPM/TPM"
+		},
+		{
+			icon: "equip",
+			title: "设备工装",
+			url: "/pages/equip/equip"
 		}
 	],
 	// 菜单navTab

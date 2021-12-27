@@ -147,20 +147,6 @@
 				"navigationBarTextStyle": "black"
 			}
 		},
-		// {
-		// 	"path": "pages/qualityTest/qualityTest",
-		// 	"style": {
-		// 		"navigationBarTitleText": "质检",
-		// 		"navigationStyle": "custom"
-		// 	}
-		// },
-		// {
-		// 	"path": "pages/qualityTest/qualityTestDetail",
-		// 	"style": {
-		// 		"navigationBarTitleText": "质检详情",
-		// 		"navigationStyle": "custom"
-		// 	}
-		// },
 		{
 			"path": "pages/firstCheck/firstCheck",
 			"style": {
