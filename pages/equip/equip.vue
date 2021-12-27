@@ -341,7 +341,7 @@ export default {
           method: "POST",
           data: parame,
         })
-        .then((res) => {
+        .then(() => {
           this.$refs.uToast.show({ title: "删除成功", type: "success" });
         })
         .catch(() =>

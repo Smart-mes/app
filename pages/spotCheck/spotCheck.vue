@@ -119,9 +119,7 @@ export default {
             return item;
           });
         })
-        .catch(
-          () => uni.hideLoading()
-        );
+        .catch(() => uni.hideLoading());
     },
     createLink() {
       uni.navigateTo({ url: "/pages/spotCheck/createSpot" });

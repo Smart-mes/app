@@ -172,7 +172,7 @@ export default {
         })
         .catch(() =>{
            this.btnLoading=false;
-           this.$refs.uToast.show({ title: "提交失败", type: "error" })
+           this.$refs.uToast.show({ title: "提交失败", type: "error" });
         });
     }, 
   },
