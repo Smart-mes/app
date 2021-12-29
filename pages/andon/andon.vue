@@ -4,7 +4,7 @@
       <view class="navbar-right" slot="navbarRight">
         <view class="navbar-info">
           <view class="info-item" @click="createLink">登记</view>
-          <view class="info-item" @click="historyLink">历史</view>
+          <!-- <view class="info-item" @click="historyLink">历史</view> -->
         </view>     
       </view>
     </navBar>  
@@ -106,8 +106,7 @@ export default {
         this.DictionaryAjax(),
         this.eventDictAjax()
       ])
-    },
-    
+    },   
     DictionaryAjax(){
       return  this.getDict({url:"/api/Dictionary",data:{keys:"BLine|BStationList|BProduct|SEmployee"}})
           .then(({ BLine,BStationList,BProduct,SEmployee }) => {
@@ -151,7 +150,7 @@ export default {
       uni.navigateTo({ url: "/pages/andon/addAndon" });
     },
     historyLink(){
-       uni.navigateTo({ url: "/pages/andon/addAndon" });
+       uni.navigateTo({ url: "/pages/andon/andonHistory"});
     },
     colseLink(id){
       uni.navigateTo({url: `/pages/andon/closeAndon?id=${id}`});
