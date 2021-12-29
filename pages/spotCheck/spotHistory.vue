@@ -27,7 +27,7 @@
         <view class="btn">
           <u-row gutter="20">
             <u-col span="6">
-              <u-button  @click="reset">重置</u-button>
+              <u-button @click="reset">重置</u-button>
             </u-col>
             <u-col span="6">
               <u-button type="primary" @click="BillTaskAjax">搜索</u-button>
@@ -37,12 +37,14 @@
       </view>
       <!-- 搜索 -->
       <view class="bill">
-        <u-section
-          title="单据列表"
-          font-size="30"
-          :show-line="false"
-          :right="false"
-        />
+        <view class="title">
+          <u-section
+            title="单据列表"
+            font-size="30"
+            :show-line="false"
+            :right="false"
+          />
+        </view>
         <view class="task-list">
           <block v-for="billTask in billTaskList" :key="billTask.taskCode">
             <view class="task-item" @click="billLink(billTask.taskCode)">
@@ -66,10 +68,9 @@
                   plain
                   :custom-style="customStyle"
                   disabled
-                  >
-								  查看
-									</u-button
                 >
+                  查看
+                </u-button>
               </view>
             </view>
           </block>
@@ -88,7 +89,7 @@
     <u-calendar
       v-model="timeVisible"
       mode="medium"
-      max-date="2050-01-01" 
+      max-date="2050-01-01"
       @change="timeChange"
     />
     <!--calendar -->
@@ -103,7 +104,7 @@ import moment from "moment";
 export default {
   name: "HistoryBill",
   data() {
-    return {  
+    return {
       navBar: {
         title: "抽检历史单据",
         isBack: true,
@@ -131,10 +132,9 @@ export default {
     this.BillTaskAjax();
   },
   methods: {
-
     BillTaskAjax() {
       if (!this.form.startDate || !this.form.endDate) {
-        return void this.$refs.uToast.show({ title: "请输入日期再查询"});
+        return void this.$refs.uToast.show({ title: "请输入日期再查询" });
       }
       uni.showLoading({ title: "加载中", mask: true });
       return this.$http
@@ -174,7 +174,7 @@ export default {
       this.form.startDate = startDate;
       this.form.endDate = endDate;
     },
-		billLink(taskCode) {
+    billLink(taskCode) {
       uni.navigateTo({
         url: `/pages/spotCheck/fillSpot?taskCode=${taskCode}&type='preview'`,
       });
@@ -184,32 +184,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.bill {
-  margin: 15rpx 15rpx;
-  padding: 30rpx;
-  border-radius: 10rpx;
-  background-color: $white-color;
-}
-
-.task-list {
-  margin-top: 20rpx;
-  .task-icon {
-    margin-right: 20rpx;
-  }
-  .task-item {
-    margin: 0;
-    padding: 20rpx 10rpx;
-    border-radius: 0;
-    border-bottom: 1px dashed $line-dark-color;
-    &:active {
-      background-color: #fff;
-    }
-  }
-  .col-name {
-    width: 140rpx;
-  }
-  .task-right {
-    padding-left: 0;
-  }
-}
 </style>

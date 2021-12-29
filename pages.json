@@ -79,7 +79,8 @@
 			"path": "pages/info/info",
 			"style": {
 				"navigationBarTitleText": "我的消息",
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -162,7 +163,7 @@
 			}
 		},
 		{
-			"path": "pages/firstCheck/historyBill",
+			"path": "pages/firstCheck/firstCheckHistory",
 			"style": {
 				"navigationBarTitleText": "首检历史单据",
 				"navigationStyle": "custom"
@@ -190,7 +191,7 @@
 			}
 		},
 		{
-			"path": "pages/spotCheck/historySpot",
+			"path": "pages/spotCheck/spotHistory",
 			"style": {
 				"navigationBarTitleText": "抽检历史单据",
 				"navigationStyle": "custom"
@@ -239,7 +240,7 @@
 			}
 		},
 		{
-			"path": "pages/TPM/historyTPM",
+			"path": "pages/TPM/TPMhistory",
 			"style": {
 				"navigationBarTitleText": "保养历史单据",
 				"navigationStyle": "custom"
@@ -288,94 +289,94 @@
 				"text": "我的"
 			}
 		]
-	},
-	"condition": {
-		"current": 0,
-		"list": [
-			{
-				"name": "firstCheck",
-				"path": "pages/firstCheck/firstCheck"
-			},
-			{
-				"name": "addAndon",
-				"path": "pages/andon/addAndon"
-			}
-			// {
-			// 	"name": "index",
-			// 	"path": "pages/index/index"
-			// },
-			// {
-			// 	"name": "product",
-			// 	"path": "pages/product/product"
-			// },
-			// {
-			// 	"name": "device",
-			// 	"path": "pages/device/device"
-			// },
-			// {
-			// 	"name": "failure",
-			// 	"path": "pages/device/failure"
-			// },
-			// {
-			// 	"name": "failureForm",
-			// 	"path": "pages/device/failureForm"
-			// },
-			// {
-			// 	"name": "retrospect",
-			// 	"path": "pages/retrospect/retrospect"
-			// },
-			// {
-			// 	"name": "effect",
-			// 	"path": "pages/effect/effect"
-			// },
-			// {
-			// 	"name": "quality",
-			// 	"path": "pages/quality/quality"
-			// },
-			// {
-			// 	"name": "info",
-			// 	"path": "pages/info/info"
-			// },
-			// {
-			// 	"name": "infoDetails",
-			// 	"path": "pages/info/infoDetails"
-			// },
-			// {
-			// 	"name": "analyse",
-			// 	"path": "pages/analyse/analyse"
-			// },
-			// {
-			// 	"name": "analyseDetail",
-			// 	"path": "pages/analyse/analyseDetail"
-			// },
-			// {
-			// 	"name": "my",
-			// 	"path": "pages/my/my"
-			// },
-			// {
-			// 	"name": "addMeaus",
-			// 	"path": "pages/index/addMenu"
-			// },
-			// {
-			// 	"name": "scanCode",
-			// 	"path": "pages/scanCode/scanCode"
-			// },
-			// {
-			// 	"name":"gongGe",
-			// 	"path" : "pages/meaus/meaus"
-			// },
-			// {
-			// 	"name": "passRate",
-			// 	"path": "pages/passRate/passRate"
-			// },
-			// {
-			// 	"name": "UPH",
-			// 	"path" : "pages/UPH/UPH"
-			// },
-			// {
-			// 	"name": "qitao", 
-			// 	"path" : "pages/qitao/qitao"
-			// }
-		]
 	}
+	// "condition": {
+	// 	"current": 0,
+	// 	"list": [
+	// 		{
+	// 			"name": "firstCheck",
+	// 			"path": "pages/firstCheck/firstCheck"
+	// 		},
+	// 		{
+	// 			"name": "addAndon",
+	// 			"path": "pages/andon/addAndon"
+	// 		}
+	// 		// {
+	// 		// 	"name": "index",
+	// 		// 	"path": "pages/index/index"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "product",
+	// 		// 	"path": "pages/product/product"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "device",
+	// 		// 	"path": "pages/device/device"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "failure",
+	// 		// 	"path": "pages/device/failure"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "failureForm",
+	// 		// 	"path": "pages/device/failureForm"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "retrospect",
+	// 		// 	"path": "pages/retrospect/retrospect"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "effect",
+	// 		// 	"path": "pages/effect/effect"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "quality",
+	// 		// 	"path": "pages/quality/quality"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "info",
+	// 		// 	"path": "pages/info/info"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "infoDetails",
+	// 		// 	"path": "pages/info/infoDetails"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "analyse",
+	// 		// 	"path": "pages/analyse/analyse"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "analyseDetail",
+	// 		// 	"path": "pages/analyse/analyseDetail"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "my",
+	// 		// 	"path": "pages/my/my"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "addMeaus",
+	// 		// 	"path": "pages/index/addMenu"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "scanCode",
+	// 		// 	"path": "pages/scanCode/scanCode"
+	// 		// },
+	// 		// {
+	// 		// 	"name":"gongGe",
+	// 		// 	"path" : "pages/meaus/meaus"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "passRate",
+	// 		// 	"path": "pages/passRate/passRate"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "UPH",
+	// 		// 	"path" : "pages/UPH/UPH"
+	// 		// },
+	// 		// {
+	// 		// 	"name": "qitao", 
+	// 		// 	"path" : "pages/qitao/qitao"
+	// 		// }
+	// 	]
+	// }
 }

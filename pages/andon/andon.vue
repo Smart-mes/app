@@ -1,6 +1,6 @@
 <template>
   <view>
-    <navBar :title="navBar.title" :is-back="navBar.isBack">
+    <navBar :title="navBar.title" :is-back="navBar.isBack"  title-bold>
       <view class="navbar-right" slot="navbarRight">
         <view class="navbar-info">
           <view class="info-item" @click="createLink">登记</view>
@@ -10,18 +10,6 @@
     </navBar>  
     <!-- navBar -->
     <view class="u-page">
-      <!-- <view class="search-box">
-        <view class="btn">
-          <u-row gutter="20">
-            <u-col span="6">
-              <u-button @click="createLink">登记</u-button>
-            </u-col>
-            <u-col span="6">
-              <u-button type="primary" @click="historyLink">历史</u-button>
-            </u-col>
-          </u-row>
-        </view>
-      </view> -->
       <!-- 搜索 -->      
       <view class="develop-list">
         <view
@@ -89,7 +77,7 @@ export default {
     return {
       navBar: {
         title: "安灯管理",
-        isBack: true,
+        isBack: true,        
       },
       form: {
         desc: "",
@@ -97,9 +85,9 @@ export default {
       andonList: [],
       show: false,
       // 字典
-      BLineDict: {}, //产线
-      BStationDict: {}, //工位
-      BProductDict: {}, //产品
+      BLineDict: {},     //产线
+      BStationDict: {},  //工位
+      BProductDict: {},  //产品
       SEmployeeDict: {}, //员工
       eventDict: {},
     };
@@ -115,16 +103,25 @@ export default {
     ...mapActions(["getDict"]),
     DictAjax() {
       return Promise.all([ 
-          this.getDict({url:"/api/Dictionary",parame:{keys:"BLine|BStationList|BProduct|SEmployee"}})
+        this.DictionaryAjax(),
+        this.eventDictAjax()
+      ])
+    },
+    
+    DictionaryAjax(){
+      return  this.getDict({url:"/api/Dictionary",data:{keys:"BLine|BStationList|BProduct|SEmployee"}})
           .then(({ BLine,BStationList,BProduct,SEmployee }) => {
             this.BLineDict = BLine;
             this.BStationDict = BStationList;
             this.BProductDict = BProduct;
             this.SEmployeeDict = SEmployee;
-          }),
-          this.getDict({url:"/api/SDataTranslation",parame:{ searchText: "P_AndonList" }})
-          .then((res) => res.map( ({ value, label }) => this.eventDict[value] = label.toString())),
-      ])
+          });
+    },
+    eventDictAjax(){
+      return this.getDict({url:"/api/SDataTranslation",data:{ searchText: "P_AndonList" }})
+          .then(res => 
+          res.map( ({ value, label }) => this.eventDict[value] = label.toString())
+          );
     },
     // //获取数据
     andonAjax() {
@@ -157,9 +154,7 @@ export default {
        uni.navigateTo({ url: "/pages/andon/addAndon" });
     },
     colseLink(id){
-      uni.navigateTo({
-        url: `/pages/andon/closeAndon?id=${id}`,
-      });
+      uni.navigateTo({url: `/pages/andon/closeAndon?id=${id}`});
     }
   },
 };

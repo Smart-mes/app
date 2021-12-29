@@ -75,7 +75,7 @@ export default {
        });
     },
 		getBLineDict(){
-		  return this.getDict({url:"/api/Dictionary",parame:{keys:"BLine"}})
+		  return this.getDict({url:"/api/Dictionary",data:{keys:"BLine"}})
         .then(({ BLine }) => this.BLineDict = BLine);
 		},
     getFormData(formData) {

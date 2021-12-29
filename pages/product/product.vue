@@ -148,6 +148,10 @@
 		computed: {
 			...mapState(["navTab"]),
 		},
+	  onLoad() {},
+		onPullDownRefresh() {
+			this.productAjax().then(() => uni.stopPullDownRefresh());
+		},
 		methods: {
 			handleMenu() {
 				this.$refs.popup.visible = true;
@@ -197,13 +201,7 @@
 			// accordion(item) {
 			// 	this.$set(item, "visible", !item.visible);
 			// },
-		},
-		onLoad() {},
-		onPullDownRefresh() {
-			this.productAjax().then(() => {
-				uni.stopPullDownRefresh();
-			});
-		},
+		}
 	};
 </script>
 <style lang="scss" scoped>

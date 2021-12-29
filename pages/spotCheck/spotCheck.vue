@@ -1,6 +1,6 @@
 <template>
   <view>
-    <navBar :title="navBar.title" :is-back="navBar.isBack">
+    <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold>
       <view class="navbar-right" slot="navbarRight">
         <view class="navbar-info">
           <view class="info-item" @click="createLink">添加</view>
@@ -10,26 +10,16 @@
     </navBar>
     <!-- navBar -->
     <view class="u-page">
-      <!-- <view class="search-box">
-        <view class="btn">
-          <u-row gutter="20">
-            <u-col span="6">
-              <u-button @click="createLink">创建任务</u-button>
-            </u-col>
-            <u-col span="6">
-              <u-button type="primary" @click="historyLink">历史单据</u-button>
-            </u-col>
-          </u-row>
-        </view>
-      </view> -->
       <!-- 搜索 -->
       <view class="bill">
-        <u-section
-          title="单据列表"
-          font-size="30"
-          :show-line="false"
-          :right="false"
-        />
+        <view class="title">
+          <u-section
+            title="单据列表"
+            font-size="30"
+            :show-line="false"
+            :right="false"
+          />
+        </view>
         <view class="task-list">
           <block v-for="billTask in billTaskList" :key="billTask.taskCode">
             <view class="task-item" @click="billLink(billTask.taskCode)">
@@ -114,7 +104,7 @@ export default {
         })
         .then((res) => {
           uni.hideLoading();
-          this.billTaskList = res.map(item => {
+          this.billTaskList = res.map((item) => {
             item.headerData = JSON.parse(item.headerData);
             return item;
           });
@@ -125,7 +115,7 @@ export default {
       uni.navigateTo({ url: "/pages/spotCheck/createSpot" });
     },
     historyLink() {
-      uni.navigateTo({ url: "/pages/spotCheck/historySpot" });
+      uni.navigateTo({ url: "/pages/spotCheck/spotHistory" });
     },
     billLink(taskCode) {
       uni.navigateTo({ url: `/pages/spotCheck/fillSpot?taskCode=${taskCode}` });
@@ -135,31 +125,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.bill {
-  margin: 15rpx 15rpx;
-  padding: 30rpx;
-  border-radius: 10rpx;
-  background-color: $white-color;
-}
-.task-list {
-  margin-top: 20rpx;
-  .task-icon {
-    margin-right: 20rpx;
-  }
-  .task-item {
-    margin: 0;
-    padding: 20rpx 10rpx;
-    border-radius: 0;
-    border-bottom: 1px dashed $line-dark-color;
-    &:active {
-      background-color: #fff;
-    }
-  }
-  .col-name {
-    width: 140rpx;
-  }
-  .task-right {
-    padding-left: 0;
-  }
-}
 </style>

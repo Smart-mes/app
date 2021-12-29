@@ -1,22 +1,21 @@
 <template>
-  <view>
-    <u-navbar
-      :title="title"
-      :is-back="isBack"
-      :title-color="color"
-      :title-size="size"
-      :height="height"
-      :background="background"
-      :title-bold="titleBold"
-    >
-      <view slot="left">
-				<slot name="navbarLeft"></slot>
-			</view>
-      <view slot="right">
-        <slot name="navbarRight"></slot>
-      </view>
-    </u-navbar>
-  </view>
+  <u-navbar
+    :title="title"
+    :is-back="isBack"
+    :title-color="color"
+    :title-size="size"
+    :height="height"
+    :background="background"
+    :title-bold="titleBold"
+    :borderBottom="borderBottom"
+  >
+    <view slot="left">
+      <slot name="navbarLeft"></slot>
+    </view>
+    <view slot="right">
+      <slot name="navbarRight"></slot>
+    </view>
+  </u-navbar>
 </template>
 
 <script>
@@ -45,11 +44,17 @@ export default {
     },
     background: {
       type: Object,
-      default: ()=> {return {backgroundColor:'#fff'}}
+      default: () => {
+        return { backgroundColor: "#fff" };
+      },
     },
     titleBold: {
       type: Boolean,
       default: false,
+    },
+    borderBottom: {
+      type: Boolean,
+      default: true,
     },
   },
 };

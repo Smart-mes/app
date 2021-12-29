@@ -96,7 +96,6 @@
 		},
 	}
 </script>
-
 <style lang="scss" scoped>
 	.login-box {
 		box-sizing: border-box;

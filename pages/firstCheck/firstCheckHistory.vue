@@ -37,12 +37,14 @@
       </view>
       <!-- 搜索 -->
       <view class="bill">
+        <view class="title">
         <u-section
           title="单据列表"
           font-size="30"
           :show-line="false"
           :right="false"
         />
+        </view>
         <view class="task-list">
           <block v-for="billTask in billTaskList" :key="billTask.taskCode">
             <view class="task-item" @click="billLink(billTask.taskCode)">
@@ -68,7 +70,8 @@
                   disabled
                   >
 								  查看
-									</u-button>
+									</u-button
+                >
               </view>
             </view>
           </block>
@@ -100,15 +103,15 @@ import { mapState } from "vuex";
 import moment from "moment";
 
 export default {
-  name: "HistoryTPM",
+  name:"historyBill",
   data() {
-    return {  
+    return {
       navBar: {
-        title: "保养历史单据",
+        title: "首检历史单据",
         isBack: true,
       },
       // form
-      billCode: "EM",
+      billCode: "FAI",
       form: {
         startDate: "",
         endDate: "",
@@ -134,7 +137,7 @@ export default {
       if (!this.form.startDate || !this.form.endDate) {
         return void this.$refs.uToast.show({ title: "请输入日期再查询"});
       }
-
+      uni.showLoading({ title: "加载中", mask: true });
       return this.$http
         .request({
           url: "/api/BillTask",
@@ -142,6 +145,8 @@ export default {
           data: {
             billCode: this.billCode,
             state: 2,
+            prop: "lineCode",
+            value: this.line[1].value,
             startDay: this.form.startDate,
             endDay: this.form.endDate,
           },
@@ -171,7 +176,7 @@ export default {
     },
 		billLink(taskCode) {
       uni.navigateTo({
-        url: `/pages/TPM/TPMbill?taskCode=${taskCode}&type='preview'`,
+        url: `/pages/firstCheck/fillBill?taskCode=${taskCode}&type='preview'`,
       });
     },
   },
@@ -179,32 +184,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.bill {
-  margin: 15rpx 15rpx;
-  padding: 30rpx;
-  border-radius: 10rpx;
-  background-color: $white-color;
-}
 
-.task-list {
-  margin-top: 20rpx;
-  .task-icon {
-    margin-right: 20rpx;
-  }
-  .task-item {
-    margin: 0;
-    padding: 20rpx 10rpx;
-    border-radius: 0;
-    border-bottom: 1px dashed $line-dark-color;
-    &:active {
-      background-color: #fff;
-    }
-  }
-  .col-name {
-    width: 140rpx;
-  }
-  .task-right {
-    padding-left: 0;
-  }
-}
 </style>

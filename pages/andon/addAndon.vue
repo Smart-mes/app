@@ -160,7 +160,7 @@ export default {
       return Promise.all([
         this.getDict({
           url: "/api/Dictionary",
-          parame: { keys: "BProduct|BStationList" },
+          data: { keys: "BProduct|BStationList" },
         }).then(dicts => {
           this.BProductDict = dicts.BProduct
           this.BStationDict = dicts.BStationList
@@ -168,7 +168,7 @@ export default {
 
         this.getDict({
           url: "/api/SDataTranslation",
-          parame: { searchText: "P_AndonList" },
+          data: { searchText: "P_AndonList" },
         }).then((res) => {
           res.filter(x => x.fieldName === 'event').forEach(({ value, label }) =>
             this.formList[4].optionList.push({ value, label })

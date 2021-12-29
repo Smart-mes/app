@@ -1,24 +1,21 @@
 <template>
   <view class="info-wrap">
-    <u-navbar
-      :title="navbar.title"
-      :is-back="navbar.isBack"
-      :title-color="navbar.color"
-      :title-size="navbar.size"
-      :height="navbar.height"
-      :background="navbar.background"
-      title-bold
-    >
-      <view class="navbar-right" slot="right">
+    <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold>
+      <view class="navbar-right" slot="navbarRight">
         <view class="navbar-icon">
-          <u-badge size="mini" count="20" :offset="[-17, 20]" type="error" />
+          <u-badge
+            size="mini"
+            :count="unreadCount"
+            :offset="[-17, 20]"
+            type="error"
+          />
           <u-icon class="icon-item" name="chat" color="#333" size="45" />
         </view>
       </view>
-    </u-navbar>
-    <!-- nav -->
+    </navBar>
+    <!-- navbar -->
     <view class="info">
-      <view class="info-row">
+      <view class="info-row" v-for="notify in newNotifyList" :key="notify.id">
         <view class="icon-col">
           <u-badge
             size="small"
@@ -28,30 +25,12 @@
           />
           <u-icon class="info-icon" name="volume-up" color="#fff" size="50" />
         </view>
-        <view class="text-col" @tap="linkInfo('系统自动取消订单提醒')">
+        <view class="text-col" @tap="linkInfo(notify.id)">
           <view class="text-col-title">
-            <text class="info-name">系统自动取消订单提醒</text>
-            <text class="info-time">2018-01-23</text>
+            <text class="info-name">{{notify.title}}</text>
+            <text class="info-time">{{notify.time}}</text>
           </view>
-          <view class="info-text ellipsis"
-            >这里说的图片图标，指的是小图标，起作用定位为"icon"图标作用，而非大尺寸的图片展示场景</view
-          >
-        </view>
-      </view>
-    </view>
-    <view class="info" v-for="i of 5" :key="i">
-      <view class="info-row">
-        <view class="icon-col">
-          <u-icon class="info-icon" name="volume-up" color="#fff" size="50" />
-        </view>
-        <view class="text-col" @tap="linkInfo('系统自动取消订单提醒')">
-          <view class="text-col-title">
-            <text class="info-name">系统自动取消订单提醒</text>
-            <text class="info-time">2018-01-23</text>
-          </view>
-          <view class="info-text ellipsis"
-            >这里说的图片图标，指的是小图标，起作用定位为"icon"图标作用，而非大尺寸的图片展示场景</view
-          >
+          <view class="info-text ellipsis">{{notify.content}}</view>
         </view>
       </view>
     </view>
@@ -59,37 +38,64 @@
   </view>
 </template>
 <script>
+import { mapState } from "vuex";
+import moment from "moment";
 export default {
   name: "Info",
   data() {
     return {
-      navbar: {
+      navBar: {
         title: "我的消息",
         isBack: true,
-        color: "#333",
-        size: "36",
-        height: "50",
-        background: {
-          backgroundColor: "#ffffff",
-        },
       },
+      notifyList:[],
     };
   },
+  computed: {
+    ...mapState(["unreadCount","userInfo"]),
+    newNotifyList(){
+      return this.notifyList.map(notify=>{
+        notify.time=moment(notify.createdAt).format('YYYY-MM-DD HH:mm:ss')
+        return notify;
+      })
+    }
+  },
+  onShow(){
+    this.notifyAjax();
+  },
+  onPullDownRefresh() {
+			this.notifyAjax().then(() => uni.stopPullDownRefresh());
+	},
   methods: {
-    linkInfo(title) {
+    linkInfo(id) {
       uni.navigateTo({
-        url: `/pages/info/infoDetails?title=${title}`,
+        url: `/pages/info/infoDetails?id=${id}`,
       });
     },
-  },
+    notifyAjax() {
+      	uni.showLoading({title: "加载中",mask: true});
+        return this.$http
+        .request({
+          url: "/api/SNotify/UserNotify",
+          method: "GET",
+          data: {
+            empCode: this.userInfo.empCode,
+            state:0
+          },
+        })
+        .then((res) => {
+           uni.hideLoading();
+           this.notifyList=res;
+        })
+        .catch(() => uni.hideLoading());
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
 .info-wrap {
   min-height: 100%;
-  // background-color: $white-color;
 }
-
 .navbar-icon {
   position: relative;
 }
@@ -104,7 +110,6 @@ export default {
     padding: 25rpx;
     border-radius: 10rpx;
     background-color: $white-color;
-    // @include line(100rpx);
     .icon-col {
       position: relative;
       margin-right: 25rpx;

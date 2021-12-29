@@ -147,3 +147,27 @@ html,body{
     .info{font-size: $font-26;}
   }
 }
+// 单据列表
+.bill {
+  .title {
+    margin: 20rpx 20rpx 10rpx 20rpx;
+  }
+  .task-list {
+    margin-top: 20rpx;
+    .task-icon {
+      margin-right: 20rpx;
+    }
+    .task-item {
+      padding: 30rpx;
+      &:active {
+        background-color: #fff;
+      }
+    }
+    .col-name {
+      width: 140rpx;
+    }
+    .task-right {
+      padding-left: 0;
+    }
+  }
+}

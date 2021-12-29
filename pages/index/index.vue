@@ -5,8 +5,8 @@
     </u-navbar>
     <!-- nav -->
     <view class="u-page">
-      <view class="farm" v-if="line.length" @click="selectShow=!selectShow">
-        {{line[0].label}}-{{line[1].label}}     
+      <view class="farm" v-if="line.length" @click="selectShow = !selectShow">
+        {{ line[0].label }}-{{ line[1].label }}
       </view>
       <view class="ad">
         <view class="banner">
@@ -71,7 +71,7 @@
         </view>
         <view class="info-list">
           <u-cell-group :border="false">
-            <u-cell-item title="你的未读消息">
+            <u-cell-item title="你的未读消息" @click="unreadLink">
               <u-icon
                 slot="icon"
                 name="circleDot"
@@ -80,7 +80,7 @@
                 color="#999"
               />
               <text class="info-time">一分钟前</text>
-              <u-badge count="99+" :absolute="false" />
+              <u-badge :count="unreadCount" :absolute="false" />
             </u-cell-item>
             <u-cell-item title="你的未读任务" :border-bottom="false">
               <u-icon
@@ -116,13 +116,11 @@
   </view>
 </template>
 <script>
-import { mapState, mapMutations,mapActions} from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 import juNavigatorGrid from "@/components/ju-navigator-grid/ju-navigator-grid";
 export default {
   name: "Index",
-  components: {
-    juNavigatorGrid,
-  },
+  components: { juNavigatorGrid },
   data() {
     return {
       bannerUrl: "/static/images/banner/banner.jpg",
@@ -139,32 +137,37 @@ export default {
         dotColor: "rgba(204,204,204,.6)",
         activeColor: "#4ca2fb",
       },
+      // 菜单
+
       // select
       selectShow: false,
-      lineList:[]
+      lineList: [],
     };
   },
   computed: {
-    ...mapState(["navTab", "menuList", "usuallyMenu","line"]),
+    ...mapState(["navTab","menuList", "usuallyMenu", "line", "unreadCount"]),
     dailyMenu() {
-      return this.usuallyMenu.concat([{ icon: 'line-add', title: '添加', url: '/pages/index/addMenu' }])
-      .map(({ icon, title, url }) => {
-        return {
-          title,
-          url,
-          openType:"navigateTo",
-          iconfont: true,
-          icon: `custom-icon custom-icon-${icon}`,
-          iconColor: title === "添加" ? "#999" : "#1c7de6",
-        };
-      });
+      return this.usuallyMenu
+        .concat([
+          { icon: "line-add", title: "添加", url: "/pages/index/addMenu" },
+        ])
+        .map(({ icon, title, url }) => {
+          return {
+            title,
+            url,
+            openType: "navigateTo",
+            iconfont: true,
+            icon: `custom-icon custom-icon-${icon}`,
+            iconColor: title === "添加" ? "#999" : "#1c7de6",
+          };
+        });
     },
     menu() {
       return this.menuList.map(({ icon, title, url }) => {
         return {
           title,
           url,
-          openType:"navigateTo",
+          openType: "navigateTo",
           iconfont: true,
           icon: `custom-icon custom-icon-${icon}`,
           iconColor: "#1c7de6",
@@ -172,20 +175,25 @@ export default {
       });
     },
   },
-  onLoad(){
-   this.getLine().then(res=> this.lineList=res);
+  onLoad() {
+    this.getLine().then((res) => (this.lineList = res));
+    this.getUnread();
+    this.unreadPoll();
   },
   methods: {
-    ...mapMutations(['set_line']),
-    ...mapActions(["getLine"]),  
-    selectConfirm(e){
-      this.set_line(e);
-    },
+    ...mapMutations(["set_line"]),
+    ...mapActions(["getLine", "getUnread", "unreadPoll"]),
+    selectConfirm(e) {this.set_line(e)},
+    unreadLink(){
+      uni.navigateTo({url:"/pages/info/info"});
+    }
   },
 };
 </script>
 <style lang="scss" scoped>
-/deep/.uni-scroll-view::-webkit-scrollbar {display: none;}
+/deep/.uni-scroll-view::-webkit-scrollbar {
+  display: none;
+}
 .nav-name {
   margin-left: 35rpx;
   font-size: 38rpx;
@@ -197,11 +205,11 @@ export default {
   margin: 15rpx 15rpx;
   border-radius: 10rpx;
 }
-.farm{
+.farm {
   margin: 15rpx;
   padding: 0 10rpx;
-  color:$font-gray;
-  }
+  color: $font-gray;
+}
 .banner {
   overflow: hidden;
   height: 250rpx;

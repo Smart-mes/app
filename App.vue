@@ -2,7 +2,6 @@
 	import {mapState} from "vuex";
 	export default {
 		onLaunch: function() {
-			this.cid();
 			this.init();
 		},
 		onShow: function() {},
@@ -12,6 +11,7 @@
 		},
 		methods: {
 			init() {
+			
 				// 锁定竖屏
 				// #ifdef APP-PLUS  
 				plus.screen.lockOrientation("portrait-primary");
@@ -22,21 +22,19 @@
 					// #endif
 				}
 			},
-			cid() {
-				// #ifdef APP-PLUS
-				var pinf = plus.push.getClientInfo();
-				console.log(pinf)
-				var cid = pinf.clientid; //客户端标识
-				console.log('cid：' + cid);
-
-				plus.push.addEventListener('click', (msg)=>{console.log('click:', msg);}, false);
-				
-				plus.push.addEventListener('receive', (msg)=> {
-					plus.runtime.setBadgeNumber(8);
-					plus.push.createMessage('receive', msg);
-				}, false);
-				// #endif
-			}
+			// cid() {
+			// 	// #ifdef APP-PLUS
+			// 	var pinf = plus.push.getClientInfo();
+			// 	console.log(pinf)
+			// 	var cid = pinf.clientid; //客户端标识
+			// 	console.log('cid：' + cid);
+			// 	plus.push.addEventListener('click', (msg)=>{console.log('click:', msg);}, false);			
+			// 	plus.push.addEventListener('receive', (msg)=> {
+			// 		plus.runtime.setBadgeNumber(8);
+			// 		plus.push.createMessage('receive', msg);
+			// 	}, false);
+			// 	// #endif
+			// }
 			// //#ifdef H5
 			// skipH5() {
 			// 	if (!this.hasLogin) {

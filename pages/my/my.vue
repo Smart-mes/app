@@ -1,13 +1,11 @@
 <template>
   <view class="my">
-    <u-navbar
-      :title="navbar.title"
-      :title-color="navbar.color"
-      :title-size="navbar.size"
-      :is-back="navbar.isBack"
-      :height="navbar.height"
-      :background="navbar.background"
-      :border-bottom="false"
+    <navBar
+      :title="navBar.title"
+      :is-back="navBar.isBack"
+      :color="navBar.color"
+      :background="navBar.background"
+      :borderBottom="navBar.borderBottom"
       title-bold
     />
     <!-- nav -->
@@ -21,7 +19,7 @@
       <!-- 用户信息 -->
       <view class="my-info">
         <u-cell-group>
-          <u-cell-item title="你的未读消息">
+          <u-cell-item title="你的未读消息" @click="unreadLink">
             <u-icon
               slot="icon"
               name="circleDot"
@@ -30,7 +28,7 @@
               color="#999"
             />
             <text class="info-time">一分钟前</text>
-            <u-badge count="99+" :absolute="false" />
+            <u-badge :count="unreadCount" :absolute="false" />
           </u-cell-item>
           <u-cell-item title="你的未读任务">
             <u-icon
@@ -63,33 +61,31 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 export default {
-  name:"My",
+  name: "My",
   data() {
     return {
-      navbar: {
+      navBar: {
         title: "我的",
-        isBack: false,
         color: "#fff",
-        height: "50",
-        size: "36",
-        background: {
-          backgroundColor: "#1c7de6",
-        },
+        isBack: false,
+        borderBottom: false,
+        background: { backgroundColor: "#1c7de6" },
       },
       spotVisible: false,
     };
   },
   onLoad() {},
   computed: {
-    ...mapState(["userInfo", "navTab"]),
+    ...mapState(["unreadCount", "userInfo", "navTab"]),
   },
   methods: {
     ...mapMutations(["logout"]),
+    unreadLink() {
+      uni.navigateTo({ url: "/pages/info/info" });
+    },
     signOut() {
       this.logout();
-      uni.reLaunch({
-        url: "/pages/login/login",
-      });
+      uni.reLaunch({ url: "/pages/login/login" });
     },
   },
 };
