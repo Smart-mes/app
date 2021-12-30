@@ -1,6 +1,6 @@
 <template>
   <view>
-    <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold/>
+    <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold />
     <!-- navBar -->
     <view class="u-page">
       <view class="basic-box">
@@ -65,7 +65,7 @@
           <view class="equip">
             <view class="equip-icon">
               <u-icon
-                name="devices"
+                name="gongzhuang"
                 custom-prefix="custom-icon"
                 size="80"
                 color="#999"
@@ -101,12 +101,13 @@
             </view>
           </view>
         </view>
-        <u-empty 
-          v-show="!workToolList.length" 
-          margin-top="30" 
-          icon-size="100" 
-          text="数据为空" 
-          mode="data" />
+        <u-empty
+          v-show="!workToolList.length"
+          margin-top="30"
+          icon-size="100"
+          text="数据为空"
+          mode="data"
+        />
       </view>
     </view>
     <!-- page -->
@@ -243,14 +244,21 @@ export default {
       if (!this.workToolCode) {
         return void this.$refs.uToast.show({ title: "编码不能为空" });
       }
-      this.WorkToolValidAjax();
+      this.WorkToolValidAjax().then(() => {
+        if (!this.WorkToolValidList.length) {
+          this.$refs.uToast.show({ title: "编码不存在" });
+        }
+      });
     },
     define() {
-      if (!this.workToolCode && !this.WorkToolValidList.length) {
-        return void this.$refs.uToast.show({
-          title: "编码不能为空或者编码存在",
-        });
+      if (!this.workToolCode) {
+        return void this.$refs.uToast.show({ title: "编码不能为空" });
       }
+
+      if (!this.WorkToolValidList.length) {
+        return void this.$refs.uToast.show({ title: "编码不存在" });
+      }
+
       this.addWorkToolAjax()
         .then(() => {
           this.popupShow = false;
@@ -264,13 +272,12 @@ export default {
     },
     scan() {
       uni.scanCode({
-        success:res=>{
-           console.log('扫描成功');
-          this.workToolCode=res.result;
+        success: (res) => {
+          this.workToolCode = res.result;
         },
-        fail:()=>{
-          console.log('扫描失败');
-        }
+        fail: () => {
+          this.$refs.uToast.show({ title: "提交失败", type: "error" });
+        },
       });
     },
     // 请求
@@ -308,7 +315,7 @@ export default {
         .catch(() => uni.hideLoading());
     },
     WorkToolValidAjax() {
-      this.$http
+      return this.$http
         .request({
           url: "/api/MachineWorkTool/UnusedWorkTools",
           method: "GET",
@@ -373,7 +380,7 @@ export default {
     line-height: 1.6;
     .name {
       margin-right: 20rpx;
-      width: 55rpx;
+      width: 60rpx;
       color: $font-gray;
     }
     .text {
@@ -385,6 +392,12 @@ export default {
   margin-top: 30rpx;
   .menu-title {
     margin: 20rpx;
+  }
+  .equip {
+    display: flex;
+    .equip-icon {
+      margin-top: 25rpx;
+    }
   }
 }
 .fix-add {
@@ -428,7 +441,7 @@ export default {
     align-items: center;
     .name {
       margin-right: 20rpx;
-      width: 55rpx;
+      width: 60rpx;
       color: $font-gray;
     }
     .input {

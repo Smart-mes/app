@@ -219,6 +219,13 @@
 			}
 		},
 		{
+			"path": "pages/andon/andonHistory",
+			"style": {
+				"navigationBarTitleText": "安灯历史",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/andon/closeAndon",
 			"style": {
 				"navigationBarTitleText": "关闭安灯",

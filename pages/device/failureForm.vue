@@ -1,7 +1,7 @@
 <template>
   <view class="failureForm">
     <u-navbar
-      :height="50"  
+      :height="50"
       :title="'报障_' + stationName"
       :is-back="navbar.isBack"
       :background="navbar.background"
@@ -45,24 +45,25 @@
       v-model="gradeSheetShow"
       @click="gradeSheetCallback"
     />
-	<u-toast ref="uToast" />
+    <u-toast ref="uToast" />
   </view>
 </template>
 
 <script>
 export default {
-  name:"FailureForm",
+  name: "FailureForm",
   data() {
     return {
-      // 参数
-      machineCode: "",
-      stationName: "",
       navbar: {
         background: {
           backgroundColor: "#ffffff",
         },
         isBack: true,
       },
+      // 参数
+      machineCode: "",
+      stationName: "",
+
       form: {
         faultphenomenonCode: "",
         grade: "",
@@ -72,7 +73,7 @@ export default {
         faultphenomenonCode: [
           {
             required: true,
-            message: "请输入姓名",
+            message: "请输入故障项",
 
             trigger: ["change", "blur"],
           },
@@ -80,7 +81,7 @@ export default {
         grade: [
           {
             required: true,
-            message: "请输入姓名",
+            message: "请输入上报级别",
             trigger: ["change", "blur"],
           },
         ],
@@ -113,9 +114,9 @@ export default {
     };
   },
   onLoad(option) {
-    this.machineCode=option.machineCode;
-    this.stationName=option.stationName;
-    
+    this.machineCode = option.machineCode;
+    this.stationName = option.stationName;
+
     this.faultAjax();
   },
   onReady() {
@@ -142,7 +143,7 @@ export default {
   methods: {
     submit() {
       this.$refs.uForm.validate((valid) => {
-        valid&&this.faultFormAjax()
+        valid && this.faultFormAjax();
       });
     },
     faultSheetCallback(index) {
@@ -163,10 +164,8 @@ export default {
         })
         .then((res) => {
           this.faultSheetList = res.map((faultItem) => {
-            const {
-              faultphenomenonCode: value,
-              faultphenomenonName: text,
-            } = faultItem;
+            const { faultphenomenonCode: value, faultphenomenonName: text } =
+              faultItem;
             return { value, text };
           });
         });
@@ -193,7 +192,7 @@ export default {
           });
         })
         .catch(() => {
-          this.$refs.uToast.show({title: "提交失败",type: "error"});
+          this.$refs.uToast.show({ title: "提交失败", type: "error" });
         });
     },
   },
@@ -206,7 +205,7 @@ export default {
 }
 
 .form-box {
-  margin:15rpx 15rpx;
+  margin: 15rpx 15rpx;
   padding: 30rpx;
   border-radius: 10rpx;
   background-color: $white-color;

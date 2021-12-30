@@ -1,14 +1,6 @@
 <template>
   <view id="passRate">
-    <u-navbar
-      :title="navbar.title"
-      :is-back="navbar.isBack"
-      :title-color="navbar.color"
-      :title-size="navbar.size"
-      :height="navbar.height"
-      :background="navbar.background"
-      title-bold
-    />
+    <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold />
     <!-- nav -->
     <view class="u-page">
       <view class="search-box">
@@ -107,7 +99,7 @@
     <u-calendar
       v-model="timeVisible"
       mode="medium"
-      max-date="2050-01-01" 
+      max-date="2050-01-01"
       @change="timeChange"
     />
     <!--calendar -->
@@ -115,28 +107,21 @@
 </template>
 
 <script>
-// import { mapState } from "vuex";
-import {mapActions} from "vuex";
+import { mapActions } from "vuex";
 export default {
-  name:"Qitao",
+  name: "Qitao",
   data() {
     return {
-      navbar: {
+      navBar: {
         title: "齐套分析",
         isBack: true,
-        color: "#333",
-        size: "36",
-        height: "50",
-        background: {
-          backgroundColor: "#ffffff",
-        },
       },
       form: {
         ws: "1车间",
         startDate: "2019-4-5",
         endDate: "2021-7-14",
       },
-      workShopList:[],
+      workShopList: [],
       wsShow: false,
       timeVisible: false,
       //bar
@@ -165,11 +150,11 @@ export default {
       });
     },
   },
-  onLoad(){
-   this.BWorkShopAjax();
+  onLoad() {
+    this.BWorkShopAjax();
   },
   methods: {
-    ...mapActions(["getWorkShop"]),  
+    ...mapActions(["getWorkShop"]),
     wsSheetClick(i) {
       const { text, wsCode } = this.wsList[i];
       this.form.ws = text;
@@ -271,9 +256,11 @@ export default {
       this.qiao = !categories[index] ? [] : dict[categories[index]];
       this.qiaoStyle = { left: x + "px", top: y + "px" };
     },
-    BWorkShopAjax(){
-        this.$http.request({url: "/api/BWorkShop",method: "GET"}).then(res=>this.workShopList=res)
-    }
+    BWorkShopAjax() {
+      this.$http
+        .request({ url: "/api/BWorkShop", method: "GET" })
+        .then((res) => (this.workShopList = res));
+    },
   },
 };
 </script>

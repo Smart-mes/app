@@ -27,12 +27,20 @@
         </view>
         <view class="text-col" @tap="linkInfo(notify.id)">
           <view class="text-col-title">
-            <text class="info-name">{{notify.title}}</text>
-            <text class="info-time">{{notify.time}}</text>
+            <text class="info-name">{{ notify.title }}</text>
+            <text class="info-time">{{ notify.time }}</text>
           </view>
-          <view class="info-text ellipsis">{{notify.content}}</view>
+          <view class="info-text ellipsis">{{ notify.content }}</view>
         </view>
       </view>
+      <!-- 列表 -->
+      <u-empty
+        v-show="!newNotifyList.length"
+        margin-top="30"
+        icon-size="100"
+        text="数据为空"
+        mode="data"
+      />
     </view>
     <!-- info -->
   </view>
@@ -48,24 +56,24 @@ export default {
         title: "我的消息",
         isBack: true,
       },
-      notifyList:[],
+      notifyList: [],
     };
   },
   computed: {
-    ...mapState(["unreadCount","userInfo"]),
-    newNotifyList(){
-      return this.notifyList.map(notify=>{
-        notify.time=moment(notify.createdAt).format('YYYY-MM-DD HH:mm:ss')
+    ...mapState(["unreadCount", "userInfo"]),
+    newNotifyList() {
+      return this.notifyList.map((notify) => {
+        notify.time = moment(notify.createdAt).format("YYYY-MM-DD HH:mm:ss");
         return notify;
-      })
-    }
+      });
+    },
   },
-  onShow(){
+  onShow() {
     this.notifyAjax();
   },
   onPullDownRefresh() {
-			this.notifyAjax().then(() => uni.stopPullDownRefresh());
-	},
+    this.notifyAjax().then(() => uni.stopPullDownRefresh());
+  },
   methods: {
     linkInfo(id) {
       uni.navigateTo({
@@ -73,23 +81,23 @@ export default {
       });
     },
     notifyAjax() {
-      	uni.showLoading({title: "加载中",mask: true});
-        return this.$http
+      uni.showLoading({ title: "加载中", mask: true });
+      return this.$http
         .request({
           url: "/api/SNotify/UserNotify",
           method: "GET",
           data: {
             empCode: this.userInfo.empCode,
-            state:0
+            state: 0,
           },
         })
         .then((res) => {
-           uni.hideLoading();
-           this.notifyList=res;
+          uni.hideLoading();
+          this.notifyList = res;
         })
         .catch(() => uni.hideLoading());
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

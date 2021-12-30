@@ -1,8 +1,8 @@
 @font-face {
   font-family: "custom-icon"; /* Project id 2033516 */
-  src: url('https://at.alicdn.com/t/font_2033516_i9uj8214lcs.woff2?t=1640162342317') format('woff2'),
-       url('https://at.alicdn.com/t/font_2033516_i9uj8214lcs.woff?t=1640162342317') format('woff'),
-       url('https://at.alicdn.com/t/font_2033516_i9uj8214lcs.ttf?t=1640162342317') format('truetype');
+  src: url('https://at.alicdn.com/t/font_2033516_d71maymt708.woff2?t=1640772334046') format('woff2'),
+       url('https://at.alicdn.com/t/font_2033516_d71maymt708.woff?t=1640772334046') format('woff'),
+       url('https://at.alicdn.com/t/font_2033516_d71maymt708.ttf?t=1640772334046') format('truetype');
 }
 
 .custom-icon {
@@ -11,6 +11,14 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.custom-icon-gongzhuang:before {
+  content: "\f057";
+}
+
+.custom-icon-lishi:before {
+  content: "\e61a";
 }
 
 .custom-icon-equip:before {

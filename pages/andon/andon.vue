@@ -4,7 +4,7 @@
       <view class="navbar-right" slot="navbarRight">
         <view class="navbar-info">
           <view class="info-item" @click="createLink">登记</view>
-          <!-- <view class="info-item" @click="historyLink">历史</view> -->
+          <view class="info-item" @click="historyLink">历史</view>
         </view>     
       </view>
     </navBar>  
@@ -14,21 +14,21 @@
       <view class="develop-list">
         <view
           class="develop-item"
-          v-for="(andonItem, key) in andonList"
-          :key="key"
+          v-for="andonItem in andonList"
+          :key="andonItem.id"
         >
           <view class="hd">
             <view class="left">
               <view class="info">
-                <view>
+                <view  class="info-item">
                   <text class="name">产线：</text>
                   <text class="text"> {{ BLineDict[andonItem.lineCode] }}</text>
                 </view>
-                <view>
+                <view  class="info-item">
                   <text class="name">工位：</text>
                   <text class="text">{{BStationDict[andonItem.stationCode]}}</text>
                 </view>
-                <view>
+                <view  class="info-item">
                   <text class="name">事件：</text>
                   <text class="text">{{eventDict[andonItem.event]?eventDict[andonItem.event]:andonItem.event }}</text>
                 </view>
@@ -44,19 +44,19 @@
           <view class="bd" v-show="andonItem.visible">
             <u-line color="#ddd" margin="10rpx 0" />
             <view class="info">
-              <view>
+              <view class="info-item">
                 <text class="name">工单：</text>
                 <text class="text">{{ andonItem.orderNo }}</text>
               </view>
-              <view>
+              <view class="info-item">
                 <text class="name">产品：</text>
                 <text class="text">{{ BProductDict[andonItem.productCode]}}</text>
               </view>
-              <view>
+              <view class="info-item">
                 <text class="name">人员:</text>
                 <text class="text">{{ andonItem.empCode }}</text>
               </view>
-              <view>
+              <view class="info-item">
                 <text class="name">说明:</text>
                 <text class="text">{{ andonItem.description }}</text>
               </view>
@@ -102,10 +102,7 @@ export default {
   methods: {
     ...mapActions(["getDict"]),
     DictAjax() {
-      return Promise.all([ 
-        this.DictionaryAjax(),
-        this.eventDictAjax()
-      ])
+      return Promise.all([ this.DictionaryAjax(),this.eventDictAjax()])
     },   
     DictionaryAjax(){
       return  this.getDict({url:"/api/Dictionary",data:{keys:"BLine|BStationList|BProduct|SEmployee"}})
@@ -158,16 +155,10 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .develop-list {
-  .center {
-    margin: 0 10rpx;
-  }
-  .right{
-    margin-left: 15rpx;
-   
-  }
+  .center {margin: 0 10rpx;}
+  .right{margin-left: 15rpx; }
   .btn {
     margin-top: 20rpx;
     width: 100rpx;
@@ -179,9 +170,16 @@ export default {
     border-radius: 50%;
   }
   .bd {
-    .text {
-      color: #3333cc;
+    .text {color: #3333cc;}
+  }
+  .info-item{
+    display: flex;
+    .name{
+      width: 85rpx;
+      margin-right: 0;
+      color: $font-gray;
     }
+    .text{ flex: 1;word-break: break-all; }
   }
 }
 </style>

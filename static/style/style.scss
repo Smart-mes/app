@@ -48,11 +48,8 @@ html,body{
   display: flex;
   flex-direction: row;
   padding:15rpx 35rpx;
-  .nav-subTitle{flex: auto;padding: 0;}
-  .tips{ margin: 0;flex-basis: 360rpx;}
-  /*  #ifndef H5*/
-      .tips{ flex-basis: 400rpx;}
-  /*   #endif */
+  .nav-subTitle{flex: 1;}
+  .nav-subTitle{padding: 0;}
 }
 
 .tips {
@@ -93,7 +90,11 @@ html,body{
     .row {
       display: flex;
       .col-name {color: $font-light-gray;}
-      .col-text {flex: 1;}
+      .col-text {
+        flex: 1;
+        overflow: hidden;
+        word-break: break-word;
+     }
     }
   }
 
@@ -126,13 +127,10 @@ html,body{
   border-radius: 10rpx;
   background-color: $white-color;
 }
-
 // 展开收起列表
 .develop-list{
   line-height: 1.75;
-	.develop-item{
-		@extend .basic-box;
-	}
+	.develop-item{@extend .basic-box;}
   .info{
     .name{
       margin-right: 10px;

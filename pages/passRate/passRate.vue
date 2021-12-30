@@ -1,14 +1,6 @@
 <template>
   <view id="passRate">
-    <u-navbar
-      :title="navbar.title"
-      :is-back="navbar.isBack"
-      :title-color="navbar.color"
-      :title-size="navbar.size"
-      :height="navbar.height"
-      :background="navbar.background"
-      title-bold
-    />
+    <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold />
     <!-- nav -->
     <view class="u-page">
       <view class="search-box">
@@ -119,15 +111,9 @@ export default {
   name:"PassRate",
   data() {
     return {
-      navbar: {
+      navBar: {
         title: "直通率",
         isBack: true,
-        color: "#333",
-        size: "36",
-        height: "50",
-        background: {
-          backgroundColor: "#ffffff",
-        },
       },
       form: {
         ws: "1车间",
