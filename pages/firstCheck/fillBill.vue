@@ -342,7 +342,7 @@ export default {
               data: { taskState, taskLog }
             }).then(() => {
               //  this.submitDisabled=true;
-               this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/firstCheck/historyBill"});
+               this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/firstCheck/firstCheckHistory"});
             }).catch(()=>{
               this.submitDisabled=false;
               this.$refs.uToast.show({ title: "提交失败", type: "error" });

@@ -1,7 +1,5 @@
 <script>
-	import {
-		mapState
-	} from "vuex";
+	import {mapState} from "vuex";
 	export default {
 		onLaunch: function() {
 			this.init();
@@ -16,12 +14,12 @@
 				// 锁定竖屏
 				// #ifdef APP-PLUS  
 				plus.screen.lockOrientation("portrait-primary");
-				// #endif
+			   // #endif
 				if (this.hasLogin) {
-					// #ifdef APP-PLUS 
-					uni.reLaunch({url: "pages/index/index"});
-					// #endif
-				}
+					uni.reLaunch({url: "/pages/index/index"});				
+				}else{
+					uni.reLaunch({url: "pages/login/login"});
+				}		
 			}
 		}
 	};

@@ -3,6 +3,93 @@
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [
+			// {
+		// 	"path": "pages/analyse/analyse",
+		// 	"style": {
+		// 		"navigationBarTitleText": "设备效率分析",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/analyse/analyseDetail",
+		// 	"style": {
+		// 		"navigationBarTitleText": "设备效率分析详情",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/effect/effect",
+		// 	"style": {
+		// 		"navigationBarTitleText": "效率管理",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/quality/quality",
+		// 	"style": {
+		// 		"navigationBarTitleText": "工单不良汇总",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/scanCode/scanCode",
+		// 	"style": {
+		// 		"navigationBarTitleText": "扫码查询",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+				// {
+		// 	"path": "pages/retrospect/retrospect",
+		// 	"style": {
+		// 		"navigationBarTitleText": "工艺追溯",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/device/failure",
+		// 	"style": {
+		// 		"navigationBarTitleText": "设备报障",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/device/failureForm",
+		// 	"style": {
+		// 		"navigationBarTitleText": "设备报障提交",
+		// 		"navigationStyle": "custom",
+		// 		"navigationBarTextStyle": "black"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/passRate/passRate",
+		// 	"style": {
+		// 		"navigationBarTitleText": "直通率",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/UPH/UPH",
+		// 	"style": {
+		// 		"navigationBarTitleText": "小时产量",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/PAR/PAR",
+		// 	"style": {
+		// 		"navigationBarTitleText": "计划达成率",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/qitao/qitao",
+		// 	"style": {
+		// 		"navigationBarTitleText": "齐套分析",
+		// 		"navigationStyle": "custom",
+		// 		"navigationBarTextStyle": "black"
+		// 	}
+		// },
+
 		{
 			"path": "pages/login/login",
 			"style": {
@@ -41,41 +128,6 @@
 			}
 		},
 		{
-			"path": "pages/analyse/analyse",
-			"style": {
-				"navigationBarTitleText": "设备效率分析",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/analyse/analyseDetail",
-			"style": {
-				"navigationBarTitleText": "设备效率分析详情",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/effect/effect",
-			"style": {
-				"navigationBarTitleText": "效率管理",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/quality/quality",
-			"style": {
-				"navigationBarTitleText": "工单不良汇总",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/scanCode/scanCode",
-			"style": {
-				"navigationBarTitleText": "扫码查询",
-				"navigationStyle": "custom"
-			}
-		},
-		{
 			"path": "pages/info/info",
 			"style": {
 				"navigationBarTitleText": "我的消息",
@@ -95,57 +147,6 @@
 			"style": {
 				"navigationBarTitleText": "我的",
 				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/retrospect/retrospect",
-			"style": {
-				"navigationBarTitleText": "工艺追溯",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/device/failure",
-			"style": {
-				"navigationBarTitleText": "设备报障",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/device/failureForm",
-			"style": {
-				"navigationBarTitleText": "设备报障提交",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
-			}
-		},
-		{
-			"path": "pages/passRate/passRate",
-			"style": {
-				"navigationBarTitleText": "直通率",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/UPH/UPH",
-			"style": {
-				"navigationBarTitleText": "小时产量",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/PAR/PAR",
-			"style": {
-				"navigationBarTitleText": "计划达成率",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/qitao/qitao",
-			"style": {
-				"navigationBarTitleText": "齐套分析",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
 			}
 		},
 		{
@@ -288,13 +289,13 @@
 				"text": "设备"
 			},
 			{
-				"pagePath": "pages/retrospect/retrospect",
-				"text": "工艺"
-			},
-			{
 				"pagePath": "pages/my/my",
 				"text": "我的"
 			}
+			// {
+			// 	"pagePath": "pages/retrospect/retrospect",
+			// 	"text": "工艺"
+			// },
 		]
 	}
 	// "condition": {

@@ -221,7 +221,7 @@ export default {
         .request({ url: "/api/PAndonList", method: "POST", data: formData })
         .then(() =>{
             this.btnLoading=false;
-            this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/firstCheck/firstCheck"})
+            this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/andon/andon"})
         })
         .catch(() =>{
            this.btnLoading=false;

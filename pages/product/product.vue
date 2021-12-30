@@ -198,7 +198,7 @@ export default {
     setProduct(productList) {
       this.productList = productList.map((product, i) => {
         if (product) {
-          product.visible = i ? false : true;
+          product.visible = i===0;
           // 良率
           let total = product.cpltQty + product.failQty;
           let yieldNum = product.cpltQty / total;

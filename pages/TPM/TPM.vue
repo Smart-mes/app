@@ -24,7 +24,7 @@
             <view class="task-item" @click="billLink(billTask.taskCode)">
               <view class="task-left">
                 <view class="row">
-                  <view class="col-name">单据号</view>
+                  <view class="col-name">单据号：</view>
                   <view class="col-text">{{ billTask.taskCode }}</view>
                 </view>
                 <view
@@ -32,7 +32,7 @@
                   v-for="value in billTask.headerData"
                   :key="value.label"
                 >
-                  <view class="col-name">{{ value.label }}</view>
+                  <view class="col-name">{{ value.label }}：</view>
                   <view class="col-text">{{ value.displayValue }}</view>
                 </view>
               </view>

@@ -381,7 +381,7 @@ export default {
     .name {
       margin-right: 20rpx;
       width: 60rpx;
-      color: $font-gray;
+      color: $font-light-gray;
     }
     .text {
       width: 400rpx;

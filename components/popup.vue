@@ -1,7 +1,7 @@
 <template>
   <view>
     <u-popup mode="right" v-model="visible" :closeable="true" width="400">
-      <view class="popup">
+      <scroll-view scroll-y="true" :style="{height:'90%'}" class="popup">
         <u-cell-group>
           <u-cell-item
             v-for="(item, i) in list"
@@ -11,13 +11,13 @@
             @click="handleWorkShop(i)"
           />
         </u-cell-group>
-      </view>
+      </scroll-view>
     </u-popup>
   </view>
 </template>
 
 <script>
-// import { mapState } from "vuex";
+import { mapState} from "vuex";
 export default {
   name: "Popup",
   props: {
@@ -26,9 +26,9 @@ export default {
       default: "/api/BWorkShop",
     },
   },
-  // computed: {
-  //   ...mapState(["workShopList"]),
-  // },
+  computed:{
+    ...mapState(["line"])
+  },
   data() {
     return {
       visible: false,
@@ -37,7 +37,6 @@ export default {
     };
   },
   mounted() {
-    // this.workShopList.length && this.handleWorkShop(this.current);
     this.ajax();
   },
   methods: {
@@ -49,6 +48,11 @@ export default {
     ajax(){
       this.$http.request({url: "/api/BWorkShop",method: "GET"})
       .then(res=>{
+        res.forEach((el,i) => {       
+          if(el.wsCode===this.line[0].value){
+            this.current=i;
+          }
+        });
         this.list=res;
         this.$emit("getWorkShop", this.list[this.current]);
       });
@@ -58,7 +62,6 @@ export default {
 </script>
 <style scoped lang="scss">
 .popup {
-  // touch-action: none;
   margin-top: 100rpx;
 }
 </style>

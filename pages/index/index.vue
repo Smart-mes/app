@@ -1,7 +1,7 @@
 <template>
   <view>
     <u-navbar :height="50" :is-back="false">
-      <text class="nav-name">广州阳普智能系统科技有限公司</text>
+      <text class="nav-name">{{companyName}}</text>
     </u-navbar>
     <!-- nav -->
     <view class="u-page">
@@ -13,19 +13,6 @@
           <image :src="bannerUrl" mode="aspectFill" />
         </view>
         <!-- banner -->
-        <view class="notice">
-          <u-notice-bar
-            type="info"
-            mode="vertical"
-            duration="4500"
-            bg-color="#ffffff"
-            padding="25rpx 35rpx"
-            volume-size="35"
-            :more-icon="true"
-            :is-circular="false"
-            :list="noticeList"
-          />
-        </view>
       </view>
       <!-- notice -->
       <view class="menu">
@@ -71,7 +58,7 @@
         </view>
         <view class="info-list">
           <u-cell-group :border="false">
-            <u-cell-item title="你的未读消息" @click="unreadLink">
+            <u-cell-item title="你的未读消息" @click="unreadLink" :border-bottom="false">
               <u-icon
                 slot="icon"
                 name="circleDot"
@@ -81,17 +68,6 @@
               />
               <text class="info-time">一分钟前</text>
               <u-badge :count="unreadCount" :absolute="false" />
-            </u-cell-item>
-            <u-cell-item title="你的未读任务" :border-bottom="false">
-              <u-icon
-                slot="icon"
-                name="circleDot"
-                custom-prefix="custom-icon"
-                size="25"
-                color="#999"
-              />
-              <text class="info-time">一分钟前</text>
-              <u-badge count="3" :absolute="false" />
             </u-cell-item>
           </u-cell-group>
         </view>
@@ -123,23 +99,9 @@ export default {
   components: { juNavigatorGrid },
   data() {
     return {
+      companyName:"FSL佛山照明",
       bannerUrl: "/static/images/banner/banner.jpg",
-      noticeList: [
-        "Smart.MES APP上线1",
-        "Smart.MES APP上线2",
-        "Smart.MES APP上线3",
-      ],
-      menuSwiper: {
-        indicatorDots: true,
-        autoplay: false,
-        interval: 2000,
-        duration: 500,
-        dotColor: "rgba(204,204,204,.6)",
-        activeColor: "#4ca2fb",
-      },
       // 菜单
-
-      // select
       selectShow: false,
       lineList: [],
     };
@@ -148,9 +110,7 @@ export default {
     ...mapState(["navTab","menuList", "usuallyMenu", "line", "unreadCount"]),
     dailyMenu() {
       return this.usuallyMenu
-        .concat([
-          { icon: "line-add", title: "添加", url: "/pages/index/addMenu" },
-        ])
+        .concat([{ icon: "line-add", title: "添加", url: "/pages/index/addMenu" }])
         .map(({ icon, title, url }) => {
           return {
             title,
@@ -184,16 +144,12 @@ export default {
     ...mapMutations(["set_line"]),
     ...mapActions(["getLine", "getUnread", "unreadPoll"]),
     selectConfirm(e) {this.set_line(e)},
-    unreadLink(){
-      uni.navigateTo({url:"/pages/info/info"});
-    }
+    unreadLink(){uni.navigateTo({url:"/pages/info/info"});}
   },
 };
 </script>
 <style lang="scss" scoped>
-/deep/.uni-scroll-view::-webkit-scrollbar {
-  display: none;
-}
+/deep/.uni-scroll-view::-webkit-scrollbar {display: none;}
 .nav-name {
   margin-left: 35rpx;
   font-size: 38rpx;
@@ -219,43 +175,24 @@ export default {
     height: 275rpx;
   }
 }
-.notice {
-  overflow: hidden;
-  /deep/.uicon-volume-fill {
-    color: #ff9900;
-  }
-}
 .menu {
   margin: 15rpx 15rpx;
   padding: 20rpx 0;
   border-radius: 10rpx;
   background-color: $white-color;
-  .menu-box {
-    padding: 0 10rpx;
-  }
+  .menu-box {padding: 0 10rpx;}
 }
-.whole-menu {
-  margin-top: 0;
-}
-.menu-title {
-  padding: 10rpx 35rpx;
-}
-
+.whole-menu {margin-top: 0;}
+.menu-title {padding: 10rpx 35rpx;}
 .my-info {
   overflow: hidden;
   margin: 15rpx 15rpx;
   padding: 20rpx 0;
   border-radius: 10rpx;
   background-color: $white-color;
-  .info-list {
-    margin: 0 25rpx;
-  }
-  .icon-circleDot {
-    font-size: 20rpx;
-  }
-  .info-time {
-    margin-right: 10rpx;
-  }
+  .info-list {margin: 0 25rpx;}
+  .icon-circleDot {font-size: 20rpx;}
+  .info-time {margin-right: 10rpx;}
   /deep/.u-cell_title {
     color: #454545;
   }

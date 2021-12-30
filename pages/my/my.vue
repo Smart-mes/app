@@ -30,17 +30,7 @@
             <text class="info-time">一分钟前</text>
             <u-badge :count="unreadCount" :absolute="false" />
           </u-cell-item>
-          <u-cell-item title="你的未读任务">
-            <u-icon
-              slot="icon"
-              name="circleDot"
-              custom-prefix="custom-icon"
-              size="25"
-              color="#999"
-            />
-            <text class="info-time">一分钟前</text>
-            <u-badge count="3" :absolute="false" />
-          </u-cell-item>
+
         </u-cell-group>
       </view>
       <!--我的消息-->

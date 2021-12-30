@@ -54,7 +54,7 @@
               </view>
               <view class="info-item">
                 <text class="name">人员:</text>
-                <text class="text">{{ andonItem.empCode }}</text>
+                <text class="text">{{SEmployeeDict[andonItem.empCode]}}</text>
               </view>
               <view class="info-item">
                 <text class="name">说明:</text>
@@ -177,7 +177,7 @@ export default {
     .name{
       width: 85rpx;
       margin-right: 0;
-      color: $font-gray;
+      color:$font-light-gray;
     }
     .text{ flex: 1;word-break: break-all; }
   }

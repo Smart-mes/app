@@ -60,7 +60,7 @@
       </u-form-item>
     </u-form>
     <!-- v-show="buttonShow" -->
-    <view v-show="buttonHide">
+    <view v-show="buttonHide" class="submit">
     <slot name="submit">
       <u-button type="primary" class="btn" :loading="loading" @click="getFormData()">
         提交
@@ -187,5 +187,8 @@ export default {
 <style lang="scss" scoped>
 .form {
     /deep/.u-btn {width: 100%;padding: 0;}
+}
+.submit{
+  margin-top: 20rpx;
 }
 </style>

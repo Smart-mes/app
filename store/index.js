@@ -36,13 +36,6 @@ const state = {
 			pagePath: "/pages/device/device"
 		},
 		{
-			iconPath: "play-right",
-			selectedIconPath: "play-right-fill",
-			text: "工艺",
-			customIcon: false,
-			pagePath: "/pages/retrospect/retrospect"
-		},
-		{
 			iconPath: "account",
 			selectedIconPath: "account-fill",
 			text: "我的",
@@ -60,52 +53,7 @@ const state = {
 	},
 	menuList: [
 		{
-			icon: "analyse",
-			title: "效率分析",
-			url: "/pages/analyse/analyse",
-		},
-		{
-			icon: "fault",
-			title: "设备报障",
-			url: "/pages/device/failure",
-		},
-		{
-			icon: "meter",
-			title: "效率管理",
-			url: "/pages/effect/effect",
-		},
-		{
-			icon: "quality",
-			title: "质量管理",
-			url: "/pages/quality/quality",
-		},
-		{
-			icon: "scan",
-			title: "扫码查询",
-			url: "/pages/scanCode/scanCode",
-		},
-		{
-			icon: "through",
-			title: "直通率",
-			url: "/pages/passRate/passRate",
-		},
-		{
-			icon: "product",
-			title: "小时产量",
-			url: "/pages/UPH/UPH",
-		},
-		{
-			icon: "pass",
-			title: "计划达成",
-			url: "/pages/PAR/PAR",
-		},
-		{
-			icon: "qitao",
-			title: "齐套分析",
-			url: "/pages/qitao/qitao",
-		},
-		{
-			icon: "qualityTest",
+			icon: "spotCheck",
 			title: "抽检",
 			url: "/pages/spotCheck/spotCheck",
 		},
@@ -182,7 +130,7 @@ const mutations = {
 	},
 	set_unreadCount(state, payload){
 		state.unreadCount=payload;
-		state.navTab.list[4].count=payload;
+		state.navTab.list[3].count=payload;
 	}
 };
 
