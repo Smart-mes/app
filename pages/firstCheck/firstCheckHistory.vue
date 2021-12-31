@@ -64,8 +64,8 @@
               </view>
               <view class="task-right">
                 <u-button
-                  type="success"
                   plain
+                  :type="billTask.result==='NG'?'error':'success'"
                   :custom-style="customStyle"
                   disabled
                   >

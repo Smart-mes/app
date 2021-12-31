@@ -39,10 +39,9 @@
               </view>
               <view class="task-right">
                 <u-button
-                  type="success"
-                  plain
+                  type="primary"
                   :custom-style="customStyle"
-                  disabled
+                  plain
                 >
                   填报
                 </u-button>

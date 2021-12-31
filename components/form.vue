@@ -11,7 +11,8 @@
           <u-input
             v-model="form[formItem.props]"
             :disabled="formItem.disabled"
-            :placeholder="formItem.placeholder"        
+            :placeholder="formItem.placeholder"
+            :class="{disabled:!!formItem.disabled}"        
           />
         </template>
         <template v-else-if="formItem.type === 'textarea'">
@@ -19,20 +20,25 @@
             v-model="form[formItem.props]"
             :type="formItem.type"
             :disabled="formItem.disabled"
-            :placeholder="formItem.placeholder"  
+            :placeholder="formItem.placeholder"
+            :class="{disabled:!!formItem.disabled}"  
           />
         </template>
         <template v-else-if="formItem.type === 'select'">
           <u-input
             type="select"
             :select-open="formItem.sheetShow"
-            :placeholder="formItem.placeholder"  
+            :placeholder="formItem.placeholder"
+            :disabled="formItem.disabled"  
             v-model="form[formItem.props]"
             @click="selectClick(formItem.props, index)"
+            :class="{disabled:!!formItem.disabled}"
           />
         </template>
         <template v-else-if="formItem.type === 'checkbox'">
-          <u-checkbox-group @change="formGroupChange">
+          <u-checkbox-group
+            :class="{disabled:!!formItem.disabled}"  
+            @change="formGroupChange">
             <u-checkbox
               v-for="(checkItem, key) in formItem.checkboxList"
               :key="key"
@@ -46,7 +52,9 @@
           </u-checkbox-group>
         </template>
         <template v-else-if="formItem.type === 'radio'">
-          <u-radio-group v-model="form[formItem.props]">
+          <u-radio-group 
+           :class="{disabled:!!formItem.disabled}" 
+           v-model="form[formItem.props]">
             <u-radio
               v-for="radioItem in formItem.radioList"
               :key="radioItem.name"

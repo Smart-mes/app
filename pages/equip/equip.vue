@@ -96,7 +96,7 @@
                 name="close"
                 size="30"
                 color="#999"
-                @click="del(WorkTool)"
+                @click="delWorkTool(WorkTool)"
               />
             </view>
           </view>
@@ -113,6 +113,15 @@
     <!-- page -->
     <u-toast ref="uToast" />
     <!-- uToast -->
+    <u-modal v-model="del.modelShow" show-cancel-button @confirm="modalConfirm" @cancel="modalCancel">
+      <view class="slot-content">
+        <view class="del-model">
+          <u-icon name="info-circle" color="#f0ba53" size="35" />
+          <text class="text">确定，是否删除？</text>
+        </view>
+      </view>
+    </u-modal>
+    <!-- 删除 -->
     <view class="fix-add">
       <u-button type="primary" size="medium" @click="popupShow = !popupShow">
         <u-icon name="plus" color="#fff" size="28"></u-icon>
@@ -209,6 +218,11 @@ export default {
       popupShow: false,
       workToolCode: "",
       WorkToolValidList: [],
+      // 列表
+      del: {
+        modelShow: false,
+        workToolCode: "",
+      },
     };
   },
   computed: {
@@ -233,12 +247,10 @@ export default {
         this.workToolAjax();
       }
     },
-    del({ workToolCode }) {
-      this.delWorkToolAjax({
-        machineCode: this.formSeletData.machineCode,
-        workToolCode,
-        EmpCode: this.userInfo.empCode,
-      }).then(() => this.workToolAjax());
+    delWorkTool({ workToolCode }) {
+      console.log('del');
+      this.del.modelShow=true;
+      this.del.workToolCode=workToolCode;
     },
     search() {
       if (!this.workToolCode) {
@@ -359,6 +371,18 @@ export default {
       this.workToolCode = "";
       this.WorkToolValidList = [];
     },
+    modalConfirm() {
+      this.del.modelShow=false;
+      this.delWorkToolAjax({
+        machineCode: this.formSeletData.machineCode,
+        workToolCode:this.del.workToolCode,
+        EmpCode: this.userInfo.empCode,
+      })
+      .then(() => this.workToolAjax());
+    },
+    modalCancel(){
+      this.del.modelShow=false;
+    }
   },
 };
 </script>
@@ -412,6 +436,13 @@ export default {
     width: 100%;
   }
 }
+.del-model {
+  padding: 30rpx;
+  text-align: center;
+  .text {
+    padding-left: 10rpx;
+  }
+}
 .popup {
   padding: 30rpx;
   .hd {
@@ -458,6 +489,9 @@ export default {
     .equip-info-item {
       line-height: 2;
     }
+    border-radius: 15rpx;
+     padding:20rpx 30rpx;
+    background:$bj-gray;
   }
 }
 </style>

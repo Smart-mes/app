@@ -46,7 +46,7 @@
   </view>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState,mapMutations } from "vuex";
 import moment from "moment";
 export default {
   name: "Info",
@@ -75,6 +75,7 @@ export default {
     this.notifyAjax().then(() => uni.stopPullDownRefresh());
   },
   methods: {
+    ...mapMutations(["set_unreadCount"]),
     linkInfo(id) {
       uni.navigateTo({
         url: `/pages/info/infoDetails?id=${id}`,
@@ -94,6 +95,7 @@ export default {
         .then((res) => {
           uni.hideLoading();
           this.notifyList = res;
+          this.set_unreadCount(res.length);
         })
         .catch(() => uni.hideLoading());
     },

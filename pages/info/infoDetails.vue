@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState,mapMutations } from "vuex";
 import moment from "moment";
 export default {
   name: "infoDetails",
@@ -34,6 +34,7 @@ export default {
   },
   
   onLoad(option) {
+    this.minus_unreadCount();
     this.notifyAjax(option.id);
     this.readAjax(option.id);
   },
@@ -41,6 +42,7 @@ export default {
      ...mapState(["userInfo"]),
   },
   methods: {
+     ...mapMutations(["minus_unreadCount"]),
     notifyAjax(id) {
       	uni.showLoading({title: "加载中",mask: true});
         return this.$http

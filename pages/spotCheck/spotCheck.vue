@@ -39,7 +39,7 @@
               </view>
               <view class="task-right">
                 <u-button
-                  type="success"
+                  type="primary"
                   plain
                   :custom-style="customStyle"
                   disabled

@@ -131,18 +131,21 @@ const mutations = {
 	set_unreadCount(state, payload){
 		state.unreadCount=payload;
 		state.navTab.list[3].count=payload;
+	},
+	minus_unreadCount(state){
+		state.unreadCount--;
+		state.navTab.list[3].count--;
 	}
 };
 
 const actions = {
 	unreadPoll({commit,state}){
-		// unreadAjax();
 		state.timer=setTimeout(()=>{
 			actions.getUnread({commit,state})
 			.then(()=>actions.unreadPoll({commit,state}));
 		},60000);
 	},
-	getUnread({ commit,state}){
+	getUnread({commit,state}){
 	 return	http.request({
 			url:"/api/SNotify/UnreadCount",
 			method: "GET", 
@@ -155,6 +158,7 @@ const actions = {
 		});
 	},
 	async getLine({ commit,state }){
+		console.log('请求line');
 		const lineList = await http.request({url: "/api/BLine/CascadeOption",method: "GET"});
 		if(!state.line.length){
 			const {label,value,children}=lineList[0];			
