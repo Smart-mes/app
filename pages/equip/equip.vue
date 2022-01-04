@@ -113,13 +113,18 @@
     <!-- page -->
     <u-toast ref="uToast" />
     <!-- uToast -->
-    <u-modal v-model="del.modelShow" show-cancel-button @confirm="modalConfirm" @cancel="modalCancel">
-      <view class="slot-content">
-        <view class="del-model">
-          <u-icon name="info-circle" color="#f0ba53" size="35" />
-          <text class="text">确定，是否删除？</text>
+    <u-modal 
+      v-model="del.modelShow"
+      show-cancel-button
+      :show-title="false"
+      @confirm="modalConfirm" 
+      @cancel="modalCancel">
+        <view class="slot-content">
+          <view class="del-model">
+            <u-icon name="info-circle" color="#f0ba53" size="35" />
+            <text class="text">确定，是否删除？</text>
+          </view>
         </view>
-      </view>
     </u-modal>
     <!-- 删除 -->
     <view class="fix-add">

@@ -1,8 +1,8 @@
 @font-face {
   font-family: "custom-icon"; /* Project id 2033516 */
-  src: url('https://at.alicdn.com/t/font_2033516_fh8n0798fca.woff2?t=1640846414205') format('woff2'),
-       url('https://at.alicdn.com/t/font_2033516_fh8n0798fca.woff?t=1640846414205') format('woff'),
-       url('https://at.alicdn.com/t/font_2033516_fh8n0798fca.ttf?t=1640846414205') format('truetype');
+  src: url('~@/static/style/font/iconfont.woff2') format('woff2'),
+       url('~@/static/style/font/iconfont.woff') format('woff'),
+       url('~@/static/style/font/iconfont.ttf') format('truetype');
 }
 
 .custom-icon {

@@ -21,7 +21,8 @@
         </view>
         <view class="task-list">
           <block v-for="billTask in billTaskList" :key="billTask.taskCode">
-            <view class="task-item" @click="billLink(billTask.taskCode)">
+            <view class="task-item" @click="billHandle(billTask)">
+              <!-- @click="billLink(billTask.taskCode)" -->
               <view class="task-left">
                 <view class="row">
                   <view class="col-name">单据号：</view>
@@ -38,12 +39,22 @@
               </view>
               <view class="task-right">
                 <u-button
+                  v-if="billTask.state === 1"
                   type="success"
                   plain
-                  :custom-style="customStyle"
                   disabled
+                  :custom-style="customStyle"
                 >
                   填报
+                </u-button>
+                <u-button
+                  v-else-if="billTask.state === 0"
+                  type="primary"
+                  plain
+                  disabled
+                  :custom-style="customStyle"
+                >
+                  接收
                 </u-button>
               </view>
             </view>
@@ -58,6 +69,18 @@
         />
       </view>
     </view>
+    <!--page-->
+    <u-modal
+      v-model="modelShow"
+      show-cancel-button
+      :show-title="false"
+      @confirm="modalConfirm"
+      @cancel="modalCancel"
+    >
+      <view class="modal-content"> 确定，是否接收？ </view>
+    </u-modal>
+    <!-- modal -->
+    <u-toast ref="uToast" />
   </view>
 </template>
 
@@ -78,16 +101,19 @@ export default {
       },
       billCode: "EM",
       billTaskList: [],
+      modelShow: false,
+      billTask:null,
     };
   },
   computed: {
-    ...mapState(["line"]),
+    ...mapState(["line", "userInfo"]),
   },
   // onLoad() {},
   onShow() {
     this.billTaskAjax();
   },
   methods: {
+    // api/BillTask?billCode=EM&active=1
     billTaskAjax() {
       uni.showLoading({ title: "加载中", mask: true });
       return this.$http
@@ -96,7 +122,8 @@ export default {
           method: "GET",
           data: {
             billCode: this.billCode,
-            state: 1,
+            active:1
+            // state: 1,
             // prop: "lineCode",
             // value: this.line[1].value,
           },
@@ -114,12 +141,39 @@ export default {
     //   uni.navigateTo({ url: "/pages/firstCheck/createBill" });
     // },
     historyLink() {
-      uni.navigateTo({ url: "/pages/TPM/TPMhistory"});
+      uni.navigateTo({ url: "/pages/TPM/TPMhistory" });
+    },
+    billHandle(billTask) {
+      this.billTask=billTask;
+      this.billTask.headerData=JSON.stringify(this.billTask.headerData);
+
+      if (billTask.state === 0) {
+        this.modelShow = true;
+      } else if (billTask.state === 1) {
+        this.billLink(billTask.taskCode);
+      }
+    },
+    BTaskStateAjax(){
+       return this.$http.request({
+        url:`/api/BTaskState/${this.billTask.id}`,
+        method: "PUT",
+        data: { ...this.billTask, state: 1, receiveEmp: this.userInfo.empCode }
+      });
     },
     billLink(taskCode) {
       uni.navigateTo({
         url: `/pages/TPM/TPMbill?taskCode=${taskCode}`,
       });
+    },
+    modalConfirm() {
+      this.BTaskStateAjax().then(()=>{
+         this.modelShow=false;
+         this.billTaskAjax();
+         this.$refs.uToast.show({ title: "提交成功",type: "success"});    
+      });
+    },
+    modalCancel() {
+      this.modelShow=false;
     },
   },
 };

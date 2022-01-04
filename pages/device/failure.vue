@@ -226,7 +226,6 @@ export default {
       });
     },
     skip({ stationName, machineCode }) {
-      console.log("跳转", stationName, machineCode);
       uni.navigateTo({
         url: `/pages/device/failureForm?stationName=${stationName}&machineCode=${machineCode}`,
       });

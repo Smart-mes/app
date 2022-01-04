@@ -102,13 +102,13 @@ export default {
             trigger: "blur,change",
           },
         ],
-        stationCode: [
-          {
-            required: true,
-            message: "不能为空",
-            trigger: "blur,change",
-          },
-        ],
+        // stationCode: [
+        //   {
+        //     required: true,
+        //     message: "不能为空",
+        //     trigger: "blur,change",
+        //   },
+        // ],
         event: [
           {
             required: true,

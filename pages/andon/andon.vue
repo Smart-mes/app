@@ -121,7 +121,6 @@ export default {
     },
     // //获取数据
     andonAjax() {
-      // console.log('进去请求');
       uni.showLoading({ title: "加载中", mask: true });
       return this.$http
         .request({

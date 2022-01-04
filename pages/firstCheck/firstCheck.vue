@@ -40,8 +40,9 @@
               <view class="task-right">
                 <u-button
                   type="primary"
-                  :custom-style="customStyle"
                   plain
+                  disabled
+                  :custom-style="customStyle"
                 >
                   填报
                 </u-button>

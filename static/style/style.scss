@@ -170,11 +170,15 @@ html,body{
   }
 }
 // form禁止
+.disabled{
+  .uni-input-input:disabled{color:#ee413b !important;}
+  .uni-textarea-textarea:disabled{color:#ee413b !important;}
+  .u-radio__label{color:#ee413b !important;}
+  .u-checkbox__label{color:#ee413b !important;}
+}
 
-  .disabled{
-    .uni-input-input:disabled{color:#ee413b !important;}
-    .u-radio__label{color:#ee413b !important;}
-    .u-checkbox__label{color:#ee413b !important;}
-    }
-
+.modal-content{
+  padding: 30rpx;
+  text-align: center;
+}
 

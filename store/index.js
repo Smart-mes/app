@@ -158,7 +158,6 @@ const actions = {
 		});
 	},
 	async getLine({ commit,state }){
-		console.log('请求line');
 		const lineList = await http.request({url: "/api/BLine/CascadeOption",method: "GET"});
 		if(!state.line.length){
 			const {label,value,children}=lineList[0];			

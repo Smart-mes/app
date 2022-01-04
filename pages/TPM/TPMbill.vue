@@ -82,7 +82,7 @@ export default {
     } else {
       this.navBar.title = "保养填单";
     }
-
+    this.formList[0].disabled=!!this.pageType;
     this.formList[1].disabled=!!this.pageType;
     this.taskAjax(taskCode)
       .then(([data]) => {
