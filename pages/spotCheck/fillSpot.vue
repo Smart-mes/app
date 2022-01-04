@@ -36,7 +36,7 @@
       <!-- 切换 -->
       <view class="basic-box form">
         <customForm
-          ref="BillFrom"
+          ref="BillForm"
           :form="inspectionItems[index]"
           :formList="formList"
           :rules="rules"
@@ -292,7 +292,7 @@ export default {
        if(this.index+1===this.inspectionItems.length){
          return void 0;
        }
-        this.$refs.BillFrom.validateForm().then((valid) => {
+        this.$refs.BillForm.validateForm().then((valid) => {
           if (valid) {
             this.index++;
           }
@@ -312,7 +312,7 @@ export default {
         })
       },
       submit() {       
-        this.$refs.BillFrom.validateForm().then((valid) => {
+        this.$refs.BillForm.validateForm().then((valid) => {
           if (valid) {
             let ngQty = 0
             const inspectionItems = JSON.parse(JSON.stringify(this.inspectionItems))          

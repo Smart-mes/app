@@ -15,7 +15,7 @@
       </view>
       <!-- basic -->
       <view class="basic-box">
-        <customForm :form="formData" :formList="formList" :rules="rules">
+        <customForm ref="TPMform" :form="formData" :formList="formList" :rules="rules">
           <view slot="submit">
             <view class="btn">
               <u-row gutter="20">
@@ -65,7 +65,15 @@ export default {
           type:"textarea",
         }
       ],
-      rules: {},
+      rules: {
+        checkItems: [
+          {
+            required: true,
+            message: "不能为空",
+            trigger: "blur,change",
+          },
+        ]
+      },
       // 保养
       pageType:"",
       billCode: "EM",
@@ -141,6 +149,13 @@ export default {
 
     },
     submit() {
+        this.$refs.TPMform.validateForm().then((valid) => {
+          if (valid) {
+           this.BillTaskAjax();
+          }
+        });
+    },
+    BillTaskAjax(){
       const taskState = { ...this.taskState, bodyData: JSON.stringify(this.formData)};
       const taskLog = {
           taskCode: taskState.taskCode,
@@ -157,12 +172,13 @@ export default {
             data: { taskState, taskLog }
           }).then(() => {             
               this.submitDisabled=true;
-              this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/TPM/historyTPM" });
+              this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/TPM/TPMhistory" });
           }).catch(()=>{
               this.submitDisabled=false;
               this.$refs.uToast.show({ title: "提交失败", type: "error" })
       }); 
-    },
+
+    }
   },
 };
 </script>

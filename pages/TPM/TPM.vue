@@ -113,7 +113,6 @@ export default {
     this.billTaskAjax();
   },
   methods: {
-    // api/BillTask?billCode=EM&active=1
     billTaskAjax() {
       uni.showLoading({ title: "加载中", mask: true });
       return this.$http
@@ -137,16 +136,11 @@ export default {
         })
         .catch(() => uni.hideLoading());
     },
-    // createLink() {
-    //   uni.navigateTo({ url: "/pages/firstCheck/createBill" });
-    // },
     historyLink() {
-      uni.navigateTo({ url: "/pages/TPM/TPMhistory" });
+      uni.navigateTo({ url: "/pages/TPM/TPMhistory"});
     },
     billHandle(billTask) {
       this.billTask=billTask;
-      this.billTask.headerData=JSON.stringify(this.billTask.headerData);
-
       if (billTask.state === 0) {
         this.modelShow = true;
       } else if (billTask.state === 1) {
@@ -157,7 +151,11 @@ export default {
        return this.$http.request({
         url:`/api/BTaskState/${this.billTask.id}`,
         method: "PUT",
-        data: { ...this.billTask, state: 1, receiveEmp: this.userInfo.empCode }
+        data: { 
+          ...this.billTask,
+          headerData:JSON.stringify(this.billTask.headerData),
+          state: 1, 
+          receiveEmp: this.userInfo.empCode }
       });
     },
     billLink(taskCode) {

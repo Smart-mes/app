@@ -9,6 +9,7 @@
           :seletform="formSeletData"
           :formList="formList"
           :rules="rules"
+          :loading="btnLoading"
           @selectChange="selectChange"
           @getFormData="getFormData"
         />
@@ -68,7 +69,12 @@ export default {
           props: "stationCode",
           type: "select",
           sheetShow: false,
-          optionList: [],
+          optionList: [
+            {
+             value: '',
+             label:"没有工位",
+            }
+          ],
         },
         {
           label: "事件",
@@ -177,10 +183,10 @@ export default {
       ]);
     },
     selectChange(propsType, [{ value, label }]) {
-      if (propsType && value && label) {
-        this.formData[propsType] = label;
+      // if (propsType && value && label) {
+        this.formData[propsType] = label==="没有工位"?'':label;
         this.formSeletData[propsType] = value;
-      }
+      // }
     },
     getFormData(formData) {
       formData.event += '';   
