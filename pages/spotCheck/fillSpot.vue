@@ -242,7 +242,7 @@ export default {
             this.formList.push({
               label: `${ c.name }${ c.unit ? `(${c.unit})` : '' }`,
               props: c.name,
-              type: c.condition === "人工判断" ? "radio" : "input",
+              type: c.condition === "人工判断" ? "radio" : "number",
               radioList: [
                 { name: 0, label: "NG",disabled:!!this.pageType },
                 { name: 1, label: "OK",disabled:!!this.pageType },

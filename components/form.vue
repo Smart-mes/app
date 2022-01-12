@@ -7,21 +7,13 @@
         :label="formItem.label"
         :prop="formItem.props"
       >
-        <template v-if="formItem.type === 'input'">
-          <u-input
-            v-model="form[formItem.props]"
-            :disabled="formItem.disabled"
-            :placeholder="formItem.placeholder"
-            :class="{disabled:!!formItem.disabled}"        
-          />
-        </template>
-        <template v-else-if="formItem.type === 'textarea'">
+        <template v-if="inputType(formItem.type)">
           <u-input
             v-model="form[formItem.props]"
             :type="formItem.type"
             :disabled="formItem.disabled"
             :placeholder="formItem.placeholder"
-            :class="{disabled:!!formItem.disabled}"  
+            :class="{disabled:!!formItem.disabled}"        
           />
         </template>
         <template v-else-if="formItem.type === 'select'">
@@ -179,6 +171,9 @@ export default {
             form[key] = this.seletform !== null && this.seletform[key] ? this.seletform[key]: this.form[key];
        };
        return form;
+    },
+    inputType(type){
+      return type === 'input'||type ==='number'||type ==='textarea'||type ==='password';
     },
     validateForm(){
       return  new Promise(resolve=>
