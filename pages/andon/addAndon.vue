@@ -1,4 +1,4 @@
-<template>
+  <template>
   <view>
     <navBar :title="navBar.title" :is-back="navBar.isBack" />
     <!--navBar  -->

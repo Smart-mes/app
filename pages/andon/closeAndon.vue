@@ -83,7 +83,7 @@ export default {
 			 this.andon.closeComment=this.formData.closeComment;
 			 this.$http.request({ url: `/api/PAndonList/${this.andon.id}`, method: "PUT", data: this.andon })
 			 .then(
-				 ()=> this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/andon/andon"})
+				 ()=> this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/andon/andonHistory"})
 			 )
 			 .catch(
 				 ()=>this.$refs.uToast.show({ title: "提交失败", type: "error" })
