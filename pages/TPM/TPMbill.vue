@@ -140,13 +140,7 @@ export default {
         url: '/api/BillTask/Save', 
           method: "POST",
           data: formData
-        }).then(() => {
-           this.$refs.uToast.show({ title: "保存成功",type: "success"});
-        })
-        .catch(() =>{
-          this.$refs.uToast.show({ title: "保存失败", type: "error" })
-      })
-
+        }).then(() => this.$refs.uToast.show({ title: "保存成功",type: "success"}))
     },
     submit() {
         this.$refs.TPMform.validateForm().then((valid) => {
@@ -173,10 +167,7 @@ export default {
           }).then(() => {             
               this.submitDisabled=true;
               this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/TPM/TPMhistory" });
-          }).catch(()=>{
-              this.submitDisabled=false;
-              this.$refs.uToast.show({ title: "提交失败", type: "error" })
-      }); 
+          }).catch(()=>this.submitDisabled=false); 
 
     }
   },

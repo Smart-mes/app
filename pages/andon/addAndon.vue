@@ -229,10 +229,7 @@ export default {
             this.btnLoading=false;
             this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/andon/andon"})
         })
-        .catch(() =>{
-           this.btnLoading=false;
-          this.$refs.uToast.show({ title: "提交失败", type: "error" })
-        });
+        .catch(() =>this.btnLoading=false);
     },
   },
 };

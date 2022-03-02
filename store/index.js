@@ -4,7 +4,6 @@ import http from '@/util/http'
 Vue.use(Vuex)
 
 const userInfo = uni.getStorageSync('userInfo');
-// const unreadCount=uni.getStorageSync('unreadCount')||0;
 const state = {
 	// 登录
 	hasLogin: !!userInfo,
@@ -77,6 +76,11 @@ const state = {
 			title: "设备工装",
 			url: "/pages/equip/equip",
 		},
+		{
+			icon: "equip",
+			title: "SMT装料",
+			url: "/pages/charge/charge",
+		},
 	],
 	// 常用菜单
 	usuallyMenu: uni.getStorageSync('usuallyMenu')||[] ,
@@ -97,11 +101,10 @@ const mutations = {
 	},
 	//退出登录
 	logout(state) {
-		state.hasLogin = false;
-		state.userInfo = '';
-		state.line=[];
-		state.usuallyMenu = [];
-		state.unreadCount=0;
+		const obj={hasLogin:false,unreadCount:0,userInfo:'',line:[],usuallyMenu:[]}
+		for (let key in obj){
+			state[key]=obj[key]
+		}
 		uni.clearStorageSync();
 		clearTimeout(state.timer)
 	},
@@ -137,7 +140,6 @@ const mutations = {
 		state.navTab.list[3].count--;
 	}
 };
-
 const actions = {
 	unreadPoll({commit,state}){
 		state.timer=setTimeout(()=>{
@@ -153,9 +155,7 @@ const actions = {
 				empCode:state.userInfo.empCode
 			}
 		})
-		.then(res=>{
-			commit('set_unreadCount',res);
-		});
+		.then(res=>commit('set_unreadCount',res));
 	},
 	async getLine({ commit,state }){
 		const lineList = await http.request({url: "/api/BLine/CascadeOption",method: "GET"});
@@ -169,7 +169,6 @@ const actions = {
 		return await http.request({url:payload.url,method: "GET", data: payload.data});
 	}
 }
-
 const store = new Vuex.Store({
 	state,
 	mutations,

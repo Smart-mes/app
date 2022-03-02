@@ -44,13 +44,7 @@
                   :percent="product.percent"
                 >
                   <text>
-                    {{
-                      product.percent === 0
-                        ? "未生产"
-                        : product.percent === 100
-                        ? "已完成"
-                        : "生产中"
-                    }}{{ product.percent }}%
+                    {{!product.percent? "未生产": product.percent === 100? "已完成": "生产中"}}{{ product.percent }}%
                   </text>
                 </u-circle-progress>
               </view>
@@ -72,9 +66,7 @@
                 <u-col span="6">
                   <view class="info-item">
                     <text class="info-name">完&ensp;成&ensp;数：</text>
-                    <text class="info-text text-dec">{{
-                      product.cpltQty
-                    }}</text>
+                    <text class="info-text text-dec">{{product.cpltQty}}</text>
                   </view>
                   <view class="info-item">
                     <text class="info-name">良&emsp;&emsp;率：</text>
@@ -113,10 +105,7 @@
               </view>
               <view>
                 <text class="assist-name">计划时间：</text>
-                <text class="assist-time">
-                  {{ product.plannedTime }}
-                  <!-- {{ $moment().format('YYYY-MM-DD HH:mm:ss')}}===00 -->
-                </text>
+                <text class="assist-time">{{ product.plannedTime }}</text>
               </view>
             </view>
           </view>
@@ -185,9 +174,7 @@ export default {
         .request({
           url: "/api/ProduceReport/wsCodeProduct",
           method: "GET",
-          data: {
-            wsCode: this.wsCode,
-          },
+          data: {wsCode: this.wsCode},
         })
         .then(({ productList }) => {
           uni.hideLoading();

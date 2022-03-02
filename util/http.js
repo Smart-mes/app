@@ -27,19 +27,13 @@ const request = (opt) => {
 			throw res
 		}	
 	}).catch(error => {
+		let message = error.data.message.toString()
 		switch (error.statusCode) {
 			case 400:
-				let message = error.data.message.toString()
-				uni.showToast({
-					title: message,
-					icon: 'none'
-				})
+				uni.showToast({title: message,icon: 'none'})
 				break
 			default:
-				uni.showToast({
-					title: '网络错误',
-					icon: 'none'
-				})				
+				uni.showToast({title: '网络错误',icon: 'none'})				
 				break
 		};
 		reject(error);
@@ -49,7 +43,4 @@ const request = (opt) => {
  });
  return promise;
 }
-
-export default {
-	request
-};
+export default {request};

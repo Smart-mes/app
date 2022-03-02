@@ -18,18 +18,18 @@
         <u-icon
           class="icon"
           custom-prefix="custom-icon"
-          name="left-arrow"
-          color="#999"
+          name="left-arrow"        
           size="50"
+          :color="index===0?'#999':'#2979ff'"
           @click="prev"
         />
         <view class="paging">{{ index + 1 }}/{{ aql.qty }}</view>
         <u-icon
           class="icon"
           custom-prefix="custom-icon"
-          name="right-arrow"
-          color="#999"
+          name="right-arrow"     
           size="50"
+          :color="index + 1 ===aql.qty?'#999':'#2979ff'"
           @click="next"
         />
       </view>
@@ -304,12 +304,8 @@ export default {
           url: '/api/BillTask/Save', 
           method: "POST",
           data: formData
-        }).then(() => {
-           this.$refs.uToast.show({ title: "保存成功",type: "success"});
         })
-        .catch(() =>{
-           this.$refs.uToast.show({ title: "保存失败", type: "error" })
-        })
+        .then(() => this.$refs.uToast.show({ title: "保存成功",type: "success"}))
       },
       submit() {       
         this.$refs.BillForm.validateForm().then((valid) => {
@@ -346,10 +342,8 @@ export default {
             }).then(() => {
               //  this.submitDisabled=true;
                this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/spotCheck/spotHistory"});
-            }).catch(()=>{
-              this.submitDisabled=false;
-              this.$refs.uToast.show({ title: "提交失败", type: "error" });
-            })      
+            })
+            .catch(()=>this.submitDisabled=false)      
           }
         });
       },

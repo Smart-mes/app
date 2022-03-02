@@ -8,7 +8,7 @@
           :form="formData"
           :seletform="formSeletData"
           :formList="formList"
-          :buttonHide="false"
+          buttonHide
           @selectChange="selectChange"
         />
       </view>
@@ -240,9 +240,7 @@ export default {
   },
   onLoad() {
     this.formData.lineCode = this.line[1].label;
-    this.machinesAjax().then(
-      () => this.formData.machineCode && this.workToolAjax()
-    );
+    this.machinesAjax().then(() => this.formData.machineCode && this.workToolAjax());
   },
   methods: {
     selectChange(propsType, [{ value, label }]) {
@@ -293,7 +291,7 @@ export default {
           this.workToolCode = res.result;
         },
         fail: () => {
-          this.$refs.uToast.show({ title: "提交失败", type: "error" });
+          this.$refs.uToast.show({ title: "扫码失败", type: "error" });
         },
       });
     },
@@ -367,10 +365,7 @@ export default {
         })
         .then(() => {
           this.$refs.uToast.show({ title: "删除成功", type: "success" });
-        })
-        .catch(() =>
-          this.$refs.uToast.show({ title: "删除失败", type: "error" })
-        );
+        });
     },
     clearWorkTool() {
       this.workToolCode = "";
@@ -449,9 +444,8 @@ export default {
   }
 }
 .popup {
-  padding: 30rpx;
+  padding:60rpx 30rpx;
   .hd {
-    //  background: red;
     overflow: hidden;
     padding: 20rpx 0;
     display: flex;

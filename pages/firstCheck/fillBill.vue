@@ -19,8 +19,8 @@
           class="icon"
           custom-prefix="custom-icon"
           name="left-arrow"
-          color="#999"
           size="50"
+          :color="index===0?'#999':'#2979ff'"
           @click="prev"
         />
         <view class="paging">{{ index + 1 }}/{{ aql.qty }}</view>
@@ -28,8 +28,8 @@
           class="icon"
           custom-prefix="custom-icon"
           name="right-arrow"
-          color="#999"
           size="50"
+          :color="index + 1 ===aql.qty?'#999':'#2979ff'"
           @click="next"
         />
       </view>
@@ -306,7 +306,7 @@ export default {
            this.$refs.uToast.show({ title: "保存成功",type: "success"});
         })
         .catch(() =>{
-           this.$refs.uToast.show({ title: "保存失败", type: "error" })
+           this.$refs.uToast.show({ title: "保存失败", type: "error" });
         })
       },
       submit() {       
@@ -340,13 +340,11 @@ export default {
               url: '/api/BillTask/Submit', 
               method: "POST",
               data: { taskState, taskLog }
-            }).then(() => {
-              //  this.submitDisabled=true;
-               this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/firstCheck/firstCheckHistory"});
-            }).catch(()=>{
-              this.submitDisabled=false;
-              this.$refs.uToast.show({ title: "提交失败", type: "error" });
-            })      
+            })
+            .then(() =>  this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/firstCheck/firstCheckHistory"})
+              //  this.submitDisabled=true;   
+            )
+            .catch(()=>this.submitDisabled=false)      
           }
         });
       },

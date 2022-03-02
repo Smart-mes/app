@@ -85,9 +85,6 @@ export default {
 			 .then(
 				 ()=> this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/andon/andonHistory"})
 			 )
-			 .catch(
-				 ()=>this.$refs.uToast.show({ title: "提交失败", type: "error" })
-			 )
 		},
   },
 };

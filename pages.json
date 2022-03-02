@@ -3,7 +3,7 @@
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [
-			// {
+		// {
 		// 	"path": "pages/analyse/analyse",
 		// 	"style": {
 		// 		"navigationBarTitleText": "设备效率分析",
@@ -38,7 +38,7 @@
 		// 		"navigationStyle": "custom"
 		// 	}
 		// },
-				// {
+		// {
 		// 	"path": "pages/retrospect/retrospect",
 		// 	"style": {
 		// 		"navigationBarTitleText": "工艺追溯",
@@ -89,7 +89,6 @@
 		// 		"navigationBarTextStyle": "black"
 		// 	}
 		// },
-
 		{
 			"path": "pages/login/login",
 			"style": {
@@ -253,15 +252,23 @@
 				"navigationBarTitleText": "保养历史单据",
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/equip/equip",
+			"style": {
+				"navigationBarTitleText": "设备工装",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/charge/charge",
+			"style": {
+				"navigationBarTitleText": "装料",
+				"navigationStyle": "custom"
+			}
+
 		}
-   ,{
-      "path" : "pages/equip/equip",
-      "style" :{
-          "navigationBarTitleText": "设备工装",
-           "navigationStyle": "custom"
-        }          
-    }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",
 		"navigationBarTextStyle": "black",
@@ -275,8 +282,7 @@
 		"selectedColor": "#303133",
 		"backgroundColor": "#FFFFFF",
 		"borderStyle": "black",
-		"list": [
-			{
+		"list": [{
 				"pagePath": "pages/index/index",
 				"text": "首页"
 			},
@@ -300,91 +306,10 @@
 	}
 	// "condition": {
 	// 	"current": 0,
-	// 	"list": [
-	// 		{
-	// 			"name": "firstCheck",
-	// 			"path": "pages/firstCheck/firstCheck"
-	// 		},
-	// 		{
-	// 			"name": "addAndon",
-	// 			"path": "pages/andon/addAndon"
-	// 		}
-	// 		// {
-	// 		// 	"name": "index",
-	// 		// 	"path": "pages/index/index"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "product",
-	// 		// 	"path": "pages/product/product"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "device",
-	// 		// 	"path": "pages/device/device"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "failure",
-	// 		// 	"path": "pages/device/failure"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "failureForm",
-	// 		// 	"path": "pages/device/failureForm"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "retrospect",
-	// 		// 	"path": "pages/retrospect/retrospect"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "effect",
-	// 		// 	"path": "pages/effect/effect"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "quality",
-	// 		// 	"path": "pages/quality/quality"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "info",
-	// 		// 	"path": "pages/info/info"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "infoDetails",
-	// 		// 	"path": "pages/info/infoDetails"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "analyse",
-	// 		// 	"path": "pages/analyse/analyse"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "analyseDetail",
-	// 		// 	"path": "pages/analyse/analyseDetail"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "my",
-	// 		// 	"path": "pages/my/my"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "addMeaus",
-	// 		// 	"path": "pages/index/addMenu"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "scanCode",
-	// 		// 	"path": "pages/scanCode/scanCode"
-	// 		// },
-	// 		// {
-	// 		// 	"name":"gongGe",
-	// 		// 	"path" : "pages/meaus/meaus"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "passRate",
-	// 		// 	"path": "pages/passRate/passRate"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "UPH",
-	// 		// 	"path" : "pages/UPH/UPH"
-	// 		// },
-	// 		// {
-	// 		// 	"name": "qitao", 
-	// 		// 	"path" : "pages/qitao/qitao"
-	// 		// }
-	// 	]
+	// 	"list": [{
+	// 		"name": "firstCheck",
+	// 		"path": "pages/firstCheck/firstCheck"
+	// 	}]
 	// }
+	
 }

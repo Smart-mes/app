@@ -156,10 +156,7 @@
               <!-- /关机 -->
               <view class="device-item" v-if="device.state === -1">
                 <view
-                  :class="[
-                    'device-item-box',
-                    !device.stopState ? 'normal' : 'fault',
-                  ]"
+                  :class="['device-item-box',!device.stopState ? 'normal' : 'fault', ]"
                 >
                   <!-- fault  -->
                   <view class="device-item-no">{{ device.machineCode }}</view>
@@ -315,9 +312,7 @@ export default {
       this.setDeviceData();
     },
     init() {
-      this.procedureAjax().then(() => {
-        this.deviceAjax();
-      });
+      this.procedureAjax().then(() =>this.deviceAjax());
     },
     // 手风琴展开收齐
     accordion(item) {
@@ -332,18 +327,13 @@ export default {
     },
     // //获取数据
     deviceAjax() {
-      uni.showLoading({
-        title: "加载中",
-        mask: true,
-      });
+      uni.showLoading({ title: "加载中",mask: true});
 
       return this.$http
         .request({
           url: "/api/MachineReport/allMachineState",
           method: "GET",
-          data: {
-            wsCode: this.wsCode,
-          },
+          data: {wsCode: this.wsCode},
         })
         .then(({ machineState: machines }) => {
           uni.hideLoading();
@@ -374,9 +364,7 @@ export default {
   },
   onLoad(){},
   onPullDownRefresh() {
-    this.deviceAjax().then(() => {
-      uni.stopPullDownRefresh();
-    });
+    this.deviceAjax().then(() => uni.stopPullDownRefresh());
   },
 };
 </script>

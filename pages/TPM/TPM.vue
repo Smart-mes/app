@@ -38,24 +38,21 @@
                 </view>
               </view>
               <view class="task-right">
-                <u-button
-                  v-if="billTask.state === 1"
-                  type="success"
+                <u-button                
                   plain
                   disabled
+                  :type="!billTask.state?'primary':'success'"
                   :custom-style="customStyle"
                 >
-                  填报
+                {{!billTask.state?"接收":"填报"}}   
                 </u-button>
-                <u-button
+                <!-- <u-button
                   v-else-if="billTask.state === 0"
                   type="primary"
                   plain
                   disabled
                   :custom-style="customStyle"
-                >
-                  接收
-                </u-button>
+                >接收</u-button> -->
               </view>
             </view>
           </block>
@@ -75,7 +72,6 @@
       show-cancel-button
       :show-title="false"
       @confirm="modalConfirm"
-      @cancel="modalCancel"
     >
       <view class="modal-content"> 确定，是否接收？ </view>
     </u-modal>
@@ -95,10 +91,7 @@ export default {
         isBack: true,
       },
       // 填报列表
-      customStyle: {
-        height: "60rpx",
-        lineHeigh: "60rpx",
-      },
+      customStyle: {height: "60rpx",lineHeigh: "60rpx"},
       billCode: "EM",
       billTaskList: [],
       modelShow: false,
@@ -108,28 +101,26 @@ export default {
   computed: {
     ...mapState(["line", "userInfo"]),
   },
-  // onLoad() {},
+  onLoad() {},
   onShow() {
     this.billTaskAjax();
   },
   methods: {
     billTaskAjax() {
+      console.log('000')
       uni.showLoading({ title: "加载中", mask: true });
       return this.$http
         .request({
           url: "/api/BillTask",
           method: "GET",
-          data: {
-            billCode: this.billCode,
-            active:1
-            // state: 1,
-            // prop: "lineCode",
-            // value: this.line[1].value,
-          },
+          data: {billCode: this.billCode,active:1} 
+          // state: 1,
+          // prop: "lineCode",
+          // value: this.line[1].value,
         })
         .then((res) => {
           uni.hideLoading();
-          this.billTaskList = res.map((item) => {
+          this.billTaskList = res.map(item => {
             item.headerData = JSON.parse(item.headerData);
             return item;
           });
@@ -141,9 +132,9 @@ export default {
     },
     billHandle(billTask) {
       this.billTask=billTask;
-      if (billTask.state === 0) {
+      if (!billTask.state) {
         this.modelShow = true;
-      } else if (billTask.state === 1) {
+      } else{
         this.billLink(billTask.taskCode);
       }
     },
@@ -152,26 +143,22 @@ export default {
         url:`/api/BTaskState/${this.billTask.id}`,
         method: "PUT",
         data: { 
-          ...this.billTask,
-          headerData:JSON.stringify(this.billTask.headerData),
+          ...this.billTask,   
           state: 1, 
-          receiveEmp: this.userInfo.empCode }
+          receiveEmp: this.userInfo.empCode,
+          headerData:JSON.stringify(this.billTask.headerData),
+          }
       });
     },
     billLink(taskCode) {
-      uni.navigateTo({
-        url: `/pages/TPM/TPMbill?taskCode=${taskCode}`,
-      });
+      uni.navigateTo({url: `/pages/TPM/TPMbill?taskCode=${taskCode}`});
     },
     modalConfirm() {
       this.BTaskStateAjax().then(()=>{
-         this.modelShow=false;
+         this.$refs.uToast.show({ title: "提交成功",type: "success"});   
          this.billTaskAjax();
-         this.$refs.uToast.show({ title: "提交成功",type: "success"});    
+         
       });
-    },
-    modalCancel() {
-      this.modelShow=false;
     },
   },
 };

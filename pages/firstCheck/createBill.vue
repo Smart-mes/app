@@ -64,34 +64,10 @@ export default {
         { label: "批次数量", props: "lotQty", type: "input" },
       ],
       rules: {
-        lineCode: [
-          {
-            required: true,
-            message: "不能为空",
-            trigger: "blur,change",
-          },
-        ],
-        orderNo: [
-          {
-            required: true,
-            message: "不能为空",
-            trigger: "blur,change",
-          },
-        ],
-        pid: [
-          {
-            required: true,
-            message: "不能为空",
-            trigger: "blur,change",
-          },
-        ],
-        lotQty: [
-          {
-            required: true,
-            message: "不能为空",
-            trigger: "blur,change",
-          },
-        ],
+        lineCode: [{required: true, message: "不能为空",trigger: "blur,change"}],
+        orderNo: [{required: true,message: "不能为空",trigger: "blur,change"}],
+        pid: [ {required: true, message: "不能为空",trigger: "blur,change"}],
+        lotQty: [{required: true,message: "不能为空",trigger: "blur,change"}],
       },
     };
   },
@@ -163,17 +139,14 @@ export default {
 
     },
     addAjax(parame) {
-       this.btnLoading=true;
+      this.btnLoading=true;
       this.$http
         .request({ url: "/api/BillTask/Create", method: "POST", data: parame })
         .then(() =>{
           this.btnLoading=false;
           this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/firstCheck/firstCheck"});
         })
-        .catch(() =>{
-           this.btnLoading=false;
-           this.$refs.uToast.show({ title: "提交失败", type: "error" });
-        });
+        .catch(() =>this.btnLoading=false);
     }, 
   },
 };

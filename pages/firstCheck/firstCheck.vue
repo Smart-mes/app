@@ -38,14 +38,7 @@
                 </view>
               </view>
               <view class="task-right">
-                <u-button
-                  type="primary"
-                  plain
-                  disabled
-                  :custom-style="customStyle"
-                >
-                  填报
-                </u-button>
+                <u-button type="primary" plain disabled :custom-style="customStyle">填报</u-button>
               </view>
             </view>
           </block>
@@ -118,9 +111,7 @@ export default {
       uni.navigateTo({ url: "/pages/firstCheck/firstCheckHistory" });
     },
     billLink(taskCode) {
-      uni.navigateTo({
-        url: `/pages/firstCheck/fillBill?taskCode=${taskCode}`,
-      });
+      uni.navigateTo({ url: `/pages/firstCheck/fillBill?taskCode=${taskCode}`});
     },
   },
 };

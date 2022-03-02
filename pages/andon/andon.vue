@@ -79,9 +79,7 @@ export default {
         title: "安灯管理",
         isBack: true,        
       },
-      form: {
-        desc: "",
-      },
+      form: {desc: ""},
       andonList: [],
       show: false,
       // 字典

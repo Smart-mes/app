@@ -171,8 +171,8 @@ html,body{
 }
 // form禁止
 .disabled{
-  .uni-input-input:disabled{color:#ee413b !important;}
-  .uni-textarea-textarea:disabled{color:#ee413b !important;}
+  .uni-input-input{color:#ee413b !important;}
+  .uni-textarea-textarea{color:#ee413b !important;}
   .u-radio__label{color:#ee413b !important;}
   .u-checkbox__label{color:#ee413b !important;}
 }
@@ -180,5 +180,15 @@ html,body{
 .modal-content{
   padding: 30rpx;
   text-align: center;
+}
+.public-title{
+  display: flex;
+  .title-left{
+    flex: 1;
+  }
+  .title-right{
+    font-size:$font-24;
+    color:$font-light-gray;
+  }
 }
 
