@@ -12,11 +12,7 @@
     <view class="u-page">
       <!-- 搜索 -->      
       <view class="develop-list">
-        <view
-          class="develop-item"
-          v-for="andonItem in andonList"
-          :key="andonItem.id"
-        >
+        <view class="develop-item" v-for="andonItem in andonList" :key="andonItem.id">
           <view class="hd">
             <view class="left">
               <view class="info">
@@ -75,10 +71,7 @@ export default {
   name:"Andon",
   data() {
     return {
-      navBar: {
-        title: "安灯管理",
-        isBack: true,        
-      },
+      navBar: {title: "安灯管理",isBack: true},
       form: {desc: ""},
       andonList: [],
       show: false,
@@ -95,14 +88,15 @@ export default {
   },
   onLoad() {
     // 字典
-    this.DictAjax().then(()=>this.andonAjax())  
+    this.dictAjax();
+    this.eventDictAjax();
+  },
+  onReady(){
+    this.andonAjax();
   },
   methods: {
-    ...mapActions(["getDict"]),
-    DictAjax() {
-      return Promise.all([ this.DictionaryAjax(),this.eventDictAjax()])
-    },   
-    DictionaryAjax(){
+    ...mapActions(["getDict"]),  
+    dictAjax(){
       return  this.getDict({url:"/api/Dictionary",data:{keys:"BLine|BStationList|BProduct|SEmployee"}})
           .then(({ BLine,BStationList,BProduct,SEmployee }) => {
             this.BLineDict = BLine;
@@ -113,9 +107,7 @@ export default {
     },
     eventDictAjax(){
       return this.getDict({url:"/api/SDataTranslation",data:{ searchText: "P_AndonList" }})
-          .then(res => 
-          res.map( ({ value, label }) => this.eventDict[value] = label.toString())
-          );
+          .then(res => res.map( ({ value, label }) => this.eventDict[value] = label.toString()));
     },
     // //获取数据
     andonAjax() {
@@ -124,10 +116,7 @@ export default {
         .request({
           url: "/api/PAndonList",
           method: "GET",
-          data: {
-            lineCode: this.line[1].value, 
-            state: 1
-          },
+          data: { lineCode: this.line[1].value, state: 1},
         })
         .then((res) => {
           uni.hideLoading();

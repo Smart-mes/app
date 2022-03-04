@@ -13,12 +13,7 @@
       <!-- 搜索 -->
       <view class="bill">
         <view class="title">
-          <u-section
-            title="单据列表"
-            font-size="30"
-            :show-line="false"
-            :right="false"
-          />
+          <u-section title="单据列表" font-size="30" :show-line="false" :right="false"/>
         </view>
         <view class="task-list">
           <block v-for="billTask in billTaskList" :key="billTask.taskCode">
@@ -28,11 +23,7 @@
                   <view class="col-name">单据号：</view>
                   <view class="col-text">{{ billTask.taskCode }}</view>
                 </view>
-                <view
-                  class="row"
-                  v-for="value in billTask.headerData"
-                  :key="value.label"
-                >
+                <view class="row" v-for="value in billTask.headerData" :key="value.label" >
                   <view class="col-name">{{ value.label }}：</view>
                   <view class="col-text">{{ value.displayValue }}</view>
                 </view>
@@ -43,13 +34,7 @@
             </view>
           </block>
         </view>
-        <u-empty
-          v-show="!billTaskList.length"
-          margin-top="30"
-          icon-size="100"
-          text="数据为空"
-          mode="data"
-        />
+        <u-empty v-show="!billTaskList.length" margin-top="30" icon-size="100" text="数据为空" mode="data"/>
       </view>
     </view>
   </view>
@@ -61,15 +46,9 @@ export default {
   name: "FirstCheck",
   data() {
     return {
-      navBar: {
-        title: "首检",
-        isBack: true,
-      },
+      navBar: {title: "首检",isBack: true},
       // 填报列表
-      customStyle: {
-        height: "60rpx",
-        lineHeigh: "60rpx",
-      },
+      customStyle: {height: "60rpx",lineHeigh: "60rpx"},
       billCode: "FAI",
       billTaskList: [],
     };
@@ -88,12 +67,7 @@ export default {
         .request({
           url: "/api/BillTask",
           method: "GET",
-          data: {
-            billCode: this.billCode,
-            state: 1,
-            prop: "lineCode",
-            value: this.line[1].value,
-          },
+          data: { billCode: this.billCode,state: 1, prop: "lineCode", value: this.line[1].value},
         })
         .then((res) => {
           uni.hideLoading();

@@ -1,8 +1,6 @@
 <template>
   <view>
-    <u-navbar :height="50" :is-back="false">
-      <text class="nav-name">{{companyName}}</text>
-    </u-navbar>
+    <u-navbar :height="50" :is-back="false"><text class="nav-name">{{companyName}}</text></u-navbar>
     <!-- nav -->
     <view class="u-page">
       <view class="farm" v-if="line.length" @click="selectShow = !selectShow">
@@ -17,30 +15,16 @@
       <!-- notice -->
       <view class="menu">
         <view class="menu-title">
-          <u-section
-            title="日常工作"
-            font-size="30"
-            :show-line="false"
-            :right="false"
-          />
+          <u-section title="日常工作" font-size="30" :show-line="false" :right="false"/>
         </view>
         <view class="menu-box">
-          <ju-navigator-grid
-            size="52rpx"
-            :list="dailyMenu"
-            :show-scroll-bar="false"
-          />
+          <ju-navigator-grid size="52rpx" :list="dailyMenu" :show-scroll-bar="false" />
         </view>
       </view>
       <!-- 常用菜单 -->
       <view class="menu whole-menu">
         <view class="menu-title">
-          <u-section
-            title="全部分类"
-            font-size="30"
-            :show-line="false"
-            :right="false"
-          />
+          <u-section title="全部分类" font-size="30" :show-line="false" :right="false"/>
         </view>
         <view class="menu-box">
           <ju-navigator-grid size="52rpx" :list="menu" />
@@ -49,23 +33,12 @@
       <!-- 全部菜单 -->
       <view class="my-info">
         <view class="menu-title">
-          <u-section
-            title="未读消息"
-            font-size="30"
-            :show-line="false"
-            :right="false"
-          />
+          <u-section title="未读消息" font-size="30" :show-line="false" :right="false"/>
         </view>
         <view class="info-list">
           <u-cell-group :border="false">
             <u-cell-item title="你的未读消息" @click="unreadLink" :border-bottom="false">
-              <u-icon
-                slot="icon"
-                name="circleDot"
-                custom-prefix="custom-icon"
-                size="25"
-                color="#999"
-              />
+              <u-icon slot="icon" name="circleDot" custom-prefix="custom-icon"  size="25" color="#999"/>
               <text class="info-time">一分钟前</text>
               <u-badge :count="unreadCount" :absolute="false" />
             </u-cell-item>
@@ -75,12 +48,7 @@
       <!--我的消息-->
     </view>
     <!-- page -->
-    <u-select
-      v-model="selectShow"
-      mode="mutil-column-auto"
-      :list="lineList"
-      @confirm="selectConfirm"
-    />
+    <u-select mode="mutil-column-auto" v-model="selectShow" :list="lineList" @confirm="selectConfirm"/>
     <!-- select -->
     <u-tabbar
       :icon-size="navTab.iconSize"
@@ -170,10 +138,7 @@ export default {
   overflow: hidden;
   height: 250rpx;
   background-color: #1890ff;
-  image {
-    width: 750rpx;
-    height: 275rpx;
-  }
+  image { width: 750rpx;height: 275rpx;}
 }
 .menu {
   margin: 15rpx 15rpx;
@@ -193,11 +158,7 @@ export default {
   .info-list {margin: 0 25rpx;}
   .icon-circleDot {font-size: 20rpx;}
   .info-time {margin-right: 10rpx;}
-  /deep/.u-cell_title {
-    color: #454545;
-  }
-  /deep/.u-cell {
-    padding: 26rpx 10rpx;
-  }
+  /deep/.u-cell_title {color: #454545;}
+  /deep/.u-cell {padding: 26rpx 10rpx;}
 }
 </style>

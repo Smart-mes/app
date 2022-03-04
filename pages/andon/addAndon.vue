@@ -16,14 +16,14 @@
       </view>
     </view>
     <!-- page -->
-    	<u-toast ref="uToast" />
+    <u-toast ref="uToast" />
   </view>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
-  name:"AddAndon",
+  name: "AddAndon",
   data() {
     return {
       navBar: {
@@ -31,7 +31,7 @@ export default {
         isBack: true,
       },
       // from
-      btnLoading:false,
+      btnLoading: false,
       formSeletData: {
         lineCode: "",
         productCode: "",
@@ -69,12 +69,7 @@ export default {
           props: "stationCode",
           type: "select",
           sheetShow: false,
-          optionList: [
-            {
-             value: '',
-             label:"没有工位",
-            }
-          ],
+          optionList: [{value: "",label: "没有工位"}]
         },
         {
           label: "事件",
@@ -83,45 +78,13 @@ export default {
           sheetShow: false,
           optionList: [],
         },
-
         { label: "事件说明", props: "description", type: "textarea" },
       ],
       rules: {
-        orderNo: [
-          {
-            required: true,
-            message: "不能为空",
-            trigger: "blur,change",
-          },
-        ],
-        orderNo: [
-          {
-            required: true,
-            message: "不能为空",
-            trigger: "blur,change",
-          },
-        ],
-        productCode: [
-          {
-            required: true,
-            message: "不能为空",
-            trigger: "blur,change",
-          },
-        ],
-        // stationCode: [
-        //   {
-        //     required: true,
-        //     message: "不能为空",
-        //     trigger: "blur,change",
-        //   },
-        // ],
-        event: [
-          {
-            required: true,
-            message: "不能为空",
-            trigger: "blur,change",
-          },
-        ],
+        orderNo: [{ required: true,message: "不能为空",trigger: "blur,change" }],
+        orderNo: [ {required: true, message: "不能为空", trigger: "blur,change" }],
+        productCode: [{required: true,message: "不能为空",trigger: "blur,change"}],
+        event: [{required: true, message: "不能为空",trigger: "blur,change"}],
       },
       // 字典
       BProductDict: {},
@@ -129,68 +92,52 @@ export default {
     };
   },
   computed: {
-    ...mapState(["line","userInfo"]),
+    ...mapState(["line", "userInfo"]),
   },
   onLoad() {
     this.lineCodeHandle();
     // 请求
-    this.dictAjax().then(() => {
-      this.orderNoAjax()
-        .then((res) => {
-          if (res.length > 0) {
-            this.formData.orderNo = res[0].orderNo;
-          }
-        })
-        .then(() => {
-          this.productAjax().then((res) => {
-            if (res.length > 0) {
-              this.formData.productCode = this.BProductDict[res[0].productCode];
-              this.formSeletData.productCode = res[0].productCode;
-            }
-          });
-        });
+    this.getDict({url: "/api/Dictionary",data: { keys: "BProduct|BStationList" }}).then(({ BProduct, BStationList }) => {
+      this.BProductDict = BProduct;
+      this.BStationDict = BStationList;
+    });
 
-      this.stationAjax().then((res) => {
-        res.map(({ stationCode }) => {
-          this.formList[3].optionList.push({
-            value: stationCode,
-            label: this.BStationDict[stationCode],
-          });
+    this.getDict({url: "/api/SDataTranslation", data: { searchText: "P_AndonList" }}).then((res) => {
+      res
+        .filter((x) => x.fieldName === "event")
+        .forEach(({ value, label }) =>this.formList[4].optionList.push({ value, label }));
+    });
+  },
+  onReady() {
+    this.orderNoAjax()
+      .then((res) => {
+        if (res.length > 0) this.formData.orderNo = res[0].orderNo;
+      })
+      .then(() => {
+        this.productAjax().then((res) => {
+          if (res.length) {
+            const {productCode}=res[0]
+            this.formData.productCode = this.BProductDict[productCode];
+            this.formSeletData.productCode = productCode;
+          }
         });
+      });
+
+    this.stationAjax().then((res) => {
+      res.map(({ stationCode }) => {
+        this.formList[3].optionList.push({value: stationCode,label: this.BStationDict[stationCode]});
       });
     });
   },
   methods: {
     ...mapActions(["getDict"]),
-    dictAjax() {
-      return Promise.all([
-        this.getDict({
-          url: "/api/Dictionary",
-          data: { keys: "BProduct|BStationList" },
-        }).then(dicts => {
-          this.BProductDict = dicts.BProduct
-          this.BStationDict = dicts.BStationList
-        }),
-
-        this.getDict({
-          url: "/api/SDataTranslation",
-          data: { searchText: "P_AndonList" },
-        }).then((res) => {
-          res.filter(x => x.fieldName === 'event').forEach(({ value, label }) =>
-            this.formList[4].optionList.push({ value, label })
-          )
-        }),
-      ]);
-    },
     selectChange(propsType, [{ value, label }]) {
-      // if (propsType && value && label) {
-        this.formData[propsType] = label==="没有工位"?'':label;
-        this.formSeletData[propsType] = value;
-      // }
+      this.formData[propsType] = label;
+      this.formSeletData[propsType] = value;
     },
     getFormData(formData) {
-      formData.event += '';   
-      this.addAjax({ ...formData, state: 1, empCode:this.userInfo.empCode, beginTime: new Date() });
+      formData.event += "";
+      this.addAjax({...formData,state: 1, empCode: this.userInfo.empCode,beginTime: new Date()});
     },
     // 请求
     orderNoAjax() {
@@ -222,14 +169,13 @@ export default {
     },
     //添加
     addAjax(formData) {
-      this.btnLoading=true;
-      this.$http
-        .request({ url: "/api/PAndonList", method: "POST", data: formData })
-        .then(() =>{
-            this.btnLoading=false;
-            this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/andon/andon"})
+      this.btnLoading = true;
+      this.$http.request({ url: "/api/PAndonList", method: "POST", data: formData })
+        .then(() => {
+          this.btnLoading = false;
+          this.$refs.uToast.show({title: "提交成功",type: "success",url: "/pages/andon/andon"});
         })
-        .catch(() =>this.btnLoading=false);
+        .catch(() => (this.btnLoading = false));
     },
   },
 };

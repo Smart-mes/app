@@ -4,11 +4,7 @@
     <!-- navBar -->
     <view class="u-page">
       <view class="basic-box fill-info">
-        <view
-          class="fill-item"
-          v-for="(headerItem, key1) in headerData"
-          :key="key1"
-        >
+        <view class="fill-item" v-for="(headerItem, key) in headerData":key="key">
           <text class="name">{{ headerItem.label }}: </text>
           <text class="text">{{ headerItem.displayValue }}</text>
         </view>
@@ -49,15 +45,8 @@
                   <u-button @click="save" :disabled="!!this.pageType">保存</u-button>
                 </u-col>
                 <u-col span="6">
-                  <u-button
-                    v-if="index + 1 !== aql.qty"
-                    type="primary"
-                    @click="next">
-                    下一个
-                    </u-button>
-                  <u-button v-else type="primary" @click="submit" :disabled="submitDisabled">
-                    提交
-                  </u-button>
+                  <u-button v-if="index + 1 !== aql.qty" type="primary" @click="next">下一个</u-button>
+                  <u-button v-else type="primary":disabled="submitDisabled" @click="submit" >提交</u-button>
                 </u-col>
               </u-row>
             </view>
@@ -107,22 +96,12 @@ function getAQL(lotQty, level, aqlValue) {
   lotQty = +lotQty;
   aqlValue = +aqlValue;
   if (lotQty < 2) {
-    return {
-      lotQty,
-      level,
-      aqlValue,
-      code: "全检",
-      qty: 1,
-      ac: 0,
-      re: 1,
-    };
+    return {lotQty,level,aqlValue,code: "全检",qty: 1,ac: 0,re: 1};
   }
   const code = getAQLCode(lotQty, level.substr(2));
   const index = [0.65, 1, 1.5, 2.5, 4, 6].indexOf(aqlValue);
   if (!~index) {
-    throw new Error(
-      `非法的AQL值：${aqlValue}, 合法值为[0.65, 1, 1.5, 2.5, 4, 6]`
-    );
+    throw new Error( `非法的AQL值：${aqlValue}, 合法值为[0.65, 1, 1.5, 2.5, 4, 6]`);
   }
 
   const aqlMap = {
@@ -163,10 +142,7 @@ export default {
   name: "FillSpot",
   data() {
     return {
-      navBar: {
-        title: "抽检填单",
-        isBack: true,
-      },
+      navBar: {title: "抽检填单",isBack: true},
       // 参数
       billCode: "CI",
       headerData: {},
@@ -268,9 +244,7 @@ export default {
               .fill(0)
               .map((v, i) => {
                 const item = { index: i + 1 }
-                this.judgmentKeys.forEach(k => {
-                  item[k] = 1
-                })
+                this.judgmentKeys.forEach(k => {item[k] = 1})
                 return item;
               });
           }
@@ -379,9 +353,7 @@ export default {
     width: 140rpx;
     color: $font-light-gray;
   }
-  .text {
-    flex: 1;
-  }
+  .text {flex: 1;}
 }
 .switch {
   margin: 0 20rpx;
@@ -389,15 +361,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  .paging {
-    flex: 1;
-    text-align: center;
-  }
+  .paging {flex: 1;text-align: center;}
 }
-.u-page {
-  overflow: hidden;
-}
-.form {
-  margin-bottom: 15rpx;
-}
+.u-page {overflow: hidden;}
+.form {margin-bottom: 15rpx;}
 </style>

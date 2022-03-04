@@ -26,10 +26,7 @@ export default {
   name:"CreateBill",
   data() {
     return {
-      navBar: {
-        title: "添加首检任务",
-        isBack: true,
-      },
+      navBar: {title: "添加首检任务",isBack: true},
       flowId:'',
       billCode:'FAI',
       // form
