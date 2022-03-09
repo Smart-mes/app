@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import http from '@/util/http'
+import http from '@/api/http'
 Vue.use(Vuex)
 
 const userInfo = uni.getStorageSync('userInfo');
@@ -102,9 +102,7 @@ const mutations = {
 	//退出登录
 	logout(state) {
 		const obj={hasLogin:false,unreadCount:0,userInfo:'',line:[],usuallyMenu:[]}
-		for (let key in obj){
-			state[key]=obj[key]
-		}
+		for (let key in obj){	state[key]=obj[key]}
 		uni.clearStorageSync();
 		clearTimeout(state.timer)
 	},
@@ -165,9 +163,6 @@ const actions = {
 		}
 		return lineList;				
 	},
-	async getDict({ commit },payload){
-		return await http.request({url:payload.url,method: "GET", data: payload.data});
-	}
 }
 const store = new Vuex.Store({
 	state,

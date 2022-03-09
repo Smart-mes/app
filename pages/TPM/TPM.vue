@@ -12,17 +12,11 @@
       <!-- 搜索 -->
       <view class="bill">
         <view class="title">
-          <u-section
-            title="单据列表"
-            font-size="30"
-            :show-line="false"
-            :right="false"
-          />
+          <u-section title="单据列表" font-size="30" :show-line="false" :right="false"/>
         </view>
         <view class="task-list">
           <block v-for="billTask in billTaskList" :key="billTask.taskCode">
             <view class="task-item" @click="billHandle(billTask)">
-              <!-- @click="billLink(billTask.taskCode)" -->
               <view class="task-left">
                 <view class="row">
                   <view class="col-name">单据号：</view>
@@ -46,13 +40,6 @@
                 >
                 {{!billTask.state?"接收":"填报"}}   
                 </u-button>
-                <!-- <u-button
-                  v-else-if="billTask.state === 0"
-                  type="primary"
-                  plain
-                  disabled
-                  :custom-style="customStyle"
-                >接收</u-button> -->
               </view>
             </view>
           </block>
@@ -81,15 +68,12 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState} from "vuex";
 export default {
   name: "FirstCheck",
   data() {
     return {
-      navBar: {
-        title: "设备保养",
-        isBack: true,
-      },
+      navBar: {title: "设备保养",isBack: true},
       // 填报列表
       customStyle: {height: "60rpx",lineHeigh: "60rpx"},
       billCode: "EM",
@@ -107,10 +91,8 @@ export default {
   },
   methods: {
     billTaskAjax() {
-      console.log('000')
       uni.showLoading({ title: "加载中", mask: true });
-      return this.$http
-        .request({
+      return this.$http.request({
           url: "/api/BillTask",
           method: "GET",
           data: {billCode: this.billCode,active:1} 
@@ -156,8 +138,7 @@ export default {
     modalConfirm() {
       this.BTaskStateAjax().then(()=>{
          this.$refs.uToast.show({ title: "提交成功",type: "success"});   
-         this.billTaskAjax();
-         
+         this.billTaskAjax();   
       });
     },
   },

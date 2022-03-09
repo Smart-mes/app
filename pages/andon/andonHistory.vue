@@ -116,7 +116,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState } from "vuex";
 import moment from "moment";
 
 export default {
@@ -128,16 +128,10 @@ export default {
         isBack: true,
       },
       // form
-      form: {
-        startDate: "",
-        endDate: "",
-      },
+      form: {startDate: "", endDate: ""},
       timeVisible: false,
       // 填报列表
-      customStyle: {
-        height: "60rpx",
-        lineHeigh: "60rpx",
-      },
+      customStyle: {height: "60rpx",lineHeigh: "60rpx"},
       andonList: [],
       // 字典
       BLineDict: {},     //产线
@@ -153,27 +147,35 @@ export default {
   onLoad() {
     this.reset();
     // 字典
-    this.DictAjax().then(()=>this.BillTaskAjax());  
+    this.DictionaryAjax();
+    this.eventDictAjax(); 
   },
-  methods: {
-    ...mapActions(["getDict"]),
-        DictAjax() {
-      return Promise.all([ this.DictionaryAjax(),this.eventDictAjax()])
-    },   
+  onReady(){
+    this.BillTaskAjax()
+  },
+  methods: {   
     DictionaryAjax(){
-      return  this.getDict({url:"/api/Dictionary",data:{keys:"BLine|BStationList|BProduct|SEmployee"}})
-          .then(({ BLine,BStationList,BProduct,SEmployee }) => {
-            this.BLineDict = BLine;
-            this.BStationDict = BStationList;
-            this.BProductDict = BProduct;
-            this.SEmployeeDict = SEmployee;
-          });
+      return  this.$http.request({
+        url:"/api/Dictionary",
+        method: "GET",
+        data:{keys:"BLine|BStationList|BProduct|SEmployee"}
+        })
+        .then(({ BLine,BStationList,BProduct,SEmployee }) => {
+          this.BLineDict = BLine;
+          this.BStationDict = BStationList;
+          this.BProductDict = BProduct;
+          this.SEmployeeDict = SEmployee;
+       });
     },
     eventDictAjax(){
-      return this.getDict({url:"/api/SDataTranslation",data:{ searchText: "P_AndonList" }})
-          .then(res => 
+      return this.$http.request({
+        url:"/api/SDataTranslation",
+        method: "GET",
+        data:{ searchText: "P_AndonList" }
+        })
+        .then(res => 
           res.map( ({ value, label }) => this.eventDict[value] = label.toString())
-          );
+        );
     },
     BillTaskAjax() {
       if (!this.form.startDate || !this.form.endDate) {

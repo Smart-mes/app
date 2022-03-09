@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "AddAndon",
   data() {
@@ -91,27 +91,30 @@ export default {
       BStationDict: {},
     };
   },
-  computed: {
-    ...mapState(["line", "userInfo"]),
-  },
+  computed: {...mapState(["line", "userInfo"])},
   onLoad() {
     this.lineCodeHandle();
-    // 请求
-    this.getDict({url: "/api/Dictionary",data: { keys: "BProduct|BStationList" }}).then(({ BProduct, BStationList }) => {
+    // 请求    
+    this.$http.request({url:"/api/Dictionary",method: "GET", data:{ keys: "BProduct|BStationList" }}) 
+    .then(({ BProduct, BStationList }) => {
       this.BProductDict = BProduct;
       this.BStationDict = BStationList;
     });
 
-    this.getDict({url: "/api/SDataTranslation", data: { searchText: "P_AndonList" }}).then((res) => {
-      res
-        .filter((x) => x.fieldName === "event")
+     this.$http.request({
+       url: "/api/SDataTranslation",
+       method: "GET", 
+       data: { searchText: "P_AndonList" }
+       })
+       .then((res) => {
+        res.filter((x) => x.fieldName === "event")
         .forEach(({ value, label }) =>this.formList[4].optionList.push({ value, label }));
     });
   },
   onReady() {
     this.orderNoAjax()
       .then((res) => {
-        if (res.length > 0) this.formData.orderNo = res[0].orderNo;
+        if (res.length) this.formData.orderNo = res[0].orderNo;
       })
       .then(() => {
         this.productAjax().then((res) => {
@@ -130,7 +133,6 @@ export default {
     });
   },
   methods: {
-    ...mapActions(["getDict"]),
     selectChange(propsType, [{ value, label }]) {
       this.formData[propsType] = label;
       this.formSeletData[propsType] = value;

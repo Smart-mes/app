@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App';
 import store from 'store/index';
-import http from '@/util/http';
+import http from '@/api/http';
 // 自定义
 import popup from "@/components/popup.vue";
 import navBar from "@/components/navBar.vue";

@@ -16,12 +16,7 @@
       <view class="basic-box">
         <view class="public-title">
           <view class="title-left">
-            <u-section
-              title="列表"
-              font-size="30"
-              :show-line="false"
-              :right="false"
-            />
+            <u-section title="列表" font-size="30" :show-line="false" :right="false" />
           </view>
           <view class="title-right"> 共计：{{ materialList.length }}</view>
         </view>
@@ -69,8 +64,8 @@
       width="95%"
       show-cancel-button
       v-model="modelShow"
-      :async-close="true"
       :title="modelType === 'add' ? '上料' : '换料'"
+      :async-close="true"
       @cancel="modalCancel"
       @confirm="modalConfirm"
     >
@@ -119,8 +114,8 @@ export default {
   },
   methods: {
     scan(prop) {
-      uni.scanCode({
-        success: (res) => {
+      // uni.scanCode({
+      //   success: (res) => {
           this.materialWip = null;
           this.modelType = "add";
 
@@ -133,26 +128,26 @@ export default {
             const { orderNo, slotNo } = this.form.formData;
             this.materialCtrlAjax({ orderNo, slotNo });
           }
-        },
-        fail: () => {
-          this.$refs.uToast.show({ title: "扫码失败", type: "error" });
-        },
-      });
+      //   },
+      //   fail: () => {
+      //     this.$refs.uToast.show({ title: "扫码失败", type: "error" });
+      //   },
+      // });
     },
     modalScan(prop) {
-      uni.scanCode({
-        success: (res) => {
+      // uni.scanCode({
+      //   success: (res) => {
           if (this.MaterialCtrl.beCtrl) {
             this.modalForm.formData[prop] = "FLSM0002";
             this.materialCheckAjax();
           } else {
             this.modalForm.formData[prop] = "100063";
           }
-        },
-        fail: () => {
-          this.$refs.uToast.show({ title: "扫码失败", type: "error" });
-        },
-      });
+      //   },
+      //   fail: () => {
+      //     this.$refs.uToast.show({ title: "扫码失败", type: "error" });
+      //   },
+      // });
     },
     modalConfirm() {
       this.$refs.modalForm.validateForm().then((valid) => {
@@ -170,7 +165,9 @@ export default {
         });
       });
     },
-
+    modalCancel() {
+      this.modelShow = false;
+    },
     validation(valid) {
       const { matCode, matSFC } = this.modalForm.formData;
       const { beCtrl } = this.MaterialCtrl;
@@ -181,23 +178,14 @@ export default {
 
       if (!beCtrl && matCode !== matSFC) {
         this.$refs.modal.clearLoading();
-        return void this.$refs.uToast.show({
-          title: "料号不一致",
-          type: "error",
-        });
+        return void this.$refs.uToast.show({ title: "料号不一致",type: "error"});
       }
 
       if (beCtrl && this.materialWip === null) {
         this.$refs.modal.clearLoading();
-        return void this.$refs.uToast.show({
-          title: "该批次物料不可用",
-          type: "error",
-        });
+        return void this.$refs.uToast.show({title: "该批次物料不可用", type: "error"});
       }
       return true;
-    },
-    modalCancel() {
-      this.modelShow = false;
     },
     // 换料
     changeHandle({ slotNo }) {
@@ -206,8 +194,7 @@ export default {
       this.materialCtrlAjax({ orderNo: this.form.formData.orderNo, slotNo });
     },
     orderAjax() {
-      this.$http
-        .request({
+      this.$http.request({
           url: "/api/POrderInLine",
           method: "GET",
           data: { state: 1, lineCode: this.line[1].value },
@@ -221,8 +208,7 @@ export default {
     materialListAjax() {
       const { orderNo, machineCode } = this.form.formData;
       uni.showLoading({ title: "加载中", mask: true });
-      this.$http
-        .request({
+      this.$http.request({
           url: "/api/BMaterialStation/MaterialList",
           method: "GET",
           data: { machineCode, orderNo },
@@ -234,8 +220,7 @@ export default {
         .catch(() => uni.hideLoading());
     },
     materialCtrlAjax(parame) {
-      return this.$http
-        .request({
+      return this.$http.request({
           url: "/api/BMaterialStation/MaterialCtrl",
           method: "GET",
           data: parame,
@@ -249,8 +234,7 @@ export default {
         });
     },
     materialCheckAjax() {
-      this.$http
-        .request({
+      this.$http.request({
           url: "/api/BMaterialStation/MatWipSeed",
           method: "GET",
           data: {
@@ -262,16 +246,16 @@ export default {
         .then((res) => (this.materialWip = res));
     },
     addAjax(parame) {
-      const url =
-        this.modelType === "add"
-          ? "/api/BMaterialStation/Submit"
-          : "/api/BMaterialStation/ChangeMat";
-      this.$http
-        .request({ url, method: "POST", data: parame })
+      const type  =this.modelType === "add"? "Submit": "ChangeMat";
+      this.$http.request({ 
+        url:`/api/BMaterialStation/${type}`,
+         method: "POST", 
+         data: parame 
+         })
         .then(() => {
           this.$refs.modal.clearLoading();
-          this.modelShow = false;
           this.$refs.uToast.show({ title: "提交成功", type: "success" });
+          this.modelShow = false;
           this.materialListAjax();
         })
         .catch(() => this.$refs.modal.clearLoading());
@@ -295,10 +279,7 @@ export default {
     &:nth-child(even) {
       background-color: #fbfcfe;
     }
-    .col {
-      width: 160rpx;
-    }
-
+    .col {width: 160rpx;}
     .stuff {
       flex: 1;
       margin: 0 20rpx 0 40rpx;
@@ -308,7 +289,5 @@ export default {
     }
   }
 }
-.slot-content {
-  padding: 0 30rpx;
-}
+.slot-content { padding: 0 30rpx;}
 </style>

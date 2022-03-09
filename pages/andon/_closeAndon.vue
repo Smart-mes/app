@@ -18,19 +18,12 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 export default {
   name:"CloseAndon",
   data() {
     return {
-      navBar: {
-        title: "关闭安灯",
-        isBack: true,
-      },
-      formData: {
-        lineCode: "",
-        closeComment: "",
-      },
+      navBar: {title: "关闭安灯",isBack: true},
+      formData: {lineCode: "", closeComment: ""},
       formList: [
         {
           label: "线别",
@@ -44,11 +37,7 @@ export default {
       ],
       rules: {
         closeComment: [
-          {
-            required: true,
-            message: "不能为空",
-            trigger: "blur,change",
-          },
+          {required: true,message: "不能为空",trigger: "blur,change",}
         ],
       },
 			BLineDict:null,
@@ -57,25 +46,16 @@ export default {
   },
 	onLoad(options){
    this.andonAjax(options.id)
-    .then(res=>{
-      this.andon=res
-    })
-    .then(()=>{
-      this.getBLineDict()
-       .then(()=>this.formData.lineCode=this.BLineDict[this.andon.lineCode]);
-    });	
+    .then(()=>this.getBLineDict())
+    .then(()=>this.formData.lineCode=this.BLineDict[this.andon.lineCode]);
 	},
   methods: {
-		...mapActions(["getDict"]),
-
     andonAjax(id){
-       return this.$http.request({
-          url:`/api/PAndonList/${id}`,
-          method: "GET"
-       });
+       return this.$http.request({url:`/api/PAndonList/${id}`, method: "GET"})
+       .then(res=>this.andon=res)
     },
 		getBLineDict(){
-		  return this.getDict({url:"/api/Dictionary",data:{keys:"BLine"}})
+		  return this.$http.request({url:"/api/Dictionary",method: "GET",data:{keys:"BLine"}})
         .then(({ BLine }) => this.BLineDict = BLine);
 		},
     getFormData(formData) {
