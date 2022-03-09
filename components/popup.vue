@@ -4,11 +4,11 @@
       <scroll-view scroll-y="true" :style="{height:'90%'}" class="popup">
         <u-cell-group>
           <u-cell-item
-            v-for="(item, i) in list"
-            :key="item.wsid"
-            :title="item.wsName"
-            :title-style="{color: current === i ? '#1890ff' : '#333','font-size': '32rpx'}"
-            @click="handleWorkShop(i)"
+            v-for="item in list" 
+            :key="item[nameKey]" 
+            :title="item[labelKey]"
+            :title-style="{color: item[nameKey] === active[nameKey] ? '#1890ff' : '#333','font-size': '32rpx'}"
+            @click="itemClick(item)"
           />
         </u-cell-group>
       </scroll-view>
@@ -17,48 +17,48 @@
 </template>
 
 <script>
-import { mapState} from "vuex";
 export default {
-  name: "Popup",
+  name: 'Popup',
   props: {
-    url: {
+    list: {
+      type: Array,
+      required: true
+    },
+    nameKey: {
       type: String,
-      default: "/api/BWorkShop",
+      default: 'value'
     },
-  },
-  computed:{
-    ...mapState(["line"])
-  },
-  data() {
-    return {
-      visible: false,
-      current: 0,
-      list:[]
-    };
-  },
-  mounted() {
-    this.ajax();
-  },
-  methods: {
-    handleWorkShop(i) {
-      this.current = i;
-      this.$emit("getWorkShop", this.list[this.current]);
-      this.visible = false;
+    labelKey: {
+      type: String,
+      default: 'label'
     },
-    ajax(){
-      this.$http.request({url: "/api/BWorkShop",method: "GET"})
-      .then(res=>{
-        res.forEach((el,i) => {       
-          if(el.wsCode===this.line[0].value){
-            this.current=i;
-          }
-        });
-        this.list=res;
-        this.$emit("getWorkShop", this.list[this.current]);
-      });
+    active:{
+      type:Object,
+      default:null
     }
   },
-};
+  data () {
+    return {
+      visible:false,
+      // itemActive:null,
+    }
+  },
+  watch: {
+    active: {
+      handler (value) {
+          this.itemActive =value
+          this.itemClick(value)       
+      },
+      immediate: true
+    }
+  },
+  methods: {
+    itemClick (item) {
+      this.visible=false;
+      this.$emit('itemClick', item)
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
 .popup {
