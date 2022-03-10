@@ -96,8 +96,6 @@ export default {
   data() {
     return {
       navBar: {title: "安灯管理",isBack: true},
-      // form: {desc: ""},
-      // show: false,
       andon,
       currentInex:0,
       andonList: [],
@@ -167,21 +165,17 @@ export default {
     historyLink(){
        uni.navigateTo({ url: "/pages/andon/andonHistory"});
     },
-    // colseLink(id){
-    //   uni.navigateTo({url: `/pages/andon/closeAndon?id=${id}`});
-    // },
     // form
     closeHandle(i){
-      console.log(this.andonList[i])
-      this.currentInex=i;
-      this.modelShow=true;
       const formData= this.andon.formData;
       const {lineCode,stationCode,event}=this.andonList[i];
+
+      this.currentInex=i;
+      this.modelShow=true;
      
       formData.lineCode=this.BLineDict[lineCode]
       formData.stationCode=this.BStationDict[stationCode]
       formData.event=this.eventDict[event]   
-      // console.log('index:', this.andonList[i])
     },
     modalConfirm(){
       this.$refs.modalForm.validateForm().then(valid => {
@@ -190,10 +184,11 @@ export default {
       });
     },
     modalCancel(){
-      this.modelShow = false;
+       this.resetForm();
     },
-    clearLoading(){
+    resetForm(){
       this.$refs.modal.clearLoading()
+      this.$refs.modalForm.resetForm()
     },
     closeAndonAjax(){
       this.$http.request({
@@ -206,16 +201,12 @@ export default {
          }
        })
 			 .then(()=>{
-         console.log('答应')
-         console.log('this:',this)
-         this.clearLoading();
+         this.resetForm();
          this.$refs.uToast.show({ title: "提交成功",type: "success"});
          this.modelShow = false;
          this.andonAjax();
        })
-       .catch(()=>{
-         this.clearLoading()
-       })
+       .catch(()=>this.$refs.modal.clearLoading())
     }
   },
 };

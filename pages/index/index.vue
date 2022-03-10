@@ -112,7 +112,7 @@ export default {
     ...mapMutations(["set_line"]),
     ...mapActions(["getLine", "getUnread", "unreadPoll"]),
     selectConfirm(e) {this.set_line(e)},
-    unreadLink(){uni.navigateTo({url:"/pages/info/info"});}
+    unreadLink(){uni.navigateTo({url:"/pages/info/info"})},
   },
 };
 </script>

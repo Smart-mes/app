@@ -93,12 +93,7 @@
               </view>
               <!-- 停机 -->
               <view class="device-item" v-if="device.state === 0">
-                <view
-                  :class="[
-                    'device-item-box',
-                    !device.stopState ? 'stop' : 'fault',
-                  ]"
-                >
+                <view :class="[ 'device-item-box', !device.stopState ? 'stop' : 'fault']">
                   <!-- fault -->
                   <view class="device-item-no">{{ device.machineCode }}</view>
                   <view class="device-item-center">
@@ -174,9 +169,9 @@
                   <view class="device-item-progress">
                     <view class="progress-bar">
                       <u-line-progress
+                         active-color="#22b14c"
                         :percent="100"
                         :height="10"
-                        active-color="#22b14c"
                         :show-percent="false"
                       />
                     </view>
@@ -197,7 +192,7 @@
         mode="data"
       />
     </view>
-      <popup ref="popup" :active="line[0]" :list="wsList" @itemClick="wsClick" />
+      <popup ref="popup" :active="active" :list="wsList"  @itemClick="wsClick" />
     <!-- popup -->
     <u-tabbar
       :icon-size="navTab.iconSize"

@@ -1,6 +1,6 @@
 <template>
   <view>
-    <u-popup mode="right" v-model="visible" :closeable="true" width="400">
+    <u-popup mode="right" v-model="visible" :closeable="closeable" width="400">
       <scroll-view scroll-y="true" :style="{height:'90%'}" class="popup">
         <u-cell-group>
           <u-cell-item
@@ -35,6 +35,10 @@ export default {
     active:{
       type:Object,
       default:null
+    },
+    closeable:{
+      type:Boolean,
+      default:false
     }
   },
   data () {

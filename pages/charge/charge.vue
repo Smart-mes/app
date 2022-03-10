@@ -108,10 +108,18 @@ export default {
   computed: {
     ...mapState(["line", "userInfo"]),
   },
-  onLoad() {
-    this.form.formData.lineCode = this.line[1].label;
-    this.orderAjax();
+  onLoad() {},
+  onShow(){
+        this.form.formData.lineCode = this.line[1].label;
+         this.orderAjax();
   },
+  onUnload(){
+    this.$refs.form.resetForm()
+  },
+  // onHide(){
+  //   console.log('onHide');
+  //   this.$refs.form.resetForm();
+  // },
   methods: {
     scan(prop) {
       // uni.scanCode({
@@ -166,7 +174,7 @@ export default {
       });
     },
     modalCancel() {
-      this.modelShow = false;
+      this.resetForm();
     },
     validation(valid) {
       const { matCode, matSFC } = this.modalForm.formData;
@@ -187,6 +195,11 @@ export default {
       }
       return true;
     },
+    resetForm(){
+      console.log('resetForm')
+      this.$refs.modal.clearLoading()
+      this.$refs.modalForm.resetForm()
+    },
     // 换料
     changeHandle({ slotNo }) {
       this.modelType = "change";
@@ -194,7 +207,7 @@ export default {
       this.materialCtrlAjax({ orderNo: this.form.formData.orderNo, slotNo });
     },
     orderAjax() {
-      this.$http.request({
+     return this.$http.request({
           url: "/api/POrderInLine",
           method: "GET",
           data: { state: 1, lineCode: this.line[1].value },
@@ -253,12 +266,12 @@ export default {
          data: parame 
          })
         .then(() => {
-          this.$refs.modal.clearLoading();
           this.$refs.uToast.show({ title: "提交成功", type: "success" });
+          this.this.resetForm();
           this.modelShow = false;
           this.materialListAjax();
         })
-        .catch(() => this.$refs.modal.clearLoading());
+        .catch(() =>this.resetForm());
     },
   },
 };
