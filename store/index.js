@@ -9,7 +9,6 @@ const state = {
 	// 登录
 	hasLogin: !!userInfo,
 	userInfo,
-
 	// 菜单navTab
 	navTab: {
 		list: [

@@ -18,9 +18,7 @@
 				plus.screen.lockOrientation("portrait-primary");
 				// #endif
 				if (this.hasLogin) {
-					// #ifdef APP-PLUS 
 					uni.reLaunch({url: "pages/index/index"});
-					// #endif
 				}
 			}
 		}
