@@ -134,7 +134,6 @@ export default {
     };
   },
   computed: {
-    // ...mapState(["workShopList"]),
     wsDict() {
       const obj = {};
       this.workShopList.forEach(({ wsName, wsCode }) => (obj[wsName] = wsCode));
