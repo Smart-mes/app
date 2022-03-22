@@ -27,17 +27,21 @@ const request = (opt) => {
 			throw res
 		}	
 	}).catch(error => {
-		let message =error.data.message.toString();
-		switch (error.statusCode) {
-			case 400:
-				uni.showToast({title: message,icon: 'none'})
-				break
-			default:
-				uni.showToast({title: '网络错误',icon: 'none'})				
-				break
-		};
-		reject(error);
-
+		  if (error.response.data.message) {
+			 uni.showToast({title: error.response.data.message[0],icon: 'none'})
+		  } else {
+			  uni.showToast({title: error.message,icon: 'none'})		
+		  }
+		  reject(error);
+		// let message =error.data.message.toString();
+		// switch (error.statusCode) {
+		// 	case 400:
+		// 		uni.showToast({title: message,icon: 'none'})
+		// 		break
+		// 	default:
+		// 		uni.showToast({title: '网络错误',icon: 'none'})				
+		// 		break
+		// };
 	});
 
  });
