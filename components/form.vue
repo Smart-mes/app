@@ -6,33 +6,34 @@
         :key="formItem.props"
         :label="formItem.label"
         :prop="formItem.props"
-      >
-        <template v-if="formItem.type === 'input'">
-          <u-input
-            v-model="form[formItem.props]"
-            :disabled="formItem.disabled"
-            :placeholder="formItem.placeholder"        
-          />
-        </template>
-        <template v-else-if="formItem.type === 'textarea'">
+        :border-bottom="formItem.borderBottom?true:formItem.borderBottom"
+      >     
+        <template v-if="inputType(formItem.type)">
           <u-input
             v-model="form[formItem.props]"
             :type="formItem.type"
             :disabled="formItem.disabled"
-            :placeholder="formItem.placeholder"  
+            :placeholder="formItem.placeholder"
+            :class="{ disabled: !!formItem.disabled }"
           />
+          <u-icon class="icon" v-if="formItem.suffixIcon" custom-prefix="custom-icon" :name="formItem.suffixIcon" size="38" @click="$emit('icon-click', formItem.props)"/>
         </template>
         <template v-else-if="formItem.type === 'select'">
           <u-input
             type="select"
             :select-open="formItem.sheetShow"
-            :placeholder="formItem.placeholder"  
+            :placeholder="formItem.placeholder"
+            :disabled="formItem.disabled"
             v-model="form[formItem.props]"
             @click="selectClick(formItem.props, index)"
+            :class="{ disabled: !!formItem.disabled }"
           />
         </template>
         <template v-else-if="formItem.type === 'checkbox'">
-          <u-checkbox-group @change="formGroupChange">
+          <u-checkbox-group
+            :class="{ disabled: !!formItem.disabled }"
+            @change="formGroupChange"
+          >
             <u-checkbox
               v-for="(checkItem, key) in formItem.checkboxList"
               :key="key"
@@ -46,26 +47,33 @@
           </u-checkbox-group>
         </template>
         <template v-else-if="formItem.type === 'radio'">
-          <u-radio-group v-model="form[formItem.props]">
+          <u-radio-group
+            :class="{ disabled: !!formItem.disabled }"
+            v-model="form[formItem.props]"
+          >
             <u-radio
               v-for="radioItem in formItem.radioList"
               :key="radioItem.name"
               :name="radioItem.name"
               :disabled="radioItem.disabled"
             >
-            {{ radioItem.label }}
+              {{ radioItem.label }}
             </u-radio>
           </u-radio-group>
         </template>
       </u-form-item>
     </u-form>
-    <!-- v-show="buttonShow" -->
-    <view v-show="buttonHide">
-    <slot name="submit">
-      <u-button type="primary" class="btn" :loading="loading" @click="getFormData()">
-        提交
-      </u-button>
-    </slot>
+    <view v-show="!buttonHide" class="submit">
+      <slot name="submit">
+        <u-button
+          type="primary"
+          class="btn"
+          :loading="loading"
+          @click="getFormData()"
+        >
+          提交
+        </u-button>
+      </slot>
     </view>
     <u-select
       v-model="selectShow"
@@ -79,9 +87,9 @@
 export default {
   name: "Form",
   props: {
-    labelWidth:{
-      type:String,
-      default:'130'
+    labelWidth: {
+      type: String,
+      default: "130",
     },
     form: {
       type: Object,
@@ -107,10 +115,10 @@ export default {
       type: Boolean,
       default: false,
     },
-    buttonHide:{
-     type: Boolean,
-      default: true,
-    }
+    buttonHide: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -124,7 +132,7 @@ export default {
     };
   },
   mounted() {
-     this.validator();
+    this.validator();
   },
   watch: {
     selectShow(val) {
@@ -134,8 +142,8 @@ export default {
     },
   },
   methods: {
-    validator (){
-       this.$refs.uForm.setRules(this.rules);
+    validator() {
+      this.$refs.uForm.setRules(this.rules);
     },
     formGroupChange(e) {
       this.form[this.propsType] = e;
@@ -160,22 +168,28 @@ export default {
     getFormData() {
       this.$refs.uForm.validate((val) => {
         if (val) {
-          const form=this.getData(); 
+          const form = this.getData();
           this.$emit("getFormData", form);
         }
       });
     },
-    getData(){
-       const form = {};
-       for (let key in this.form) {
-            form[key] = this.seletform !== null && this.seletform[key] ? this.seletform[key]: this.form[key];
-       };
-       return form;
+    getData() {
+      const form = {};
+      for (let key in this.form) {
+        form[key] =
+          this.seletform !== null && this.seletform[key]
+            ? this.seletform[key]
+            : this.form[key];
+      }
+      return form;
     },
-    validateForm(){
-      return  new Promise(resolve=>
-          this.$refs.uForm.validate((val) => resolve(val))
-      )
+    inputType(type) {
+      return /^(input|number|textarea|password)$/.test(type);
+    },
+    validateForm() {
+      return new Promise((resolve) =>
+        this.$refs.uForm.validate((val) => resolve(val))
+      );
     },
     resetForm() {
       this.$refs.uForm.resetFields();
@@ -186,6 +200,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 .form {
-    /deep/.u-btn {width: 100%;padding: 0;}
+  /deep/.u-btn {
+    width: 100%;
+    padding: 0;
+  }
+}
+.icon{padding: 0 20rpx;}
+.submit {
+  margin-top: 20rpx;
 }
 </style>

@@ -36,62 +36,6 @@
         </view>
       </view>
       <!-- 搜索 -->
-      <!-- <view class="bill">
-        <view class="title">
-          <u-section
-            title="单据列表"
-            font-size="30"
-            :show-line="false"
-            :right="false"
-          />
-        </view>
-        <view class="task-list">
-          <block v-for="andonItem in andonList" :key="andonItem.id">
-            <view class="task-item">
-              <view class="task-left">
-                <view class="row">
-                  <view class="col-name">产线：</view>
-                  <view class="col-text">{{ andonItem.lineCode }}</view>
-                </view>
-                <view class="row">
-                  <view class="col-name">工位：</view>
-                  <view class="col-text">{{ andonItem.stationCode }}</view>
-                </view>
-                <view class="row">
-                  <view class="col-name">事件：</view>
-                  <view class="col-text">{{ andonItem.event }}</view>
-                </view>
-
-                <view class="row">
-                  <view class="col-name">工单：</view>
-                  <view class="col-text">{{ andonItem.orderNo }}</view>
-                </view>
-
-                <view class="row">
-                  <view class="col-name">产品：</view>
-                  <view class="col-text">{{ andonItem.productCode }}</view>
-                </view>
-
-                <view class="row">
-                  <view class="col-name">人员:</view>
-                  <view class="col-text">{{ andonItem.empCode }}</view>
-                </view>
-                <view class="row">
-                  <view class="col-name">说明:</view>
-                  <view class="col-text">{{ andonItem.description }}</view>
-                </view>
-              </view>
-            </view>
-          </block>
-        </view>
-        <u-empty
-          v-show="!andonList.length"
-          margin-top="30"
-          icon-size="100"
-          text="数据为空"
-          mode="data"
-        />
-      </view> -->
       <view class="develop-list">
        <view class="title">
           <u-section
@@ -123,9 +67,6 @@
                 </view>
               </view>
             </view>
-            <!-- <view class="center">
-              <view class="btn" @click="colseLink(andonItem.id)">关闭</view>
-            </view> -->
             <view class="right">
               <u-icon :name="andonItem.visible ? 'arrow-up-fill' : 'arrow-down-fill'" color="#ccc"	size="22" @tap="andonItem.visible=!andonItem.visible" />
             </view>
@@ -152,6 +93,13 @@
             </view>
           </view>
         </view>
+        <u-empty
+          v-show="!andonList.length"
+          margin-top="30"
+          icon-size="100"
+          text="数据为空"
+          mode="data"
+        />
       </view>
       <!-- 列表 -->
     </view>
@@ -168,7 +116,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState } from "vuex";
 import moment from "moment";
 
 export default {
@@ -180,16 +128,10 @@ export default {
         isBack: true,
       },
       // form
-      form: {
-        startDate: "",
-        endDate: "",
-      },
+      form: {startDate: "", endDate: ""},
       timeVisible: false,
       // 填报列表
-      customStyle: {
-        height: "60rpx",
-        lineHeigh: "60rpx",
-      },
+      customStyle: {height: "60rpx",lineHeigh: "60rpx"},
       andonList: [],
       // 字典
       BLineDict: {},     //产线
@@ -205,27 +147,35 @@ export default {
   onLoad() {
     this.reset();
     // 字典
-    this.DictAjax().then(()=>this.BillTaskAjax());  
+    this.DictionaryAjax();
+    this.eventDictAjax(); 
   },
-  methods: {
-    ...mapActions(["getDict"]),
-        DictAjax() {
-      return Promise.all([ this.DictionaryAjax(),this.eventDictAjax()])
-    },   
+  onReady(){
+    this.BillTaskAjax()
+  },
+  methods: {   
     DictionaryAjax(){
-      return  this.getDict({url:"/api/Dictionary",data:{keys:"BLine|BStationList|BProduct|SEmployee"}})
-          .then(({ BLine,BStationList,BProduct,SEmployee }) => {
-            this.BLineDict = BLine;
-            this.BStationDict = BStationList;
-            this.BProductDict = BProduct;
-            this.SEmployeeDict = SEmployee;
-          });
+      return  this.$http.request({
+        url:"/api/Dictionary",
+        method: "GET",
+        data:{keys:"BLine|BStationList|BProduct|SEmployee"}
+        })
+        .then(({ BLine,BStationList,BProduct,SEmployee }) => {
+          this.BLineDict = BLine;
+          this.BStationDict = BStationList;
+          this.BProductDict = BProduct;
+          this.SEmployeeDict = SEmployee;
+       });
     },
     eventDictAjax(){
-      return this.getDict({url:"/api/SDataTranslation",data:{ searchText: "P_AndonList" }})
-          .then(res => 
+      return this.$http.request({
+        url:"/api/SDataTranslation",
+        method: "GET",
+        data:{ searchText: "P_AndonList" }
+        })
+        .then(res => 
           res.map( ({ value, label }) => this.eventDict[value] = label.toString())
-          );
+        );
     },
     BillTaskAjax() {
       if (!this.form.startDate || !this.form.endDate) {
@@ -284,7 +234,7 @@ export default {
     .name{
       width: 85rpx;
       margin-right: 0;
-      color: $font-gray;
+      color:$font-light-gray;
     }
     .text{ flex: 1;word-break: break-all; }
   }

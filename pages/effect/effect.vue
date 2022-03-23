@@ -22,7 +22,7 @@
       </view>
     </u-navbar>
     <!-- nav -->
-    <view class="nav-subTitle">{{ wsName }}</view>
+    <view class="nav-subTitle">{{ active.label }}</view>
     <u-row class="effect-list">
       <u-col span="4">
         <view class="effect-item">
@@ -98,13 +98,15 @@
       </u-col>
     </u-row>
     <!-- 图表 -->
-    <popup ref="popup" @getWorkShop="getWorkShop" />
+    <popup ref="popup" :active="active" :list="wsList" @itemClick="wsClick" />
   </view>
 </template>
 
 <script>
+import { mapState } from "vuex";
+import dictToOpts from '@/utils/dictToOpts';
 export default {
-  name:"Effect",
+  name: "Effect",
   data() {
     return {
       navbar: {
@@ -118,7 +120,8 @@ export default {
         },
       },
       // 车间
-      wsName: "车间列表",
+      active: null,
+      wsList: [],
       opt: {
         type: "gauge",
         canvas2d: false,
@@ -195,23 +198,43 @@ export default {
       },
     };
   },
-  onLoad() {},
+  computed: {
+    ...mapState(["line", "navTab"]),
+  },
   methods: {
     handleMenu() {
       this.$refs.popup.visible = true;
     },
     handleRefresh() {},
-    getWorkShop(item) {
-      const { wsName, wsCode } = item;
-      this.wsName = wsName;
-      this.wsCode = wsCode;
+    wsClick(item) {
+      this.active = item;
     },
+    dictAjax() {
+      return this.$http
+        .request({
+          url: "/api/Dictionary",
+          method: "GET",
+          data: { keys: "BWorkShop" },
+        })
+        .then(({ BWorkShop }) => (this.wsList = dictToOpts(BWorkShop)));
+    },
+    // getWorkShop(item) {
+    //   const { wsName, wsCode } = item;
+    //   this.wsName = wsName;
+    //   this.wsCode = wsCode;
+    // },
+  },
+  onLoad() {
+    this.active=this.line[0];
+    this.dictAjax();
   },
 };
 </script>
 
 <style lang="scss" scoped>
-uni-page-body{height: 100%;}
+uni-page-body {
+  height: 100%;
+}
 .effect {
   min-height: 100%;
   background: $white-color;

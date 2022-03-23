@@ -23,7 +23,7 @@
     </u-navbar>
     <!-- nav -->
     <view class="sub-info">
-      <view class="nav-subTitle">{{ wsName }}</view>
+      <view class="nav-subTitle">{{ this.active.label }}</view>
       <view class="tips">
         <view
           v-for="device in deviceState"
@@ -86,13 +86,16 @@
       text="数据为空"
       mode="data"
     />
-    <popup ref="popup" @getWorkShop="getWorkShop" />
+    <!-- <popup ref="popup" @getWorkShop="getWorkShop" /> -->
+    <popup ref="popup" :active="active" :list="wsList" @itemClick="wsClick" />
   </view>
 </template>
 
 <script>
+import { mapState } from "vuex";
+import dictToOpts from "@/utils/dictToOpts";
 export default {
-  name:"Failure",
+  name: "Failure",
   data() {
     return {
       navbar: {
@@ -106,8 +109,8 @@ export default {
         },
       },
       // 车间
-      wsName: "车间列表",
-      wsCode: "",
+      active: null,
+      wsList: [],
       // 设备
       deviceState: [
         {
@@ -135,6 +138,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(["line"]),
     procedureSet() {
       return new Set(this.procedureList.map((p) => p.processCode));
     },
@@ -161,30 +165,29 @@ export default {
     handleMenu() {
       this.$refs.popup.visible = true;
     },
-    getWorkShop(item) {
-      const { wsName, wsCode } = item;
-      this.wsName = wsName;
-      this.wsCode = wsCode;
-      // this.wsCode = "004";
-      this.init();
-    },
-    init() {
-      this.procedureAjax().then(() => {
-        this.deviceAjax();
-      });
+    wsClick(item) {
+      this.active = item;
+      this.deviceAjax();
     },
     // 手风琴展开收齐
     accordion(item) {
       this.$set(item, "visible", !item.visible);
       this.$forceUpdate();
     },
-    async procedureAjax() {
-      this.procedureList = await this.$http.request({
-        url: "/api/BProcessList",
-        method: "GET",
-      });
+    procedureAjax() {
+      this.$http.request({ url: "/api/BProcessList", method: "GET"})
+        .then((res) => {this.procedureList = res});
     },
     // //获取数据
+    dictAjax() {
+      return this.$http
+        .request({
+          url: "/api/Dictionary",
+          method: "GET",
+          data: { keys: "BWorkShop" },
+        })
+        .then(({ BWorkShop }) => (this.wsList = dictToOpts(BWorkShop)));
+    },
     deviceAjax() {
       uni.showLoading({
         title: "加载中",
@@ -196,7 +199,7 @@ export default {
           url: "/api/MachineReport/allMachineState",
           method: "GET",
           data: {
-            wsCode: this.wsCode,
+            wsCode: this.active.value,
           },
         })
         .then(({ machineState: machines }) => {
@@ -211,7 +214,6 @@ export default {
     },
     setDeviceData() {
       const machineMap = {};
-
       this.filteredMachines.map((m) => {
         if (!machineMap[m.processCode]) {
           machineMap[m.processCode] = [];
@@ -226,11 +228,17 @@ export default {
       });
     },
     skip({ stationName, machineCode }) {
-      console.log("跳转", stationName, machineCode);
       uni.navigateTo({
         url: `/pages/device/failureForm?stationName=${stationName}&machineCode=${machineCode}`,
       });
     },
+  },
+  onLoad() {
+    this.dictAjax();
+    this.procedureAjax();
+  },
+  onShow() {
+    this.active = this.line[0];
   },
 };
 </script>

@@ -169,3 +169,27 @@ html,body{
     }
   }
 }
+
+// form禁止
+.disabled{
+  .uni-input-input{color:#ee413b !important;}
+  .uni-textarea-textarea{color:#ee413b !important;}
+  .u-radio__label{color:#ee413b !important;}
+  .u-checkbox__label{color:#ee413b !important;}
+}
+
+.modal-content{
+  padding: 30rpx;
+  text-align: center;
+}
+.public-title{
+  display: flex;
+  .title-left{
+    flex: 1;
+  }
+  .title-right{
+    font-size:$font-24;
+    color:$font-light-gray;
+  }
+}
+

@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import http from '@/util/http'
+import http from '@/api/http'
 Vue.use(Vuex)
 
 const userInfo = uni.getStorageSync('userInfo');
-// const unreadCount=uni.getStorageSync('unreadCount')||0;
 const state = {
 	// 登录
 	hasLogin: !!userInfo,
 	userInfo,
+
 	// 菜单navTab
 	navTab: {
 		list: [
@@ -148,11 +148,8 @@ const mutations = {
 	},
 	//退出登录
 	logout(state) {
-		state.hasLogin = false;
-		state.userInfo = '';
-		state.line=[];
-		state.usuallyMenu = [];
-		state.unreadCount=0;
+		const obj={hasLogin:false,unreadCount:0,userInfo:'',line:[],usuallyMenu:[]}
+		for (let key in obj){	state[key]=obj[key]}
 		uni.clearStorageSync();
 		clearTimeout(state.timer)
 	},
@@ -181,19 +178,21 @@ const mutations = {
 	},
 	set_unreadCount(state, payload){
 		state.unreadCount=payload;
-		state.navTab.list[4].count=payload;
+		state.navTab.list[3].count=payload;
+	},
+	minus_unreadCount(state){
+		state.unreadCount--;
+		state.navTab.list[3].count--;
 	}
 };
-
 const actions = {
 	unreadPoll({commit,state}){
-		// unreadAjax();
 		state.timer=setTimeout(()=>{
 			actions.getUnread({commit,state})
 			.then(()=>actions.unreadPoll({commit,state}));
 		},60000);
 	},
-	getUnread({ commit,state}){
+	getUnread({commit,state}){
 	 return	http.request({
 			url:"/api/SNotify/UnreadCount",
 			method: "GET", 
@@ -201,9 +200,7 @@ const actions = {
 				empCode:state.userInfo.empCode
 			}
 		})
-		.then(res=>{
-			commit('set_unreadCount',res);
-		});
+		.then(res=>commit('set_unreadCount',res));
 	},
 	async getLine({ commit,state }){
 		const lineList = await http.request({url: "/api/BLine/CascadeOption",method: "GET"});
@@ -213,11 +210,7 @@ const actions = {
 		}
 		return lineList;				
 	},
-	async getDict({ commit },payload){
-		return await http.request({url:payload.url,method: "GET", data: payload.data});
-	}
 }
-
 const store = new Vuex.Store({
 	state,
 	mutations,

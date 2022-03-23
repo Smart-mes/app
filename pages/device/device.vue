@@ -1,26 +1,12 @@
 <template>
   <view>
-    <u-navbar
-      :title="navbar.title"
-      :title-color="navbar.color" 
-      :title-size="navbar.size"
-      :is-back="navbar.isBack"
-      :height="navbar.height"
-      :background="navbar.background"
-       title-bold  
-    >
-      <view class="navbar-right" slot="right">
+    <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold>
+      <view class="navbar-right" slot="navbarRight">
         <view class="navbar-icon">
-          <u-icon
-            class="icon-item"
-            name="list"
-            color="#666"
-            size="45"
-            @click.native="handleMenu"
-          />
+          <u-icon class="icon-item" name="list" color="#666" size="45" @click.native="handleMenu"/>
         </view>
       </view>
-    </u-navbar>
+    </navBar>
     <!-- nav -->
     <view class="u-page">
       <u-tabs
@@ -36,9 +22,9 @@
         :current="tabCurrent"
         @change="tabsChange"
       />
-      <!-- nav -->
+      <!-- tabs -->
       <view class="sub-info">
-        <view class="nav-subTitle">{{ wsName }}</view>
+        <view class="nav-subTitle">{{ this.active.label}}</view>
         <view class="tips">
           <view class="tips-item">
             <text class="tips-icon green-icon"></text>
@@ -52,7 +38,7 @@
       </view>
       <!-- 提示  -->
       <view class="device-list" v-for="(item, i) in allList" :key="i">
-        <view class="device-hd" @tap="accordion(item)">
+        <view class="device-hd" @tap="visibleHandle(item)">
           <text class="device-name">{{ item.processName }}</text>
           <u-icon
             :name="item.visible ? 'arrow-up-fill' : 'arrow-down-fill'"
@@ -107,12 +93,7 @@
               </view>
               <!-- 停机 -->
               <view class="device-item" v-if="device.state === 0">
-                <view
-                  :class="[
-                    'device-item-box',
-                    !device.stopState ? 'stop' : 'fault',
-                  ]"
-                >
+                <view :class="[ 'device-item-box', !device.stopState ? 'stop' : 'fault']">
                   <!-- fault -->
                   <view class="device-item-no">{{ device.machineCode }}</view>
                   <view class="device-item-center">
@@ -156,10 +137,7 @@
               <!-- /关机 -->
               <view class="device-item" v-if="device.state === -1">
                 <view
-                  :class="[
-                    'device-item-box',
-                    !device.stopState ? 'normal' : 'fault',
-                  ]"
+                  :class="['device-item-box',!device.stopState ? 'normal' : 'fault', ]"
                 >
                   <!-- fault  -->
                   <view class="device-item-no">{{ device.machineCode }}</view>
@@ -191,9 +169,9 @@
                   <view class="device-item-progress">
                     <view class="progress-bar">
                       <u-line-progress
+                         active-color="#22b14c"
                         :percent="100"
                         :height="10"
-                        active-color="#22b14c"
                         :show-percent="false"
                       />
                     </view>
@@ -214,7 +192,7 @@
         mode="data"
       />
     </view>
-    <popup ref="popup" @getWorkShop="getWorkShop" />
+      <popup ref="popup" :active="active" :list="wsList"  @itemClick="wsClick" />
     <!-- popup -->
     <u-tabbar
       :icon-size="navTab.iconSize"
@@ -227,41 +205,21 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import dictToOpts from '@/utils/dictToOpts';
 export default {
   name: "Device",
   data() {
     return {
-      navbar: {
-        background: {
-          backgroundColor: "#fff",
-        },
-        title: "设备管理",
-        isBack: false,
-        color:"#333",
-        height:"50",
-        size:"36"
-      },
+      navBar: {title: "设备管理", isBack: false},
       // 车间
-      wsName: "车间列表",
-      wsCode: "",
+      active:null,
+      wsList:[],
       //tabs
       tabList: [
-        {
-          name: "全部",
-          value: 2,
-        },
-        {
-          name: "启动",
-          value: 1,
-        },
-        {
-          name: "停机",
-          value: 0,
-        },
-        {
-          name: "关机",
-          value: -1,
-        },
+        { name: "全部", value: 2},
+        {name: "启动",value: 1},
+        {name: "停机",value: 0},
+        {name: "关机", value: -1},
       ],
       tabCurrent: 0,
       current: 2,
@@ -273,7 +231,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["navTab"]),
+    ...mapState(["line","navTab"]),
     procedureSet() {
       return new Set(this.procedureList.map((p) => p.processCode));
     },
@@ -282,9 +240,7 @@ export default {
       const machines = this.machineList.filter((machine) =>
         this.procedureSet.has(machine.processCode)
       );
-      if (this.current === 2) {
-        return machines;
-      }
+      if (this.current === 2) {return machines;}
       return machines.filter((machine) => machine.state === this.current);
     },
     fileredProcedure() {
@@ -296,54 +252,49 @@ export default {
       );
     },
   },
+  onLoad(){
+    this.dictAjax();
+  },
+  onShow(){
+    this.active=this.line[0];
+  },
+  onPullDownRefresh() {
+    this.deviceAjax().then(() => uni.stopPullDownRefresh());
+  },
   methods: {
     handleMenu() {
-      this.$refs.popup.visible = true;
+      this.$refs.popup.visible=true;
     },
-    handleRefresh() {
-      this.deviceAjax();
-    },
-    getWorkShop(item) {
-      const { wsName, wsCode } = item;
-      this.wsName = wsName;
-      this.wsCode = wsCode;
-      this.init();
+    wsClick(item){
+      this.active=item;
+      this.procedureAjax().then(() =>this.deviceAjax());
     },
     tabsChange(index) {
       this.tabCurrent = index;
       this.current = this.tabList[index].value;
       this.setDeviceData();
     },
-    init() {
-      this.procedureAjax().then(() => {
-        this.deviceAjax();
-      });
-    },
-    // 手风琴展开收齐
-    accordion(item) {
+    // 展开收起
+    visibleHandle(item) {
       this.$set(item, "visible", !item.visible);
-      this.$forceUpdate();
     },
-    async procedureAjax() {
-      this.procedureList = await this.$http.request({
-        url: "/api/BProcessList",
-        method: "GET",
-      });
+     procedureAjax() {
+       return this.$http.request({url: "/api/BProcessList", method: "GET"})
+        .then(res => this.procedureList=res);
+    },
+    dictAjax() {
+      return this.$http.request({url: "/api/Dictionary", method: "GET", data: { keys: "BWorkShop" }})
+        .then(({ BWorkShop }) => this.wsList=dictToOpts(BWorkShop));
     },
     // //获取数据
     deviceAjax() {
-      uni.showLoading({
-        title: "加载中",
-        mask: true,
-      });
+      uni.showLoading({ title: "加载中",mask: true});
 
       return this.$http
         .request({
           url: "/api/MachineReport/allMachineState",
           method: "GET",
-          data: {
-            wsCode: this.wsCode,
-          },
+          data: {wsCode:this.active.value},
         })
         .then(({ machineState: machines }) => {
           uni.hideLoading();
@@ -357,7 +308,6 @@ export default {
     },
     setDeviceData() {
       const machineMap = {};
-
       this.filteredMachines.map((m) => {
         if (!machineMap[m.processCode]) {
           machineMap[m.processCode] = [];
@@ -368,16 +318,10 @@ export default {
       this.allList = this.fileredProcedure.map((p) => {
         p.visible = true;
         p.children = machineMap[p.processCode] || [];
-        return p;
+        return {...p};
       });
     },
-  },
-  onLoad(){},
-  onPullDownRefresh() {
-    this.deviceAjax().then(() => {
-      uni.stopPullDownRefresh();
-    });
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>

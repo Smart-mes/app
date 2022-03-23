@@ -13,9 +13,9 @@
         </view>
       </view>
     </navBar>
-    <!-- nav -->
+    <!-- navBar -->
     <view class="u-page">
-      <view class="nav-subTitle">{{ wsName }}</view>
+      <view class="nav-subTitle">{{this.active.label}}</view>
       <view class="product">
         <view class="product-item" v-for="(product, i) in productList" :key="i">
           <view class="product-hd">
@@ -41,16 +41,10 @@
                   width="132"
                   border-width="6"
                   duration="1000"
-                  :percent="product.percent"
+                  :percent="product.percent>=100?100:product.percent"
                 >
                   <text>
-                    {{
-                      product.percent === 0
-                        ? "未生产"
-                        : product.percent === 100
-                        ? "已完成"
-                        : "生产中"
-                    }}{{ product.percent }}%
+                    {{!product.percent? "未生产": product.percent >= 100? "已完成": "生产中"}}{{ product.percent>=100?100:product.percent }}%
                   </text>
                 </u-circle-progress>
               </view>
@@ -59,7 +53,7 @@
                   :name="product.visible ? 'arrow-up-fill' : 'arrow-down-fill'"
                   color="#ccc"
                   size="22"
-                  @click="product.visible = !product.visible"
+                  @tap="visibleHandle(item)"
                 />
               </view>
             </view>
@@ -113,10 +107,7 @@
               </view>
               <view>
                 <text class="assist-name">计划时间：</text>
-                <text class="assist-time">
-                  {{ product.plannedTime }}
-                  <!-- {{ $moment().format('YYYY-MM-DD HH:mm:ss')}}===00 -->
-                </text>
+                <text class="assist-time">{{ product.plannedTime }}</text>
               </view>
             </view>
           </view>
@@ -132,7 +123,7 @@
       />
     </view>
     <!-- page -->
-    <popup ref="popup" @getWorkShop="getWorkShop" />
+    <popup ref="popup" :active="active" :list="wsList" @itemClick="wsClick" />
     <!-- popup -->
     <u-tabbar
       :icon-size="navTab.iconSize"
@@ -146,48 +137,55 @@
 <script>
 import { mapState } from "vuex";
 import moment from "moment";
+import dictToOpts from '@/utils/dictToOpts'
 export default {
   name: "Product",
   data() {
     return {
-			navBar: {
-        title: "生产详情",
-        isBack: false,        
-      },
+      navBar: { title: "生产详情", isBack: false },
       // 车间
-      wsName: "车间列表",
-      wsCode: "",
+      active:null,
+      wsList:[],
       productList: [],
     };
   },
   computed: {
-    ...mapState(["navTab"]),
+    ...mapState(["line","navTab"]),
   },
-  onLoad() {},
+  onLoad() {
+    this.dictAjax();
+  },
+  onShow(){
+    this.active=this.line[0];
+  },
   onPullDownRefresh() {
     this.productAjax().then(() => uni.stopPullDownRefresh());
   },
   methods: {
     handleMenu() {
-      this.$refs.popup.visible = true;
+      this.$refs.popup.visible=true;
     },
-    handleRefresh() {
+    wsClick(item){
+      this.active=item;
       this.productAjax();
     },
-    getWorkShop({ wsName, wsCode }) {
-      this.wsName = wsName;
-      this.wsCode = wsCode;
-      this.productAjax();
+    // 展开收起
+    visibleHandle(item) {
+      this.$set(item, "visible", !item.visible);
+    },
+    dictAjax() {
+      return this.$http
+        .request({url: "/api/Dictionary", method: "GET", data: { keys: "BWorkShop" }})
+        .then(({ BWorkShop }) => this.wsList=dictToOpts(BWorkShop));
     },
     productAjax() {
+     
       uni.showLoading({ title: "加载中", mask: true });
       return this.$http
         .request({
           url: "/api/ProduceReport/wsCodeProduct",
           method: "GET",
-          data: {
-            wsCode: this.wsCode,
-          },
+          data: { wsCode: this.active.value },
         })
         .then(({ productList }) => {
           uni.hideLoading();
@@ -198,7 +196,7 @@ export default {
     setProduct(productList) {
       this.productList = productList.map((product, i) => {
         if (product) {
-          product.visible = i ? false : true;
+          product.visible = i === 0;
           // 良率
           let total = product.cpltQty + product.failQty;
           let yieldNum = product.cpltQty / total;
@@ -214,10 +212,7 @@ export default {
           return product;
         }
       });
-    },
-    // accordion(item) {
-    // 	this.$set(item, "visible", !item.visible);
-    // },
+    }
   },
 };
 </script>

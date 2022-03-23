@@ -4,11 +4,7 @@
     <!-- navBar -->
     <view class="u-page">
       <view class="basic-box fill-info">
-        <view
-          class="fill-item"
-          v-for="(headerItem, key1) in headerData"
-          :key="key1"
-        >
+        <view class="fill-item" v-for="(headerItem, key) in headerData":key="key">
           <text class="name">{{ headerItem.label }}: </text>
           <text class="text">{{ headerItem.displayValue }}</text>
         </view>
@@ -18,25 +14,25 @@
         <u-icon
           class="icon"
           custom-prefix="custom-icon"
-          name="left-arrow"
-          color="#999"
+          name="left-arrow"        
           size="50"
+          :color="index===0?'#999':'#2979ff'"
           @click="prev"
         />
         <view class="paging">{{ index + 1 }}/{{ aql.qty }}</view>
         <u-icon
           class="icon"
           custom-prefix="custom-icon"
-          name="right-arrow"
-          color="#999"
+          name="right-arrow"     
           size="50"
+          :color="index + 1 ===aql.qty?'#999':'#2979ff'"
           @click="next"
         />
       </view>
       <!-- 切换 -->
       <view class="basic-box form">
         <customForm
-          ref="BillFrom"
+          ref="BillForm"
           :form="inspectionItems[index]"
           :formList="formList"
           :rules="rules"
@@ -49,15 +45,8 @@
                   <u-button @click="save" :disabled="!!this.pageType">保存</u-button>
                 </u-col>
                 <u-col span="6">
-                  <u-button
-                    v-if="index + 1 !== aql.qty"
-                    type="primary"
-                    @click="next">
-                    下一个
-                    </u-button>
-                  <u-button v-else type="primary" @click="submit" :disabled="submitDisabled">
-                    提交
-                  </u-button>
+                  <u-button v-if="index + 1 !== aql.qty" type="primary" @click="next">下一个</u-button>
+                  <u-button v-else type="primary":disabled="submitDisabled" @click="submit" >提交</u-button>
                 </u-col>
               </u-row>
             </view>
@@ -107,22 +96,12 @@ function getAQL(lotQty, level, aqlValue) {
   lotQty = +lotQty;
   aqlValue = +aqlValue;
   if (lotQty < 2) {
-    return {
-      lotQty,
-      level,
-      aqlValue,
-      code: "全检",
-      qty: 1,
-      ac: 0,
-      re: 1,
-    };
+    return {lotQty,level,aqlValue,code: "全检",qty: 1,ac: 0,re: 1};
   }
   const code = getAQLCode(lotQty, level.substr(2));
   const index = [0.65, 1, 1.5, 2.5, 4, 6].indexOf(aqlValue);
   if (!~index) {
-    throw new Error(
-      `非法的AQL值：${aqlValue}, 合法值为[0.65, 1, 1.5, 2.5, 4, 6]`
-    );
+    throw new Error( `非法的AQL值：${aqlValue}, 合法值为[0.65, 1, 1.5, 2.5, 4, 6]`);
   }
 
   const aqlMap = {
@@ -163,10 +142,7 @@ export default {
   name: "FillSpot",
   data() {
     return {
-      navBar: {
-        title: "抽检填单",
-        isBack: true,
-      },
+      navBar: {title: "抽检填单",isBack: true},
       // 参数
       billCode: "CI",
       headerData: {},
@@ -242,7 +218,7 @@ export default {
             this.formList.push({
               label: `${ c.name }${ c.unit ? `(${c.unit})` : '' }`,
               props: c.name,
-              type: c.condition === "人工判断" ? "radio" : "input",
+              type: c.condition === "人工判断" ? "radio" : "number",
               radioList: [
                 { name: 0, label: "NG",disabled:!!this.pageType },
                 { name: 1, label: "OK",disabled:!!this.pageType },
@@ -268,9 +244,7 @@ export default {
               .fill(0)
               .map((v, i) => {
                 const item = { index: i + 1 }
-                this.judgmentKeys.forEach(k => {
-                  item[k] = 1
-                })
+                this.judgmentKeys.forEach(k => {item[k] = 1})
                 return item;
               });
           }
@@ -292,7 +266,7 @@ export default {
        if(this.index+1===this.inspectionItems.length){
          return void 0;
        }
-        this.$refs.BillFrom.validateForm().then((valid) => {
+        this.$refs.BillForm.validateForm().then((valid) => {
           if (valid) {
             this.index++;
           }
@@ -304,15 +278,11 @@ export default {
           url: '/api/BillTask/Save', 
           method: "POST",
           data: formData
-        }).then(() => {
-           this.$refs.uToast.show({ title: "保存成功",type: "success"});
         })
-        .catch(() =>{
-           this.$refs.uToast.show({ title: "保存失败", type: "error" })
-        })
+        .then(() => this.$refs.uToast.show({ title: "保存成功",type: "success"}))
       },
       submit() {       
-        this.$refs.BillFrom.validateForm().then((valid) => {
+        this.$refs.BillForm.validateForm().then((valid) => {
           if (valid) {
             let ngQty = 0
             const inspectionItems = JSON.parse(JSON.stringify(this.inspectionItems))          
@@ -346,10 +316,8 @@ export default {
             }).then(() => {
               //  this.submitDisabled=true;
                this.$refs.uToast.show({ title: "提交成功",type: "success",url: "/pages/spotCheck/spotHistory"});
-            }).catch(()=>{
-              this.submitDisabled=false;
-              this.$refs.uToast.show({ title: "提交失败", type: "error" });
-            })      
+            })
+            .catch(()=>this.submitDisabled=false)      
           }
         });
       },
@@ -385,9 +353,7 @@ export default {
     width: 140rpx;
     color: $font-light-gray;
   }
-  .text {
-    flex: 1;
-  }
+  .text {flex: 1;}
 }
 .switch {
   margin: 0 20rpx;
@@ -395,15 +361,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  .paging {
-    flex: 1;
-    text-align: center;
-  }
+  .paging {flex: 1;text-align: center;}
 }
-.u-page {
-  overflow: hidden;
-}
-.form {
-  margin-bottom: 15rpx;
-}
+.u-page {overflow: hidden;}
+.form {margin-bottom: 15rpx;}
 </style>

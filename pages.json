@@ -226,13 +226,6 @@
 			}
 		},
 		{
-			"path": "pages/andon/closeAndon",
-			"style": {
-				"navigationBarTitleText": "关闭安灯",
-				"navigationStyle": "custom"
-			}
-		},
-		{
 			"path": "pages/TPM/TPM",
 			"style": {
 				"navigationBarTitleText": "设备保养",

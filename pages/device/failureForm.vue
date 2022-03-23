@@ -184,16 +184,9 @@ export default {
             remarks,
           },
         })
-        .then(() => {
-          this.$refs.uToast.show({
-            title: "提交成功",
-            type: "success",
-            url: "/pages/device/failure",
-          });
-        })
-        .catch(() => {
-          this.$refs.uToast.show({ title: "提交失败", type: "error" });
-        });
+        .then(
+          () => this.$refs.uToast.show({title: "提交成功",type: "success",url: "/pages/device/failure" })
+        )
     },
   },
 };
