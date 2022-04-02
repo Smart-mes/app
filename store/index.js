@@ -178,7 +178,7 @@ const mutations = {
 	},
 	set_unreadCount(state, payload){
 		state.unreadCount=payload;
-		state.navTab.list[3].count=payload;
+		state.navTab.list[4].count=payload;
 	},
 	minus_unreadCount(state){
 		state.unreadCount--;
@@ -193,14 +193,15 @@ const actions = {
 		},60000);
 	},
 	getUnread({commit,state}){
-	 return	http.request({
-			url:"/api/SNotify/UnreadCount",
-			method: "GET", 
-			data:{
-				empCode:state.userInfo.empCode
-			}
-		})
-		.then(res=>commit('set_unreadCount',res));
+	//  return	http.request({
+	// 		url:"/api/SNotify/UnreadCount",
+	// 		method: "GET", 
+	// 		data:{
+	// 			empCode:state.userInfo.empCode
+	// 		}
+	// 	})
+	// 	.then(res=>commit('set_unreadCount',res));
+	commit('set_unreadCount',3)
 	},
 	async getLine({ commit,state }){
 		const lineList = await http.request({url: "/api/BLine/CascadeOption",method: "GET"});
