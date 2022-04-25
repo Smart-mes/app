@@ -94,7 +94,7 @@
 							userName: empName
 						}
 					});
-					this.getWorkShop();
+					// this.getWorkShop();
 				}).then(() => {	
 					uni.reLaunch({url: '/pages/index/index'})
 				}).catch(() => {

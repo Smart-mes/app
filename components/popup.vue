@@ -17,11 +17,12 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState,mapActions } from "vuex";
 export default {
   name: "Popup",
   props: {},
   computed: {
+    ...mapActions(["getWorkShop"]),
     ...mapState(["workShopList"]),
   },
   data() {
@@ -29,6 +30,10 @@ export default {
       visible: false,
       current:3,
     };
+  },
+  created () {
+    console.log()
+    this.getWorkShop('created')	
   },
   mounted() {   
     this.workShopList.length&&this.handleWorkShop(this.current)

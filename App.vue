@@ -11,7 +11,7 @@ export default {
     ...mapState(["hasLogin", "userInfo"]),
   },
   methods: {
-    ...mapActions(["getWorkShop"]),
+    // ...mapActions(["getWorkShop"]),
     init() {
       // 锁定竖屏
       // #ifdef APP-PLUS
