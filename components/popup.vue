@@ -22,7 +22,7 @@ export default {
   name: "Popup",
   props: {},
   computed: {
-    ...mapActions(["getWorkShop"]),
+ 
     ...mapState(["workShopList"]),
   },
   data() {
@@ -31,14 +31,14 @@ export default {
       current:3,
     };
   },
-  created () {
-    console.log()
-    this.getWorkShop('created')	
-  },
-  mounted() {   
+  mounted() { 
+    this.getWorkShop().then(()=>{
     this.workShopList.length&&this.handleWorkShop(this.current)
+    })	
+
   },
   methods: {
+       ...mapActions(["getWorkShop"]),
     handleWorkShop(i){
       this.current=i;
       this.$emit('getWorkShop',this.workShopList[i])
