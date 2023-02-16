@@ -257,16 +257,16 @@
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",
 		"navigationBarTextStyle": "black",
-		"navigationBarBackgroundColor": "#f1f2f7",
+		"navigationBarBackgroundColor": "#ffffff",
 		"usingComponents": {
 			"ly-tree-node": "/components/ly-tree/ly-tree-node"
 		}
 	},
 	"tabBar": {
-		"color": "#909399",
-		"selectedColor": "#303133",
-		"backgroundColor": "#FFFFFF",
+		"color": "#7A7E83",
+		"selectedColor": "#0973ff",
 		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
 		"list": [
 			{
 				"pagePath": "pages/index/index",

@@ -1,6 +1,6 @@
 <template>
   <view class="my">
-    <navBar
+    <ex-TnavBar
       :title="navBar.title"
       :is-back="navBar.isBack"
       :color="navBar.color"
@@ -48,13 +48,8 @@
         <u-button type="default" @click="signOut">退出登录</u-button>
       </view>
     </view>
-    <u-tabbar
-      :icon-size="navTab.iconSize"
-      :list="navTab.list"
-      :mid-button="navTab.isMid"
-      :active-color="navTab.activeColor"
-      :inactive-color="navTab.inactiveolor"
-    />
+    <!-- 底部菜单-->
+    <ex-BNavBar :active="4"></ex-BNavBar>
   </view>
 </template>
 

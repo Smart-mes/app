@@ -1,6 +1,6 @@
 <template>
-  <view id="passRate">
-     <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold />
+  <view class="UPH-page ">
+     <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold/>
     <!-- nav -->
     <view class="u-page">
       <view class="search-box">
@@ -278,7 +278,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#passRate {
+.UPH-page {
   overflow: hidden;
 }
 .charts-line,

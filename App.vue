@@ -13,13 +13,13 @@
 		},
 		methods: {
 			init() {
-				// 锁定竖屏
-				// #ifdef APP-PLUS  
-				plus.screen.lockOrientation("portrait-primary");
-				// #endif
-				if (this.hasLogin) {
-					uni.reLaunch({url: "pages/index/index"});
-				}
+				// // 锁定竖屏
+				// // #ifdef APP-PLUS  
+				// plus.screen.lockOrientation("portrait-primary");
+				// // #endif
+				// if (this.hasLogin) {
+				// 	uni.reLaunch({url: "pages/index/index"});
+				// }
 			}
 		}
 	};

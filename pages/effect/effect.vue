@@ -1,11 +1,22 @@
 <template>
-  <view class="effect">
-    <u-navbar
+  <view class="effect-page">
+     <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold>
+        <view class="navbar-right" slot="right">
+          <view class="navbar-icon">
+            <u-icon
+              class="icon-item"
+              name="list"
+              color="#333"
+              size="45"
+              @click.native="handleMenu"
+            />
+          </view>
+        </view>    
+    </ex-TnavBar>
+    <!-- <u-navbar
       :title="navbar.title"
       :is-back="navbar.isBack"
       :title-color="navbar.color"
-      :title-size="navbar.size"
-      :height="navbar.height"
       :background="navbar.background"
       title-bold
     >
@@ -20,7 +31,7 @@
           />
         </view>
       </view>
-    </u-navbar>
+    </u-navbar> -->
     <!-- nav -->
     <view class="nav-subTitle">{{ active.label }}</view>
     <u-row class="effect-list">
@@ -109,15 +120,9 @@ export default {
   name: "Effect",
   data() {
     return {
-      navbar: {
+      navBar: {
         title: "效率管理",
         isBack: true,
-        color: "#333",
-        size: "36",
-        height: "50",
-        background: {
-          backgroundColor: "#ffffff",
-        },
       },
       // 车间
       active: null,
@@ -235,7 +240,7 @@ export default {
 uni-page-body {
   height: 100%;
 }
-.effect {
+.effect-page {
   min-height: 100%;
   background: $white-color;
 }

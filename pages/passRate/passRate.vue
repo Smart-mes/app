@@ -1,6 +1,6 @@
 <template>
-  <view id="passRate">
-    <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold />
+  <view class="passRate-page">
+    <ex-TnavBar  :title="navBar.title" :is-back="navBar.isBack" title-bold />
     <!-- nav -->
     <view class="u-page">
       <view class="search-box">
@@ -226,7 +226,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#passRate {
+.passRate-page {
   overflow: hidden;
 }
 .charts-pie,

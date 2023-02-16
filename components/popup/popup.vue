@@ -44,7 +44,6 @@ export default {
   data () {
     return {
       visible:false,
-      // itemActive:null,
     }
   },
   watch: {

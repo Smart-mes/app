@@ -1,14 +1,6 @@
 <template>
   <view id="quality">
-    <u-navbar
-      :title="navbar.title"
-      :is-back="navbar.isBack"
-      :title-color="navbar.color"
-      :title-size="navbar.size"
-      :height="navbar.height"
-      :background="navbar.background"
-      title-bold
-    />
+    <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold/>
     <!-- nav -->
     <view class="quality-box">
       <view class="quality-charts">
@@ -49,15 +41,9 @@ export default {
   name:"Quality",
   data() {
     return {
-      navbar: {
+      navBar: {
         title: "工单不良汇总",
-        isBack: true,
-        color: "#333",
-        size: "36",
-        height: "50",
-        background: {
-          backgroundColor: "#ffffff",
-        },
+        isBack: true
       },
       chartData: {
         categories: ["2016", "2017", "2018", "2019", "2020", "2021"],

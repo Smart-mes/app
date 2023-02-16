@@ -1,11 +1,7 @@
 <template>
   <view class="failureForm">
-    <u-navbar
-      :height="50"
-      :title="'报障_' + stationName"
-      :is-back="navbar.isBack"
-      :background="navbar.background"
-    />
+    <ex-TnavBar :title="'报障_' + stationName" :is-back="true"/>
+    <!-- nav -->
     <view class="form-box">
       <u-form :model="form" :label-width="140" ref="uForm">
         <u-form-item label="故障项" prop="faultphenomenonCode">
@@ -54,12 +50,6 @@ export default {
   name: "FailureForm",
   data() {
     return {
-      navbar: {
-        background: {
-          backgroundColor: "#ffffff",
-        },
-        isBack: true,
-      },
       // 参数
       machineCode: "",
       stationName: "",

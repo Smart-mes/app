@@ -1,6 +1,6 @@
 <template>
-  <view id="passRate">
-    <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold />
+  <view class="PAR-page">
+    <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold></ex-TnavBar>
     <!-- nav -->
     <view class="u-page">
       <view class="search-box">
@@ -35,9 +35,7 @@
                 <u-button size="medium" @click="clear">清空</u-button>
               </u-col>
               <u-col span="6">
-                <u-button type="primary" size="medium" @click="search"
-                  >查询</u-button
-                >
+                <u-button type="primary" size="medium" @click="search">查询</u-button>
               </u-col>
             </u-row>
           </view>
@@ -210,7 +208,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#passRate {
+.PAR-page {
   overflow: hidden;
 }
 .charts-bar,

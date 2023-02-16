@@ -1,13 +1,9 @@
 <template>
   <view>
-    <u-navbar
+    <ex-TnavBar 
       :title="navbar.title"
       :is-back="navbar.isBack"
-      :title-color="navbar.color"
-      :title-size="navbar.size"
-      :height="navbar.height"
-      :background="navbar.background"
-      title-bold
+       title-bold
     >
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
@@ -15,12 +11,12 @@
             class="icon-item"
             name="list"
             color="#666"
-            size="45"
+            size="45rpx"
             @click.native="handleMenu"
           />
         </view>
       </view>
-    </u-navbar>
+    </ex-TnavBar>
     <!-- nav -->
     <view class="u-page">
       <view class="nav-subTitle">{{ selected.label || "设备" }}列表</view>
@@ -79,12 +75,6 @@ export default {
       navbar: {
         title: "效率分析",
         isBack: true,
-        color: "#333",
-        size: "36",
-        height: "50",
-        background: {
-          backgroundColor: "#ffffff",
-        },
       },
       // tree
       showTree: false,

@@ -1,6 +1,6 @@
 <template>
-  <view id="passRate">
-    <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold />
+  <view class="qiao-page">
+    <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold />
     <!-- nav -->
     <view class="u-page">
       <view class="search-box">
@@ -266,7 +266,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// #passRate{overflow: hidden;}
+.qiao-page{overflow: hidden;}
 .chart-box {
   overflow: initial;
 }

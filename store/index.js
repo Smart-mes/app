@@ -8,55 +8,6 @@ const state = {
 	// 登录
 	hasLogin: !!userInfo,
 	userInfo,
-
-	// 菜单navTab
-	navTab: {
-		list: [
-		{
-			iconPath: "home",
-			selectedIconPath: "home-fill",
-			text: "首页",
-			isDot: true,
-			customIcon: false,
-			pagePath: "/pages/index/index"
-		},
-		{
-			iconPath: "file-text",
-			selectedIconPath: "file-text-fill",
-			text: "生产",
-			customIcon: false,
-			pagePath: "/pages/product/product"
-		},
-		{
-			iconPath: "calendar",
-			selectedIconPath: "calendar-fill",
-			text: "设备",
-			customIcon: false,
-			pagePath: "/pages/device/device"
-		},
-		{
-			iconPath: "play-right",
-			selectedIconPath: "play-right-fill",
-			text: "工艺",
-			customIcon: false,
-			pagePath: "/pages/retrospect/retrospect"
-		},
-		{
-			iconPath: "account",
-			selectedIconPath: "account-fill",
-			text: "我的",
-			count:0,
-			isDot: false,
-			customIcon: false,
-			pagePath: "/pages/my/my"
-		},
-		],
-		iconSize: 40,
-		activeColor: '#1890ff',
-		inactiveolor: '#666',
-		// current: 0,
-		isMid: false
-	},
 	menuList: [
 		{
 			icon: "analyse",
@@ -130,7 +81,7 @@ const state = {
 		},
 	],
 	// 常用菜单
-	usuallyMenu: uni.getStorageSync('usuallyMenu')||[] ,
+	dailyMenu: uni.getStorageSync('dailyMenu')||[] ,
 	line:uni.getStorageSync('line')||[],
 	// 字典
 	BLineDict:null,
@@ -148,22 +99,21 @@ const mutations = {
 	},
 	//退出登录
 	logout(state) {
-		const obj={hasLogin:false,unreadCount:0,userInfo:'',line:[],usuallyMenu:[]}
-		for (let key in obj){	state[key]=obj[key]}
+		const obj={hasLogin:false,unreadCount:0,userInfo:'',line:[],dailyMenu:[]}
+		for (let key in obj){	
+			state[key]=obj[key]
+		}
 		uni.clearStorageSync();
 		clearTimeout(state.timer)
 	},
-	add_usuallyMenu(state, payload) {
-		// state
-		const { usuallyMenu } = state;
-		const index = usuallyMenu.length - 1;
-		usuallyMenu.splice(index, 0, payload);
-		uni.setStorage({key: 'usuallyMenu',data: usuallyMenu});
+	add_dailyMenu(state, payload) {
+		state.dailyMenu.push(payload)
+		uni.setStorage({key: 'dailyMenu',data: state.dailyMenu});
 	},
-	delete_usuallyMenu(i) {
-		const { usuallyMenu } = state
-		usuallyMenu.splice(i, 1);
-		uni.setStorage({key: 'usuallyMenu',data: usuallyMenu});
+	del_dailyMenu(i) {
+		const { dailyMenu } = state
+		dailyMenu.splice(i, 1);
+		uni.setStorage({key: 'dailyMenu',data: dailyMenu});
 	},
 	set_state(state, payload) {
 		if (payload && typeof (payload) === 'object') {
@@ -178,11 +128,9 @@ const mutations = {
 	},
 	set_unreadCount(state, payload){
 		state.unreadCount=payload;
-		state.navTab.list[4].count=payload;
 	},
 	minus_unreadCount(state){
 		state.unreadCount--;
-		state.navTab.list[3].count--;
 	}
 };
 const actions = {

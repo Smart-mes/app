@@ -1,10 +1,8 @@
 <template>
   <view id="analyseDetail">
-    <u-navbar
+    <ex-TnavBar 
       :title="navbar.title"
-      :height="navbar.height"
       :is-back="navbar.isBack"
-      :background="navbar.background"
     />
     <!-- nav -->
     <view class="u-page">
@@ -195,7 +193,7 @@
 </template>
 
 <script>
-import config from "@/util/config";
+import config from "@/api/config";
 const url = config.oeeServerApi.baseURL;
 
 export default {
@@ -205,10 +203,6 @@ export default {
       // nav
       navbar: {
         title:'设备效率分析详情',
-        height:50,
-        background: {
-          backgroundColor: "#ffffff",
-        },
         isBack: true,
       },
       machineCode: "",

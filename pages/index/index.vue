@@ -1,6 +1,8 @@
 <template>
-  <view>
-    <u-navbar :height="50" :is-back="false"><text class="nav-name">{{companyName}}</text></u-navbar>
+  <view> 
+    <ex-TnavBar :is-back="false">
+      <text class="nav-name">{{companyName}}</text>
+    </ex-TnavBar>
     <!-- nav -->
     <view class="u-page">
       <view class="farm" v-if="line.length" @click="selectShow = !selectShow">
@@ -18,16 +20,16 @@
           <u-section title="日常工作" font-size="30" :show-line="false" :right="false"/>
         </view>
         <view class="menu-box">
-          <ju-navigator-grid size="52rpx" :list="dailyMenu" :show-scroll-bar="false" />
+          <ju-navigator-grid size="50rpx" :list="dMenu"/>
         </view>
       </view>
       <!-- 常用菜单 -->
       <view class="menu whole-menu">
         <view class="menu-title">
-          <u-section title="全部分类" font-size="30" :show-line="false" :right="false"/>
+          <u-section title="全部分类"  font-size="30" :show-line="false" :right="false"/>
         </view>
         <view class="menu-box">
-          <ju-navigator-grid size="52rpx" :list="menu" />
+		<ju-navigator-grid size="50rpx" :list="menu" />		  
         </view>
       </view>
       <!-- 全部菜单 -->
@@ -48,15 +50,10 @@
       <!--我的消息-->
     </view>
     <!-- page -->
-    <u-select mode="mutil-column-auto" v-model="selectShow" :list="lineList" @confirm="selectConfirm"/>
-    <!-- select -->
-    <u-tabbar
-      :icon-size="navTab.iconSize"
-      :list="navTab.list"
-      :mid-button="navTab.isMid"
-      :active-color="navTab.activeColor"
-      :inactive-color="navTab.inactiveolor"
-    />
+    <!-- 底部菜单-->
+    <ex-BNavBar :active="0"></ex-BNavBar>
+     <!-- select -->
+    <u-select mode="mutil-column-auto"  v-model="selectShow" :list="lineList" @confirm="selectConfirm"/>
   </view>
 </template>
 <script>
@@ -71,13 +68,13 @@ export default {
       bannerUrl: "/static/images/banner/banner.jpg",
       // 菜单
       selectShow: false,
-      lineList: [],
+      lineList: [],  
     };
   },
   computed: {
-    ...mapState(["navTab","menuList", "usuallyMenu", "line", "unreadCount"]),
-    dailyMenu() {
-      return this.usuallyMenu
+    ...mapState(["navTab","menuList", "dailyMenu", "line", "unreadCount"]),
+    dMenu() {
+      return this.dailyMenu
         .concat([{ icon: "line-add", title: "添加", url: "/pages/index/addMenu" }])
         .map(({ icon, title, url }) => {
           return {
@@ -104,6 +101,7 @@ export default {
     },
   },
   onLoad() {
+  //  设置红点
     this.getLine().then((res) => (this.lineList = res));
     this.getUnread();
     this.unreadPoll();
@@ -119,8 +117,8 @@ export default {
 <style lang="scss" scoped>
 /deep/.uni-scroll-view::-webkit-scrollbar {display: none;}
 .nav-name {
-  margin-left: 35rpx;
-  font-size: 38rpx;
+  margin-left: 25rpx;
+  font-size: 32rpx;
   font-weight: bold;
   letter-spacing: 1rpx;
 }

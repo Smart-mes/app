@@ -1,7 +1,7 @@
 <template>
   <view>
-    <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold>
-      <view class="navbar-right" slot="navbarRight">
+    <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold>
+      <view class="navbar-right" slot="right">
         <view class="navbar-icon">
           <u-icon
             class="icon-item"
@@ -12,7 +12,7 @@
           />
         </view>
       </view>
-    </navBar>
+    </ex-TnavBar>
     <!-- navBar -->
     <view class="u-page">
       <view class="nav-subTitle">{{this.active.label}}</view>
@@ -53,7 +53,7 @@
                   :name="product.visible ? 'arrow-up-fill' : 'arrow-down-fill'"
                   color="#ccc"
                   size="22"
-                  @tap="visibleHandle(item)"
+                  @tap="product.visible=!product.visible"
                 />
               </view>
             </view>
@@ -66,9 +66,7 @@
                 <u-col span="6">
                   <view class="info-item">
                     <text class="info-name">完&ensp;成&ensp;数：</text>
-                    <text class="info-text text-dec">{{
-                      product.cpltQty
-                    }}</text>
+                    <text class="info-text text-dec">{{ product.cpltQty}}</text>
                   </view>
                   <view class="info-item">
                     <text class="info-name">良&emsp;&emsp;率：</text>
@@ -123,15 +121,10 @@
       />
     </view>
     <!-- page -->
+      <!-- 底部菜单-->
+      <ex-BNavBar :active="1"></ex-BNavBar>
+      <!-- popup -->  
     <popup ref="popup" :active="active" :list="wsList" @itemClick="wsClick" />
-    <!-- popup -->
-    <u-tabbar
-      :icon-size="navTab.iconSize"
-      :list="navTab.list"
-      :mid-button="navTab.isMid"
-      :active-color="navTab.activeColor"
-      :inactive-color="navTab.inactiveolor"
-    />
   </view>
 </template>
 <script>
@@ -169,17 +162,12 @@ export default {
       this.active=item;
       this.productAjax();
     },
-    // 展开收起
-    visibleHandle(item) {
-      this.$set(item, "visible", !item.visible);
-    },
     dictAjax() {
       return this.$http
         .request({url: "/api/Dictionary", method: "GET", data: { keys: "BWorkShop" }})
         .then(({ BWorkShop }) => this.wsList=dictToOpts(BWorkShop));
     },
     productAjax() {
-     
       uni.showLoading({ title: "加载中", mask: true });
       return this.$http
         .request({
@@ -191,12 +179,14 @@ export default {
           uni.hideLoading();
           this.setProduct(productList);
         })
-        .catch(() => uni.hideLoading());
+        .catch(
+          () => uni.hideLoading()
+        );
     },
     setProduct(productList) {
       this.productList = productList.map((product, i) => {
         if (product) {
-          product.visible = i === 0;
+          product.visible = i===0;
           // 良率
           let total = product.cpltQty + product.failQty;
           let yieldNum = product.cpltQty / total;
@@ -205,10 +195,7 @@ export default {
           let percentNum = product.cpltQty / product.qty;
           product.percent = Math.round(percentNum * 100);
           //time
-          product.plannedTime = moment(product.plannedTime).format(
-            "YYYY-MM-DD h:mm:ss"
-          );
-
+          product.plannedTime = moment(product.plannedTime).format("YYYY-MM-DD h:mm:ss");
           return product;
         }
       });

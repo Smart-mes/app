@@ -1,12 +1,12 @@
 <template>
   <view>
-    <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold>
+    <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold>
       <view class="navbar-right" slot="navbarRight">
         <view class="navbar-icon">
           <u-icon class="icon-item" name="list" color="#666" size="45" @click.native="handleMenu"/>
         </view>
       </view>
-    </navBar>
+    </ex-TnavBar>
     <!-- nav -->
     <view class="u-page">
       <u-tabs
@@ -192,15 +192,13 @@
         mode="data"
       />
     </view>
-      <popup ref="popup" :active="active" :list="wsList"  @itemClick="wsClick" />
+    <!-- page -->
+    <!-- 底部菜单-->
+    <ex-BNavBar :active="2"></ex-BNavBar>
     <!-- popup -->
-    <u-tabbar
-      :icon-size="navTab.iconSize"
-      :list="navTab.list"
-      :mid-button="navTab.isMid"
-      :active-color="navTab.activeColor"
-      :inactive-color="navTab.inactiveolor"
-    />
+    <popup ref="popup" :active="active" :list="wsList"  @itemClick="wsClick" />
+    
+
   </view>
 </template>
 <script>

@@ -1,14 +1,6 @@
 <template>
   <view class="scanCode">
-    <u-navbar
-      :title="navbar.title"
-      :is-back="navbar.isBack"
-      :title-color="navbar.color"
-      :title-size="navbar.size"
-      :height="navbar.height"
-      :background="navbar.background"
-      title-bold
-    />
+    <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold/>
     <!-- nav -->
     <view class="scanForm">
       <u-form :model="form" ref="uForm">
@@ -40,15 +32,9 @@ export default {
   name:"scanCode",
   data() {
     return {
-      navbar: {
+      navBar: {
         title: "扫描查询",
         isBack: true,
-        color: "#333",
-        size: "36",
-        height: "50",
-        background: {
-          backgroundColor: "#ffffff",
-        },
       },
       form: {
         code: "",

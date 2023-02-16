@@ -1,21 +1,22 @@
 <template>
   <u-navbar
-    :title="title"
+  :title="title"
     :is-back="isBack"
     :title-color="color"
     :title-size="size"
-    :height="height"
     :background="background"
     :title-bold="titleBold"
     :borderBottom="borderBottom"
-  >
+      
+    >
+    <slot></slot>
     <view slot="left">
-      <slot name="navbarLeft"></slot>
+      <slot name="left"></slot>
     </view>
     <view slot="right">
-      <slot name="navbarRight"></slot>
+      <slot name="right"></slot>
     </view>
-  </u-navbar>
+    </u-navbar>
 </template>
 
 <script>
@@ -28,7 +29,7 @@ export default {
     },
     isBack: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     color: {
       type: String,
@@ -36,11 +37,7 @@ export default {
     },
     size: {
       type: String,
-      default: "36",
-    },
-    height: {
-      type: String,
-      default: "50",
+      default: "32",
     },
     background: {
       type: Object,

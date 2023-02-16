@@ -1,6 +1,6 @@
 <template>
 	<view class="login-box">
-		<u-navbar :is-back="navbar.isBack" :title="navbar.title" />
+		<ex-TnavBar  title="登录" :isBack="false"></ex-TnavBar>
 		<view class="login-hd">
 			<view class="login-content">
 				<view class="login-logo">
@@ -33,10 +33,10 @@
 		name:"Login",
 		data() {
 			return {
-				navbar: {
-					title: "登录",
-					isBack: false,
-				},
+				// navbar: {
+				// 	title: "登录",
+				// 	isBack: false,
+				// },
 				loading: false,
 				form: {
 					user: "admin",

@@ -1,12 +1,12 @@
 <template>
   <view>
-    <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold>
-      <view class="navbar-right" slot="navbarRight">
+    <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold>
+    <view class="navbar-right" slot="right">
         <view class="navbar-info">
           <view class="info-item" @click="historyLink">历史</view>
         </view>
       </view>
-    </navBar>
+    </ex-TnavBar>
     <!-- navBar -->
     <view class="u-page">
       <!-- 搜索 -->

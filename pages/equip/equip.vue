@@ -1,6 +1,6 @@
 <template>
   <view>
-    <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold />
+    <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold />
     <!-- navBar -->
     <view class="u-page">
       <view class="basic-box">

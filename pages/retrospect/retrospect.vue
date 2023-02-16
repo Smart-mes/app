@@ -1,12 +1,8 @@
 <template>
   <view>
-    <u-navbar
+    <ex-TnavBar
       :title="navbar.title"
-      :title-color="navbar.color" 
-      :title-size="navbar.size"
       :is-back="navbar.isBack"
-      :height="navbar.height"
-      :background="navbar.background"
        title-bold />
     <!-- nav -->
     <view class="u-page">
@@ -93,13 +89,8 @@
       @change="timeChange"
     />
     <!--page-->
-    <u-tabbar
-      :icon-size="navTab.iconSize"
-      :list="navTab.list"
-      :mid-button="navTab.isMid"
-      :active-color="navTab.activeColor"
-      :inactive-color="navTab.inactiveolor"
-    />
+    <!-- 底部菜单-->
+    <ex-BNavBar :active="3"></ex-BNavBar>
   </view>
 </template>
 <script>

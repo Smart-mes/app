@@ -1,6 +1,6 @@
 <template>
   <view class="infoDetails">
-    <navBar :title="navBar.title" :is-back="navBar.isBack" />
+    <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" />
     <!-- nav -->
     <view class="info">
       <view class="info-title">{{notify.title}}</view>

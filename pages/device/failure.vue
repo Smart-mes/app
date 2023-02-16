@@ -1,14 +1,6 @@
 <template>
   <view>
-    <u-navbar
-      :title="navbar.title"
-      :is-back="navbar.isBack"
-      :title-color="navbar.color"
-      :title-size="navbar.size"
-      :height="navbar.height"
-      :background="navbar.background"
-      title-bold
-    >
+    <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold>
       <view class="navbar-right" slot="right">
         <view class="navbar-icon">
           <u-icon
@@ -19,8 +11,8 @@
             @click.native="handleMenu"
           />
         </view>
-      </view>
-    </u-navbar>
+      </view>      
+    </ex-TnavBar>  
     <!-- nav -->
     <view class="sub-info">
       <view class="nav-subTitle">{{ this.active.label }}</view>
@@ -98,15 +90,9 @@ export default {
   name: "Failure",
   data() {
     return {
-      navbar: {
+      navBar: {
         title: "设备报障",
-        isBack: true,
-        color: "#333",
-        size: "36",
-        height: "50",
-        background: {
-          backgroundColor: "#ffffff",
-        },
+        isBack: true
       },
       // 车间
       active: null,

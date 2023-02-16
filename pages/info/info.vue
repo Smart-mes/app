@@ -1,18 +1,18 @@
 <template>
   <view class="info-wrap">
-    <navBar :title="navBar.title" :is-back="navBar.isBack" title-bold>
-      <view class="navbar-right" slot="navbarRight">
+    <ex-TnavBar  :title="navBar.title" :is-back="navBar.isBack" title-bold>
+      <view class="navbar-right" slot="right">
         <view class="navbar-icon">
           <u-badge
             size="mini"
             :count="unreadCount"
-            :offset="[-17, 20]"
+            :offset="[-5, 10]"
             type="error"
           />
           <u-icon class="icon-item" name="chat" color="#333" size="45" />
         </view>
       </view>
-    </navBar>
+    </ex-TnavBar>
     <!-- navbar -->
     <view class="info">
       <view class="info-row" v-for="notify in newNotifyList" :key="notify.id">
