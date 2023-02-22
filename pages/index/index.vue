@@ -53,18 +53,18 @@
     <!-- 底部菜单-->
     <ex-BNavBar :active="0"></ex-BNavBar>
      <!-- select -->
-    <u-select mode="mutil-column-auto"  v-model="selectShow" :list="lineList" @confirm="selectConfirm"/>
+    <u-select mode="mutil-column-auto" v-model="selectShow" :list="lineList" @confirm="selectConfirm"/>
   </view>
 </template>
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
-import juNavigatorGrid from "@/components/ju-navigator-grid/ju-navigator-grid";
+import juNavigatorGrid from "@/components/ju-navigator-grid/components/ju-navigator-grid/ju-navigator-grid.vue"
 export default {
   name: "Index",
   components: { juNavigatorGrid },
   data() {
     return {
-      companyName:"FSL佛山照明",
+      companyName:"合普动力",
       bannerUrl: "/static/images/banner/banner.jpg",
       // 菜单
       selectShow: false,
