@@ -1,7 +1,7 @@
 <template>
   <view>
     <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold>
-      <view class="navbar-right" slot="navbarRight">
+      <view class="navbar-right" slot="right">
         <view class="navbar-icon">
           <u-icon class="icon-item" name="list" color="#666" size="45" @click.native="handleMenu"/>
         </view>
@@ -196,9 +196,7 @@
     <!-- 底部菜单-->
     <ex-BNavBar :active="2"></ex-BNavBar>
     <!-- popup -->
-    <popup ref="popup" :active="active" :list="wsList"  @itemClick="wsClick" />
-    
-
+    <popup ref="popup" :active="line" :list="wsList"  @itemClick="wsClick" />
   </view>
 </template>
 <script>
@@ -210,7 +208,7 @@ export default {
     return {
       navBar: {title: "设备管理", isBack: false},
       // 车间
-      active:null,
+      active:{},
       wsList:[],
       //tabs
       tabList: [
@@ -229,7 +227,9 @@ export default {
     };
   },
   computed: {
-    ...mapState(["line","navTab"]),
+    ...mapState({
+      line: state => state.line[0]
+    }),
     procedureSet() {
       return new Set(this.procedureList.map((p) => p.processCode));
     },
@@ -251,10 +251,7 @@ export default {
     },
   },
   onLoad(){
-    this.dictAjax();
-  },
-  onShow(){
-    this.active=this.line[0];
+    this.dictAjax();  
   },
   onPullDownRefresh() {
     this.deviceAjax().then(() => uni.stopPullDownRefresh());

@@ -1,6 +1,6 @@
 <template>
   <view>
-    <navBar :title="navBar.title" :is-back="navBar.isBack" />
+    <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" />
     <!-- nav -->
     <view class="menu">
       <view class="menu-title">

@@ -5,7 +5,7 @@
                 <!--导航-->
                 <view class="menu-container " :id="'navigatorMenu-item-'+index" v-for="(item,index) in list" :key="index" :style="{width:itemWidth}">
                     <template v-if="show">
-                        <button class="menu-item" :open-type="item[openTypeFieldName]" @click="onClick" :class="{'click-feedback':clickFeedback}" :data-item="stringifyItem(item)" >
+                        <button class="menu-item" :open-type="item[openTypeFieldName]" @click="onClick" :class="{'click-feedback':clickFeedback}" :data-item="stringifyItem(item)" :style="{height:itemHeight}">
                             <!--图标-->
                             <view>
                                 <view class="menu-icon" :class="{'menu-icon-placeholder':!item[iconFieldName]}" :style="{height: iconSize,width: iconSize}">

@@ -6,7 +6,7 @@
       <view class="search-box">
         <u-form label-width="100" :model="form">
           <u-form-item label="车间">
-            <u-input v-model="form.ws" type="select" @click="wsShow=true"/>
+            <u-input v-model="form.ws" type="select" @click="wsShow = true" />
           </u-form-item>
           <u-form-item label="产线">
             <u-input v-model="form.line" type="select" @click="BLShow = true" />
@@ -74,25 +74,22 @@
       </view>
       <!--饼图-->
     </view>
-     <!-- sheet -->
-     <u-picker 
-        range-key="text" 
-        mode="selector"
-        v-model="wsShow" 
-        :range="wsList" 
-        :default-selector="wsSelector"
-        @confirm="wsConfirm"
-      />
-
-      <u-picker 
-        range-key="text" 
-        mode="selector"
-        v-model="BLShow" 
-        :range="BLList" 
-        :default-selector="BLSelector"
-        @confirm="BLConfirm"
-      />
-
+    <u-action-sheet
+      :list="wsList"
+      :cancel-btn="true"
+      v-model="wsShow"
+      @click="wsSheetClick"
+      @close="wsClose"
+    />
+    <u-action-sheet
+      :list="BLList"
+      :cancel-btn="true"
+       v-model="BLShow"
+      @click="BLSheetClick"
+      @close="BLClose"
+      
+    />
+    <!-- sheet -->
     <u-calendar
       v-model="timeVisible"
       mode="medium"
@@ -102,6 +99,7 @@
     <!--calendar -->
   </view>
 </template>
+
 <script>
 import { mapState } from "vuex";
 import moment from "moment";
@@ -114,17 +112,14 @@ export default {
         isBack: true,
       },
       form: {
-        ws: "",
+        ws: "1车间",
         line: "",
         startDate: "2019-4-5",
         endDate: "2021-7-14",
       },
-    //  select
-      wsSelector:[0],
-      BLSelector:[0],
+      BLList: [],
       wsShow: false,
       BLShow: false,
-      BLList: [],
       timeVisible: false,
       //pie
       chartData: { series: [null] },
@@ -139,20 +134,15 @@ export default {
     };
   },
   computed: {
-    ...mapState({ 
-      line: state => state.line[0]
-    }),   
     wsDict() {
-      return this.workShopList.reduce((obj,{ wsName, wsCode })=> {
-         obj[wsName] = wsCode
-          return obj
-      },{})  
+      const obj = {};
+      this.workShopList.forEach(({ wsName, wsCode }) => (obj[wsName] = wsCode));
+      return obj;
     },
     BLDict() {
-      return this.BLList.reduce((obj,{ text, lineCode  }, )=> {
-          obj[text] = lineCode
-          return obj
-      },{})        
+      const obj = {};
+      this.BLList.forEach(({ text, lineCode }) => (obj[text] = lineCode));
+      return obj;
     },
     wsList() {
       return this.workShopList.map(({ wsName: text, wsCode }) => {
@@ -160,57 +150,54 @@ export default {
       });
     },
     procedureDict() {
-      return this.procedureList.reduce((obj,{ processCode, processName })=> {
-          obj[processCode] = processName
-          return obj
-      },{})       
+      let obj = {};
+      this.procedureList.forEach(
+        ({ processCode, processName }) => (obj[processCode] = processName)
+      );
+      return obj;
     },
   },
   onLoad() {
     this.procedureFetch();
-    this.BWorkShopAjax().then(()=>{
-      this.init()
-    });
+    this.BWorkShopAjax();
   },
   methods: {
-    init(){
-      const i=this.getWSindex();
-      this.form.ws=this.line.label;
-      this.wsSelector=i;
-      this.wsConfirm(i)
+    wsSheetClick(i) {
+      const { text, wsCode } = this.wsList[i];
+      this.form.ws = text;
+      this.form.line = "";
+      this.BLFetch(wsCode);
     },
-    getWSindex(){
-      const i= this.wsList.findIndex(({text})=>(text===this.line.label))
-      return [i===-1?0:i]
+    BLSheetClick(i) {
+      this.form.line = this.BLList[i].text;
     },
-    wsConfirm([i]){
-      // 清空
-      this.BLSelector=[0];
-      this.BLList=[];
-      this.form.line='';   
-      // 赋值
-      this.wsSelector=[i];
-      this.form.ws=this.wsList[i].text;
-      this.BLFetch(this.wsList[i].wsCode);
+    wsClose() {
+      this.form.ws = "";
+      this.form.line = "";
+      this.BLList = [];
     },
-    BLConfirm([i]){
-      this.BLSelector=[i];
-      this.form.line=this.wsList[i].text;    
+    BLClose() {
+      this.form.line = "";
     },
     BLFetch(wsCode) {
-      this.$http.request({
+      this.$http
+        .request({
           url: "/api/BLine",
           method: "GET",
           data: { wsCode },
         })
-        .then((data) =>
-            this.BLList = data.map(({ lineName: text, lineCode }) =>({ text, lineCode }))
+        .then(
+          (data) =>
+            (this.BLList = data.map(({ lineName: text, lineCode }) => {
+              return { text, lineCode };
+            }))
         );
     },
     clear() {
-      Object.keys(this.form).forEach((key) => { this.form[key] = "";});
+      Object.keys(this.form).forEach((key) => {
+        this.form[key] = "";
+      });
       this.BLList = [];
-      this.init();
     },
     handleTime() {
       uni.hideKeyboard();
@@ -233,40 +220,48 @@ export default {
             processCode: "",
             startDate: "",
             endDate: "",
-          }
+          },
+          errorMessage: "暂无数据",
         })
         .then((data) => {
-            if (!data.length) {
-              this.chartData.series = [null];
-            }else{            
-              const dataList = data
-                .map((item) => {
-                  item.date = new Date(item.date);
-                  item.name = this.procedureDict[item.processCode];
-                  item.time = +item.date;
-                  return item;
-                })
-                .sort((a, b) => a.date - b.date);
-
-              const maxTime = Math.max(...dataList.map((x) => x.date));
-              const maxDate = new Date(maxTime);
-              const preDate = new Date(maxTime - 1000 * 60 * 60 * 24);
-
-             const dataDict= dataList
-                .filter(({ date }) => preDate <= date && date <= maxDate)
-                .reduce((obj,{ name, time, qty  })=> {
-                    if (!obj[name]) {obj[name] = []}
-                    obj[name].push([time, qty]);
-                    return obj
-                  },{})     
-
-              this.chartData.series = Object.entries(dataDict).map(([key, value] )=>({ type: "line", name: key, data: value }))         
+          if (!data.length) {
+            this.chartData.series = [null];
+            return false;
           }
 
+          const dict = {};
+          const resList = [];
+          data = data
+            .map((item) => {
+              item.date = new Date(item.date);
+              item.name = this.procedureDict[item.processCode];
+              item.time = +item.date;
+              return item;
+            })
+            .sort((a, b) => a.date - b.date);
+
+          const maxTime = Math.max(...data.map((x) => x.date));
+          const maxDate = new Date(maxTime);
+          const preDate = new Date(maxTime - 1000 * 60 * 60 * 24);
+
+          data
+            .filter(({ date }) => preDate <= date && date <= maxDate)
+            .forEach(({ name, time, qty }) => {
+              if (!dict[name]) {
+                dict[name] = [];
+              }
+              dict[name].push([time, qty]);
+            });
+
+          for (const [key, value] of Object.entries(dict)) {
+            resList.push({ type: "line", name: key, data: value });
+          }
+
+          this.chartData.series = resList;
         });
     },
     procedureFetch() {
-     return this.$http
+      this.$http
         .request({
           url: "/api/BProcessList",
           method: "GET",
@@ -276,7 +271,7 @@ export default {
         });
     },
     BWorkShopAjax(){
-      return this.$http.request({url: "/api/BWorkShop",method: "GET"}).then(res=>this.workShopList=res)
+      this.$http.request({url: "/api/BWorkShop",method: "GET"}).then(res=>this.workShopList=res)
     }
   }
 };

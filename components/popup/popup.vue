@@ -49,7 +49,6 @@ export default {
   watch: {
     active: {
       handler (value) {
-          this.itemActive =value
           this.itemClick(value)       
       },
       immediate: true

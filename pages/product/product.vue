@@ -43,7 +43,7 @@
                   duration="1000"
                   :percent="product.percent>=100?100:product.percent"
                 >
-                  <text>
+                  <text class="progress-text">
                     {{!product.percent? "未生产": product.percent >= 100? "已完成": "生产中"}}{{ product.percent>=100?100:product.percent }}%
                   </text>
                 </u-circle-progress>
@@ -124,7 +124,7 @@
       <!-- 底部菜单-->
       <ex-BNavBar :active="1"></ex-BNavBar>
       <!-- popup -->  
-    <popup ref="popup" :active="active" :list="wsList" @itemClick="wsClick" />
+    <popup ref="popup" :active="line" :list="wsList" @itemClick="wsClick" />
   </view>
 </template>
 <script>
@@ -137,19 +137,18 @@ export default {
     return {
       navBar: { title: "生产详情", isBack: false },
       // 车间
-      active:null,
+      active:{},
       wsList:[],
       productList: [],
     };
   },
   computed: {
-    ...mapState(["line","navTab"]),
+    ...mapState({ 
+      line: state => state.line[0]
+    }),
   },
   onLoad() {
     this.dictAjax();
-  },
-  onShow(){
-    this.active=this.line[0];
   },
   onPullDownRefresh() {
     this.productAjax().then(() => uni.stopPullDownRefresh());
@@ -215,6 +214,7 @@ export default {
   .progress {
     font-size: 20rpx;
     color: $font-light-gray;
+    .progress-text{text-align: center;}
   }
 
   .product-hd {
