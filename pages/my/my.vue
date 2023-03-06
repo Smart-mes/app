@@ -39,7 +39,7 @@
               color="#999"
             />
             <text class="info-time">一分钟前</text>
-            <u-badge count="3" :absolute="false" />
+            <u-badge count="0" :absolute="false" />
           </u-cell-item>
         </u-cell-group>
       </view>

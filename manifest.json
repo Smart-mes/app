@@ -21,7 +21,9 @@
             "Push" : {},
             "FaceID" : {},
             "Fingerprint" : {},
-            "Webview-x5" : {}
+            "Webview-x5" : {},
+            "Camera" : {},
+            "Barcode" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -54,7 +56,9 @@
                 ]
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+                "dSYMs" : false
+            },
             /* SDK配置 */
             "sdkConfigs" : {
                 "ad" : {},
@@ -101,7 +105,8 @@
                     "xxhdpi" : "D:/work/其他/PSD/smart.app图标和启动封面/.9/xxhdpi.9.png"
                 },
                 "androidStyle" : "common",
-                "iosStyle" : "common"
+                "iosStyle" : "common",
+                "useOriginalMsgbox" : true
             }
         },
         "uniStatistics" : {

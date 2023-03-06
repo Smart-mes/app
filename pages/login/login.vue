@@ -40,7 +40,7 @@
 				loading: false,
 				form: {
 					user: "admin",
-					password: "123456",
+					password: "ABCD1234",
 				},
 				iconStyle: {
 					"font-size": "40rpx",

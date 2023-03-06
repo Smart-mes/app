@@ -50,11 +50,11 @@
         </u-form>
         <!-- 产品追溯 -->
         <u-form label-width="130" v-show="ative === 'Material'">
-          <u-form-item label="工单">
-            <u-input v-model="matCodes.matCode" placeholder="请输入工单" />
+          <u-form-item label="物料">
+            <u-input v-model="matCodes.matCode" placeholder="请输入物料" />
           </u-form-item>
-          <u-form-item label="产品批次">
-            <u-input v-model="matCodes.matSfc" placeholder="请输入产品批次" />
+          <u-form-item label="物料批次">
+            <u-input v-model="matCodes.matSfc" placeholder="请输入物料批次" />
           </u-form-item>
         </u-form>
         <!-- 物料 -->
@@ -130,8 +130,8 @@ export default {
       ative: "Product",
       //tabs的input
       fabric: {
-        orderNo: "HP-20200305-70KW",
-        sfc: "",
+        orderNo: "D55-12-22",
+        sfc: "E1FA2MN0007",
         startDay: "",
         endDay: "",
       },

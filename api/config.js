@@ -1,11 +1,13 @@
 export default {
   api: {
-    baseURL: process.env.NODE_ENV === "development" ? "http://43.139.50.11:8038" : "http://43.139.50.11:8038"
+    baseURL: process.env.NODE_ENV === "development" ? "http://43.139.50.11:8022" : "http://43.139.50.11:8022"
   },
   oeeServerApi: {
-    baseURL:"http://8.129.76.46:8090"
+    baseURL:"http://43.139.50.11:8090"
   }
 }
 
+// 合浦：http://192.168.16.15:8012
+// 本地：http://43.139.50.11:8038
 
 
