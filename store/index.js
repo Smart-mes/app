@@ -141,15 +141,14 @@ const actions = {
 		},60000);
 	},
 	getUnread({commit,state}){
-	//  return	http.request({
-	// 		url:"/api/SNotify/UnreadCount",
-	// 		method: "GET", 
-	// 		data:{
-	// 			empCode:state.userInfo.empCode
-	// 		}
-	// 	})
-	// 	.then(res=>commit('set_unreadCount',res));
-	commit('set_unreadCount',3)
+	 return	http.request({
+			url:"/api/SNotify/UnreadCount",
+			method: "GET", 
+			data:{
+				empCode:state.userInfo.empCode
+			}
+		})
+		.then(res=>commit('set_unreadCount',res));
 	},
 	async getLine({ commit,state }){
 		const lineList = await http.request({url: "/api/BLine/CascadeOption",method: "GET"});

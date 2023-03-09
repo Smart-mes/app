@@ -29,7 +29,11 @@
           <u-section title="全部分类"  font-size="30" :show-line="false" :right="false"/>
         </view>
         <view class="menu-box">
-		<ju-navigator-grid size="50rpx" :list="menu" />		  
+		<ju-navigator-grid 
+		  row-count="3"
+		  col-count="4"
+		  size="50rpx"	
+		  :list="menu" />		  
         </view>
       </view>
       <!-- 全部菜单 -->
@@ -58,7 +62,7 @@
 </template>
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
-import juNavigatorGrid from "@/components/ju-navigator-grid/components/ju-navigator-grid/ju-navigator-grid.vue"
+import juNavigatorGrid from "@/components/ju-navigator-grid/ju-navigator-grid.vue"
 export default {
   name: "Index",
   components: { juNavigatorGrid },
@@ -103,8 +107,8 @@ export default {
   onLoad() {
   //  设置红点
     this.getLine().then((res) => (this.lineList = res));
-    this.getUnread();
-    this.unreadPoll();
+    // this.getUnread();
+    // this.unreadPoll();
   },
   methods: {
     ...mapMutations(["set_line"]),

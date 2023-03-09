@@ -172,8 +172,8 @@ html,body{
 
 // form禁止
 .disabled{
-  .uni-input-input{color:#ee413b !important;}
-  .uni-textarea-textarea{color:#ee413b !important;}
+  .uni-input-input{color:#ee413b !important;background-color: #f5f7fa!important;}
+  .uni-textarea-textarea{color:#ee413b !important;background-color: #f5f7fa!important;}
   .u-radio__label{color:#ee413b !important;}
   .u-checkbox__label{color:#ee413b !important;}
 }
