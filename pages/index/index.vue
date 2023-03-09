@@ -30,7 +30,7 @@
         </view>
         <view class="menu-box">
 		<ju-navigator-grid 
-		  row-count="2"
+		  row-count="3"
 		  col-count="4"
 		  size="50rpx"	
 		  :list="menu" />		  
@@ -62,7 +62,7 @@
 </template>
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
-import juNavigatorGrid from "@/components/ju-navigator-grid/components/ju-navigator-grid/ju-navigator-grid.vue"
+import juNavigatorGrid from "@/components/ju-navigator-grid/ju-navigator-grid.vue"
 export default {
   name: "Index",
   components: { juNavigatorGrid },
