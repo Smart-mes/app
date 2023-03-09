@@ -4,7 +4,7 @@ import store from 'store/index';
 import http from '@/api/http';
 // 自定义
 import popup from "@/components/popup/popup.vue";
-import navBar from "@/components/navBar.vue";
+import navBar from "@/components/navBar/navBar.vue";
 import customForm from "@/components/form/form.vue";
 import bottomNavBar from "@/components/bottomNavBar/index.vue";
 
