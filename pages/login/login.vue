@@ -33,14 +33,11 @@
 		name:"Login",
 		data() {
 			return {
-				// navbar: {
-				// 	title: "登录",
-				// 	isBack: false,
-				// },
 				loading: false,
 				form: {
 					user: "admin",
-					password: "ABCD1234",
+					password: "ABCD1234", 
+					// ABCD1234
 				},
 				iconStyle: {
 					"font-size": "40rpx",

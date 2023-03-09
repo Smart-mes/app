@@ -6,10 +6,10 @@
       <view class="search-box">
         <u-form label-width="100" :model="form">
           <u-form-item label="车间">
-            <u-input v-model="form.ws" type="select" @click="wsShow=true"/>
+            <u-input v-model="form.ws" type="select" @click="()=>wsShow=true"/>
           </u-form-item>
           <u-form-item label="产线">
-            <u-input v-model="form.line" type="select" @click="BLShow = true" />
+            <u-input v-model="form.line" type="select" @click="()=>BLShow = true" />
           </u-form-item>
           <u-form-item label="时间">
             <u-row>
@@ -116,8 +116,8 @@ export default {
       form: {
         ws: "",
         line: "",
-        startDate: "2019-4-5",
-        endDate: "2021-7-14",
+        startDate: "2019-1-1",
+        endDate: "2023-3-1",
       },
     //  select
       wsSelector:[0],
@@ -168,9 +168,8 @@ export default {
   },
   onLoad() {
     this.procedureFetch();
-    this.BWorkShopAjax().then(()=>{
-      this.init()
-    });
+    this.BWorkShopAjax()
+.then(()=>{this.init()});
   },
   methods: {
     init(){
@@ -195,7 +194,7 @@ export default {
     },
     BLConfirm([i]){
       this.BLSelector=[i];
-      this.form.line=this.wsList[i].text;    
+      this.form.line=this.BLList[i].text;    
     },
     BLFetch(wsCode) {
       this.$http.request({
@@ -231,8 +230,8 @@ export default {
             wsCode: this.wsDict[ws],
             lineCode: this.BLDict[line],
             processCode: "",
-            startDate: "",
-            endDate: "",
+            startDate:startDate,
+            endDate: endDate,
           }
         })
         .then((data) => {

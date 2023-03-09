@@ -7,7 +7,7 @@
         <view>
           <u-form label-width="100" :model="form">
             <u-form-item label="车间">
-              <u-input v-model="form.ws" type="select" @click="wsShow = true" />
+              <u-input v-model="form.ws" type="select" @click="()=>wsShow=true"/>
             </u-form-item>
             <u-form-item label="时间">
               <u-row>
@@ -55,11 +55,7 @@
           <view v-show="chartsData.categories.length" class="charts-bar">
             <qiun-data-charts
               type="bar"
-              :opts="{
-                dataLabel: false,
-                xAxis: { max: 70 },
-                extra: { bar: { type: 'stack' } },
-              }"
+              :opts="opts"
               :chartData="chartsData"
               :reshow="!!chartsData.categories.length"
             />
@@ -75,13 +71,14 @@
       </view>
       <!--饼图-->
     </view>
-    <u-action-sheet
-      :list="wsList"
-      :cancel-btn="true"
-      v-model="wsShow"
-      @click="wsSheetClick"
-      @close="wsClose"    
-    />
+    <u-picker 
+        range-key="text" 
+        mode="selector"
+        v-model="wsShow" 
+        :range="wsList" 
+        :default-selector="wsSelector"
+        @confirm="wsConfirm"
+      />
     <!-- sheet -->
     <u-calendar
       v-model="timeVisible"
@@ -98,30 +95,25 @@ export default {
   name:"PAR",
   data() {
     return {
-
-      navBar: {
-        title: "计划达成率",
-        isBack: true,
-      },
+      navBar: { title: "计划达成率",isBack: true},
       form: {
         ws: "1车间",
-        startDate: "2019-4-5",
-        endDate: "2021-7-14",
+        startDate: "2019-1-1",
+        endDate: "2023-3-1",
       },
       wsShow: false,
       timeVisible: false,
       //bar
+      opts:{
+          dataLabel: false,
+          xAxis: { max: 70 },
+          extra: { bar: { type: 'stack' } },
+      },
       chartsData: {
         categories: [],
         series: [
-          {
-            name: "完成数",
-            data: [],
-          },
-          {
-            name: "未完成数",
-            data: [],
-          },
+          { name: "完成数",data: []},
+          { name: "未完成数",data: []},
         ],
       },
       opts: {
@@ -132,7 +124,6 @@ export default {
     };
   },
   computed: {
-    // ...mapState(["workShopList"]),
     wsDict() {
       const obj = {};
       this.workShopList.forEach(({ wsName, wsCode }) => (obj[wsName] = wsCode));
@@ -148,13 +139,11 @@ export default {
    this.BWorkShopAjax();
   },
   methods: {
-    wsSheetClick(i) {
-      const { text, wsCode } = this.wsList[i];
-      this.form.ws = text;
-    },
-    wsClose() {
-      this.form.ws = "";
-      this.BLList = [];
+    wsConfirm([i]){
+      // 赋值
+      this.wsSelector=[i];
+      this.form.ws=this.wsList[i].text;
+
     },
     clear() {
       Object.keys(this.form).forEach((key) => {
@@ -180,8 +169,8 @@ export default {
           method: "GET",
           data: {
             wsCode: this.wsDict[ws],
-            startDate: "",
-            endDate: "",
+            startDate: startDate,
+            endDate: endDate,
           },
         })
         .then((data) => {
