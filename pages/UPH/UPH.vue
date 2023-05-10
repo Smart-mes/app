@@ -119,7 +119,7 @@ export default {
         startDate: "2019-1-1",
         endDate: "2023-3-1",
       },
-    //  select
+     //select
       wsSelector:[0],
       BLSelector:[0],
       wsShow: false,
@@ -168,8 +168,7 @@ export default {
   },
   onLoad() {
     this.procedureFetch();
-    this.BWorkShopAjax()
-.then(()=>{this.init()});
+    this.BWorkShopAjax().then(()=>{this.init()});
   },
   methods: {
     init(){
