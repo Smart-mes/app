@@ -88,13 +88,21 @@
       </view>
       <!--饼图-->
     </view>
-    <u-action-sheet
+    <u-picker 
+        range-key="text" 
+        mode="selector"
+        v-model="wsShow" 
+        :range="wsList" 
+        :default-selector="wsSelector"
+        @confirm="wsConfirm"
+      />
+    <!-- <u-action-sheet
       :list="wsList"
       :cancel-btn="true"
       v-model="wsShow"
       @click="wsSheetClick"
       @close="wsClose"
-    />
+    /> -->
     <!-- sheet -->
     <u-calendar
       v-model="timeVisible"
@@ -124,6 +132,8 @@ export default {
       workShopList: [],
       wsShow: false,
       timeVisible: false,
+      //select
+      wsSelector:[0],
       //bar
       chartsData: { categories: [] },
       opts: {
@@ -155,13 +165,10 @@ export default {
   },
   methods: {
     ...mapActions(["getWorkShop"]),
-    wsSheetClick(i) {
-      const { text, wsCode } = this.wsList[i];
-      this.form.ws = text;
-    },
-    wsClose() {
-      this.form.ws = "";
-      this.BLList = [];
+    wsConfirm([i]){ 
+      // 赋值
+      this.wsSelector=[i];
+      this.form.ws=this.wsList[i].text;
     },
     clear() {
       Object.keys(this.form).forEach((key) => {

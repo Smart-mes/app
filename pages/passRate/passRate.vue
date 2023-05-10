@@ -80,21 +80,22 @@
       </view>
       <!--饼图-->
     </view>
-    <u-action-sheet
-      :list="wsList"
-      :cancel-btn="true"
-      v-model="wsShow"
-      @click="wsSheetClick"
-      @close="wsClose"
-    />
-    <u-action-sheet
-      :list="BLList"
-      :cancel-btn="true"
-      v-model="BLShow"
-      @click="BLSheetClick"
-      @close="BLClose"
-    />
-    <!-- sheet -->
+    <u-picker 
+        range-key="text" 
+        mode="selector"
+        v-model="wsShow" 
+        :range="wsList" 
+        :default-selector="wsSelector"
+        @confirm="wsConfirm"
+      />
+      <u-picker 
+        range-key="text" 
+        mode="selector"
+        v-model="BLShow" 
+        :range="BLList" 
+        :default-selector="BLSelector"
+        @confirm="BLConfirm"
+      />
     <u-calendar
        v-model="timeVisible"
        mode="medium"
@@ -106,7 +107,6 @@
 </template>
 
 <script>
-// import { mapState } from "vuex";
 export default {
   name:"PassRate",
   data() {
@@ -125,6 +125,9 @@ export default {
       wsShow: false,
       BLShow: false,
       timeVisible: false,
+      //select
+      wsSelector:[0],
+      BLSelector:[0],
       //pie
       chartData: { series: [{ data: [], format: "pieTip" }] },
       opts: { color: ["#1890FF", "#91CB74"] },
@@ -132,7 +135,6 @@ export default {
     };
   },
   computed: {
-    // ...mapState(["workShopList"]),
     wsDict() {
       const obj = {};
       this.workShopList.forEach(({ wsName, wsCode }) => (obj[wsName] = wsCode));
@@ -153,23 +155,20 @@ export default {
    this.BWorkShopAjax();
   },
   methods: {
-    wsSheetClick(i) {
-      const { text, wsCode } = this.wsList[i];
-      this.form.ws = text;
-      this.form.line = "";
-      this.BLFetch(wsCode);
+    wsConfirm([i]){
+      // 清空
+      this.BLSelector=[0];
+      this.BLList=[];
+      this.form.line='';   
+      // 赋值
+      this.wsSelector=[i];
+      this.form.ws=this.wsList[i].text;
+      this.BLFetch(this.wsList[i].wsCode);
     },
-    BLSheetClick(i) {
-      this.form.line = this.BLList[i].text;
-    },
-    wsClose() {
-      this.form.ws = "";
-      this.form.line = "";
-      this.BLList = [];
-    },
-    BLClose() {
-      this.form.line = "";
-    },
+    BLConfirm([i]){
+      this.BLSelector=[i];
+      this.form.line=this.BLList[i].text;    
+    },    
     BLFetch(wsCode) {
       this.$http
         .request({
