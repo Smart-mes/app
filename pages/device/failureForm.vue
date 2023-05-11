@@ -4,7 +4,7 @@
     <!-- nav -->
     <view class="form-box">
       <u-form :model="form" :label-width="140" ref="uForm">
-        <u-form-item label="故障项" prop="faultphenomenonCode">
+        <u-form-item label="故障项" prop="faultphenomenonCode" required>
           <u-input
             type="select"
             :select-open="faultSheetShow"
@@ -13,7 +13,7 @@
             @click="faultSheetShow = true"
           />
         </u-form-item>
-        <u-form-item label="上报级别" prop="grade">
+        <u-form-item label="上报级别" prop="grade" required>
           <u-input
             type="select"
             :select-open="gradeSheetShow"
@@ -22,11 +22,15 @@
             @click="gradeSheetShow = true"
           />
         </u-form-item>
-        <u-form-item label="备注" prop="remarks">
+        <u-form-item label="备注" prop="remarks" required>
           <u-input type="textarea" :height="200" v-model="form.remarks" />
         </u-form-item>
       </u-form>
-      <u-button type="primary" @click="submit">提交</u-button>
+      <view class="flex">
+          <u-button class="left-btn" size="default"  @click="resetForm()">重置</u-button>
+          <u-button class="right-btn" type="primary" :loading="btnLoading"  @click="submit()"> 提交 </u-button>
+        </view>
+      <!-- <u-button type="primary" @click="submit">提交</u-button> -->
     </view>
     <!-- u-action-sheet -->
     <u-action-sheet
@@ -53,7 +57,7 @@ export default {
       // 参数
       machineCode: "",
       stationName: "",
-
+      btnLoading:false,
       form: {
         faultphenomenonCode: "",
         grade: "",
@@ -87,18 +91,9 @@ export default {
       faultSheetShow: false,
       //  上级
       gradeSheetList: [
-        {
-          value: 1,
-          text: "一级",
-        },
-        {
-          value: 2,
-          text: "二级",
-        },
-        {
-          value: 3,
-          text: "三级",
-        },
+        {value: 1, text: "一级" },
+        { value: 2, text: "二级"},
+        { value: 3, text: "三级"},
       ],
       gradeSheetShow: false,
     };
@@ -163,6 +158,7 @@ export default {
     faultFormAjax() {
       const { faultphenomenonCode, grade, remarks } = this.form;
       // 报障提交
+      this.btnLoading=true;
       this.$http
         .request({
           url: "/api/PMachineState/AddMachineException",
@@ -174,9 +170,13 @@ export default {
             remarks,
           },
         })
-        .then(
-          () => this.$refs.uToast.show({title: "提交成功",type: "success",url: "/pages/device/failure" })
-        )
+        .then(() =>{
+            this.btnLoading=false;
+            this.$refs.uToast.show({title: "提交成功",type: "success",url: "/pages/device/failure" })
+          }
+        ).catch(()=>{
+           this.btnLoading=false;
+        })
     },
   },
 };

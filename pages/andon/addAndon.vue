@@ -1,10 +1,11 @@
-  <template>
+<template>
   <view>
     <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" />
     <!--navBar  -->
     <view class="u-page">
       <view class="basic-box">
         <customForm
+          :async="isAsyncF" 
           :form="formData"
           :seletform="formSeletData"
           :formList="formList"
@@ -31,6 +32,7 @@ export default {
         isBack: true,
       },
       // from
+      isAsyncF:false,
       btnLoading: false,
       formSeletData: {
         lineCode: "",
@@ -92,46 +94,30 @@ export default {
     };
   },
   computed: {...mapState(["line", "userInfo"])},
-  onLoad() {
-    this.lineCodeHandle();
-    // 请求    
-    this.$http.request({url:"/api/Dictionary",method: "GET", data:{ keys: "BProduct|BStationList" }}) 
-    .then(({ BProduct, BStationList }) => {
-      this.BProductDict = BProduct;
-      this.BStationDict = BStationList;
-    });
-
-     this.$http.request({
-       url: "/api/SDataTranslation",
-       method: "GET", 
-       data: { searchText: "P_AndonList" }
-       })
-       .then((res) => {
-        res.filter((x) => x.fieldName === "event")
-        .forEach(({ value, label }) =>this.formList[4].optionList.push({ value, label }));
-    });
-  },
-  onReady() {
-    this.orderNoAjax()
-      .then((res) => {
-        if (res.length) this.formData.orderNo = res[0].orderNo;
-      })
-      .then(() => {
-        this.productAjax().then((res) => {
-          if (res.length) {
-            const {productCode}=res[0]
-            this.formData.productCode = this.BProductDict[productCode];
-            this.formSeletData.productCode = productCode;
-          }
-        });
-      });
-
-    this.stationAjax().then((res) => {
-      res.map(({ stationCode }) => {
-        this.formList[3].optionList.push({value: stationCode,label: this.BStationDict[stationCode]});
-      });
-    });
-  },
+   async onLoad() {
+    // 字典   
+    const { BProduct, BStationList }=await this.$http.request({url:"/api/Dictionary",method: "GET", data:{ keys: "BProduct|BStationList" }}) 
+    this.BProductDict = BProduct;
+    this.BStationDict = BStationList;
+    // 表单赋值
+    await this.lineCodeHandle();
+    const andonList=await this.$http.request({url: "/api/SDataTranslation", method: "GET",  data: { searchText: "P_AndonList" }});
+    const orderList=await this.orderNoAjax();
+    const productList= await  this.productAjax();
+    const stationList=await this.stationAjax()
+    
+    this.formList[4].optionList=andonList.filter((x) => x.fieldName === "event").map(({ value, label }) =>({ value, label }));
+    if (orderList.length){
+      this.formData.orderNo = orderList[0].orderNo; 
+    }
+    if (productList.length) {
+          const {productCode}=productList[0]
+          this.formData.productCode = this.BProductDict[productCode];
+          this.formSeletData.productCode = productCode;
+    }
+    this.formList[3].optionList=stationList.map(({ stationCode }) =>({value: stationCode,label: this.BStationDict[stationCode]}));
+    this.isAsyncF=true;
+  },
   methods: {
     selectChange(propsType, [{ value, label }]) {
       this.formData[propsType] = label;
@@ -177,7 +163,9 @@ export default {
           this.btnLoading = false;
           this.$refs.uToast.show({title: "提交成功",type: "success",url: "/pages/andon/andon"});
         })
-        .catch(() => (this.btnLoading = false));
+        .catch(() =>{
+          this.btnLoading = false;
+        });
     },
   },
 };

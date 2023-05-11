@@ -101,6 +101,7 @@ export default {
         startDate: "2019-1-1",
         endDate: "2023-3-1",
       },
+      wsSelector:[0],
       wsShow: false,
       timeVisible: false,
       //bar

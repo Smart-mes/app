@@ -8,6 +8,8 @@ html,body{
 .u-page{overflow: hidden;}
 .hidden{display: none;}
 .flex{display: flex;}
+.left-btn{flex:1;margin-right: 10rpx;}
+.right-btn{flex: 1;margin-left: 10rpx;}
 // 省列号
 .ellipsis{
 	white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
@@ -90,7 +92,7 @@ html,body{
     .task-right { padding-left: 50rpx;}
     .row {
       display: flex;
-      .col-name {color: $font-light-gray;}
+      .col-name {color: $font-light-gray; text-align: right;}
       .col-text {
         flex: 1;
         overflow: hidden;
@@ -134,7 +136,8 @@ html,body{
 	.develop-item{@extend .basic-box;}
   .info{
     .name{
-      margin-right: 10px;
+      text-align: left;
+      margin-right: 20px;
       color: $font-gray;
      }
   }
