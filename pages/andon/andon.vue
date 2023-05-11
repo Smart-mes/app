@@ -62,28 +62,18 @@
       </view>
     </view>
     <!-- page -->
-    <u-modal
-      ref="modal"
-      width="95%"
-      show-cancel-button
-      title="关闭安灯"
-      v-model="modelShow"
-      :async-close="true"
-      @cancel="modalCancel"
-      @confirm="modalConfirm"
-    >
-      <view class="slot-content">
+    <u-popup v-model="modelShow"  mode="bottom" closeable @close="popupClose">
+      <view class="m-30">
         <customForm
           ref="modalForm"
-          buttonHide
           :form="andon.formData"
           :formList="andon.formList"
           :rules="andon.rules"
-        />
-        <!-- @getFormData="getFormData" -->
-      </view>  
-    </u-modal>
-    <!-- modal -->
+          @getFormData="getFormData"
+        />        
+      </view>
+		</u-popup>
+
     <u-toast ref="uToast" />
   </view>
 </template>
@@ -167,28 +157,20 @@ export default {
     },
     // form
     closeHandle(i){
-      const formData= this.andon.formData;
+      const andonForm= this.andon.formData;
       const {lineCode,stationCode,event}=this.andonList[i];
 
       this.currentInex=i;
       this.modelShow=true;
-     
-      formData.lineCode=this.BLineDict[lineCode]
-      formData.stationCode=this.BStationDict[stationCode]
-      formData.event=this.eventDict[event]   
+      andonForm.lineCode=this.BLineDict[lineCode]
+      andonForm.stationCode=this.BStationDict[stationCode]
+      andonForm.event=this.eventDict[event]   
     },
-    modalConfirm(){
-      this.$refs.modalForm.validateForm().then(valid => {
-           if (!valid) {return void this.$refs.modal.clearLoading()};
-           this.closeAndonAjax();
-      });
+    popupClose(){
+      this.$refs.modalForm.resetForm();
     },
-    modalCancel(){
-       this.resetForm();
-    },
-    resetForm(){
-      this.$refs.modal.clearLoading()
-      this.$refs.modalForm.resetForm()
+    async getFormData(){
+      await this.closeAndonAjax();
     },
     closeAndonAjax(){
       this.$http.request({
@@ -201,12 +183,10 @@ export default {
          }
        })
 			 .then(()=>{
-         this.resetForm();
          this.$refs.uToast.show({ title: "提交成功",type: "success"});
          this.modelShow = false;
          this.andonAjax();
        })
-       .catch(()=>this.$refs.modal.clearLoading())
     }
   },
 };
@@ -238,5 +218,6 @@ export default {
     .text{ flex: 1;word-break: break-all; }
   }
 }
-.slot-content { padding: 0 30rpx;}
+// .slot-content { padding: 0 30rpx;}
+.m-30{margin: 60rpx 30rpx;}
 </style>

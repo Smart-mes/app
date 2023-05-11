@@ -7,8 +7,9 @@
         :label="formItem.label"
         :prop="formItem.props"
         :border-bottom="formItem.borderBottom?true:formItem.borderBottom"
+        :required="rules?!!rules[formItem.props]:false" 
       >     
-        <template v-if="inputType(formItem.type)">
+        <block v-if="inputType(formItem.type)">
           <u-input
             v-model="form[formItem.props]"
             :type="formItem.type"
@@ -17,8 +18,8 @@
             :class="{ disabled: !!formItem.disabled }"
           />
           <u-icon class="icon" v-if="formItem.suffixIcon" custom-prefix="custom-icon" :name="formItem.suffixIcon" size="38" @click="$emit('icon-click', formItem.props)"/>
-        </template>
-        <template v-else-if="formItem.type === 'select'">
+        </block>
+        <block v-else-if="formItem.type === 'select'">
           <u-input
             type="select"
             :select-open="formItem.sheetShow"
@@ -28,8 +29,8 @@
             @click="selectClick(formItem.props, index)"
             :class="{ disabled: !!formItem.disabled }"
           />
-        </template>
-        <template v-else-if="formItem.type === 'checkbox'">
+        </block>
+        <block v-else-if="formItem.type === 'checkbox'">
           <u-checkbox-group
             :class="{ disabled: !!formItem.disabled }"
             @change="formGroupChange"
@@ -45,8 +46,8 @@
               {{ checkItem.name }}
             </u-checkbox>
           </u-checkbox-group>
-        </template>
-        <template v-else-if="formItem.type === 'radio'">
+        </block>
+        <block v-else-if="formItem.type === 'radio'">
           <u-radio-group
             :class="{ disabled: !!formItem.disabled }"
             v-model="form[formItem.props]"
@@ -60,19 +61,15 @@
               {{ radioItem.label }}
             </u-radio>
           </u-radio-group>
-        </template>
+        </block>
       </u-form-item>
     </u-form>
     <view v-show="!buttonHide" class="submit">
       <slot name="submit">
-        <u-button
-          type="primary"
-          class="btn"
-          :loading="loading"
-          @click="getFormData()"
-        >
-          提交
-        </u-button>
+        <view class="flex">
+          <u-button class="left-btn" size="default"  @click="resetForm()">重置</u-button>
+          <u-button class="right-btn" type="primary" :loading="loading"  @click="submitForm()"> 提交 </u-button>
+        </view>
       </slot>
     </view>
     <u-select
@@ -87,42 +84,19 @@
 export default {
   name: "Form",
   props: {
-    labelWidth: {
-      type: String,
-      default: "130",
-    },
-    form: {
-      type: Object,
-      default: null,
-    },
-    seletform: {
-      type: Object,
-      default: null,
-    },
-    formList: {
-      type: Array,
-      default: null,
-    },
-    rules: {
-      type: Object,
-      default: null,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-    buttonHide: {
-      type: Boolean,
-      default: false,
-    },
+    labelWidth: {type: String,default: "130"},
+    form: {type: Object,default: null},
+    seletform: {type: Object,default: null},
+    formList: {type: Array,default: null},
+    rules: {type: Object,default: null},
+    disabled: {type: Boolean,default: false},
+    loading: {type: Boolean,default: false},
+    buttonHide: {type: Boolean,default: false},
   },
   data() {
     return {
       propsType: "",
+      cloneForm:{},
       // form: {},
       list: [],
       show: false,
@@ -133,6 +107,7 @@ export default {
   },
   mounted() {
     this.validator();
+    this.cloneForm={...this.form};
   },
   watch: {
     selectShow(val) {
@@ -165,21 +140,11 @@ export default {
     selectconfirm(e) {
       this.$emit("selectChange", this.propsType, e);
     },
-    getFormData() {
-      this.$refs.uForm.validate((val) => {
-        if (val) {
-          const form = this.getData();
-          this.$emit("getFormData", form);
-        }
-      });
-    },
+
     getData() {
       const form = {};
       for (let key in this.form) {
-        form[key] =
-          this.seletform !== null && this.seletform[key]
-            ? this.seletform[key]
-            : this.form[key];
+        form[key] =this.seletform && this.seletform[key] ? this.seletform[key]: this.form[key];
       }
       return form;
     },
@@ -191,8 +156,19 @@ export default {
         this.$refs.uForm.validate((val) => resolve(val))
       );
     },
+    submitForm() {
+      this.$refs.uForm.validate((val) => {
+        if (val) {
+          const form = this.getData();
+          this.$emit("getFormData", form);
+        }
+      });
+    },
     resetForm() {
       this.$refs.uForm.resetFields();
+      Object.entries(this.form).map(([key]) => {
+        this.form[key]=this.cloneForm[key];
+      });
       return Promise.resolve();
     },
   },
@@ -209,4 +185,6 @@ export default {
 .submit {
   margin-top: 20rpx;
 }
+.left-btn{flex:1;margin-right: 10rpx;}
+.right-btn{flex: 1;margin-left: 10rpx;}
 </style>
