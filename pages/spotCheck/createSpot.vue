@@ -5,6 +5,7 @@
     <view class="u-page">
       <view class="basic-box">
         <customForm
+          :async="isAsyncF"
           :form="formData"
           :seletform="formSeletData"
           :formList="formList"
@@ -93,6 +94,7 @@ export default {
           },
         ],
       },
+      isAsyncF:false,
     };
   },
   computed: {
@@ -103,10 +105,18 @@ export default {
   },
   methods: {
     // 初始化
-    init() {
-      this.formData.lineCode=this.line[1].label;
-      this.formSeletData.lineCode=this.line[1].value;
-      this.orderAjax().then(()=>this.pidAjax());
+    async init() {
+     const orderList=await this.orderAjax()
+     this.formData.lineCode=this.line[1].label;
+     this.formSeletData.lineCode=this.line[1].value;
+
+     if(orderList.length){
+          this.formData.orderNo=orderList[0].orderNo;
+          this.flowId=orderList[0].flowId
+     }
+     const pidList=await this.pidAjax();
+     this.formList[2].optionList=pidList;
+     this.isAsyncF=true;
         
     },
     orderAjax(){
@@ -115,22 +125,14 @@ export default {
         method: "GET",
         data: { lineCode: this.line[1].value},
       })
-      .then(res=>{
-          if(res.length){
-            this.formData.orderNo=res[0].orderNo;
-            this.flowId=res[0].flowId
-          }
-      });
+      
     },
     pidAjax(){
      return this.$http.request({
         url: "/api/BProcessFlowDetail/QualityProces",
         method: "GET",
         data: {type:this.billCode,flowId:this.flowId},
-      })
-      .then(
-        res=>this.formList[2].optionList=res
-      );     
+      })    
     },
     // form
     selectChange(propsType, [{ value, label }]) {

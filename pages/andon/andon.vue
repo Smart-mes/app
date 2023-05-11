@@ -40,23 +40,23 @@
           <view class="bd" v-show="andonItem.visible">
             <u-line color="#ddd" margin="10rpx 0" />
             <view class="info">
-              <view class="info-item">
-                <text class="name">工单：</text>
-                <text class="text">{{ andonItem.orderNo }}</text>
+                <view  class="info-item">
+                  <text class="name">工单：</text>
+                  <text class="text"> {{ andonItem.orderNo }}</text>
+                </view>
+                <view  class="info-item">
+                  <text class="name">产品：</text>
+                  <text class="text">{{ BProductDict[andonItem.productCode]}}</text>
+                </view>
+                <view  class="info-item">
+                  <text class="name">人员：</text>
+                  <text class="text">{{SEmployeeDict[andonItem.empCode]}}</text>
+                </view>
+                <view  class="info-item">
+                  <text class="name">说明：</text>
+                  <text class="text">{{ andonItem.description }}</text>
+                </view>               
               </view>
-              <view class="info-item">
-                <text class="name">产品：</text>
-                <text class="text">{{ BProductDict[andonItem.productCode]}}</text>
-              </view>
-              <view class="info-item">
-                <text class="name">人员:</text>
-                <text class="text">{{SEmployeeDict[andonItem.empCode]}}</text>
-              </view>
-              <view class="info-item">
-                <text class="name">说明:</text>
-                <text class="text">{{ andonItem.description }}</text>
-              </view>
-            </view>
           </view>
         </view>
       </view>
@@ -211,8 +211,9 @@ export default {
   .info-item{
     display: flex;
     .name{
+      margin-right: 20rpx;
       width: 85rpx;
-      margin-right: 0;
+      text-align: right;
       color:$font-light-gray;
     }
     .text{ flex: 1;word-break: break-all; }

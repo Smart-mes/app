@@ -51,12 +51,14 @@
           <u-radio-group
             :class="{ disabled: !!formItem.disabled }"
             v-model="form[formItem.props]"
+            style="width: 100%;"        
           >
             <u-radio
               v-for="radioItem in formItem.radioList"
               :key="radioItem.name"
               :name="radioItem.name"
               :disabled="radioItem.disabled"
+              style="width: 50%;" 
             >
               {{ radioItem.label }}
             </u-radio>
@@ -92,6 +94,7 @@ export default {
     disabled: {type: Boolean,default: false},
     loading: {type: Boolean,default: false},
     buttonHide: {type: Boolean,default: false},
+    async:{type:Boolean,default:false}
   },
   data() {
     return {
@@ -107,13 +110,19 @@ export default {
   },
   mounted() {
     this.validator();
-    this.cloneForm={...this.form};
+    this.cloneForm={...this.form}; 
   },
   watch: {
     selectShow(val) {
       if (!val) {
         this.formList[this.selectIndex].sheetShow = false;
+      }  
+    },
+    async(val){
+      if(val){
+        this.cloneForm={...this.form};
       }
+      
     },
   },
   methods: {
@@ -185,6 +194,5 @@ export default {
 .submit {
   margin-top: 20rpx;
 }
-.left-btn{flex:1;margin-right: 10rpx;}
-.right-btn{flex: 1;margin-left: 10rpx;}
+
 </style>

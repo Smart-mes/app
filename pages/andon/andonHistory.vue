@@ -86,10 +86,15 @@
                 <text class="name">人员:</text>
                 <text class="text">{{ andonItem.empCode }}</text>
               </view>
+              <!-- closeComment -->
               <view class="info-item">
                 <text class="name">说明:</text>
                 <text class="text">{{ andonItem.description }}</text>
               </view>
+              <view class="info-item">
+                <text class="name">关闭说明:</text>
+                <text class="text">{{ andonItem.closeComment }}</text>
+              </view>              
             </view>
           </view>
         </view>
@@ -232,8 +237,9 @@ export default {
   .info-item{
     display: flex;
     .name{
-      width: 85rpx;
-      margin-right: 0;
+      width:120rpx;
+      text-align: right;
+      margin-right: 20rpx;
       color:$font-light-gray;
     }
     .text{ flex: 1;word-break: break-all; }

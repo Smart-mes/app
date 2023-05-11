@@ -5,6 +5,7 @@
     <view class="u-page">
       <view class="basic-box">
         <customForm
+          :async="isAsyncF"
           :form="formData"
           :seletform="formSeletData"
           :formList="formList"
@@ -30,6 +31,7 @@ export default {
       flowId:'',
       billCode:'FAI',
       // form
+      isAsyncF:false,
       btnLoading:false,
       formData: {
         lineCode: "",
@@ -76,13 +78,14 @@ export default {
   },
   methods: {
     // 初始化
-    init() {
+   async init() {
       this.formData.lineCode=this.line[1].label;
       this.formSeletData.lineCode=this.line[1].value;
-      this.orderAjax().then(()=>this.pidAjax());
-       
+      await this.orderFetch();
+      await this.pidFetch();
+      this.isAsyncF=true;
     },
-    orderAjax(){
+    orderFetch(){
      return this.$http.request({
         url: "/api/POrderInLine",
         method: "GET",
@@ -95,7 +98,7 @@ export default {
           }
       })
     },
-    pidAjax(){
+    pidFetch(){
      return this.$http.request({
         url: "/api/BProcessFlowDetail/QualityProces",
         method: "GET",
