@@ -68,10 +68,10 @@
     </u-form>
     <view v-show="!buttonHide" class="submit">
       <slot name="submit">
-        <view class="flex">
-          <u-button class="left-btn" size="default"  @click="resetForm()">重置</u-button>
-          <u-button class="right-btn" type="primary" :loading="loading"  @click="submitForm()"> 提交 </u-button>
-        </view>
+        <u-row gutter="20">
+            <u-col span="6"><u-button class="left-btn" size="default"  @click="resetForm()">重置</u-button></u-col>
+            <u-col span="6"><u-button class="right-btn" type="primary" :loading="loading"  @click="submitForm()"> 提交 </u-button></u-col>
+        </u-row>    
       </slot>
     </view>
     <u-select

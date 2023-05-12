@@ -8,8 +8,10 @@ html,body{
 .u-page{overflow: hidden;}
 .hidden{display: none;}
 .flex{display: flex;}
-.left-btn{flex:1;margin-right: 10rpx;}
-.right-btn{flex: 1;margin-left: 10rpx;}
+.align-items-center{align-items: center;}
+.justify-content-center{justify-content: center;}
+// .left-btn{flex:1;margin-right: 10rpx;}
+// .right-btn{flex: 1;margin-left: 10rpx;}
 // 省列号
 .ellipsis{
 	white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
@@ -167,6 +169,7 @@ html,body{
     }
     .col-name {
       width: 140rpx;
+      margin-right: 20rpx;
     }
     .task-right {
       padding-left: 0;
