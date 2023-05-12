@@ -4,32 +4,35 @@
     <!-- nav -->
     <view class="u-page">
       <view class="search-box">
-        <u-form label-width="100" :model="form">
-          <u-form-item label="车间">
+        <u-form ref="searchForm" label-width="100" :model="form" >
+          <u-form-item label="车间" prop="ws">
             <u-input v-model="form.ws" type="select" @click="()=>wsShow=true"/>
           </u-form-item>
-          <u-form-item label="产线">
+          <u-form-item label="产线"  prop="line">
             <u-input v-model="form.line" type="select" @click="()=>BLShow = true" />
-          </u-form-item>
-          <u-form-item label="时间">
-            <u-row>
-              <u-col span="5">
+          </u-form-item>      
+            <u-row>     
+              <u-col span="6">
+                <u-form-item label="时间" prop="startDate">
                 <u-input
                   v-model="form.startDate"
                   placeholder="输入开始时间"
                   @click="handleTime"
                 />
-              </u-col>
-              <u-col span="2">至</u-col>
-              <u-col span="5">
+              </u-form-item>
+              </u-col>           
+              <u-col span="6">
+                <u-form-item label="至"  prop="endDate">
                 <u-input
                   v-model="form.endDate"
                   placeholder="输入结束时间"
                   @click="handleTime"
                 />
+              </u-form-item>
               </u-col>
+            
             </u-row>
-          </u-form-item>
+          
         </u-form>
         <view class="btn">
           <u-row gutter="20">
@@ -206,9 +209,9 @@ export default {
         );
     },
     clear() {
-      Object.keys(this.form).forEach((key) => { this.form[key] = "";});
+      this.$refs.searchForm.resetFields();
       this.BLList = [];
-      this.init();
+      // this.init();
     },
     handleTime() {
       uni.hideKeyboard();
