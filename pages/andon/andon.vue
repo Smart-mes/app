@@ -62,7 +62,7 @@
       </view>
     </view>
     <!-- page -->
-    <u-popup v-model="modelShow"  mode="bottom" closeable close-icon-pos="top-left" @close="popupClose">
+    <u-popup v-model="popupShow"  mode="bottom" closeable close-icon-pos="top-left" @close="popupClose">
       <view class="m-30">
         <customForm
           ref="modalForm"
@@ -95,8 +95,8 @@ export default {
       BProductDict: {},  //产品
       SEmployeeDict: {}, //员工
       eventDict: {},
-      // modelShow
-      modelShow:false
+      // popupShow
+      popupShow:false
     };
   },
   computed: {
@@ -161,7 +161,7 @@ export default {
       const {lineCode,stationCode,event}=this.andonList[i];
 
       this.currentInex=i;
-      this.modelShow=true;
+      this.popupShow=true;
       andonForm.lineCode=this.BLineDict[lineCode]
       andonForm.stationCode=this.BStationDict[stationCode]
       andonForm.event=this.eventDict[event]   
@@ -184,7 +184,7 @@ export default {
        })
 			 .then(()=>{
          this.$refs.uToast.show({ title: "提交成功",type: "success"});
-         this.modelShow = false;
+         this.popupShow = false;
          this.andonAjax();
        })
     }

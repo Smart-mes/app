@@ -22,7 +22,7 @@
         <block v-else-if="formItem.type === 'select'">
           <u-input
             type="select"
-            :select-open="formItem.sheetShow"
+            :select-open="formItem.selectShow"
             :placeholder="formItem.placeholder"
             :disabled="formItem.disabled"
             v-model="form[formItem.props]"
@@ -115,7 +115,7 @@ export default {
   watch: {
     selectShow(val) {
       if (!val) {
-        this.formList[this.selectIndex].sheetShow = false;
+        this.formList[this.selectIndex].selectShow = false;
       }  
     },
     async(val){
@@ -140,7 +140,7 @@ export default {
       if (this.formList[i].disabled) {
         return false;
       }
-      this.formList[i].sheetShow = true;
+      this.formList[i].selectShow = true;
       this.selectShow = true;
       this.selectIndex = i;
       this.formChange(type);
