@@ -22,7 +22,7 @@
           </view>
         </u-section>
         <view v-show="searchVisible">
-          <u-form label-width="130" :model="form" ref="uForm">
+          <u-form  ref="searchForm" label-width="130" :model="form">
             <u-form-item label="开始时间" prop="startTime">
               <u-input
                 v-model="form.startTime"
@@ -301,7 +301,7 @@ export default {
     };
   },
   onReady() {
-    this.$refs.uForm.setRules(this.rules);
+    this.$refs.searchForm.setRules(this.rules);
   },
   onLoad(option) {
     // 设置标题
@@ -416,13 +416,12 @@ export default {
       this.picker.visible = true;
     },
     clear() {
-      Object.keys(this.form).forEach((key) => {
-        this.form[key] = "";
-      });
-      this.$refs.uForm.resetFields();
+      if(this.$refs.searchForm){
+        this.$refs.searchForm.resetFields();
+      }  
     },
     search() {
-      this.$refs.uForm.validate((valid) => {
+      this.$refs.searchForm.validate((valid) => {
         if (valid) {this.analysisAjax()}
       });
     },

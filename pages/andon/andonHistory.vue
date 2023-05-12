@@ -3,26 +3,27 @@
     <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" />
     <view class="u-page">
       <view class="search-box">
-        <u-form>
-          <u-form-item label="时间">
+        <u-form ref="searchForm" :model="form">         
             <u-row>
-              <u-col span="5">
+              <u-col span="6">
+                <u-form-item label="时间" prop="startTime">
                 <u-input
                   v-model="form.startDate"
                   placeholder="输入开始时间"
                   @click="handleTime"
                 />
+              </u-form-item>
               </u-col>
-              <u-col span="2">至</u-col>
-              <u-col span="5">
+              <u-col span="6">
+                <u-form-item label="至" prop="endTime">
                 <u-input
                   v-model="form.endDate"
                   placeholder="输入结束时间"
                   @click="handleTime"
                 />
+              </u-form-item>
               </u-col>
-            </u-row>
-          </u-form-item>
+            </u-row>           
         </u-form>
         <view class="btn">
           <u-row gutter="20">
@@ -59,7 +60,7 @@
                 </view>
                 <view  class="info-item">
                   <text class="name">工位：</text>
-                  <text class="text">{{BStationDict[andonItem.stationCode]}}</text>
+                  <text class="text">{{BStationDict[andonItem.stationCode]||'无'}}</text>
                 </view>
                 <view  class="info-item">
                   <text class="name">事件：</text>
@@ -209,6 +210,9 @@ export default {
     },
     // form
     reset() {
+      if(this.$refs.searchForm){
+        this.$refs.searchForm.resetFields();
+      }  
       this.form.startDate = moment().subtract(3, "days").format("YYYY-MM-DD");
       // "2021-9-1";
       this.form.endDate = moment().format("YYYY-MM-DD");

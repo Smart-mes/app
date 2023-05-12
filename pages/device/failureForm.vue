@@ -3,7 +3,7 @@
     <ex-TnavBar :title="'报障_' + stationName" :is-back="true"/>
     <!-- nav -->
     <view class="form-box">
-      <u-form :model="form" :label-width="140" ref="uForm">
+      <u-form ref="failureForm" :model="form" :label-width="140">
         <u-form-item label="故障项" prop="faultphenomenonCode" required>
           <u-input
             type="select"
@@ -27,7 +27,7 @@
         </u-form-item>
       </u-form>
       <view class="flex">
-          <u-button class="left-btn" size="default"  @click="resetForm()">重置</u-button>
+          <u-button class="left-btn" size="default"  @click="reset()">重置</u-button>
           <u-button class="right-btn" type="primary" :loading="btnLoading"  @click="submit()"> 提交 </u-button>
         </view>
       <!-- <u-button type="primary" @click="submit">提交</u-button> -->
@@ -105,7 +105,7 @@ export default {
     this.faultAjax();
   },
   onReady() {
-    this.$refs.uForm.setRules(this.rules);
+    this.$refs.failureForm.setRules(this.rules);
   },
   computed: {
     faultCode() {
@@ -126,8 +126,11 @@ export default {
     },
   },
   methods: {
+    reset(){
+      this.$refs.failureForm.resetFields();
+    },
     submit() {
-      this.$refs.uForm.validate((valid) => {
+      this.$refs.failureForm.validate((valid) => {
         valid && this.faultFormAjax();
       });
     },
