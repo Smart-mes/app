@@ -67,10 +67,7 @@ export default {
   name: "FirstCheck",
   data() {
     return {
-      navBar: {
-        title: "设备保养",
-        isBack: true,
-      },
+      navBar: { title: "设备保养", isBack: true},
       // 填报列表
       customStyle: {
         height: "60rpx",

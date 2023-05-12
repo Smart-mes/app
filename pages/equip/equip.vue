@@ -1,7 +1,8 @@
 <template>
   <view>
+     <!-- navBar -->
     <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold />
-    <!-- navBar -->
+    <!-- page -->
     <view class="u-page">
       <view class="basic-box">
         <customForm
@@ -110,22 +111,9 @@
         />
       </view>
     </view>
-    <!-- page -->
+     <!-- uToast -->
     <u-toast ref="uToast" />
-    <!-- uToast -->
-    <u-modal 
-      v-model="del.modelShow"
-      show-cancel-button
-      :show-title="false"
-      @confirm="modalConfirm" 
-      @cancel="modalCancel">
-        <view class="slot-content">
-          <view class="del-model">
-            <u-icon name="info-circle" color="#f0ba53" size="35" />
-            <text class="text">确定，是否删除？</text>
-          </view>
-        </view>
-    </u-modal>
+    <u-action-sheet :list="sheetList" v-model="del.sheetShow"  @click="handleSheet" ></u-action-sheet>
     <!-- 删除 -->
     <view class="fix-add">
       <u-button type="primary" size="medium" @click="popupShow = !popupShow">
@@ -205,7 +193,7 @@ export default {
           label: "线别",
           props: "lineCode",
           type: "select",
-          sheetShow: false,
+          selectShow: false,
           disabled: true,
           optionList: [],
         },
@@ -213,7 +201,7 @@ export default {
           label: "设备",
           props: "machineCode",
           type: "select",
-          sheetShow: false,
+          selectShow: false,
           optionList: [],
         },
       ],
@@ -225,9 +213,12 @@ export default {
       WorkToolValidList: [],
       // 列表
       del: {
-        modelShow: false,
+        sheetShow: false,
         workToolCode: "",
       },
+      sheetList:[
+					{text: '删除',color: 'red',}
+				]
     };
   },
   computed: {
@@ -251,8 +242,7 @@ export default {
       }
     },
     delWorkTool({ workToolCode }) {
-      console.log('del');
-      this.del.modelShow=true;
+      this.del.sheetShow=true;
       this.del.workToolCode=workToolCode;
     },
     search() {
@@ -317,7 +307,7 @@ export default {
     },
     workToolAjax() {
       uni.showLoading({ title: "加载中", mask: true });
-      this.$http
+      return this.$http
         .request({
           url: "/api/MachineWorkTool/InstalledWorkTools",
           method: "GET",
@@ -327,7 +317,9 @@ export default {
           uni.hideLoading();
           this.workToolList = res;
         })
-        .catch(() => uni.hideLoading());
+        .catch(() =>{
+          uni.hideLoading()
+        });
     },
     WorkToolValidAjax() {
       return this.$http
@@ -371,17 +363,14 @@ export default {
       this.workToolCode = "";
       this.WorkToolValidList = [];
     },
-    modalConfirm() {
-      this.del.modelShow=false;
-      this.delWorkToolAjax({
-        machineCode: this.formSeletData.machineCode,
-        workToolCode:this.del.workToolCode,
-        EmpCode: this.userInfo.empCode,
-      })
-      .then(() => this.workToolAjax());
-    },
-    modalCancel(){
-      this.del.modelShow=false;
+    async handleSheet(){
+      this.del.sheetShow=false;
+      await this.delWorkToolAjax({
+          machineCode: this.formSeletData.machineCode,
+          workToolCode:this.del.workToolCode,
+          EmpCode: this.userInfo.empCode,
+        })
+      await this.workToolAjax();
     }
   },
 };

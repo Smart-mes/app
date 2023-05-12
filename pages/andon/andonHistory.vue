@@ -84,16 +84,16 @@
                 <text class="text">{{ BProductDict[andonItem.productCode]}}</text>
               </view>
               <view class="info-item">
-                <text class="name">人员:</text>
+                <text class="name">人员：</text>
                 <text class="text">{{ andonItem.empCode }}</text>
               </view>
               <!-- closeComment -->
               <view class="info-item">
-                <text class="name">说明:</text>
+                <text class="name">说明：</text>
                 <text class="text">{{ andonItem.description }}</text>
               </view>
               <view class="info-item">
-                <text class="name">关闭说明:</text>
+                <text class="name">关闭说明：</text>
                 <text class="text">{{ andonItem.closeComment }}</text>
               </view>              
             </view>
@@ -232,16 +232,14 @@ export default {
 
 <style lang="scss" scoped>
 .develop-list {
-  .title{
-    margin: 20rpx 20rpx 10rpx 20rpx;
-  }
+  .title{ margin: 20rpx 20rpx 10rpx 20rpx;}
   .bd {
     .text {color: #3333cc;}
   }
   .info-item{
     display: flex;
     .name{
-      width:120rpx;
+      width:130rpx;
       text-align: right;
       margin-right: 20rpx;
       color:$font-light-gray;
