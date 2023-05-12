@@ -133,7 +133,7 @@
       </u-button>
     </view>
     <!-- 添加 -->
-    <u-popup v-model="popupShow" mode="bottom" height="100%">
+    <u-popup v-model="popupShow" mode="bottom" height="80%">
       <view class="popup">
         <view class="hd">
           <text class="no" @click="cancel">取消</text>
@@ -444,7 +444,7 @@ export default {
   }
 }
 .popup {
-  padding:60rpx 30rpx;
+  padding:0 30rpx;
   .hd {
     overflow: hidden;
     padding: 20rpx 0;
