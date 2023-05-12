@@ -62,7 +62,7 @@
       </view>
     </view>
     <!-- page -->
-    <u-popup v-model="modelShow"  mode="bottom" closeable @close="popupClose">
+    <u-popup v-model="modelShow"  mode="bottom" closeable close-icon-pos="top-left" @close="popupClose">
       <view class="m-30">
         <customForm
           ref="modalForm"
