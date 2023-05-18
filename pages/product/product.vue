@@ -41,7 +41,7 @@
                   width="132"
                   border-width="6"
                   duration="1000"
-                  :percent="product.percent>=100?100:product.percent"
+                  :percent="getPercent(product)"
                 >
                   <text class="progress-text">
                     {{!product.percent? "未生产": product.percent >= 100? "已完成": "生产中"}}{{ product.percent>=100?100:product.percent }}%
@@ -154,6 +154,9 @@ export default {
     this.productAjax().then(() => uni.stopPullDownRefresh());
   },
   methods: {
+    getPercent(product){
+      return product.percent>=100?100:product.percent
+    },
     handleMenu() {
       this.$refs.popup.visible=true;
     },

@@ -4,11 +4,13 @@ html,body{
 	font-family: "Microsoft YaHei";
 	background-color:$bgColor;
 }
+.overflow-hidden{overflow: hidden;}
 .m-t20{margin-top: 20rpx;}
 .m-r20{margin-right: 20rpx;}
 .m-l35{margin-left: 35rpx;}
 .u-page{overflow: hidden;}
 .hidden{display: none;}
+.w-full{width: 100%;}
 .flex{display: flex;}
 .flex-1{flex:1;}
 .align-items-center{align-items: center;}
@@ -146,6 +148,7 @@ html,body{
     .col-name {
       width: 140rpx;
       margin-right: 20rpx;
+      text-align: right;
     }
     .task-right {
       padding-left: 0;
@@ -188,7 +191,7 @@ html,body{
     display: flex;
     &-name {
       margin-right: 20rpx;
-      flex-basis: 90rpx;
+      flex-basis: 140rpx;
       color: $font-light-gray; 
       text-align: right;
     }
@@ -199,15 +202,6 @@ html,body{
    }
   }
 }
-// form禁止
-.disabled{
-  .uni-input-input{color:#ee413b !important;background-color: #f5f7fa!important;}
-  .uni-textarea-textarea{color:#ee413b !important;background-color: #f5f7fa!important;}
-  .u-radio__label{color:#ee413b !important;}
-  .u-checkbox__label{color:#ee413b !important;}
-  .u-input__right-icon{background-color: #f5f7fa!important;}
-}
-
 .modal-content{
   padding: 30rpx;
   text-align: center;
@@ -221,5 +215,23 @@ html,body{
     font-size:$font-24;
     color:$font-light-gray;
   }
+}
+
+
+// form禁止
+.u-input{padding: 0 10rpx !important;}
+.disabled{
+ background-color: #f5f7fa!important;
+  // .uni-input-placeholder{z-index: 9;}
+  // .uni-input-input{color:#ee413b }
+  // .uni-textarea-textarea{color:#ee413b !important;}
+  // .u-radio__label{color:#ee413b !important;}
+  // .u-checkbox__label{color:#ee413b !important;}
+}
+.u-drawer{
+  .u-close--top-left{top: 10rpx !important; left: 20rpx !important;}
+}
+.u-dropdown__content{
+	height: 100vh !important;
 }
 

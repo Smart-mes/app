@@ -218,19 +218,10 @@ export default {
         },
       },
       pickerType: "start",
-      form: {
-        startTime: "",
-        endTime: "",
-      },
+      form: {startTime: "", endTime: ""},
       rules: {
-        startTime: {
-          required: true,
-          message: "不能为空",
-        },
-        endTime: {
-          required: true,
-          message: "不能为空",
-        },
+        startTime: { required: true,message: "不能为空"},
+        endTime: {required: true,message: "不能为空" },
       },
       searchVisible: true,
       // 数据
@@ -238,45 +229,20 @@ export default {
       formula: {},
       // 设备
       machineType: {
-        "-1": {
-          name: "停机",
-          color: "#438ef7",
-        },
-        2: {
-          name: "故障",
-          color: "#e23a3a",
-        },
-        1: {
-          name: "启动",
-          color: "#61bf66",
-        },
-        0: {
-          name: "关机",
-          color: "#f3ce49",
-        },
+        "-1": {name: "停机",color: "#438ef7"},
+        "2": { name: "故障",color: "#e23a3a"},
+        "1": { name: "启动", color: "#61bf66" },
+        "0": { name: "关机",color: "#f3ce49"},
       },
       workType: { "001": "不良", "002": "工具", "003": "短缺" },
       // 柱行图
       columneopts:{
         notMerge:true,
-        grid: {
-          top:0,
-          left:10,
-          right: 10,
-          bottom:50
-        },
-        xAxis: {       
-          type: 'value',
-          show: false
-        },
-        yAxis: {
-           type: 'category',
-           show: false
-        },
+        grid: {top:0,left:10,right: 10,bottom:50},
+        xAxis: {type: 'value', show: false},
+        yAxis: {type: 'category',show: false},
         seriesTemplate:{
-          "label": {
-          	"show": false
-          },
+          "label": {"show": false },
         }
       },
       columnData: {categories:["时间占比图"],series:[null]},
@@ -353,51 +319,34 @@ export default {
         machineCode: this.machineCode,
       };
 
-      Promise.all([
-        await uni.request({
-          url: `${url}/oee/analysis`,
-          method: "GET",
-          data: params,
-        }),
-        await uni.request({
-          url: `${url}/oee/staterecord`,
-          method: "GET",
-          data: params,
-        }),
-        await uni.request({
-          url: `${url}/oee/machinestaterecord`,
-          method: "GET",
-          data: params,
-        }),
-      ])
-        .then(([res1, res2, res3]) => {
-          this.loading = false;
-          this.formula = res1[1].data.data;
-          this.tableList = res3[1].data.data;
-          // 柱形图
-          const columnData=res2[1].data.data.map(({ state, time }) => {
-              const { name, color } = this.machineType[state];
-              return {
-                name,
-                "barWidth":50,
-                "stack": 'state',
-                data: [{value:time,color}],
-                };
-            });  
-
-          this.columnData.series =columnData.length? columnData:[null];
-
-          // 饼图
-          this.pieData.series[0].data= this.tableList.map(({ troubleCoed, time }) => {
-                  return {
-                    name: this.workType[troubleCoed],
-                    value: Number(time)};
-             });
-       
-        })
-        .catch(() => {
-          this.loading = false;
-        });
+      // Promise.all([
+      const res1= await uni.request({url: `${url}/oee/analysis`,method: "GET", data: params});
+       const res2= await uni.request({url: `${url}/oee/staterecord`,method: "GET",data: params });
+       const res3= await uni.request({url: `${url}/oee/machinestaterecord`,method: "GET",data: params });
+      // ])
+      //   .then(([res1, res2, res3]) => {
+      this.loading = false;
+      this.formula = res1[1].data.data;
+      this.tableList = res3[1].data.data;
+      // 柱形图
+      const columnData=res2[1].data.data.map(({ state, time }) => {
+            const { name, color } = this.machineType[state];
+            return {
+              name,
+              "barWidth":50,
+              "stack": 'state',
+              data: [{value:time,color}],
+            };
+       });  
+      this.columnData.series =columnData.length? columnData:[null];
+      // 饼图
+      this.pieData.series[0].data= this.tableList.map(({ troubleCoed, time }) => {
+            return {name: this.workType[troubleCoed], value: Number(time)};
+      });  
+        // })
+        // .catch(() => {
+        //   this.loading = false;
+        // });
     },
     // 时间占比图
     // drawMix() {},
