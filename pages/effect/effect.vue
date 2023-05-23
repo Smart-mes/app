@@ -109,7 +109,7 @@
       </u-col>
     </u-row>
     <!-- 图表 -->
-    <popup ref="popup" :active="active" :list="wsList" @itemClick="wsClick" />
+    <popup ref="popup"  :list="wsList" @itemClick="wsClick" />
   </view>
 </template>
 
@@ -204,7 +204,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["line", "navTab"]),
+    ...mapState([ "navTab"]),
   },
   methods: {
     handleMenu() {
@@ -223,14 +223,8 @@ export default {
         })
         .then(({ BWorkShop }) => (this.wsList = dictToOpts(BWorkShop)));
     },
-    // getWorkShop(item) {
-    //   const { wsName, wsCode } = item;
-    //   this.wsName = wsName;
-    //   this.wsCode = wsCode;
-    // },
   },
   onLoad() {
-    this.active=this.line[0];
     this.dictAjax();
   },
 };

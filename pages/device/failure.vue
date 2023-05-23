@@ -78,8 +78,7 @@
       text="数据为空"
       mode="data"
     />
-    <!-- <popup ref="popup" @getWorkShop="getWorkShop" /> -->
-    <popup ref="popup" :active="active" :list="wsList" @itemClick="wsClick" />
+    <popup ref="popup"  :list="wsList" @itemClick="wsClick" />
   </view>
 </template>
 
@@ -95,25 +94,13 @@ export default {
         isBack: true
       },
       // 车间
-      active: null,
+      active: {},
       wsList: [],
       // 设备
       deviceState: [
-        {
-          name: "启动",
-          value: 1,
-          color: "#22b14c",
-        },
-        {
-          name: "停机",
-          value: 0,
-          color: "#e2b607",
-        },
-        {
-          name: "关机",
-          value: -1,
-          color: "#696969",
-        },
+        { name: "启动", value: 1,color: "#22b14c"},
+        {name: "停机", value: 0, color: "#e2b607"},
+        { name: "关机", value: -1, color: "#696969"},
       ],
       // 设备
       current: 2,
@@ -222,9 +209,6 @@ export default {
   onLoad() {
     this.dictAjax();
     this.procedureAjax();
-  },
-  onShow() {
-    this.active = this.line[0];
   },
 };
 </script>

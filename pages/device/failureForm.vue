@@ -26,11 +26,12 @@
           <u-input type="textarea" :height="200" v-model="form.remarks" />
         </u-form-item>
       </u-form>
-      <view class="flex">
-          <u-button class="left-btn" size="default"  @click="reset()">重置</u-button>
-          <u-button class="right-btn" type="primary" :loading="btnLoading"  @click="submit()"> 提交 </u-button>
-        </view>
-      <!-- <u-button type="primary" @click="submit">提交</u-button> -->
+      <u-form-item :border-bottom="false" >
+        <u-row gutter="20" class="w-full m-t20">
+          <u-col span="6"><u-button size="default"  @click="reset()">重置</u-button></u-col>
+          <u-col span="6"><u-button type="primary" :loading="btnLoading"  @click="submit()"> 提交 </u-button></u-col>
+        </u-row> 
+      </u-form-item>   
     </view>
     <!-- u-action-sheet -->
     <u-action-sheet

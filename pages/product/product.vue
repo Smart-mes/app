@@ -124,11 +124,11 @@
       <!-- 底部菜单-->
       <ex-BNavBar :active="1"></ex-BNavBar>
       <!-- popup -->  
-    <popup ref="popup" :active="line" :list="wsList" @itemClick="wsClick" />
+    <popup ref="popup" :list="wsList" @itemClick="wsClick" />
   </view>
 </template>
 <script>
-import { mapState } from "vuex";
+
 import moment from "moment";
 import dictToOpts from '@/utils/dictToOpts'
 export default {
@@ -142,18 +142,11 @@ export default {
       productList: [],
     };
   },
-  computed: {
-    ...mapState({ 
-      line: state => state.line[0]
-    }),
-  },
   onLoad() {
     this.dictAjax();
   },
   onPullDownRefresh() {
-    this.productAjax()
-    .then(() => uni.stopPullDownRefresh())
-    .catch(()=>uni.stopPullDownRefresh())
+    this.productAjax().then(() => uni.stopPullDownRefresh());
   },
   methods: {
     getPercent(product){

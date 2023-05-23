@@ -180,6 +180,6 @@ export default {
   }
 }
 .scrollView{
-  margin-top: 100rpx;
+  margin-top: 0rpx;
 }
 </style>
