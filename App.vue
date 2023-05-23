@@ -4,7 +4,7 @@
 	} from "vuex";
 	export default {
 		onLaunch: function() {
-			// this.init();
+			this.init();
 		},
 		onShow: function() {},
 		onHide: function() {},

@@ -128,9 +128,9 @@ export default {
           }
         });
         // #endif
-        // #ifdef H5 
-         this.initWorkOrder('ANKZB01',skipUrl);       
-        // #endif
+        // // #ifdef H5 
+        //  this.initWorkOrder('ANKZB01',skipUrl);       
+        // // #endif
       }else{
         uni.navigateTo({url:skipUrl});
       }

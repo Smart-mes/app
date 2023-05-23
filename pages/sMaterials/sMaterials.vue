@@ -294,10 +294,10 @@ import { mapState } from "vuex";
           }
         });
         // #endif
-        // #ifdef H5
-				const test=`${this.materialList[this.materialIndex].matCode}-${Math.random().toString(36).substr(2)}`;
-				this.initMaterials(test);
-        // #endif				
+        // // #ifdef H5
+				// const test=`${this.materialList[this.materialIndex].matCode}-${Math.random().toString(36).substr(2)}`;
+				// this.initMaterials(test);
+        // // #endif				
 			},
 			initMaterials(param){		
 				const MaterialsData= this.getMaterials(param) 
