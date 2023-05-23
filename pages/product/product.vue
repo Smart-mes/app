@@ -151,7 +151,9 @@ export default {
     this.dictAjax();
   },
   onPullDownRefresh() {
-    this.productAjax().then(() => uni.stopPullDownRefresh());
+    this.productAjax()
+    .then(() => uni.stopPullDownRefresh())
+    .catch(()=>uni.stopPullDownRefresh())
   },
   methods: {
     getPercent(product){

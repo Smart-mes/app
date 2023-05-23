@@ -254,7 +254,9 @@ export default {
     this.dictAjax();  
   },
   onPullDownRefresh() {
-    this.deviceAjax().then(() => uni.stopPullDownRefresh());
+    this.deviceAjax()
+    .then(() => uni.stopPullDownRefresh())
+    .catch(()=>uni.stopPullDownRefresh())
   },
   methods: {
     handleMenu() {
