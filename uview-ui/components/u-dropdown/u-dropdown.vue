@@ -8,13 +8,16 @@
 			<view class="u-dropdown__menu__item" v-for="(item, index) in menuList" :key="index" @tap.stop="menuClick(index)">
 				<view class="u-flex">
 					<text class="u-dropdown__menu__item__text" :style="{
-						color: item.disabled ? '#c0c4cc' : (index === current || highlightIndex == index) ? activeColor : inactiveColor,
+						color: item.disabled ? '#c0c4cc' 
+						: item.value ? '#2979ff'  
+						: (index === current || highlightIndex == index) ? activeColor 
+						: inactiveColor,
 						fontSize: $u.addUnit(titleSize)
-					}">{{item.title}}</text>
+					}">{{ item.value||item.title }}</text>
 					<view class="u-dropdown__menu__item__arrow" :class="{
 						'u-dropdown__menu__item__arrow--rotate': index === current
 					}">
-						<u-icon :custom-style="{display: 'flex'}" :name="menuIcon" :size="$u.addUnit(menuIconSize)" :color="index === current || highlightIndex == index ? activeColor : '#c0c4cc'"></u-icon>
+						<u-icon :custom-style="{display: 'flex'}" :name="menuIcon" :size="$u.addUnit(menuIconSize)" :color="index === current || highlightIndex == index ? activeColor :  item.value ? '#2979ff':'#c0c4cc'"></u-icon>
 					</view>
 				</view>
 			</view>
@@ -121,7 +124,8 @@
 				// 外层内容的样式，初始时处于底层，且透明
 				contentStyle: {
 					zIndex: -1,
-					opacity: 0
+					opacity: 0,
+					visibility: 'hidden'
 				},
 				// 让某个菜单保持高亮的状态
 				highlightIndex: 99999,
@@ -189,16 +193,21 @@
 				this.$emit('open', this.current);
 			},
 			// 设置下拉菜单处于收起状态
-			close() {
+			close(value) {
 				this.$emit('close', this.current);
+				this.$set(this.menuList[this.current], 'value', value);
 				// 设置为收起状态，同时current归位，设置为空字符串
 				this.active = false;
 				this.current = 99999;
 				// 下拉内容的样式进行调整，不透明度设置为0
 				this.contentStyle = {
 					zIndex: -1,
-					opacity: 0
+					opacity: 0,
+					visibility: 'hidden'
 				}
+			},
+			reset(){
+				this.$set(this.menuList[this.current], 'value', '');
 			},
 			// 点击遮罩
 			maskClick() {
