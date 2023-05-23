@@ -107,6 +107,7 @@
 					// 父组件无法监听children的变化，故将子组件的title，传入父组件的menuList数组中
 					parent.menuList.push({
 						title: this.title,
+						value:this.value,
 						disabled: this.disabled
 					});
 				}
@@ -116,7 +117,7 @@
 				// 修改通过v-model绑定的值
 				this.$emit('input', value);
 				// 通知父组件(u-dropdown)收起菜单
-				this.parent.close();
+				this.parent.close(value);
 				// 发出事件，抛出当前勾选项的value
 				this.$emit('change', value);
 			}
