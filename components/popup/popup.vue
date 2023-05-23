@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: 'Popup',
   props: {
@@ -32,10 +33,6 @@ export default {
       type: String,
       default: 'label'
     },
-    active:{
-      type:Object,
-      default:null
-    },
     closeable:{
       type:Boolean,
       default:false
@@ -44,26 +41,23 @@ export default {
   data () {
     return {
       visible:false,
-    }
-  },
-  watch: {
-    active: {
-      handler (value) {
-          this.itemClick(value)       
-      },
-      immediate: true
+      active:{},
     }
   },
   methods: {
     itemClick (item) {
       this.visible=false;
+      this.active=item;
       this.$emit('itemClick', item)
     }
+  },
+  mounted () {
+    this.itemClick(this.$store.state.line[0]);  
   }
 }
 </script>
 <style scoped lang="scss">
 .popup {
-  margin-top: 100rpx;
+  margin-top: 0rpx;
 }
 </style>
