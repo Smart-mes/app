@@ -13,6 +13,78 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.custom-icon-gongzhan:before {
+  content: "\e6ff";
+}
+
+.custom-icon-bao:before {
+  content: "\e867";
+}
+
+.custom-icon-lingqu:before {
+  content: "\e608";
+}
+
+.custom-icon-baofei:before {
+  content: "\e609";
+}
+
+.custom-icon-ruku:before {
+  content: "\ee2d";
+}
+
+.custom-icon-spanner:before {
+  content: "\e63d";
+}
+
+.custom-icon-checkout:before {
+  content: "\e603";
+}
+
+.custom-icon-del:before {
+  content: "\e607";
+}
+
+.custom-icon-edit:before {
+  content: "\e61b";
+}
+
+.custom-icon-add2:before {
+  content: "\e620";
+}
+
+.custom-icon-chemistry:before {
+  content: "\e613";
+}
+
+.custom-icon-triangle-right:before {
+  content: "\e600";
+}
+
+.custom-icon-triangle-left:before {
+  content: "\e601";
+}
+
+.custom-icon-user:before {
+  content: "\e60b";
+}
+
+.custom-icon-password:before {
+  content: "\e64c";
+}
+
+.custom-icon-version:before {
+  content: "\e650";
+}
+
+.custom-icon-factory:before {
+  content: "\e802";
+}
+
+.custom-icon-meaus:before {
+  content: "\e647";
+}
+
 .custom-icon-spotCheck:before {
   content: "\e632";
 }
@@ -144,3 +216,4 @@
 .custom-icon-circleDot:before {
   content: "\e82f";
 }
+

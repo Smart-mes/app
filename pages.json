@@ -2,8 +2,7 @@
 	"easycom": {
 		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
 	},
-	"pages": [
-		{
+	"pages": [{
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "登录",
@@ -245,15 +244,22 @@
 				"navigationBarTitleText": "保养历史单据",
 				"navigationStyle": "custom"
 			}
+		}, {
+			"path": "pages/equip/equip",
+			"style": {
+				"navigationBarTitleText": "设备工装",
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/sMaterials/sMaterials",
+			"style": {
+				"navigationBarTitleText": "工站物料",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
+			}
+
 		}
-   ,{
-      "path" : "pages/equip/equip",
-      "style" :{
-          "navigationBarTitleText": "设备工装",
-           "navigationStyle": "custom"
-        }          
-    }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",
 		"navigationBarTextStyle": "black",
@@ -267,8 +273,7 @@
 		"selectedColor": "#0973ff",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
-		"list": [
-			{
+		"list": [{
 				"pagePath": "pages/index/index",
 				"text": "首页"
 			},
@@ -289,14 +294,13 @@
 				"text": "我的"
 			}
 		]
-	},
+	}
+	,
 	"condition": {
 		"current": 0,
-		"list": [
-			{
-				"name": "firstCheck",
-				"path": "pages/firstCheck/firstCheck"
-			}
-		]
+		"list": [{
+			"name": "sMaterials",
+			"path": "pages/sMaterials/sMaterials"
+		}]
 	}
 }

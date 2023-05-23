@@ -79,6 +79,12 @@ const state = {
 			title: "设备工装",
 			url: "/pages/equip/equip",
 		},
+		{
+			icon: "gongzhan",
+			title: "工站物料",
+			url: "/pages/sMaterials/sMaterials",
+		},
+		// pages/sMaterials/sMaterials
 	],
 	// 常用菜单
 	dailyMenu: uni.getStorageSync('dailyMenu')||[] ,

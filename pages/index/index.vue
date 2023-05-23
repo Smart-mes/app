@@ -20,7 +20,7 @@
           <u-section title="日常工作" font-size="30" :show-line="false" :right="false"/>
         </view>
         <view class="menu-box">
-          <ju-navigator-grid size="50rpx" :list="dMenu"/>
+          <ju-navigator-grid size="50rpx" :list="dMenu" @press="onPress"/>
         </view>
       </view>
       <!-- 常用菜单 -->
@@ -29,11 +29,12 @@
           <u-section title="全部分类"  font-size="30" :show-line="false" :right="false"/>
         </view>
         <view class="menu-box">
-		<ju-navigator-grid 
-		  row-count="3"
-		  col-count="4"
-		  size="50rpx"	
-		  :list="menu" />		  
+          <ju-navigator-grid 
+            row-count="3"
+            col-count="4"
+            size="50rpx"	
+            :list="menu" 
+            @press="onPress"/>		  
         </view>
       </view>
       <!-- 全部菜单 -->
@@ -58,7 +59,8 @@
     <ex-BNavBar :active="0"></ex-BNavBar>
      <!-- select -->
     <u-select mode="mutil-column-auto" v-model="selectShow" :list="lineList" @confirm="selectConfirm"/>
-  </view>
+    <u-toast ref="uToast" />
+ </view>
 </template>
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
@@ -83,11 +85,10 @@ export default {
         .map(({ icon, title, url }) => {
           return {
             title,
-            url,
-            openType: "navigateTo",
+            skipUrl:url,
             iconfont: true,
             icon: `custom-icon custom-icon-${icon}`,
-            iconColor: title === "添加" ? "#999" : "#1c7de6",
+            iconColor:"#1c7de6",
           };
         });
     },
@@ -95,8 +96,7 @@ export default {
       return this.menuList.map(({ icon, title, url }) => {
         return {
           title,
-          url,
-          openType: "navigateTo",
+          skipUrl:url,
           iconfont: true,
           icon: `custom-icon custom-icon-${icon}`,
           iconColor: "#1c7de6",
@@ -115,6 +115,40 @@ export default {
     ...mapActions(["getLine", "getUnread", "unreadPoll"]),
     selectConfirm(e) {this.set_line(e)},
     unreadLink(){uni.navigateTo({url:"/pages/info/info"})},
+   async onPress(e){
+      const {title,skipUrl}=e;
+      if(title==='工站物料'){
+        // #ifdef APP-PLUS
+        uni.scanCode({
+          success: (res)=> {  
+            this.initWorkOrder(res.result,skipUrl);   
+          },
+          fail: () => {
+            this.$refs.uToast.show({ title: "扫码失败", type: "error" });
+          }
+        });
+        // #endif
+        // // #ifdef H5 
+        //  this.initWorkOrder('ANKZB01',skipUrl);       
+        // // #endif
+      }else{
+        uni.navigateTo({url:skipUrl});
+      }
+    },
+    async initWorkOrder(param,skipUrl){
+      const res=await this.workOrderFetch({stationCode:param});
+      //  .then(res=>{
+          const materialParam= encodeURIComponent(JSON.stringify(res ));
+          uni.navigateTo({url:`${skipUrl}?param=${materialParam}`});
+        // });       
+     },
+     workOrderFetch(params){
+        return  this.$http.request({
+          url: '/api/MaterialInStation/WorkOrder',
+          method: "GET",
+          data: params,
+        });
+    }
   },
 };
 </script>
