@@ -30,7 +30,7 @@
 					<view  class="info-line"><u-line color="#ddd"/></view>					
 				</view>								
 				<view class="info-operate">
-					<u-dropdown ref="uDropdown" active-color="red" height="60rpx" @open="handleDopen">
+					<u-dropdown ref="uDropdown" height="60rpx" @open="handleDopen">
 						<u-dropdown-item  title="单元">
 							<view class="slot-content">
 										<view class="item-box">
@@ -294,10 +294,10 @@ import { mapState } from "vuex";
           }
         });
         // #endif
-        // // #ifdef H5
-				// const test=`${this.materialList[this.materialIndex].matCode}-${Math.random().toString(36).substr(2)}`;
-				// this.initMaterials(test);
-        // // #endif				
+        // #ifdef H5
+				const test=`${this.materialList[this.materialIndex].matCode}-${Math.random().toString(36).substr(2)}`;
+				this.initMaterials(test);
+        // #endif				
 			},
 			initMaterials(param){		
 				const MaterialsData= this.getMaterials(param) 
