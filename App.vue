@@ -4,7 +4,9 @@
 	} from "vuex";
 	export default {
 		onLaunch: function() {
+			// #ifdef APP-PLUS
 			this.init();
+			// #endif
 		},
 		onShow: function() {},
 		onHide: function() {},
