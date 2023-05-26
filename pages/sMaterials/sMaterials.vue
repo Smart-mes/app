@@ -137,7 +137,7 @@
 							<u-form-item  label="料盘编号" prop="rawText" >
 								<view class="flex w-full" >
 								<view class="flex-1">
-									<u-input change focus v-model="materialsForm.rawText"  @input="materialsInput" @focus="materialsFocus"/>
+									<u-input change focus v-model="materialsForm.rawText"  @input="materialsInput"/>
 								</view>
 								<view>
 									<u-icon name="scan" size="40" color="#666" @click="handleMaterialsScan"/>
