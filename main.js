@@ -10,7 +10,7 @@ import customForm from "@/components/form/form.vue";
 import bottomNavBar from "@/components/bottomNavBar/index.vue";
 
 Vue.config.productionTip = false;
-Vue.mixin(mixin)
+Vue.mixin(mixin);
 Object.defineProperty(Vue.prototype, '$http', { value: http });
 Vue.component('popup', popup);
 Vue.component('exTnavBar', navBar);
