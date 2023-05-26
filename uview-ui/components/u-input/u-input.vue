@@ -125,6 +125,10 @@ export default {
 			type: Boolean,
 			default: false
 		},
+		change: {
+			type: Boolean,
+			default: false
+		},
 		maxlength: {
 			type: [Number, String],
 			default: 140
@@ -230,7 +234,7 @@ export default {
 		value(nVal, oVal) {
 			this.defaultValue = nVal;
 			// 当值发生变化，且为select类型时(此时input被设置为disabled，不会触发@input事件)，模拟触发@input事件
-			if(nVal != oVal && this.type == 'select') this.handleInput({
+			if(nVal != oVal && this.type == 'select'||this.change) this.handleInput({
 				detail: {
 					value: nVal
 				}
@@ -273,7 +277,7 @@ export default {
 		 * @param event
 		 */
 		handleInput(event) {
-			let value = event.detail.value;
+			let value = event.detail.value||'';
 			// 判断是否去除空格
 			if(this.trim) value = this.$u.trim(value);
 			// vue 原生的方法 return 出去

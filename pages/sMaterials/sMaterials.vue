@@ -130,10 +130,14 @@
 							<u-form-item required label="物料编号" prop="matCode">
 								<u-input class="disabled" disabled  v-model="materialsForm.matCode" />
 							</u-form-item>
-							<u-form-item required label="物料批次" prop="lotNo" >
+							<u-form-item required label="物料批次" prop="lotNo">
+								<u-input class="disabled" disabled  v-model="materialsForm.lotNo" />
+							</u-form-item>							
+							<!-- rawText -->
+							<u-form-item required label="料盘编号" prop="rawText" >
 								<view class="flex w-full" >
 								<view class="flex-1">
-									<u-input v-model="materialsForm.lotNo" disabled/>
+									<u-input change focus v-model="materialsForm.rawText"  @input="input"/>
 								</view>
 								<view>
 									<u-icon name="scan" size="40" color="#666" @click="handleMaterialsScan"/>
@@ -161,7 +165,7 @@ import { mapState } from "vuex";
 				navBar: { title:'工站物料', isBack: true},
 				btnLoading:false,
 				popupShow:false,
-				materialsForm:{unit:'',slotNo:'',leftOrRight:'',matCode:'',lotNo:''},
+				materialsForm:{unit:'',slotNo:'',leftOrRight:'',matCode:'',lotNo:'',rawText:''},
 				materialsRules:{
 					matCode:{required: true,message: '不能为空',trigger: ['blur', 'change']},
 					lotNo:{required: true,message: '不能为空',trigger: ['blur', 'change']}
@@ -184,8 +188,7 @@ import { mapState } from "vuex";
 				workOrder:{},
 				materialList:[],
 				scrollTop:0,
-				stickyTop:0,
-		
+				stickyTop:0,		
 				isSticky:false,
 				InfoShow:true,
 			}
@@ -215,6 +218,14 @@ import { mapState } from "vuex";
 			},
 		},
 		methods: {
+			input(val){
+       if(val){
+				this.initMaterials(val)
+			 }else{
+				this.materialsForm.matCode='';
+				this.materialsForm.lotNo='';
+			 }	
+			},
 			handleDopen(i){
 				Object.entries(this.dropdown).forEach(([key],dIndex)=>{
 					if(dIndex===i&&this.dropdown[key]){
@@ -286,18 +297,17 @@ import { mapState } from "vuex";
 		  handleMaterialsScan(){
         // #ifdef APP-PLUS
         uni.scanCode({
-          success:(res)=> {						
-		   	  this.initMaterials(res.result);  
+          success:(res)=> {
+						this.materialsForm.rawText=res.result;						 
           },
 			    fail: () => {
             this.$refs.uToast.show({ title: "扫码失败", type: "error" });
           }
         });
         // #endif
-        // // #ifdef H5
-				// const test=`${this.materialList[this.materialIndex].matCode}-${Math.random().toString(36).substr(2)}`;
-				// this.initMaterials(test);
-        // // #endif				
+        // #ifdef H5
+				this.materialsForm.rawText='YB060072-2302044000001-0603N331J500CT'
+        // #endif				
 			},
 			initMaterials(param){		
 				const MaterialsData= this.getMaterials(param) 
