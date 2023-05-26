@@ -134,10 +134,10 @@
 								<u-input class="disabled" disabled  v-model="materialsForm.lotNo" />
 							</u-form-item>							
 							<!-- rawText -->
-							<u-form-item required label="料盘编号" prop="rawText" >
+							<u-form-item  label="料盘编号" prop="rawText" >
 								<view class="flex w-full" >
 								<view class="flex-1">
-									<u-input change focus v-model="materialsForm.rawText"  @input="input"/>
+									<u-input change focus v-model="materialsForm.rawText"  @input="materialsInput" @focus="materialsFocus"/>
 								</view>
 								<view>
 									<u-icon name="scan" size="40" color="#666" @click="handleMaterialsScan"/>
@@ -168,7 +168,7 @@ import { mapState } from "vuex";
 				materialsForm:{unit:'',slotNo:'',leftOrRight:'',matCode:'',lotNo:'',rawText:''},
 				materialsRules:{
 					matCode:{required: true,message: '不能为空',trigger: ['blur', 'change']},
-					lotNo:{required: true,message: '不能为空',trigger: ['blur', 'change']}
+					lotNo:{required: true,message: '不能为空',trigger: ['blur', 'change']},
 				},
 				// dropdown
 				dropdown:{unit:'',slotNo:'',leftOrRight:''},
@@ -191,6 +191,7 @@ import { mapState } from "vuex";
 				stickyTop:0,		
 				isSticky:false,
 				InfoShow:true,
+				time:null
 			}
 		},
 	  computed: {
@@ -218,7 +219,7 @@ import { mapState } from "vuex";
 			},
 		},
 		methods: {
-			input(val){
+			materialsInput(val){
        if(val){
 				this.initMaterials(val)
 			 }else{
