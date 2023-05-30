@@ -258,13 +258,6 @@
 				"enablePullDownRefresh": true
 			}
 
-		},{
-				"path" : "pages/demo/demo",
-				"style" :{
-						"navigationBarTitleText": "demo",
-						"enablePullDownRefresh": false
-				}
-				
 		}
     ],
 	"globalStyle": {
