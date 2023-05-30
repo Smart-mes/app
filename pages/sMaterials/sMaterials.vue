@@ -159,7 +159,13 @@
 		<!-- 删除 -->
 		<u-action-sheet :list="sheetList" v-model="sheetShow"  @click="handleSheet" />
 		<!--模态窗口 -->
-		<u-modal v-model="modelShow" :show-title="false" @confirm="modelConfirm">
+		<u-modal 
+		  :show-cancel-button="!!notFinishNum"
+			v-model="modelShow" 
+			:show-title="false" 
+			@cancel="modelCancel"
+			@confirm="modelConfirm"
+			mask-close-able>
 			<view class="model-info" v-if="!notFinishNum">
 				 <u-icon name="checkmark" size="80" color="#18b566"></u-icon>
 				 <text class="m-t20">装料完成</text>
@@ -244,10 +250,15 @@ import { mapState } from "vuex";
 		},
 		methods: {
 			customBack(){
-				if(this.notFinishNum){this.modelShow=true}
+				console.log(this.notFinishNum)
+				if(this.notFinishNum) this.modelShow=true;
+			 else	uni.navigateBack();
+			},
+			modelCancel(){
+				this.modelShow=false;
 			},
 			modelConfirm(){
-				this.modelShow=false
+				this.modelShow=false;
 				if(this.notFinishNum){
 					uni.navigateBack();
 				}
@@ -316,16 +327,20 @@ import { mapState } from "vuex";
 			    this.$refs.materialsForm.resetFields();
 		 		  this.setFormData();
 	  	},
-			handleSubmit(){
-				this.btnLoading=true;		
+			handleSubmit(){				
 				this.$refs.materialsForm.validate(valid => {
 					if (valid) {
+						this.btnLoading=true;	
 						const param={...this.materialList[this.materialIndex],...this.materialsForm,empCode:this.userInfo.empCode};
 						this.changeFetch(param).then(()=>{
 							this.btnLoading=false;		
 							this.popupShow=false;
-							this.$refs.uToast.show({title: "装料成功",type: "success"});
-							if(!this.notFinishNum){this.modelShow=true}
+							this.$refs.uToast.show({
+								title: "装料成功",
+								type: "success",
+								callback:()=>{if(!this.notFinishNum){this.modelShow=true}} 
+							});
+							
 							this.getMateriallist();		
 						}).catch(()=>{							
               radio.play_ding_success();
