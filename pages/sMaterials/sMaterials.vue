@@ -1,6 +1,6 @@
 <template>
 	<view>
-    <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold/>
+    <ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold  :customBack="customBack"/>
 		<u-gap id="gap" height="15"/>
 		<!-- #ifdef APP-PLUS -->
 	  <u-sticky :enable="isSticky" offset-top="88">
@@ -9,26 +9,28 @@
 		 <u-sticky :enable="isSticky">
 		  <!-- #endif -->	
 			<view id="info" class="info">
-				<view  class="info-box" >
-				<view  class="info-list" v-show="InfoShow">
-					<view class="info-item">
-						<view class="info-item-name">产线：</view>
-						<view class="info-item-text">{{dict.BLine&&dict.BLine[workOrder.lineCode]}}</view>
+				<view  class="info-box">
+				<view v-show="InfoShow">
+						<view  class="info-list">
+							<view class="info-item">
+								<view class="info-item-name">产线：</view>
+								<view class="info-item-text">{{dict.BLine&&dict.BLine[workOrder.lineCode]}}</view>
+							</view>
+							<view class="info-item">
+								<view class="info-item-name">工单：</view>
+								<view class="info-item-text">{{workOrder.orderNo}}</view>
+							</view>
+							<view class="info-item">
+								<view class="info-item-name">工位：</view>
+								<view class="info-item-text">{{dict.BStationList&&dict.BStationList[workOrder.stationCode]}}</view>
+							</view>		
+							<view class="info-item">
+								<view class="info-item-name">设备：</view>
+								<view class="info-item-text">{{(dict.machine&&dict.machine[workOrder.stationCode])||'无'}}</view>
+							</view>	
 					</view>
-					<view class="info-item">
-						<view class="info-item-name">工单：</view>
-						<view class="info-item-text">{{workOrder.orderNo}}</view>
-					</view>
-					<view class="info-item">
-						<view class="info-item-name">工位：</view>
-						<view class="info-item-text">{{dict.BStationList&&dict.BStationList[workOrder.stationCode]}}</view>
-					</view>		
-					<view class="info-item">
-						<view class="info-item-name">设备：</view>
-						<view class="info-item-text">{{(dict.machine&&dict.machine[workOrder.stationCode])||'无'}}</view>
-					</view>	
-					<view  class="info-line"><u-line color="#ddd"/></view>					
-				</view>								
+					<view  class="info-line"><u-line color="#ddd"/></view>								
+				</view>							
 				<view class="info-operate">
 					<u-dropdown ref="uDropdown" height="60rpx" @open="handleDopen">
 						<u-dropdown-item  title="单元">
@@ -76,7 +78,10 @@
 			</view> 
 		</u-sticky>						
 		<!-- 列表 -->
-		<view class="materials basic-box m">		
+		<view class="operate-info basic-box m">
+       <ex-title title="物料列表" class="p-30 p-b0">
+		     <view slot="right">已完成{{finishNum}}，一共有{{mList.length}}</view>
+			 </ex-title>	
        <view class="m-list">
 					<!-- 1 -->
 				  <view class="m-item flex" v-for="(mItem,i) in mList" :key="mItem.id">
@@ -153,15 +158,28 @@
 		</u-popup>
 		<!-- 删除 -->
 		<u-action-sheet :list="sheetList" v-model="sheetShow"  @click="handleSheet" />
+		<!--模态窗口 -->
+		<u-modal v-model="modelShow" :show-title="false" @confirm="modelConfirm">
+			<view class="model-info" v-if="!notFinishNum">
+				 <u-icon name="checkmark" size="80" color="#18b566"></u-icon>
+				 <text class="m-t20">装料完成</text>
+			</view>
+			<view class="model-info" v-else>
+				<u-icon name="info-circle" size="80" color="#ff9900"></u-icon>
+				 <text class="m-t20">装料未完成,剩余{{notFinishNum}}</text>
+			</view>
+		</u-modal>
 		<u-toast ref="uToast" />
 	</view>
 </template>
 <script>
+import radio from "@/utils/radio.js"
 import { mapState } from "vuex";
 	export default {
 		name:'SMaterials',
 		data() {
 			return {
+				modelShow:false,
 				navBar: { title:'工站物料', isBack: true},
 				btnLoading:false,
 				popupShow:false,
@@ -217,8 +235,23 @@ import { mapState } from "vuex";
 					return true;
 				})
 			},
+			finishNum(){
+				return (this.materialList.filter(item=>!!item.lotNo)).length;
+			},
+			notFinishNum(){
+				return this.materialList.length-this.finishNum;
+			},
 		},
 		methods: {
+			customBack(){
+				if(this.notFinishNum){this.modelShow=true}
+			},
+			modelConfirm(){
+				this.modelShow=false
+				if(this.notFinishNum){
+					uni.navigateBack();
+				}
+			},
 			materialsInput(val){
        if(val){
 				this.initMaterials(val)
@@ -283,15 +316,21 @@ import { mapState } from "vuex";
 			    this.$refs.materialsForm.resetFields();
 		 		  this.setFormData();
 	  	},
-			handleSubmit(){		
+			handleSubmit(){
+				this.btnLoading=true;		
 				this.$refs.materialsForm.validate(valid => {
 					if (valid) {
 						const param={...this.materialList[this.materialIndex],...this.materialsForm,empCode:this.userInfo.empCode};
 						this.changeFetch(param).then(()=>{
+							this.btnLoading=false;		
 							this.popupShow=false;
 							this.$refs.uToast.show({title: "装料成功",type: "success"});
+							if(!this.notFinishNum){this.modelShow=true}
 							this.getMateriallist();		
-						});							
+						}).catch(()=>{							
+              radio.play_ding_success();
+							this.btnLoading=false;	
+						})						
 					} 
 			 });
 			},
@@ -406,18 +445,15 @@ import { mapState } from "vuex";
 .info{
 	.info-box{background-color:#fff; padding: 10rpx 0;}
   .info-operate{background-color:#fff;}
-	.info-list{margin-top: 10rpx;}
+	.info-list{padding: 10rpx 30rpx 0 30rpx;}
 	.info-line{margin: 10rpx 30rpx 0 30rpx;}
 }
-.materials{
-	.m-list{margin:0 30rpx; padding-bottom: 30rpx; }
-	.m-item{padding: 20rpx 0; border-bottom: 1px dashed #ccc;}
-  .m-operate{flex-basis:60rpx;}
-	.m-operate-icon{padding: 10rpx;border-radius: 50%;}
-  .m-operate-del{background-color:$u-type-error;}
-	.m-operate-add{background-color:$u-type-success-dark;}
+.model-info{
+	padding: 30rpx 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
-
 .slot-content {
 		background-color: #FFFFFF;
 		padding: 20rpx;
