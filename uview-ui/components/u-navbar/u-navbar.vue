@@ -213,19 +213,13 @@
 				// #ifdef APP-PLUS || H5
 				return this.height ? this.height : 44;
 				// #endif
-				// #ifdef MP
-				// 小程序特别处理，让导航栏高度 = 胶囊高度 + 两倍胶囊顶部与状态栏底部的距离之差(相当于同时获得了导航栏底部与胶囊底部的距离)
-				// 此方法有缺陷，暂不用(会导致少了几个px)，采用直接固定值的方式
-				// return menuButtonInfo.height + (menuButtonInfo.top - this.statusBarHeight) * 2;//导航高度
-				let height = systemInfo.platform == 'ios' ? 44 : 48;
-				return this.height ? this.height : height;
-				// #endif
 			}
 		},
 		created() {},
 		methods: {
 			goBack() {
 				// 如果自定义了点击返回按钮的函数，则执行，否则执行返回逻辑
+				console.log(typeof this.customBack,typeof this.customBack)
 				if (typeof this.customBack === 'function') {
 					// 在微信，支付宝等环境(H5正常)，会导致父组件定义的customBack()函数体中的this变成子组件的this
 					// 通过bind()方法，绑定父组件的this，让this.customBack()的this为父组件的上下文

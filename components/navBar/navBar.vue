@@ -1,13 +1,7 @@
 <template>
   <u-navbar
-  :title="title"
-    :is-back="isBack"
-    :title-color="color"
-    :title-size="size"
-    :background="background"
-    :title-bold="titleBold"
-    :borderBottom="borderBottom"
-      
+    v-bind="$attrs"
+    :customBack="customBack"  
     >
     <slot></slot>
     <view slot="left">
@@ -23,36 +17,11 @@
 export default {
   name: "NavBar",
   props: {
-    title: {
-      type: String,
-      default: "",
-    },
-    isBack: {
-      type: Boolean,
-      default: true,
-    },
-    color: {
-      type: String,
-      default: "#333",
-    },
-    size: {
-      type: String,
-      default: "32",
-    },
-    background: {
-      type: Object,
-      default: () => {
-        return { backgroundColor: "#fff" };
-      },
-    },
-    titleBold: {
-      type: Boolean,
-      default: false,
-    },
-    borderBottom: {
-      type: Boolean,
-      default: true,
-    },
+    customBack: {
+				type: Function,
+				default:null
+			}
   },
+
 };
 </script>
