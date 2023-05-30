@@ -114,7 +114,7 @@
 			// 标题的颜色
 			titleColor: {
 				type: String,
-				default: '#606266'
+				default: '#333333'
 			},
 			// 标题字体是否加粗
 			titleBold: {
@@ -219,7 +219,6 @@
 		methods: {
 			goBack() {
 				// 如果自定义了点击返回按钮的函数，则执行，否则执行返回逻辑
-				console.log(typeof this.customBack,typeof this.customBack)
 				if (typeof this.customBack === 'function') {
 					// 在微信，支付宝等环境(H5正常)，会导致父组件定义的customBack()函数体中的this变成子组件的this
 					// 通过bind()方法，绑定父组件的this，让this.customBack()的this为父组件的上下文
