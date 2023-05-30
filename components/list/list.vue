@@ -16,10 +16,11 @@
       :class="{'link-list':type==='link'}"  
       :style="{flexDirection:(layout==='horizontal'?'row':'column')}" >
         <div 
+          v-for="item in data" :key="item[keyId]"
           class="list-row" 
           :class="{'border-bottom':borderBottom,'link-list-row':type==='link','list-row-hover':hover}"  
           :style="{...customItemStyle}" 
-          v-for="item in data" :key="item[keyId]" >
+           >
            <view class="list-row-left">
                 <u-row>
                     <block v-for="(value,key,i) in item"  :key="key">
@@ -33,7 +34,7 @@
                               </view>
                           </u-col>
                           <block v-else>
-                            <block v-for="(val,vkey,i) in value" >
+                            <block v-for="(val,vkey,i) in value" v-if="keyShow.includes(vkey)">
                                 <u-col  span="12">
                                     <view class="list-col">
                                         <view class="list-col-name" :style="{width:labelWidth,textAlign:labelAlign}">

@@ -8,6 +8,7 @@ import popup from "@/components/popup/popup.vue";
 import navBar from "@/components/navBar/navBar.vue";
 import customForm from "@/components/form/form.vue";
 import bottomNavBar from "@/components/bottomNavBar/index.vue";
+import title from "@/components/title/title.vue";
 
 Vue.config.productionTip = false;
 Vue.mixin(mixin);
@@ -16,7 +17,7 @@ Vue.component('popup', popup);
 Vue.component('exTnavBar', navBar);
 Vue.component('customForm', customForm);
 Vue.component('exBNavBar', bottomNavBar);
-
+Vue.component('exTitle', title);
 
 // 引入全局uView
 import uView from 'uview-ui';

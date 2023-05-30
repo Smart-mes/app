@@ -5,7 +5,8 @@ html,body{
 	background-color:$bgColor;
 }
 .overflow-hidden{overflow: hidden;}
-.hidden{display: none;}
+.p-30{padding: 30rpx;}
+.p-b0{padding-bottom: 0;}
 .m-t20{margin-top: 20rpx;}
 .m-r20{margin-right: 20rpx;}
 .m-l35{margin-left: 35rpx;}
@@ -16,21 +17,13 @@ html,body{
 .flex-1{flex:1;}
 .align-items-center{align-items: center;}
 .justify-content-center{justify-content: center;}
-
-
 // 省列号
-.ellipsis{
-	white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-}
+.ellipsis{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
 // nav
 .navbar-left {
   color: $font-text-color;
   line-height: initial;
-  .title {
-    font-size:32rpx;
-    font-weight:bold;
-    // line-height: 50rpx;
-  }
+  .title {font-size:32rpx;font-weight:bold;}
 }
 .navbar-right {
   .navbar-icon {
@@ -51,9 +44,7 @@ html,body{
   padding: 15rpx 35rpx;
   color: $font-gray;
 }
-.navbar-title{
-	font-size:34rpx;
-}
+.navbar-title{font-size:34rpx;}
 
 .sub-info{
   display: flex;
@@ -217,7 +208,19 @@ html,body{
     color:$font-light-gray;
   }
 }
-
+// 操作列表
+.operate-info{
+	.m-list{margin:0 30rpx; padding-bottom: 30rpx; }
+	.m-item{padding: 20rpx 0; border-bottom: 1px dashed #ccc;}
+  .m-operate{flex-basis:60rpx;}
+	.m-operate-icon{padding: 10rpx;border-radius: 50%;}
+  .m-operate-del{background-color:$u-type-error;}
+	.m-operate-add{background-color:$u-type-success-dark;}
+}
+.subtitle{
+  display: flex;
+  &-right{flex: 1;}
+}
 
 // form禁止
 .u-input{padding: 0 10rpx !important;}
