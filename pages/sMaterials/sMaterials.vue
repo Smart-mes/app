@@ -327,25 +327,26 @@ import { mapState } from "vuex";
 			    this.$refs.materialsForm.resetFields();
 		 		  this.setFormData();
 	  	},
-			handleSubmit(){				
-				this.$refs.materialsForm.validate(valid => {
+			async handleSubmit(){				
+				this.$refs.materialsForm.validate(async valid => {
 					if (valid) {
 						this.btnLoading=true;	
 						const param={...this.materialList[this.materialIndex],...this.materialsForm,empCode:this.userInfo.empCode};
-						this.changeFetch(param).then(()=>{
-							this.btnLoading=false;		
-							this.popupShow=false;
-							this.$refs.uToast.show({
-								title: "装料成功",
-								type: "success",
-								callback:()=>{if(!this.notFinishNum){this.modelShow=true}} 
-							});
+						const changeData= await this.changeFetch(param).catch(()=>{
+								radio.play_ding_success();
+								this.btnLoading=false;	
+						});
+						this.btnLoading=false;	
 							
-							this.getMateriallist();		
-						}).catch(()=>{							
-              radio.play_ding_success();
-							this.btnLoading=false;	
-						})						
+						if(changeData){
+							this.popupShow=false;
+							await this.getMateriallist();
+							if(!this.notFinishNum){
+								this.modelShow=true
+							}else{
+								this.$refs.uToast.show({title: "装料成功",type: "success"});
+							}
+						};				
 					} 
 			 });
 			},
