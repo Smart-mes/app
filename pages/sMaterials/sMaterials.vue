@@ -84,7 +84,7 @@
 			 </ex-title>	
        <view class="m-list">
 					<!-- 1 -->
-				  <view class="m-item flex" v-for="(mItem,i) in mList" :key="mItem.id">
+				  <view class="m-item flex" v-for="(mItem,i) in mList" :key="i">
 						  <view class="flex-1">
 								<view class="info-list">
 										<view class="info-item">
