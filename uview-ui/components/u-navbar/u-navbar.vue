@@ -114,7 +114,7 @@
 			// 标题的颜色
 			titleColor: {
 				type: String,
-				default: '#333333'
+				default: '#606266'
 			},
 			// 标题字体是否加粗
 			titleBold: {
@@ -212,6 +212,13 @@
 			navbarHeight() {
 				// #ifdef APP-PLUS || H5
 				return this.height ? this.height : 44;
+				// #endif
+				// #ifdef MP
+				// 小程序特别处理，让导航栏高度 = 胶囊高度 + 两倍胶囊顶部与状态栏底部的距离之差(相当于同时获得了导航栏底部与胶囊底部的距离)
+				// 此方法有缺陷，暂不用(会导致少了几个px)，采用直接固定值的方式
+				// return menuButtonInfo.height + (menuButtonInfo.top - this.statusBarHeight) * 2;//导航高度
+				let height = systemInfo.platform == 'ios' ? 44 : 48;
+				return this.height ? this.height : height;
 				// #endif
 			}
 		},

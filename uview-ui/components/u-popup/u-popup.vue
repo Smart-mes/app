@@ -287,7 +287,6 @@ export default {
 		},
 		// 遮罩被点击
 		maskClick() {
-			this.$emit('maskClick')
 			this.close();
 		},
 		close() {
