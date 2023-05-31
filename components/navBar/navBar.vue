@@ -1,6 +1,6 @@
 <template>
   <u-navbar
-    v-bind="$attrs"
+    v-bind="{titleColor:'#333',...$attrs}"
     :customBack="customBack"  
     >
     <slot></slot>
