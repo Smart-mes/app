@@ -87,7 +87,7 @@
 					 }	 
 					},
 				],
-				listKeyShow:['name','worderOder','device'],
+				listKeyShow:['name','worderOder','device','bodyJsonData'],
 				listDict:{
 					name:'名称',
 					worderOder:'工单号',
