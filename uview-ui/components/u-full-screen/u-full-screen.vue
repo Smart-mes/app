@@ -46,7 +46,7 @@
 	.u-update-content {
 		font-size: 26rpx;
 		color: $u-content-color;
-		line-height: 1.75;
+		line-height: 1.7;
 		padding: 30rpx;
 	}
 </style>
