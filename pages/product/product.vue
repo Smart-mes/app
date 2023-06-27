@@ -176,9 +176,7 @@ export default {
           uni.hideLoading();
           this.setProduct(productList);
         })
-        .catch(
-          () => uni.hideLoading()
-        );
+        .catch( () => uni.hideLoading());
     },
     setProduct(productList) {
       this.productList = productList.map((product, i) => {

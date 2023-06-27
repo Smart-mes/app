@@ -265,6 +265,14 @@
 						"enablePullDownRefresh": false
 				}
 				
+		},
+		{
+				"path" : "pages/frockManage/frockManage",
+				"style" : {
+						"navigationBarTitleText": "容器管理",
+						"navigationStyle": "custom",
+						"enablePullDownRefresh": true
+				}				
 		}
     ],
 	"globalStyle": {
