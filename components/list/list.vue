@@ -6,7 +6,7 @@
     <!-- title -->
     <view class="title" v-if="title">
       <view class="title-left">
-         <u--text :text="title" bold size="32" margin="0 0 20rpx 0"/>
+        <text class="title-text">{{title}}</text>
       </view>
        <view class="title-Right">
          <slot name="titleRight"></slot>
@@ -63,7 +63,7 @@
                 </u-row>              
             </view>  
             <view class="list-row-right">
-                <slot name="right"></slot>
+                <slot name="right" :data="item"></slot>
             </view> 
         </div>
       </view>
@@ -110,18 +110,19 @@ export default {
       }    
     },
     getValue(key,item){
-      if(item[key]){
+      // if(item[key]){
         if(this.valueDict&&this.valueDict[key]){
           return this.valueDict[key][item[key]];
         }else{
           return item[key]||'无';
         }
       }
-    }
+    // }
   }
 }
 </script>
 <style lang="scss" scoped>
+.title-text{ display:block;font-weight: bold; font-size: 32rpx; margin:0 0 20rpx 0;}
  .ex-list{
   margin: 15rpx 0;
   padding:30rpx;background-color: #fff;
