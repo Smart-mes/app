@@ -3,7 +3,7 @@
     class="desc"
     :style="{...customStyle,margin:margin}"
     :class="{'border-radius':borderRadius}">
-      <u--text v-if="title" :text="title" bold size="32" margin="0 0 10rpx 0"/>
+      <text v-if="title" class="title">{{title}}</text>
       <view class="desc-list">
         <u-row  style="flex-wrap: wrap;">
           <block v-for="(value,key) in lableDict" :key="key" v-if="key">
@@ -63,27 +63,28 @@ export default {
   methods: {
     getVal(key,vkey,data){
      if(data[key]){
-          if(this.valueDict&&this.valueDict[key]&&this.valueDict[key][vkey]){
-            return this.valueDict[key][vkey][data[key][vkey]]
-          }else{
-            return data[key][vkey]||'无'
-          }        
+        if(this.valueDict&&this.valueDict[key]&&this.valueDict[key][vkey]){
+          return this.valueDict[key][vkey][data[key][vkey]]||'无';
+        }else{
+          return data[key][vkey]||'无'
+        }        
       }
     },
     getValue(key,data){
-      if(data[key]){
-        if(this.valueDict&&this.valueDict[key]){
-          return this.valueDict[key][data[key]];
-        }else{
-          return data[key]||'无';
-        }
+      // if(data[key]){
+      if(this.valueDict&&this.valueDict[key]){
+        return this.valueDict[key][data[key]]||'无';
+      }else{
+        return data[key]||'无';
       }
+      // }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.title{ display:block;font-weight: bold; font-size: 32rpx; margin:0 0 20rpx 0;}
   .border-radius{border-radius:10rpx;margin: 15rpx;}
   .desc{
     padding: 30rpx;
