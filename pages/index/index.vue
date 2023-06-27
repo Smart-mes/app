@@ -120,35 +120,39 @@ export default {
       if(title==='工站物料'){
         // #ifdef APP-PLUS
         uni.scanCode({
-          success: (res)=> {  
-            this.initWorkOrder(res.result,skipUrl);   
-          },
-          fail: () => {
-            this.$refs.uToast.show({ title: "扫码失败", type: "error" });
-          }
+          success: (res)=> this.initWorkOrder(res.result,skipUrl),
+          fail: () =>  this.$refs.uToast.show({ title: "扫码失败", type: "error" })     
         });
         // #endif
         // #ifdef H5 
          this.initWorkOrder('ANKZB01',skipUrl);       
+        // #endif  
+      } else if(title==='容器管理'){
+        // #ifdef APP-PLUS
+        uni.scanCode({
+          success: (res)=> this.BContainerFetch(res.result,skipUrl),
+          fail: () =>  this.$refs.uToast.show({ title: "扫码失败", type: "error" })     
+        });
         // #endif
+        // #ifdef H5 
+         this.BContainerFetch('c-001',skipUrl);       
+        // #endif  
       }else{
         uni.navigateTo({url:skipUrl});
       }
     },
     async initWorkOrder(param,skipUrl){
-      const res=await this.workOrderFetch({stationCode:param});
-      //  .then(res=>{
-          const materialParam= encodeURIComponent(JSON.stringify(res ));
-          uni.navigateTo({url:`${skipUrl}?param=${materialParam}`});
-        // });       
+        const res=await this.$http.request({url: '/api/MaterialInStation/WorkOrder',method: "GET",data: {stationCode:param}}); 
+        const materialParam= encodeURIComponent(JSON.stringify(res ));
+        uni.navigateTo({url:`${skipUrl}?param=${materialParam}`});     
      },
-     workOrderFetch(params){
-        return  this.$http.request({
-          url: '/api/MaterialInStation/WorkOrder',
-          method: "GET",
-          data: params,
-        });
-    }
+     async BContainerFetch(param,skipUrl){
+        const res=await this.$http.request({ url: '/api/BContainer',method: "GET", data: {containerCode:param}}); 
+        if(res.length){
+          const Bparam= encodeURIComponent(JSON.stringify(res[0]));
+          uni.navigateTo({url:`${skipUrl}?param=${Bparam}`}); 
+        }
+       },   
   },
 };
 </script>

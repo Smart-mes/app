@@ -73,7 +73,8 @@ html,body{
     background: $green-color;
   }
 }
-
+.h-120{height: 120rpx;}
+.btnfix{padding: 20rpx 0; position: fixed; bottom: 0; background-color:$white-color;}
 // search
 .search-box {
   margin:15rpx 15rpx;
@@ -222,6 +223,9 @@ html,body{
   &-right{flex: 1;}
 }
 
+.operate-add{ padding: 10rpx;background-color:#00c84b;border-radius: 50%;}
+.operate-edit{padding: 10rpx;background-color:$blue-color;border-radius: 50%;}
+.operate-del{padding: 10rpx; background-color:red;border-radius: 50%;}
 // form禁止
 .u-input{padding: 0 10rpx !important;}
 .disabled{

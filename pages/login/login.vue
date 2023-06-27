@@ -36,7 +36,7 @@
 				loading: false,
 				form: {
 					user: "admin",
-					password: "ABCD1234", 
+					password: "123456", 
 					// ABCD1234
 				},
 				iconStyle: {

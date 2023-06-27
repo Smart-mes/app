@@ -84,6 +84,11 @@ const state = {
 			title: "工站物料",
 			url: "/pages/sMaterials/sMaterials",
 		},
+		{
+			icon: "container",
+			title: "容器管理",
+			url: "/pages/frockManage/frockManage",
+		},	
 		// pages/sMaterials/sMaterials
 	],
 	// 常用菜单
