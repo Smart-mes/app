@@ -28,10 +28,10 @@
 			</view>
 			<view class="h-120"/>
 	  <!-- 弹窗 -->
-		<u-popup v-model="bindShow" mode="bottom">
+		<u-popup v-model="bindShow" mode="bottom" closeable>
 			<customForm 
 			  ref="bindForm"
-				style="padding: 40rpx;"
+				class="customForm"
 				:rules="rules"
 				:form="formData"
 				:formList="formList"  
@@ -139,6 +139,7 @@ import { mapState } from "vuex";
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
+.customForm{padding: 60rpx 40rpx 40rpx 40rpx;}
 
 </style>
