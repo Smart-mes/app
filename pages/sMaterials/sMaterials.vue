@@ -125,15 +125,25 @@
 					<u-form ref="materialsForm" label-width="140rpx" :model="materialsForm">
 							<u-form-item  label="单元" prop="unit">
 								<u-input class="disabled" disabled v-model="materialsForm.unit"/>
+							</u-form-item>			
+							<u-row>
+								<u-col span="6">
+									<u-form-item   label="插槽" prop="slotNo">
+										<u-input class="disabled" disabled v-model="materialsForm.slotNo"/>
+									</u-form-item>								
+								</u-col>
+								<u-col span="6">
+									<u-form-item  label="L/R" prop="leftOrRight">
+										<u-input class="disabled" disabled v-model="materialsForm.leftOrRight"/>
+									</u-form-item>								
+								</u-col>
+						</u-row>
+						<u-form-item class="relative"  label="物料编号" prop="cMatCode" >
+								<u-input class="disabled" disabled  v-model="materialsForm.cMatCode" />
 							</u-form-item>
-							<u-form-item   label="插槽" prop="slotNo">
-								<u-input class="disabled" disabled v-model="materialsForm.slotNo"/>
-							</u-form-item>
-							<u-form-item  label="L/R" prop="leftOrRight">
-								<u-input class="disabled" disabled v-model="materialsForm.leftOrRight"/>
-							</u-form-item>
-							<u-form-item required label="物料编号" prop="matCode">
+							<u-form-item class="relative" required label="当前物料" prop="matCode" >
 								<u-input class="disabled" disabled  v-model="materialsForm.matCode" />
+								<u-icon v-show="isMatCode" class="absolute matCode-icon" name="close" color="#e45656" size="28" />
 							</u-form-item>
 							<u-form-item required label="物料批次" prop="lotNo">
 								<u-input class="disabled" disabled  v-model="materialsForm.lotNo" />
@@ -145,7 +155,7 @@
 									<u-input change focus v-model="materialsForm.rawText"  @input="materialsInput"/>
 								</view>
 								<view>
-									<u-icon name="scan" size="40" color="#666" @click="handleMaterialsScan"/>
+									<u-icon name="scan" size="50" color="#666" @click="handleMaterialsScan"/>
 								</view>
 							</view>						
 							</u-form-item>
@@ -189,7 +199,8 @@ import { mapState } from "vuex";
 				navBar: { title:'工站物料', isBack: true},
 				btnLoading:false,
 				popupShow:false,
-				materialsForm:{unit:'',slotNo:'',leftOrRight:'',matCode:'',lotNo:'',rawText:''},
+				// ismatCode:false,
+				materialsForm:{unit:'',slotNo:'',leftOrRight:'',cMatCode:'',matCode:'',lotNo:'',rawText:''},
 				materialsRules:{
 					matCode:{required: true,message: '不能为空',trigger: ['blur', 'change']},
 					lotNo:{required: true,message: '不能为空',trigger: ['blur', 'change']},
@@ -220,6 +231,15 @@ import { mapState } from "vuex";
 		},
 	  computed: {
 			...mapState(["userInfo"]),
+			isMatCode(){
+				const {cMatCode,matCode}=this.materialsForm;
+				if(matCode){
+					return !(cMatCode===matCode);
+				}else{
+					return false;
+				}
+				
+			},
 			mList(){
 				const {unit,slotNo,leftOrRight}=this.dropdown;
         return this.materialList
@@ -228,14 +248,12 @@ import { mapState } from "vuex";
 					else return true;
 				})
 				.filter(fIrem=>{
-					if(slotNo) return fIrem.slotNo===slotNo
+					if(slotNo) {return fIrem.slotNo===slotNo;}
 					return true;
 				})
 				.filter(fIrem=>{
 					if(leftOrRight){
-						if(leftOrRight==='无'){
-							return !fIrem.leftOrRight
-						}
+						if(leftOrRight==='无'){	return !fIrem.leftOrRight}
 						return fIrem.leftOrRight===leftOrRight
 					} 
 					return true;
@@ -252,7 +270,7 @@ import { mapState } from "vuex";
 			customBack(){
 				console.log(this.notFinishNum)
 				if(this.notFinishNum) this.modelShow=true;
-			 else	uni.navigateBack();
+			  else	uni.navigateBack();
 			},
 			modelCancel(){
 				this.modelShow=false;
@@ -263,9 +281,10 @@ import { mapState } from "vuex";
 					uni.navigateBack();
 				}
 			},
-			materialsInput(val){
+			async materialsInput(val){
        if(val){
-				this.initMaterials(val)
+				await this.initMaterials(val)
+				await this.handleSubmit();
 			 }else{
 				this.materialsForm.matCode='';
 				this.materialsForm.lotNo='';
@@ -301,11 +320,7 @@ import { mapState } from "vuex";
 			},
 			setFormData(){
 				Object.entries(this.materialsForm).forEach(([key,val])=>{	
-					if(key==='matCode'||key==='lotNo'){  
-						this.materialsForm[key]='';
-					}else{					
-						this.materialsForm[key]=this.materialList[this.materialIndex][key];
-					}
+					this.materialsForm[key]=this.materialList[this.materialIndex][key];
 				});				
 			},
 			handleAdd(i){
@@ -384,7 +399,8 @@ import { mapState } from "vuex";
 			},	
 			async getMateriallist(){
 				  uni.showLoading({ title: "加载中", mask: true });
-				  this.materialList=await this.materialFetch().catch(()=>{ uni.hideLoading()});
+				  const materialList=await this.materialFetch().catch(()=>{uni.hideLoading()});
+					this.materialList= materialList.map(mItem=>({...mItem,cMatCode:mItem.matCode}))
 				  uni.hideLoading();		
 			},
 			regDictFetch(){
@@ -458,6 +474,7 @@ import { mapState } from "vuex";
 <style lang="scss" scoped>
 .m{margin:15rpx 0; border-radius:0 ; padding: 0;}
 .materialsForm{margin:30rpx;}
+.matCode-icon{right: 10rpx;}
 .info{
 	.info-box{background-color:#fff; padding: 10rpx 0;}
   .info-operate{background-color:#fff;}
