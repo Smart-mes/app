@@ -3,7 +3,7 @@
     <ex-TnavBar
       :title="navBar.title"
       :is-back="navBar.isBack"
-      :color="navBar.color"
+      :titleColor="navBar.titleColor"
       :background="navBar.background"
       :borderBottom="navBar.borderBottom"
       title-bold
@@ -61,7 +61,7 @@ export default {
     return {
       navBar: {
         title: "我的",
-        color: "#fff",
+        titleColor: "#fff",
         isBack: false,
         borderBottom: false,
         background: { backgroundColor: "#1c7de6" },
