@@ -89,6 +89,11 @@ const state = {
 			title: "容器管理",
 			url: "/pages/frockManage/frockManage",
 		},	
+		{
+			icon: "container",
+			title: "demo",
+			url: "/pages/demo/demo",
+		},	
 		// pages/sMaterials/sMaterials
 	],
 	// 常用菜单

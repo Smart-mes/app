@@ -310,12 +310,12 @@
 			}
 		]
 	}
-	// ,
-	// "condition": {
-	// 	"current": 0,
-	// 	"list": [{
-	// 		"name": "sMaterials",
-	// 		"path": "pages/sMaterials/sMaterials"
-	// 	}]
-	// }
+	,
+	"condition": {
+		"current": 0,
+		"list": [{
+			"name": "demo",
+			"path": "pages/demo/demo"
+		}]
+	}
 }

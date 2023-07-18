@@ -1,100 +1,67 @@
 <template>
-	<view>
-		 <ex-describe 
-				title="Nvue特性相关" 
-				:keyShow="descKeyShow"
-				:data="descData" 
-				:dict="descDict" 
-				shape="square" 
-				margin="15rpx 0"/>
-		 <ex-list 
-				type="link"
-				hover
-				title="标题列表" 
-				:keyShow="listKeyShow"
-				:data="list" 
-				:dict="listDict" 
-					
-		 />
+	<view style="background-color: #fff; margin-top: 20rpx;padding:0 20rpx;">
+    <ex-form 
+		:borderBottom="false"
+		:formOpts="formOpts" 
+		@getFormData="getFormData"></ex-form>
 	</view>
 </template>
 
 <script>
-  import exDescribe from "@/components/describe/describe.vue"
-	import exList from "@/components/list/list.vue"
+
 	export default {
 		name:"Demo",
-		components: { exDescribe,exList},
 		data() {
 			return {
-				// info
-				descKeyShow:['line','headJsonData'],
-				descData:{
-					 line:'控制器生产一线',	
-					 a:'测试',
-					 b:'测试数据',
-					 headJsonData:{
-						workOrder:'DGD46541313',
-						station:'安装控制板01工位',
-						device:'贴片机',
-						b:'测试',
-					 },
-					 bodyJsonData:{
-						a:'a',
-						b:'b',
-						c:'c'
-					 }	 
+				formOpts:{
+					formData:{
+					lineCode: '',
+					orderNo:'',
+					remark:'',
+					checkbox: [],
+					radio:''
 				},
-				descDict:{
-					line:'产线',
-					workOrder:'工单',
-					station:'工位',
-					device:'设备'
-				},
-				// list
-				list:[
-					{
-						id:1,
-						name:'动平衡机',
-						worderOder:'EQE585641654654',
-						device:'贴片机',
-					 bodyJsonData:{
-						a:'a',
-						b:'b',
-						c:'c'
-					 }	 
-					},
-					{
-						id:2,
-						name:'铁芯入轴机',
-						worderOder:'EQEGDSFHBGFE454',
-						device:'注塑机',
-					 bodyJsonData:{
-						a:'a',
-						b:'b',
-						c:'c'
-					 }	 
-					},
-					{
-						id:3,
-						name:'表磁检测',
-						worderOder:'EQE58532422654',
-						device:'制糖机械设备',
-					 bodyJsonData:{
-						a:'a',
-						b:'b',
-						c:'c'
-					 }	 
-					},
+				formItem:[
+						{ label: "线别",props: "lineCode",type: "select",list:'lineCodeList',border: true},
+						{ label: "工单", props: "orderNo", type: "input",border: true},
+						{ label: "备注", props: "remark", type: "textarea",border: true},
+						{ label: "复选框",props: "checkbox",type: "checkbox",list:'checkboxList',width:'50%'},
+						{ label: "单选框",props: "radio ",type: "radio",list:'radioList',width:'50%'},
 				],
-				listKeyShow:['name','worderOder','device','bodyJsonData'],
-				listDict:{
-					name:'名称',
-					worderOder:'工单号',
-					device:'设备'
+				rules: {
+					lineCode: [ {required: true,message: "不能为空",trigger: "blur,change"}],
+					orderNo: [{required: true,message: "不能为空",trigger: "blur,change"}],
+				},
+				event:{
+					orderNoConfirm(e,formData){
+						console.log('eDDD',e,formData)
+					}
+				},
+				optionList:{
+					lineCodeList:[
+					{value: 'apple',label: '苹果'},
+					{value: 'banner',label: '香蕉'},
+					{value: 'orange',label: '橘子'},
+				 ],
+				 checkboxList: [
+						{label: '苹果1',value: 'apple',checked: false},
+						{label: '香蕉1',value: 'banner',checked: false},
+						{label: '橘子1',value: 'orange',checked: false}
+			   ],
+				 radioList:[
+				    {label: '苹果2',value: 'apple'},
+						{label: '香蕉2',value: 'banner'},
+						{label: '橘子2',value: 'orange'}
+				 ]
+				}					
 				}
 			}
 		},
+		methods: {
+			getFormData(formData){
+				console.log(JSON.stringify(formData))
+			}
+		}
 	}
 </script>
 

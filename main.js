@@ -11,6 +11,7 @@ import bottomNavBar from "@/components/bottomNavBar/index.vue";
 import title from "@/components/title/title.vue";
 import describe from "@/components/describe/describe.vue";
 import list from "@/components/list/list.vue";
+import exForm from "@/components/form/exForm.vue";
 
 Vue.config.productionTip = false;
 Vue.mixin(mixin);
@@ -22,6 +23,7 @@ Vue.component('exBNavBar', bottomNavBar);
 Vue.component('exTitle', title);
 Vue.component('exDescribe', describe);
 Vue.component('exList', list);
+Vue.component('exForm', exForm);
 
 // 引入全局uView
 import uView from 'uview-ui';

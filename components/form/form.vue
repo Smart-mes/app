@@ -175,7 +175,7 @@ export default {
     },
     resetForm() {
       this.$refs.uForm.resetFields();
-      Object.entries(this.form).map(([key]) => {
+      Object.entries(this.form).map(([key,val]) => {
         this.form[key]=this.cloneForm[key];
       });
       return Promise.resolve();
