@@ -94,13 +94,14 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name:"PAR",
   data() {
     return {
       navBar: { title: "计划达成率",isBack: true},
       form: {
-        ws: "1车间",
+        ws: "",
         startDate: "2019-1-1",
         endDate: "2023-3-1",
       },
@@ -128,6 +129,9 @@ export default {
     };
   },
   computed: {
+    ...mapState({ 
+      line: state => state.line[0]
+    }),
     wsDict() {
       const obj = {};
       this.workShopList.forEach(({ wsName, wsCode }) => (obj[wsName] = wsCode));
@@ -140,9 +144,19 @@ export default {
     },
   },
   onLoad(){
-   this.BWorkShopAjax();
+   this.BWorkShopAjax().then(()=>{this.init()});
   },
   methods: {
+    init(){
+      const i=this.getWSindex();
+      this.form.ws=this.line.label;
+      this.wsSelector=i;
+      this.wsConfirm(i)
+    },
+    getWSindex(){
+      const i= this.wsList.findIndex(({text})=>(text===this.line.label))
+      return [i===-1?0:i]
+    },
     wsConfirm([i]){
       // 赋值
       this.wsSelector=[i];
@@ -192,7 +206,7 @@ export default {
       this.chartsData.series[1].data = [];
     },
     BWorkShopAjax(){
-        this.$http.request({url: "/api/BWorkShop",method: "GET"}).then(res=>this.workShopList=res)
+      return  this.$http.request({url: "/api/BWorkShop",method: "GET"}).then(res=>this.workShopList=res)
     }
   },
 };

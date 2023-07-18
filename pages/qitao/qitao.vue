@@ -118,7 +118,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions,mapState } from "vuex";
 export default {
   name: "Qitao",
   data() {
@@ -152,6 +152,9 @@ export default {
   },
   computed: {
     // ...mapState(["workShopList"]),
+        ...mapState({ 
+      line: state => state.line[0]
+    }),
     wsDict() {
       const obj = {};
       this.workShopList.forEach(({ wsName, wsCode }) => (obj[wsName] = wsCode));
@@ -164,10 +167,20 @@ export default {
     },
   },
   onLoad() {
-    this.BWorkShopAjax();
+    this.BWorkShopAjax().then(()=>{this.init()});
   },
   methods: {
     ...mapActions(["getWorkShop"]),
+    init(){
+      const i=this.getWSindex();
+      this.form.ws=this.line.label;
+      this.wsSelector=i;
+      this.wsConfirm(i)
+    },
+    getWSindex(){
+      const i= this.wsList.findIndex(({text})=>(text===this.line.label))
+      return [i===-1?0:i]
+    },
     wsConfirm([i]){ 
       // 赋值
       this.wsSelector=[i];
@@ -265,7 +278,7 @@ export default {
       this.qiaoStyle = { left: x + "px", top: y + "px" };
     },
     BWorkShopAjax() {
-      this.$http
+    return  this.$http
         .request({ url: "/api/BWorkShop", method: "GET" })
         .then((res) => (this.workShopList = res));
     },

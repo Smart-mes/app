@@ -111,6 +111,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name:"PassRate",
   data() {
@@ -120,7 +121,7 @@ export default {
         isBack: true,
       },
       form: {
-        ws: "1车间",
+        ws: "",
         line: "",
         startDate: "2019-4-5",
         endDate: "2021-7-14",
@@ -139,6 +140,9 @@ export default {
     };
   },
   computed: {
+    ...mapState({ 
+      line: state => state.line[0]
+    }),
     wsDict() {
       const obj = {};
       this.workShopList.forEach(({ wsName, wsCode }) => (obj[wsName] = wsCode));
@@ -156,9 +160,19 @@ export default {
     },
   },
   onLoad(){
-   this.BWorkShopAjax();
+   this.BWorkShopAjax().then(()=>{this.init()});
   },
   methods: {
+    init(){
+      const i=this.getWSindex();
+      this.form.ws=this.line.label;
+      this.wsSelector=i;
+      this.wsConfirm(i)
+    },
+    getWSindex(){
+      const i= this.wsList.findIndex(({text})=>(text===this.line.label))
+      return [i===-1?0:i]
+    },
     wsConfirm([i]){
       // 清空
       this.BLSelector=[0];
@@ -223,7 +237,7 @@ export default {
         });
     },
     BWorkShopAjax(){
-        this.$http.request({url: "/api/BWorkShop",method: "GET"}).then(res=>this.workShopList=res)
+      return  this.$http.request({url: "/api/BWorkShop",method: "GET"}).then(res=>this.workShopList=res)
     }
   },
 };
