@@ -12,6 +12,7 @@ import title from "@/components/title/title.vue";
 import describe from "@/components/describe/describe.vue";
 import list from "@/components/list/list.vue";
 import exForm from "@/components/form/exForm.vue";
+import box from "@/components/box/index.vue";
 
 Vue.config.productionTip = false;
 Vue.mixin(mixin);
@@ -24,6 +25,7 @@ Vue.component('exTitle', title);
 Vue.component('exDescribe', describe);
 Vue.component('exList', list);
 Vue.component('exForm', exForm);
+Vue.component('exBox', box);
 
 // 引入全局uView
 import uView from 'uview-ui';

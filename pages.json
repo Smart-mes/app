@@ -53,13 +53,13 @@
 				"navigationStyle": "custom"
 			}
 		},
-		{
-			"path": "pages/effect/effect",
-			"style": {
-				"navigationBarTitleText": "效率管理",
-				"navigationStyle": "custom"
-			}
-		},
+		// {
+		// 	"path": "pages/effect/effect",
+		// 	"style": {
+		// 		"navigationBarTitleText": "效率管理",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
 		{
 			"path": "pages/quality/quality",
 			"style": {
@@ -67,13 +67,13 @@
 				"navigationStyle": "custom"
 			}
 		},
-		{
-			"path": "pages/scanCode/scanCode",
-			"style": {
-				"navigationBarTitleText": "扫码查询",
-				"navigationStyle": "custom"
-			}
-		},
+		// {
+		// 	"path": "pages/scanCode/scanCode",
+		// 	"style": {
+		// 		"navigationBarTitleText": "扫码查询",
+		// 		"navigationStyle": "custom"
+		// 	}
+		// },
 		{
 			"path": "pages/info/info",
 			"style": {
@@ -136,7 +136,7 @@
 			"path": "pages/PAR/PAR",
 			"style": {
 				"navigationBarTitleText": "计划达成率",
-				"navigationStyle": "custom"
+				 "navigationStyle": "custom"
 			}
 		},
 		{
@@ -250,30 +250,49 @@
 				"navigationBarTitleText": "设备工装",
 				"navigationStyle": "custom"
 			}
-		}, {
-			"path": "pages/sMaterials/sMaterials",
-			"style": {
-				"navigationBarTitleText": "工站物料",
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-
-		},{
+		}
+		// ,{
+		// 	"path": "pages/sMaterials/sMaterials",
+		// 	"style": {
+		// 		"navigationBarTitleText": "工站物料",
+		// 		"navigationStyle": "custom",
+		// 		"enablePullDownRefresh": true
+		// 	}
+		// }
+		,{
 				"path" : "pages/demo/demo",
 				"style" :{
 						"navigationBarTitleText": "demo",
 						"enablePullDownRefresh": false
 				}
 				
-		},
-		{
-				"path" : "pages/frockManage/frockManage",
-				"style" : {
-						"navigationBarTitleText": "容器管理",
-						"navigationStyle": "custom",
-						"enablePullDownRefresh": true
-				}				
 		}
+		// ,{
+		// 		"path" : "pages/frockManage/frockManage",
+		// 		"style" : {
+		// 				"navigationBarTitleText": "容器管理",
+		// 				"navigationStyle": "custom",
+		// 				"enablePullDownRefresh": true
+		// 		}				
+		// }
+        ,{
+            "path" : "pages/material/materialRego",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "物料注册",
+                "navigationStyle": "custom"
+            }
+            
+        }
+				,{
+					"path" : "pages/material/materialBind",
+					"style" :                                                                                    
+					{
+							"navigationBarTitleText": "物料绑定",
+							"navigationStyle": "custom"
+					}
+					
+			}
     ],
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",

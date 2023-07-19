@@ -10,6 +10,7 @@ html,body{
 .m-t20{margin-top: 20rpx;}
 .m-r20{margin-right: 20rpx;}
 .m-l35{margin-left: 35rpx;}
+.ml-20{margin-left: 20rpx;}
 .u-page{overflow: hidden;}
 .hidden{display: none;}
 .w-full{width: 100%;}
@@ -17,6 +18,15 @@ html,body{
 .flex-1{flex:1;}
 .align-items-center{align-items: center;}
 .justify-content-center{justify-content: center;}
+.h-100{height: 100rpx;}
+.fixBtn{
+	position: fixed ;
+  padding: 10rpx;
+	width: 100%;
+	bottom: 0;
+	background: white;
+	border-top: 1px solid #eee;
+}
 // 省列号
 .ellipsis{white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
 // nav

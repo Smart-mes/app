@@ -15,7 +15,7 @@
 			return {
 				formOpts:{
 					formData:{
-					lineCode: '',
+					lineCode: 'apple',
 					orderNo:'',
 					remark:'',
 					checkbox: [],
@@ -31,11 +31,6 @@
 				rules: {
 					lineCode: [ {required: true,message: "不能为空",trigger: "blur,change"}],
 					orderNo: [{required: true,message: "不能为空",trigger: "blur,change"}],
-				},
-				event:{
-					orderNoConfirm(e,formData){
-						console.log('eDDD',e,formData)
-					}
 				},
 				optionList:{
 					lineCodeList:[

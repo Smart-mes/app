@@ -117,42 +117,69 @@ export default {
     unreadLink(){uni.navigateTo({url:"/pages/info/info"})},
    async onPress(e){
       const {title,skipUrl}=e;
-      if(title==='工站物料'){
-        // #ifdef APP-PLUS
-        uni.scanCode({
-          success: (res)=> this.initWorkOrder(res.result,skipUrl),
-          fail: () =>  this.$refs.uToast.show({ title: "扫码失败", type: "error" })     
-        });
-        // #endif
-        // #ifdef H5 
-         this.initWorkOrder('ANKZB01',skipUrl);       
-        // #endif  
-      } else if(title==='容器管理'){
-        // #ifdef APP-PLUS
-        uni.scanCode({
-          success: (res)=> this.BContainerFetch(res.result,skipUrl),
-          fail: () =>  this.$refs.uToast.show({ title: "扫码失败", type: "error" })     
-        });
-        // #endif
-        // #ifdef H5 
-         this.BContainerFetch('c-001',skipUrl);       
-        // #endif  
-      }else{
-        uni.navigateTo({url:skipUrl});
-      }
-    },
-    async initWorkOrder(param,skipUrl){
-        const res=await this.$http.request({url: '/api/MaterialInStation/WorkOrder',method: "GET",data: {stationCode:param}}); 
-        const materialParam= encodeURIComponent(JSON.stringify(res ));
-        uni.navigateTo({url:`${skipUrl}?param=${materialParam}`});     
-     },
-     async BContainerFetch(param,skipUrl){
-        const res=await this.$http.request({ url: '/api/BContainer',method: "GET", data: {containerCode:param}}); 
-        if(res.length){
-          const Bparam= encodeURIComponent(JSON.stringify(res[0]));
-          uni.navigateTo({url:`${skipUrl}?param=${Bparam}`}); 
+      // if(title==='工站物料'){
+      //   // #ifdef APP-PLUS
+      //   uni.scanCode({
+      //     success: (res)=> this.workOrderFetch(res.result,skipUrl),
+      //     fail: () =>  this.$refs.uToast.show({ title: "扫码失败", type: "error" })     
+      //   });
+      //   // #endif
+      //   // #ifdef H5 
+      //    this.workOrderFetch('ANKZB01',skipUrl);       
+      //   // #endif  
+      // } else if(title==='容器管理'){
+      //   // #ifdef APP-PLUS
+      //   uni.scanCode({
+      //     success: (res)=> this.BContainerFetch(res.result,skipUrl),
+      //     fail: () =>  this.$refs.uToast.show({ title: "扫码失败", type: "error" })     
+      //   });
+      //   // #endif
+      //   // #ifdef H5 
+      //    this.BContainerFetch('c-001',skipUrl);       
+      //   // #endif  
+      // }else{
+      //   uni.navigateTo({url:skipUrl});
+      // }
+
+        if(title==='物料注册'){
+          this.materialHandle(skipUrl);
+        }else if(title==='物料绑定'){
+          this.materialHandle(skipUrl); 
+        }else{
+          uni.navigateTo({url:skipUrl});
         }
-       },   
+       
+      },
+      materialHandle(skipUrl){
+        // #ifdef APP-PLUS
+        uni.scanCode({
+          success: (res)=> this.BStationFetch(res.result,skipUrl),
+          fail: () =>  this.$refs.uToast.show({ title: "扫码失败", type: "error" })     
+        });
+        // #endif
+        // #ifdef H5 
+         this.BStationFetch('GXJC1',skipUrl);
+        // #endif  
+      },
+      async BStationFetch(stationCode,skipUrl){
+        const res=await this.$http.request({url: '/api/BStationList',method: "GET",data: {stationCode}}); 
+        if(res.length){
+          uni.navigateTo({url:`${skipUrl}?stationCode=${res[0].stationCode}`}); 
+        }    
+       
+      }
+  //   async workOrderFetch(param,skipUrl){
+  //       const res=await this.$http.request({url: '/api/MaterialInStation/WorkOrder',method: "GET",data: {stationCode:param}}); 
+  //       const materialParam= encodeURIComponent(JSON.stringify(res ));
+  //       uni.navigateTo({url:`${skipUrl}?param=${materialParam}`});     
+  //    },
+  //    async BContainerFetch(param,skipUrl){
+  //       const res=await this.$http.request({ url: '/api/BContainer',method: "GET", data: {containerCode:param}}); 
+  //       if(res.length){
+  //         const Bparam= encodeURIComponent(JSON.stringify(res[0]));
+  //         uni.navigateTo({url:`${skipUrl}?param=${Bparam}`}); 
+  //       }
+  //      },   
   },
 };
 </script>
