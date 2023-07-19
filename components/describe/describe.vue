@@ -89,7 +89,7 @@ export default {
   .desc{
     padding: 30rpx;
     font-size: 28rpx;
-    line-height: 1.75;
+    line-height: 1.7;
     background-color: #fff;
     word-break:break-all;
     .desc-item{display: flex;}

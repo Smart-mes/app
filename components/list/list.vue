@@ -139,7 +139,7 @@ export default {
   }
   .list{
     font-size: 28rpx;
-    line-height: 1.75;
+    line-height: 1.7;
     word-break:break-all;
     .list-row-hover:hover{background-color: #f9f9f9;}
     &-row{
