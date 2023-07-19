@@ -8,30 +8,32 @@
         :prop="item.props"
         :required="formOpts.rules?!!formOpts.rules[item.props]:false"
         :border-bottom="borderBottom">
-          <block v-if="item.type==='input'||item.type==='textarea'">            
-            <u-input
+          <block v-if="item.type==='exInput'||item.type==='textarea'||item.type==='numberBox'">            
+            <component
+             :is="item.type" 
+              :class="{ disabled: !!item.disabled }"
               v-model="formData[item.props]" 
-              v-bind="{...item,trim:true}" 
-              @focus="(e)=>inputHandle(e,item,formData,'Focus')"   
-              @blur="(e)=>inputHandle(e,item,formData,'Blur')"
-              @input="(e)=>inputHandle(e,item,formData,'Input')"
-              @confirm="(e)=>inputHandle(e,item,formData,'Confirm')"       
+              v-bind="item" 
+              v-on="formOpts.event[item.props]"
             />
+            <!-- formOpts.event[item.props] -->
             <slot :name="`${item.props}Right`" :data="formData"></slot>
           </block>
           <block v-else-if="item.type==='select'">
-            <u-input
+            <component
+            :is="item.type" 
+             :class="{ disabled: !!item.disabled }"
               v-model="selectData[item.props]" 
               v-bind="item"
               @click="selectHandle(item)"
-              @focus="(e)=>inputHandle(e,item,formData,'Focus')"   
-              @blur="(e)=>inputHandle(e,item,formData,'Blur')"
-              @input="(e)=>inputHandle(e,item,formData,'Input')"
-              @confirm="(e)=>inputHandle(e,item,formData,'Confirm')"    
-            />          
+            />  
           </block>
           <block v-else>
-            <component :is="`${item.type}Group`" v-bind="item" v-model="formData[item.props]"  @change="(e)=>{ groupChang(e,item)}">
+            <component 
+              :is="`${item.type}Group`" 
+              :class="{ disabled: !!item.disabled }"
+              v-bind="item" v-model="formData[item.props]"  
+              @change="(e)=>{ groupChang(e,item)}">
                 <component :is="`${item.type}`" 	          	
                   v-for="(citem, index) in formOpts.optionList[item.list]" 
                   :key="index"
@@ -59,17 +61,22 @@
   </view>
 </template>
 <script>
+import exInput from "uview-ui/components/u-input/u-input.vue";
 import checkboxGroup from "uview-ui/components/u-checkbox-group/u-checkbox-group.vue";
 import checkbox from "uview-ui/components/u-checkbox/u-checkbox.vue";
 import radioGroup from "uview-ui/components/u-radio-group/u-radio-group.vue";
 import radio from "uview-ui/components/u-radio/u-radio.vue";
+import numberBox from "uview-ui/components/u-number-box/u-number-box.vue";
+
 export default{
   name:'ex-Form',
   components: {
+    exInput,
     checkboxGroup,
     checkbox,
     radioGroup,
-    radio
+    radio,
+    numberBox,
 		},
   props:{
     labelWidth: {type: String,default: "130"},
@@ -111,6 +118,9 @@ export default{
           }
         })
     },
+    setData(data){
+      this.formData={...this.formData,data}  
+    },
     getModel(item){
       if(item.type==='select') this.selectData[item.props];
       else this.formOpts.formData[item.props];
@@ -145,7 +155,10 @@ export default{
     async reset(){
     await this.$refs.Form.resetFields();
     await this.clearSelect();
-    this.formData={...this.formOpts.formData};
+    await this.init();
+    },
+    async clear(){
+      await this.clearSelect();
     await this.init();
     },
     submit(){
@@ -155,10 +168,11 @@ export default{
 				}
 			});
     },
-    inputHandle(e,{props},formData,type){
-      const {event}=this.formOpts
-      if(event&&event[`${props}${type}`]) event[`${props}${type}`](e,formData)
-    },
+
+    // inputHandle(e,{props},formData,type){
+    //   const {event}=this.formOpts
+    //   if(event&&event[`${props}${type}`]) event[`${props}${type}`](e,formData)
+    // },
   },
   created () {
     this.init();
