@@ -19,21 +19,21 @@ const state = {
 			title: "设备报障",
 			url: "/pages/device/failure",
 		},
-		{
-			icon: "meter",
-			title: "效率管理",
-			url: "/pages/effect/effect",
-		},
+		// {
+		// 	icon: "meter",
+		// 	title: "效率管理",
+		// 	url: "/pages/effect/effect",
+		// },
 		{
 			icon: "quality",
 			title: "质量管理",
 			url: "/pages/quality/quality",
 		},
-		{
-			icon: "scan",
-			title: "扫码查询",
-			url: "/pages/scanCode/scanCode",
-		},
+		// {
+		// 	icon: "scan",
+		// 	title: "扫码查询",
+		// 	url: "/pages/scanCode/scanCode",
+		// },
 		{
 			icon: "through",
 			title: "直通率",
@@ -79,26 +79,38 @@ const state = {
 			title: "设备工装",
 			url: "/pages/equip/equip",
 		},
+		// {
+		// 	icon: "gongzhan",
+		// 	title: "工站物料",
+		// 	url: "/pages/sMaterials/sMaterials",
+		// },
+		// {
+		// 	icon: "container",
+		// 	title: "容器管理",
+		// 	url: "/pages/frockManage/frockManage",
+		// },
 		{
-			icon: "gongzhan",
-			title: "工站物料",
-			url: "/pages/sMaterials/sMaterials",
+			icon: "container",
+			title: "物料注册",
+			url: "/pages/material/materialRego",
 		},
 		{
 			icon: "container",
-			title: "容器管理",
-			url: "/pages/frockManage/frockManage",
-		},	
-		{
-			icon: "container",
-			title: "demo",
-			url: "/pages/demo/demo",
-		},	
+			title: "物料绑定",
+			url: "/pages/material/materialBind",
+		},			
+		// pages/material/materialRego
+		// {
+		// 	icon: "container",
+		// 	title: "demo",
+		// 	url: "/pages/demo/demo",
+		// },	
 		// pages/sMaterials/sMaterials
 	],
 	// 常用菜单
 	dailyMenu: uni.getStorageSync('dailyMenu')||[] ,
 	line:uni.getStorageSync('line')||[],
+	stationCode:uni.getStorageSync('stationCode'),
 	// 字典
 	BLineDict:null,
 	// 轮询
@@ -106,8 +118,8 @@ const state = {
 	unreadCount:0,
 }
 const mutations = {
-	login(state, payload) {
-		const {token,userInfo} = payload
+	login(state, parame) {
+		const {token,userInfo} = parame
 		state.hasLogin = true
 		state.userInfo = userInfo
 		uni.setStorage({key: 'userInfo',data: userInfo});
@@ -115,15 +127,33 @@ const mutations = {
 	},
 	//退出登录
 	logout(state) {
-		const obj={hasLogin:false,unreadCount:0,userInfo:'',line:[],dailyMenu:[]}
-		for (let key in obj){	
-			state[key]=obj[key]
-		}
+		// const obj={hasLogin:false,unreadCount:0,userInfo:'',line:[],dailyMenu:[]}
+		// for (let key in obj){	
+		// 	state[key]=obj[key]
+		// }
+		Object.entries(state).forEach(([key,val])=>{
+			if(key==='menuList') return;
+			if(key==='timer') state[timer]=null;
+
+			if(typeof(val)==='object'){
+				state[key]=!val? null:Array.isArray(val)?[]:{};
+			}else if(typeof(val)==='number'){
+        state[key]=0
+			}else{
+				state[key]=''
+			}		
+		});
 		uni.clearStorageSync();
-		clearTimeout(state.timer)
+		// clearTimeout(state.timer)
 	},
-	add_dailyMenu(state, payload) {
-		state.dailyMenu.push(payload)
+	set_storage(parame){
+		state[parame.key] = parame.data
+	},
+	clear_storage(key){
+		state[key]=''
+	},
+	add_dailyMenu(state, parame) {
+		state.dailyMenu.push(parame)
 		uni.setStorage({key: 'dailyMenu',data: state.dailyMenu});
 	},
 	del_dailyMenu(i) {
@@ -131,19 +161,19 @@ const mutations = {
 		dailyMenu.splice(i, 1);
 		uni.setStorage({key: 'dailyMenu',data: dailyMenu});
 	},
-	set_state(state, payload) {
-		if (payload && typeof (payload) === 'object') {
-			for (const key in payload) {
-				state[key] = payload[key]
+	set_state(state, parame) {
+		if (parame && typeof (parame) === 'object') {
+			for (const key in parame) {
+				state[key] = parame[key]
 			}
 		}
 	},
-	set_line(state, payload){
-		state.line=payload
-		uni.setStorage({key:'line',data: payload});
+	set_line(state, parame){
+		state.line=parame
+		uni.setStorage({key:'line',data: parame});
 	},
-	set_unreadCount(state, payload){
-		state.unreadCount=payload;
+	set_unreadCount(state, parame){
+		state.unreadCount=parame;
 	},
 	minus_unreadCount(state){
 		state.unreadCount--;
@@ -160,9 +190,7 @@ const actions = {
 	 return	http.request({
 			url:"/api/SNotify/UnreadCount",
 			method: "GET", 
-			data:{
-				empCode:state.userInfo.empCode
-			}
+			data:{empCode:state.userInfo.empCode}
 		})
 		.then(res=>commit('set_unreadCount',res));
 	},
