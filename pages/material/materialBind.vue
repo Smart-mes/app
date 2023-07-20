@@ -79,7 +79,7 @@
 										this.feederData=feederList[0]
 							
 									}else{
-										this.feederDict={workToolCode:'工作单号'};
+										this.feederDict={workToolCode:'工作编号',modelCode:'飞达型号'};
                      this.feederData=toolList[0];
 										 this.isLoad=false;
 									}
@@ -149,7 +149,12 @@
 				return this.$http.request({url: '/api/MaterialInFeeder/Install',method: "POST",data: parame}); 
 			},
 			unloadFetch(){
-				const parame={stationCode:this.stationCode,empCode:this.userInfo.empCode,...this.$refs.BindForm.formData}
+				const parame={
+					stationCode:this.stationCode,
+					empCode:this.userInfo.empCode,
+					...this.$refs.BindForm.formData,
+					qty:this.feederData.qty
+				}
 				return this.$http.request({url: '/api/MaterialInFeeder/Uninstall',method: "POST",data: parame}); 
 			},
 		},
