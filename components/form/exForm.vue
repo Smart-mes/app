@@ -16,7 +16,6 @@
               v-bind="item" 
               v-on="formOpts.event[item.props]"
             />
-            <!-- formOpts.event[item.props] -->
             <slot :name="`${item.props}Right`" :data="formData"></slot>
           </block>
           <block v-else-if="item.type==='select'">
@@ -142,7 +141,6 @@ export default{
     },
     confirm([{label,value}]){
       this.selectData[this.activeProps]=label;
-      console.log(this.formData,this.activeProps,label,value)
       this.formData[this.activeProps]=value;
     },
     groupChang(e,{props}){
@@ -153,9 +151,9 @@ export default{
       Object.entries(this.selectData).forEach(([key])=>this.selectData[key]='')
     },
     async reset(){
-    await this.$refs.Form.resetFields();
-    await this.clearSelect();
-    await this.init();
+      await this.$refs.Form.resetFields();
+      await this.clearSelect();
+      await this.init();
     },
     async clear(){
       await this.clearSelect();
