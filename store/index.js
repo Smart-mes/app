@@ -153,8 +153,9 @@ const mutations = {
 		state[parame.key] = parame.data
 		uni.setStorage(parame);
 	},
-	clear_storage(key){
-		state[key]=''
+	clear_storage(state,key){
+		state[key]='';
+		uni.removeStorage({key:key});
 	},
 	add_dailyMenu(state, parame) {
 		state.dailyMenu.push(parame)
