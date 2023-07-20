@@ -27,6 +27,7 @@
 				</template>						
 			</ex-form>		
 		</ex-box>
+		<u-toast ref="uToast" />
 		<view class="h-100"></view>
     <view class="fixBtn">
 			<u-row gutter="20">
@@ -51,7 +52,7 @@
 					formData:{machineCode:'',lotNo:'',feederCode:''},
 					formItem:[
 							{ label: "当前设备", props: "machineCode", type: "exInput",border: true,disabled:true},
-							{ label: "物料批次", props: "lotNo", type: "exInput",border: true,change:true},
+							{ label: "物料批次", props: "lotNo", type: "exInput",border: true,change:true,focus:true},
 							{ label: "容器编号", props: "feederCode", type: "exInput",border: true,change:true},
 					],
 					rules: {},
@@ -59,13 +60,17 @@
 						lotNo:{
 							confirm:async (e)=>{
 							const res=await this.lotNoFetch(e);
-							if(res.length) this.lotNoData=res[0];	
-										 
+							if(res.length){
+								 this.lotNoData=res[0];
+							   this.getFocus(true);	
+							}else{
+								 await this.toast('error',`${e}-物料批次没有注册`);		
+							}										 
 							},
-							input:(e)=>{							
+							input:async (e)=>{							
 								if(!e){
-									this.clearLotNo();
-									this.clearFeeder();
+									await this.clearLotNo();
+								  await	this.clearFeeder();	
 								}
 							}
 						},
@@ -76,8 +81,7 @@
 									const feederList=await this.feederFetch(); 
 									if(feederList.length){
 										this.feederDict={feederCode:'飞达编号', lotNo:'物料批次',qty:'装载数量'}
-										this.feederData=feederList[0]
-							
+										this.feederData=feederList[0]								 
 									}else{
 										this.feederDict={workToolCode:'工作编号',modelCode:'飞达型号'};
                      this.feederData=toolList[0];
@@ -85,8 +89,11 @@
 									}
 								}
 							},
-							input:(e)=>{
-								if(!e) this.clearFeeder();
+							input:async (e)=>{
+								if(!e){
+									await this.clearFeeder();
+								} 
+							
 							}
 						}
 					},			
@@ -111,16 +118,27 @@
 			},
 			async installHandle(){
 				await this.installFetch();
-				alert('装入成功')
+				await this.toast('success','装入成功');
+				this.isLoad=true;	
+				const feederList=await this.feederFetch(); 
+				if(feederList.length){
+					this.feederDict={feederCode:'飞达编号', lotNo:'物料批次',qty:'装载数量'}
+					this.feederData=feederList[0]								 
+				}
 			},
 			async unloadHandle(){
 				await	this.unloadFetch();
 				await this.clearFeeder();	
 				this.isLoad=true;	
-				alert('卸载成功')
+				await this.toast('success','卸载成功');
+				// await this.getFocus(true);			
 			},
-			resetHandle(){
-				this.$refs.BindForm.clear();
+			toast(type,msg){
+				this.$refs.uToast.show({title:msg,type,position:'bottom'})
+			},
+			async resetHandle(){
+				await this.$refs.BindForm.clear();
+				await this.getFocus(false);
 			},
 			clearLotNo(){
 				this.$refs.BindForm.formData.lotNo='';		
@@ -130,6 +148,11 @@
 				this.$refs.BindForm.formData.feederCode='';		
 				this.feederDict={};
 				this.feederData={};
+			},
+			getFocus(isFeeder){
+				this.formOpts.formItem[1].focus=!isFeeder;		
+				this.formOpts.formItem[2].focus=isFeeder;	
+				console.log('getFocus')
 			},
 			BStationFetch(stationCode){
 				return this.$http.request({url: '/api/BStationList',method: "GET",data: {stationCode}}); 
