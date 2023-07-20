@@ -14,14 +14,14 @@
 				</template>
 				<!-- list -->
 				<template v-slot:lotNoBottom="slotProps">
-					<view class="tip" v-show="Object.entries(lotNoData).length&&slotProps.data.lotNo">
+					<view class="tip" v-show="Object.entries(lotNoData).length">
 						<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="lotNoDict"  :data="lotNoData"/>	
 					</view>
 				</template>	
 				<template v-slot:feederCodeBottom="slotProps">
-					<view class="tip">
+					<view class="tip" v-show="Object.entries(feederData).length">
 						<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="feederDict"  :data="feederData">
-						  <template v-slot:right><u-button size="mini" @click="unloadHandle">卸载</u-button></template>
+						  <template v-slot:right="slotProps"><u-button v-show="!!slotProps.data.feederCode" size="mini" @click="unloadHandle">卸载</u-button></template>
 						</ex-describe>		
 					</view>
 				</template>						
@@ -30,8 +30,8 @@
 		<view class="h-100"></view>
     <view class="fixBtn">
 			<u-row gutter="20">
-        <u-col span="6"><u-button type="default">重置</u-button></u-col>
-        <u-col span="6"><u-button  type="primary" @click="installHandle"> 装入 </u-button></u-col>
+        <u-col span="6"><u-button type="default" @click="resetHandle">重置</u-button></u-col>
+        <u-col span="6"><u-button  type="primary" :disabled="isLoad" @click="installHandle"> 装入 </u-button></u-col>
       </u-row> 			
 		</view>
 	</view>
@@ -51,15 +51,22 @@
 					formData:{machineCode:'',lotNo:'',feederCode:''},
 					formItem:[
 							{ label: "当前设备", props: "machineCode", type: "exInput",border: true,disabled:true},
-							{ label: "物料批次", props: "lotNo", type: "exInput",border: true},
-							{ label: "容器编号", props: "feederCode", type: "exInput",border: true},
+							{ label: "物料批次", props: "lotNo", type: "exInput",border: true,change:true},
+							{ label: "容器编号", props: "feederCode", type: "exInput",border: true,change:true},
 					],
 					rules: {},
 					event:{
 						lotNo:{
 							confirm:async (e)=>{
-							const res=await this.lotNoFetch(e);	
-								this.lotNoData=res[0];			 
+							const res=await this.lotNoFetch(e);
+							if(res.length) this.lotNoData=res[0];	
+										 
+							},
+							input:(e)=>{							
+								if(!e){
+									this.clearLotNo();
+									this.clearFeeder();
+								}
 							}
 						},
 						feederCode:{
@@ -72,16 +79,21 @@
 										this.feederData=feederList[0]
 							
 									}else{
-										this.feederDict={workToolCode:'工作单号'}
-                     this.feederData=toolList[0]
+										this.feederDict={workToolCode:'工作单号'};
+                     this.feederData=toolList[0];
+										 this.isLoad=false;
 									}
 								}
+							},
+							input:(e)=>{
+								if(!e) this.clearFeeder();
 							}
 						}
 					},			
 				},
 				stationCode:'',
 				//批次
+				isLoad:true,
 				lotNoDict:{lotNo:'批次',matCode:'料号',lotQty:'数量'},
 				lotNoData:{},
 				feederDict:{},
@@ -99,12 +111,25 @@
 			},
 			async installHandle(){
 				await this.installFetch();
+				alert('装入成功')
 			},
-			unloadHandle(){
-				this.unloadFetch();
+			async unloadHandle(){
+				await	this.unloadFetch();
+				await this.clearFeeder();	
+				this.isLoad=true;	
+				alert('卸载成功')
+			},
+			resetHandle(){
+				this.$refs.BindForm.clear();
+			},
+			clearLotNo(){
+				this.$refs.BindForm.formData.lotNo='';		
+				this.lotNoData={};
+			},
+			clearFeeder(){
+				this.$refs.BindForm.formData.feederCode='';		
 				this.feederDict={};
 				this.feederData={};
-				alert('卸载成功')
 			},
 			BStationFetch(stationCode){
 				return this.$http.request({url: '/api/BStationList',method: "GET",data: {stationCode}}); 

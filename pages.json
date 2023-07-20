@@ -259,14 +259,14 @@
 		// 		"enablePullDownRefresh": true
 		// 	}
 		// }
-		,{
-				"path" : "pages/demo/demo",
-				"style" :{
-						"navigationBarTitleText": "demo",
-						"enablePullDownRefresh": false
-				}
+		// ,{
+		// 		"path" : "pages/demo/demo",
+		// 		"style" :{
+		// 				"navigationBarTitleText": "demo",
+		// 				"enablePullDownRefresh": false
+		// 		}
 				
-		}
+		// }
 		// ,{
 		// 		"path" : "pages/frockManage/frockManage",
 		// 		"style" : {
