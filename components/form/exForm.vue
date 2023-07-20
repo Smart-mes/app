@@ -168,11 +168,6 @@ export default{
 				}
 			});
     },
-
-    // inputHandle(e,{props},formData,type){
-    //   const {event}=this.formOpts
-    //   if(event&&event[`${props}${type}`]) event[`${props}${type}`](e,formData)
-    // },
   },
   created () {
     this.init();
