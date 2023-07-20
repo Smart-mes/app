@@ -4,8 +4,9 @@
     :style="{...customStyle,margin:margin}"
     :class="{'border-radius':borderRadius}">
       <text v-if="title" class="title">{{title}}</text>
-      <view class="desc-list">
-        <u-row  style="flex-wrap: wrap;">
+      <view class="desc-box">
+        <div class="desc-list">
+          <u-row  style="flex-wrap: wrap;">
           <block v-for="(value,key) in lableDict" :key="key" v-if="key">
             <block v-if="typeof(value)==='object'">
               <u-col span="12" v-for="(val,vkey) in value" :key="vkey" v-if="lableDict[key]">
@@ -37,6 +38,8 @@
             </block>
           </block>
         </u-row>
+        </div>
+        <slot name="right" :data="data"/>
       </view>
       <slot name="bottom"/>
     </view>  
@@ -92,6 +95,8 @@ export default {
     line-height: 1.7;
     background-color: #fff;
     word-break:break-all;
+    .desc-box{display: flex;align-items: center;}
+    .desc-list{
     .desc-item{display: flex;}
     .dest-name{
       overflow: hidden; 
@@ -103,7 +108,8 @@ export default {
       overflow:hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-     }
+     }      
+    }
  }
 </style>
 

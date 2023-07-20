@@ -159,7 +159,7 @@ export default{
     },
     async clear(){
       await this.clearSelect();
-    await this.init();
+      await this.init();
     },
     submit(){
       this.$refs.Form.validate(valid => {
