@@ -78,7 +78,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["navTab","menuList", "dailyMenu", "line", "unreadCount"]),
+    ...mapState(["navTab","menuList", "dailyMenu", "line","stationCode", "unreadCount"]),
     dMenu() {
       return this.dailyMenu
         .concat([{ icon: "line-add", title: "添加", url: "/pages/index/addMenu" }])
@@ -111,8 +111,8 @@ export default {
     // this.unreadPoll();
   },
   methods: {
-    ...mapMutations(["set_line"]),
-    ...mapActions(["getLine", "getUnread", "unreadPoll"]),
+    ...mapMutations(["set_line","set_storage"]),
+    ...mapActions(["getLine","getUnread", "unreadPoll"]),
     selectConfirm(e) {this.set_line(e)},
     unreadLink(){uni.navigateTo({url:"/pages/info/info"})},
    async onPress(e){
@@ -152,18 +152,28 @@ export default {
       },
       materialHandle(skipUrl){
         // #ifdef APP-PLUS
-        uni.scanCode({
-          success: (res)=> this.BStationFetch(res.result,skipUrl),
-          fail: () =>  this.$refs.uToast.show({ title: "扫码失败", type: "error" })     
-        });
+        if(this.stationCode){
+          uni.navigateTo({url:`${skipUrl}?stationCode=${this.stationCode}`}); 
+        }else{
+          uni.scanCode({
+            success: (res)=> this.BStationFetch(res.result,skipUrl),
+            fail: () =>  this.$refs.uToast.show({ title: "扫码失败", type: "error" })     
+          });          
+        }
         // #endif
-        // #ifdef H5 
-         this.BStationFetch('GXJC1',skipUrl);
+        // #ifdef H5
+        console.log('stationCode:',this.stationCode)
+        if(this.stationCode){
+          uni.navigateTo({url:`${skipUrl}?stationCode=${this.stationCode}`}); 
+        }else{
+          this.BStationFetch('GXJC1',skipUrl);
+        } 
         // #endif  
       },
       async BStationFetch(stationCode,skipUrl){
         const res=await this.$http.request({url: '/api/BStationList',method: "GET",data: {stationCode}}); 
         if(res.length){
+          this.set_storage({key:'stationCode',data:stationCode})
           uni.navigateTo({url:`${skipUrl}?stationCode=${res[0].stationCode}`}); 
         }    
        

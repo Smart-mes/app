@@ -146,8 +146,12 @@ const mutations = {
 		uni.clearStorageSync();
 		// clearTimeout(state.timer)
 	},
-	set_storage(parame){
+	clearTimeout(state){
+		state.timer=null;
+	},
+	set_storage(state,parame){
 		state[parame.key] = parame.data
+		uni.setStorage(parame);
 	},
 	clear_storage(key){
 		state[key]=''

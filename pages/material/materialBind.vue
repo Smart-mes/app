@@ -10,17 +10,19 @@
 				:isBtn="false"
 				>
 				<template v-slot:machineCodeRight="slotProps">
-					<view class="w"><u-button type="info" size="mini" class="ml-20">切换</u-button></view>
+					<view class="w"><u-button type="info" size="mini" class="ml-20" @click="machineChange">切换</u-button></view>
 				</template>
 				<!-- list -->
 				<template v-slot:lotNoBottom="slotProps">
-					<view class="tip">
+					<view class="tip" v-show="Object.entries(lotNoData).length&&slotProps.data.lotNo">
 						<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="lotNoDict"  :data="lotNoData"/>	
 					</view>
 				</template>	
 				<template v-slot:feederCodeBottom="slotProps">
 					<view class="tip">
-						<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="feederCodeDict"  :data="feederCodeData"/>	
+						<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="feederDict"  :data="feederData">
+						  <template v-slot:right><u-button size="mini" @click="unloadHandle">卸载</u-button></template>
+						</ex-describe>		
 					</view>
 				</template>						
 			</ex-form>		
@@ -36,7 +38,7 @@
 </template>
 
 <script>
-  import { mapState } from "vuex";
+ import { mapState ,mapMutations} from "vuex";
 	export default {
 		name:"MaterialRego",
 		data() {
@@ -57,13 +59,23 @@
 						lotNo:{
 							confirm:async (e)=>{
 							const res=await this.lotNoFetch(e);	
-								this.lotNoData=res;			 
+								this.lotNoData=res[0];			 
 							}
 						},
 						feederCode:{
 							confirm:async (e)=>{
-							  const res=await this.BWorkToolFetch(e);
-								if(res.length) await this.feederFetch(); 
+							  const toolList=await this.BWorkToolFetch(e);
+								if(toolList.length){
+									const feederList=await this.feederFetch(); 
+									if(feederList.length){
+										this.feederDict={feederCode:'飞达编号', lotNo:'物料批次',qty:'装载数量'}
+										this.feederData=feederList[0]
+							
+									}else{
+										this.feederDict={workToolCode:'工作单号'}
+                     this.feederData=toolList[0]
+									}
+								}
 							}
 						}
 					},			
@@ -72,33 +84,48 @@
 				//批次
 				lotNoDict:{lotNo:'批次',matCode:'料号',lotQty:'数量'},
 				lotNoData:{},
-				feederCodeDict:{},
-				feederCodeData:{}
+				feederDict:{},
+				feederData:{}
 			}
 		},
 		computed: {
     ...mapState(["userInfo"])
     },
 		methods: {
-			installHandle(){
-				this.installFetch();
+			...mapMutations(['clear_storage']),
+			machineChange(){
+				this.clear_storage();
+				uni.reLaunch({ url:'/pages/index/index' });
+			},
+			async installHandle(){
+				await this.installFetch();
+			},
+			unloadHandle(){
+				this.unloadFetch();
+				this.feederDict={};
+				this.feederData={};
+				alert('卸载成功')
 			},
 			BStationFetch(stationCode){
 				return this.$http.request({url: '/api/BStationList',method: "GET",data: {stationCode}}); 
 			},
 			lotNoFetch(lotNo){
-				return this.$http.request({url: '/api/MaterialInFeeder/PMaterialWip',method: "GET",data: {lotNo}}); 
+				return this.$http.request({url: '/api/PMaterialWip',method: "GET",data: {lotNo}}); 
 			},
 			BWorkToolFetch(feederCode){
 				return this.$http.request({url: '/api/BWorkTool',method: "GET",data: {workToolCode:feederCode}}); 
 			},
 			feederFetch(){
 				const {lotNo,feederCode}=this.$refs.BindForm.formData;
-				return this.$http.request({url: '/api/MaterialInFeeder/PMatInFeeder',method: "GET",data: {lotNo,feederCode}}); 
+				return this.$http.request({url: '/api/MaterialInFeeder',method: "GET",data: {lotNo,feederCode,stationCode:this.stationCode}}); 
 			},
 			installFetch(){
 				const parame={stationCode:this.stationCode,empCode:this.userInfo.empCode,...this.$refs.BindForm.formData}
 				return this.$http.request({url: '/api/MaterialInFeeder/Install',method: "POST",data: parame}); 
+			},
+			unloadFetch(){
+				const parame={stationCode:this.stationCode,empCode:this.userInfo.empCode,...this.$refs.BindForm.formData}
+				return this.$http.request({url: '/api/MaterialInFeeder/Uninstall',method: "POST",data: parame}); 
 			},
 		},
 		async onLoad({stationCode}){

@@ -10,7 +10,7 @@
 				:isBtn="false"
 				>
 				<template v-slot:machineCodeRight="slotProps">
-					<view class="w"><u-button type="info" size="mini" class="ml-20">切换</u-button></view>
+					<view class="w"><u-button type="info" size="mini" class="ml-20" @click="machineChange">切换</u-button></view>
 				</template>
 				<!-- list -->
 				<template v-slot:matCodeBottom="slotProps">
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-  import { mapState } from "vuex";
+  import { mapState ,mapMutations} from "vuex";
 	export default {
 		name:"MaterialRego",
 		data() {
@@ -79,9 +79,14 @@
 			}
 		},
 		computed: {
-    ...mapState(["line"]),
+    ...mapState(['line']),
     },
 		methods: {
+			...mapMutations(['set_line','clear_storage']),
+			machineChange(){
+				this.clear_storage();
+				uni.reLaunch({ url:'/pages/index/index' });
+			},
 			async checkOutHandle(){
 				const {lotNo}=this.$refs.regoForm.formData;
 				await this.checkOutFetch(lotNo);
