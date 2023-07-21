@@ -11,7 +11,6 @@
           <block v-if="item.type==='exInput'||item.type==='textarea'||item.type==='numberBox'">            
             <component
              :is="item.type" 
-              :class="{ disabled: !!item.disabled }"
               v-model="formData[item.props]" 
               v-bind="item" 
               v-on="formOpts.event[item.props]"
@@ -21,7 +20,6 @@
           <block v-else-if="item.type==='select'">
             <component
             :is="item.type" 
-             :class="{ disabled: !!item.disabled }"
               v-model="selectData[item.props]" 
               v-bind="item"
               @click="selectHandle(item)"
@@ -30,7 +28,6 @@
           <block v-else>
             <component 
               :is="`${item.type}Group`" 
-              :class="{ disabled: !!item.disabled }"
               v-bind="item" v-model="formData[item.props]"  
               @change="(e)=>{ groupChang(e,item)}">
                 <component :is="`${item.type}`" 	          	
@@ -119,10 +116,6 @@ export default{
     },
     setData(data){
       this.formData={...this.formData,data}  
-    },
-    getModel(item){
-      if(item.type==='select') this.selectData[item.props];
-      else this.formOpts.formData[item.props];
     },
     selectHandle({type,props,list}){
       if(type==='select'){

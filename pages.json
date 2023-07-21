@@ -290,9 +290,16 @@
 					{
 							"navigationBarTitleText": "物料绑定",
 							"navigationStyle": "custom"
-					}
-					
+					}		
 			}
+			,{
+				"path" : "pages/material/materialCollect",
+				"style" :                                                                                    
+				{
+						"navigationBarTitleText": "接料",
+						"navigationStyle": "custom"
+				}		
+		}
     ],
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",
@@ -329,12 +336,12 @@
 			}
 		]
 	}
-	,
-	"condition": {
-		"current": 0,
-		"list": [{
-			"name": "demo",
-			"path": "pages/demo/demo"
-		}]
-	}
+	// ,
+	// "condition": {
+	// 	"current": 0,
+	// 	"list": [{
+	// 		"name": "demo",
+	// 		"path": "pages/demo/demo"
+	// 	}]
+	// }
 }

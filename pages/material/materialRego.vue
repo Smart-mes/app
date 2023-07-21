@@ -12,25 +12,23 @@
 				<template v-slot:machineCodeRight="slotProps">
 					<view class="w"><u-button type="info" size="mini" class="ml-20" @click="machineChange">切换</u-button></view>
 				</template>
+				<template v-slot:inputQtyRight="slotProps">
+					<view class="w">PCS</view>
+				</template>
 				<!-- list -->
 				<template v-slot:matCodeBottom="slotProps">
-					<view class="tip" v-show="Object.entries(matCodeData).length&&slotProps.data.matCode">
+					<view class="tip">
 						<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="matCodeDict"  :data="matCodeData"/>	
 					</view>
 				</template>
-				<template v-slot:lotNoBottom="slotProps">
-					<view class="tip" v-show="isLotNo&&slotProps.data.lotNo">
-					  已存在
-					</view>
-				</template>
-
 			 </ex-form>
 		</ex-box>
 		<u-toast ref="uToast" />
 		<view class="h-100"></view>
     <view class="fixBtn">
 			<u-row gutter="20">
-        <u-col span="6"><u-button type="default" :disabled="isOut" @click="checkOutHandle">注销</u-button></u-col>
+        <!-- <u-col span="6"><u-button type="default" :disabled="isOut" @click="checkOutHandle">注销</u-button></u-col> -->
+				<u-col span="6"><u-button type="default"  @click="rejectHandle">取消</u-button></u-col>
         <u-col span="6"><u-button  type="primary" :disabled="isRego"  @click="checkInHandle"> 注册 </u-button></u-col>
       </u-row> 			
 		</view>
@@ -48,11 +46,11 @@
         isBack: true
         },
 				formOpts:{
-					formData:{machineCode:'',matCode:'',lotNo:'',inputQty:1},
+					formData:{machineCode:'',matCode:'',lotNo:'',inputQty:5000},
 					formItem:[
-							{ label: "当前设备", props: "machineCode", type: "exInput",border: true,disabled:true},
-							{ label: "物料编号", props: "matCode", type: "exInput",border: true,change:true,focus:true},
-							{ label: "物料批次", props: "lotNo", type: "exInput",border: true,change:true,focus:false},
+							{ label: "当前设备", props: "machineCode", type: "exInput",border: true,disabled:true,class:'disabled'},
+							{ label: "物料编号", props: "matCode", type: "exInput",border: true,},
+							{ label: "物料批次", props: "lotNo", type: "exInput",border: true},
 							{ label: "批次数量", props: "inputQty", type: "numberBox",disabled:true},
 					],
 				rules: {},
@@ -62,32 +60,29 @@
 								const res=await this.matCodeFetch(e);
 								if(res.length) {
 									this.matCodeData=res[0];
-							    this.getFocus(true);
+								}else{
+									this.toast('error',`${e}-没有注册`);	
 								}								
-						},
-						input:(e)=>{							
-						  if(!e) this.matCodeClear();
-					 }								
+						}							
 					},
 					lotNo:{
 						confirm:async (e)=>{
 								const res=await this.lotNoFetch(e);
+								if(res.length){
+									 this.toast('warning ',`${e}-批次号已存在`);		
+								}
 								this.setType(res.length);
-						},
-						input:(e)=>{							
-							if(!e){
-								this.lotNoClear();
-							}
-					 }
+						}
 					}	
 				},			
 				},
 				stationCode:'',
 				matCodeDict:{matCode:'编号',matName:'名称'},
 				matCodeData:{},
-				isLotNo:false,
 				isOut:true,
 				isRego:true,
+				// 回退
+				isBack:false
 			}
 		},
 		computed: {
@@ -95,54 +90,57 @@
     },
 		methods: {
 			...mapMutations(['set_line','clear_storage']),
-			lotNoClear(){
-				this.isLotNo=false;
-			},
 			matCodeClear(){
 				this.matCodeData={};
 			},
-			toast(msg){
-				this.$refs.uToast.show({title:msg,type:'success',position:'bottom'})
+			toast(type,msg){
+				this.$refs.uToast.show({title:msg,type,position:'bottom'})
 			},		
 			machineChange(){
 				this.clear_storage();
 				uni.reLaunch({ url:'/pages/index/index' });
 			},
+			rejectHandle(){
+        const {matCode,lotNo,inputQty}=this.$refs.regoForm.formData;
+        if(!this.isRego&&inputQty!==5000){
+          this.$refs.regoForm.formData.inputQty=5000
+          return
+        }
+        if(lotNo){
+          this.$refs.regoForm.formData.lotNo=''
+          return
+        }
+        if(matCode){
+          this.$refs.regoForm.formData.matCode=''
+          this.matCodeClear();
+          return
+        }
+      },
 			async checkOutHandle(){
 				const {lotNo}=this.$refs.regoForm.formData;
 				await this.checkOutFetch(lotNo);
-				await this.toast('安装成功');
+				await this.toast('success','注销成功');
 				await this.$refs.regoForm.clear();
 				await this.clearData();
-				await this.getFocus(false);
-			},
-			getFocus(isLotNo){
-				this.formOpts.formItem[1].focus=!isLotNo;		
-				this.formOpts.formItem[2].focus=isLotNo;	
 			},
 			async checkInHandle(){
 				await this.checkInFetch({
 					stationCode:this.stationCode,
 					...this.$refs.regoForm.formData,
 					workshop:this.line[0].value,
-					lotQty:this.$refs.regoForm.inputQty
+					lotQty:this.$refs.regoForm.formData.inputQty
 				});
-				await this.toast('卸载成功');
+				await this.toast('success','注册成功');
 				await this.$refs.regoForm.clear();
 				await this.clearData();
-				await this.getFocus(false);
 			},
 			clearData(){
 				this.$refs.regoForm.clear();
         this.setType(true);
-				this.lotNoClear();
-			  this.matCodeClear();
-				this.formOpts.formItem[1].focus=true;		
-				this.formOpts.formItem[2].focus=false;		
+			  this.matCodeClear();	
 			},
 			setType(isType){
 			const {matCode,lotNo}=this.$refs.regoForm.formData
-				this.isLotNo=!!isType;
 				this.formOpts.formItem[3].disabled=!!isType;
 				if(!matCode&&!lotNo){
 					this.isOut=	true;

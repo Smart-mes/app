@@ -98,7 +98,12 @@ const state = {
 			icon: "container",
 			title: "物料绑定",
 			url: "/pages/material/materialBind",
-		},			
+		},
+		{
+			icon: "container",
+			title: "接料",
+			url: "/pages/material/materialCollect",
+		},				
 		// pages/material/materialRego
 		// {
 		// 	icon: "container",
