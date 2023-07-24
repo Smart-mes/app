@@ -23,6 +23,8 @@
 				</template>
 			 </ex-form>
 		</ex-box>
+		<!--组件 -->
+		<xw-scan/>
 		<u-toast ref="uToast" />
 		<view class="h-100"></view>
     <view class="fixBtn">
@@ -49,30 +51,26 @@
 					formData:{machineCode:'',matCode:'',lotNo:'',inputQty:5000},
 					formItem:[
 							{ label: "当前设备", props: "machineCode", type: "exInput",border: true,disabled:true,class:'disabled'},
-							{ label: "物料编号", props: "matCode", type: "exInput",border: true,},
-							{ label: "物料批次", props: "lotNo", type: "exInput",border: true},
-							{ label: "批次数量", props: "inputQty", type: "numberBox",disabled:true},
+							{ label: "物料编号", props: "matCode", type: "exInput",border: true,change:true},
+							{ label: "物料批次", props: "lotNo", type: "exInput",border: true,change:true},
+							{ label: "批次数量", props: "inputQty", type: "numberBox",disabled:true,},
 					],
 				rules: {},
 				event:{
 					matCode:{
-						confirm:async (e)=>{
-								const res=await this.matCodeFetch(e);
-								if(res.length) {
-									this.matCodeData=res[0];
-								}else{
-									this.toast('error',`${e}-没有注册`);	
-								}								
+						confirm: (e)=>{
+								this.matCodeHandle(e);				
+						},
+						input:(e)=>{
+							if(!e){
+								this.clearData();
+							}
 						}							
 					},
 					lotNo:{
-						confirm:async (e)=>{
-								const res=await this.lotNoFetch(e);
-								if(res.length){
-									 this.toast('warning ',`${e}-批次号已存在`);		
-								}
-								this.setType(res.length);
-						}
+						confirm: (e)=>{
+              this.lotNoHandle(e);
+						},
 					}	
 				},			
 				},
@@ -90,11 +88,25 @@
     },
 		methods: {
 			...mapMutations(['set_line','clear_storage']),
-			matCodeClear(){
-				this.matCodeData={};
-			},
 			toast(type,msg){
 				this.$refs.uToast.show({title:msg,type,position:'bottom'})
+			},
+			async matCodeHandle(e){
+				console.log('e:',e)
+				const res=await this.matCodeFetch(e);
+				console.log('res:',res);
+				if(res.length) {
+					this.matCodeData=res[0];
+				}else{
+					this.toast('error',`${e}-没有注册`);	
+				}	
+			},
+			async lotNoHandle(e){
+				const res=await this.lotNoFetch(e);
+				if(res.length){
+						this.toast('warning ',`${e}-批次号已存在`);		
+				}
+				this.setType(res.length);				
 			},		
 			machineChange(){
 				this.clear_storage();
@@ -134,6 +146,9 @@
 				await this.$refs.regoForm.clear();
 				await this.clearData();
 			},
+			matCodeClear(){
+				this.matCodeData={};
+			},
 			clearData(){
 				this.$refs.regoForm.clear();
         this.setType(true);
@@ -172,6 +187,25 @@
 			this.formOpts.formData.machineCode=machineCode;
       this.$refs.regoForm.init();
 		},
+		onUnload() {   
+		   uni.$off('xwscan');
+		},
+		onShow() {
+			uni.$off('xwscan') 
+			uni.$on('xwscan', (res)=> {
+			const code=this.$u.trim(res.code.replace(/\/n/g,''));
+			const regoForm=this.$refs.regoForm;
+			const {matCode,lotNo}=regoForm.formData;
+				if(!matCode){
+					regoForm.formData.matCode=code;
+					return void this.matCodeHandle(code);	
+				}
+				if(!lotNo){
+					regoForm.formData.lotNo=code;
+					return void this.lotNoHandle(code);
+				}
+			})
+		}, 
 	}
 </script>
 

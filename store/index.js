@@ -138,7 +138,7 @@ const mutations = {
 		// }
 		Object.entries(state).forEach(([key,val])=>{
 			if(key==='menuList') return;
-			if(key==='timer') state[timer]=null;
+			if(key==='timer') state.timer=null;
 
 			if(typeof(val)==='object'){
 				state[key]=!val? null:Array.isArray(val)?[]:{};

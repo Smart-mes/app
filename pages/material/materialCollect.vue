@@ -28,6 +28,7 @@
 			</ex-form>		
 		</ex-box>
 		<u-toast ref="uToast" />
+		<xw-scan/>
 		<view class="h-100"></view>
     <view class="fixBtn">
 			<u-row gutter="20">
@@ -59,32 +60,25 @@
 					event:{
 						lotNo:{
 							confirm:async (e)=>{
-								const res=await this.lotNoFetch(e);
-								if(res.length){
-									this.lotNoData=res[0];
-									if(res[0].state===1){							
-										const {lotNo}=this.$refs.BindForm.formData			
-									  await	this.getFeederData({lotNo});
-										this.$refs.BindForm.formData.feederCode=this.feederData.feederCode;		
-										this.toast('success',`当前批次接料到:${this.feederData.feederCode}`);  						 								
-									}
-								}else{
-									 this.toast('error',`${e}-没有注册`);		
-								}										 
+									this.lotNoHandle(e);
 							},
+							input:(e)=>{
+								if(!e){
+									this.clearLotNo();
+								  this.clearFeeder();
+									this.$refs.BindForm.formData.feederCode='';		
+								}
+						 }	
 						},
 						feederCode:{
 							confirm:async (e)=>{
-							  const toolList=await this.BWorkToolFetch(e);
-								if(toolList.length){
-									const feederList=this.getFeederData(this.$refs.BindForm.formData);
-									if(!feederList.length){
-										this.installHandle();	
-									}							
-								}else{
-									this.toast('error',`容器不存在`);		
-								}
+                this.feederHandle(e);
 							},
+							input:(e)=>{
+								if(!e){
+								  this.clearFeeder();
+								}
+						 }
 						}
 					},			
 				},
@@ -104,6 +98,31 @@
 			machineChange(){
 				this.clear_storage();
 				uni.reLaunch({ url:'/pages/index/index' });
+			},
+			async lotNoHandle(e){
+				const res=await this.lotNoFetch(e);
+				if(res.length){
+					this.lotNoData=res[0];
+					if(res[0].state===1){							
+						const {lotNo}=this.$refs.BindForm.formData			
+						await	this.getFeederData({lotNo});
+						this.$refs.BindForm.formData.feederCode=this.feederData.feederCode;		
+						this.toast('success',`当前批次接料到:${this.feederData.feederCode}`);  						 								
+					}
+				}else{
+						this.toast('error',`${e}-没有注册`);		
+				}	
+      },
+			async feederHandle(e){
+				const toolList=await this.BWorkToolFetch(e);
+				if(toolList.length){
+					const feederList=this.getFeederData(this.$refs.BindForm.formData);
+					if(!feederList.length){
+						this.installHandle();	
+					}							
+				}else{
+					this.toast('error',`容器不存在`);		
+				}
 			},
 			async installHandle(){
 				await this.installFetch()
@@ -185,6 +204,26 @@
 			const [{machineCode}] =await this.BStationFetch(stationCode);
 			this.formOpts.formData.machineCode=machineCode;
       this.$refs.BindForm.init();
+		},
+		onUnload() {   
+		   uni.$off('xwscan');
+		},
+		onShow() {
+			uni.$off('xwscan') 
+			uni.$on('xwscan', (res)=> {
+			const code=this.$u.trim(res.code.replace(/\/n/g,''));
+			console.log('code:',code)
+			const BindForm=this.$refs.BindForm;
+			const {lotNo,feederCode}=BindForm.formData;
+				if(!lotNo){
+					BindForm.formData.lotNo=code;
+					return void this.lotNoHandle(code);	
+				}
+				if(!feederCode){
+					BindForm.formData.feederCode=code;
+					return void this.feederHandle(code);
+				}
+			})
 		},
 	}
 </script>

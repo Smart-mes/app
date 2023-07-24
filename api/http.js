@@ -24,15 +24,15 @@ const request = (opt) => {
 		if (res.statusCode === 200||res.statusCode === 204||res.statusCode === 201) {
 			resolve(res.data);
 		}
-		// else {
-		// 	throw res
-		// }	
+		else {
+			throw res
+		}	
 	}).catch(error => {
-		  // if (error.data) {
-			//  uni.showToast({title: error.data.message[0],icon: 'none'})
-		  // } else {
-			//   uni.showToast({title:'接口出错',icon: 'none'})		
-		  // }
+		  if (error.data) {
+			 uni.showToast({title: error.data.message[0],icon: 'none'})
+		  } else {
+			  uni.showToast({title:'接口出错',icon: 'none'})		
+		  }
 		  reject(error);
 	});
 
