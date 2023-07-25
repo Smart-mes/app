@@ -5,13 +5,24 @@
        url('~@/static/style/font/iconfont.ttf') format('truetype');
 }
 
-
 .custom-icon {
   font-family: "custom-icon" !important;
   font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.custom-icon-rego:before {
+  content: "\e606";
+}
+
+.custom-icon-receive:before {
+  content: "\e630";
+}
+
+.custom-icon-bind:before {
+  content: "\e6b0";
 }
 
 .custom-icon-container:before {

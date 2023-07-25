@@ -24,6 +24,12 @@
 						  <template v-slot:right="slotProps"><u-button v-show="!!slotProps.data.feederCode" size="mini" @click="unloadHandle">卸料</u-button></template>
 						</ex-describe>		
 					</view>
+				</template>
+				<template v-slot:bottom="slotProps">
+           <view class="sanTip">
+							<view v-if="!slotProps.data.lotNo">请扫描物料批次</view>
+							<view v-else-if="!slotProps.data.feederCode">请扫容器编号</view>						
+					 </view>
 				</template>						
 			</ex-form>		
 		</ex-box>
@@ -33,7 +39,7 @@
     <view class="fixBtn">
 			<u-row gutter="20">
         <u-col span="6"><u-button type="default" @click="rejectHandle">取消</u-button></u-col>
-        <u-col span="6"><u-button  type="primary"> 重置 </u-button></u-col>
+        <u-col span="6"><u-button  type="primary" @click="resetHandle"> 重置 </u-button></u-col>
       </u-row> 			
 		</view>
 	</view>
@@ -91,10 +97,11 @@
 			}
 		},
 		computed: {
-    ...mapState(["userInfo"])
+      ...mapState(["userInfo"]),
     },
 		methods: {
 			...mapMutations(['clear_storage']),
+
 			machineChange(){
 				this.clear_storage();
 				uni.reLaunch({ url:'/pages/index/index' });
@@ -133,8 +140,7 @@
 			async getFeederData(parame){
 				const feederList=await this.feederFetch(parame); 
         if(feederList.length){
-          this.feederData=feederList[0];
-          // this.toast('success',`当前批次接料到:${this.feederData.feederCode}`);                
+          this.feederData=feederList[0];              
         }
         return feederList;
 			},
@@ -149,16 +155,16 @@
 			},
 			rejectHandle(){
 				const {lotNo,feederCode}=this.$refs.BindForm.formData;
-				if(lotNo){
-          this.$refs.BindForm.formData.lotNo='';
-          this.clearLotNo();
-          return
-        } 
 				if(feederCode){
           this.$refs.BindForm.formData.feederCode='';
           this.clearFeeder();
           return
-        }		
+        }
+        if(lotNo){
+          this.$refs.BindForm.formData.lotNo='';
+          this.clearLotNo();
+          return
+        } 		
 
 			},
 			resetHandle(){
@@ -201,9 +207,13 @@
 		},
 		async onLoad({stationCode}){
 			this.stationCode=stationCode;
-			const [{machineCode}] =await this.BStationFetch(stationCode);
-			this.formOpts.formData.machineCode=machineCode;
-      this.$refs.BindForm.init();
+			const res=await this.BStationFetch(stationCode);
+			if(res.length){
+				const [{machineCode}]=res 
+				this.formOpts.formData.machineCode=machineCode;
+				this.$refs.BindForm.init();
+			}
+
 		},
 		onUnload() {   
 		   uni.$off('xwscan');
@@ -235,5 +245,5 @@
 		 background-color:#f9fdede0;
 		 border: 1px solid #eee;
 		 }
-	.w{margin-left: 10rpx; width: 100rpx; text-align:center;}	 
+	.w{margin-left: 10rpx; width: 100rpx; text-align:center;}
 </style>

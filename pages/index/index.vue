@@ -154,12 +154,13 @@ export default {
           });          
         }
         // #endif
-       
-        // if(this.stationCode){
-        //   uni.navigateTo({url:`${skipUrl}?stationCode=${this.stationCode}`}); 
-        // }else{
-        //   this.BStationFetch('GXJC1',skipUrl);
-        // } 
+        // #ifdef H5 
+        if(this.stationCode){
+          uni.navigateTo({url:`${skipUrl}?stationCode=${this.stationCode}`}); 
+        }else{
+          this.BStationFetch('HWSMT01-01',skipUrl);
+        } 
+        // #endif    
       },
       async BStationFetch(stationCode,skipUrl){
         const res=await this.$http.request({url: '/api/BStationList',method: "GET",data: {stationCode}}); 

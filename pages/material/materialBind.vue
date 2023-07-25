@@ -24,7 +24,13 @@
 						  <template v-slot:right="slotProps"><u-button v-show="!!slotProps.data.feederCode" size="mini" @click="unloadHandle">卸载</u-button></template>
 						</ex-describe>		
 					</view>
-				</template>						
+				</template>	
+				<template v-slot:bottom="slotProps">
+           <view class="sanTip">
+							<view v-if="!slotProps.data.lotNo">请扫描物料批次</view>
+							<view v-else-if="!slotProps.data.feederCode">请扫描容器编号</view>						
+					 </view>
+				</template>							
 			</ex-form>		
 		</ex-box>
 		<xw-scan/>
@@ -33,7 +39,7 @@
     <view class="fixBtn">
 			<u-row gutter="20">
         <u-col span="6"><u-button type="default" @click="rejectHandle">取消</u-button></u-col>
-        <u-col span="6"><u-button  type="primary"> 重置 </u-button></u-col>
+        <u-col span="6"><u-button  type="primary" @click="resetHandle"> 重置 </u-button></u-col>
       </u-row> 			
 		</view>
 	</view>
@@ -97,13 +103,18 @@
 			...mapMutations(['clear_storage']),
 			async lotNoHandle(e){
 					const res=await this.lotNoFetch(e);
+					console.log('res.length:',res.length)
 					if(res.length){
 						this.lotNoData=res[0];
 						if(res[0].state===1){							
 							const {lotNo}=this.$refs.BindForm.formData			
 							await	this.getFeederData({lotNo});
-							this.$refs.BindForm.formData.feederCode=this.feederData.feederCode;	
-							this.toast('success',`当前批次已被绑定于:${this.feederData.feederCode}`);   							 								
+							if(this.feederData.feederCode){
+								this.$refs.BindForm.formData.feederCode=this.feederData.feederCode;	
+							  this.toast('success',`当前批次已被绑定于:${this.feederData.feederCode}`);   
+							}else{
+								this.toast('error','不是对应工位号');	
+							}						 								
 						}
 					}else{
 							this.toast('error',`${e}-没有注册`);		
@@ -201,9 +212,13 @@
 		},
 		async onLoad({stationCode}){
 			this.stationCode=stationCode;
-			const [{machineCode}] =await this.BStationFetch(stationCode);
-			this.formOpts.formData.machineCode=machineCode;
-      this.$refs.BindForm.init();
+			const res =await this.BStationFetch(stationCode);
+			if(res.length){
+				const [{machineCode}]=res;
+				this.formOpts.formData.machineCode=machineCode;
+        this.$refs.BindForm.init();				
+			}
+
 		},
 		onUnload() {   
 		   uni.$off('xwscan');

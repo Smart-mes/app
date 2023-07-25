@@ -9,18 +9,24 @@
 				:formOpts="formOpts"
 				:isBtn="false"
 				>
-				<template v-slot:machineCodeRight="slotProps">
-					<view class="w"><u-button type="info" size="mini" class="ml-20" @click="machineChange">切换</u-button></view>
-				</template>
-				<template v-slot:inputQtyRight="slotProps">
-					<view class="w">PCS</view>
-				</template>
-				<!-- list -->
-				<template v-slot:matCodeBottom="slotProps">
-					<view class="tip">
-						<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="matCodeDict"  :data="matCodeData"/>	
-					</view>
-				</template>
+					<template v-slot:machineCodeRight="slotProps">
+						<view class="w"><u-button type="info" size="mini" class="ml-20" @click="machineChange">切换</u-button></view>
+					</template>
+					<template v-slot:inputQtyRight="slotProps">
+						<view class="w">PCS</view>
+					</template>
+					<!-- list -->
+					<template v-slot:matCodeBottom="slotProps">
+						<view class="tip">
+							<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="matCodeDict"  :data="matCodeData"/>	
+						</view>
+					</template>
+					<template v-slot:bottom="slotProps">
+           <view class="sanTip">
+							<view v-if="!slotProps.data.matCode">请扫描物料编号</view>
+							<view v-else-if="!slotProps.data.lotNo">请扫描物料批次</view>						
+					 </view>
+				</template>						
 			 </ex-form>
 		</ex-box>
 		<!--组件 -->
@@ -92,9 +98,7 @@
 				this.$refs.uToast.show({title:msg,type,position:'bottom'})
 			},
 			async matCodeHandle(e){
-				console.log('e:',e)
 				const res=await this.matCodeFetch(e);
-				console.log('res:',res);
 				if(res.length) {
 					this.matCodeData=res[0];
 				}else{
@@ -183,9 +187,13 @@
 		},
 		async onLoad({stationCode}){
 			this.stationCode=stationCode;
-		  const [{machineCode}] =await this.BStationFetch(stationCode);
-			this.formOpts.formData.machineCode=machineCode;
-      this.$refs.regoForm.init();
+		  const res=await this.BStationFetch(stationCode);
+			if(res.length){
+				const [{machineCode}] =res;
+				this.formOpts.formData.machineCode=machineCode;
+        this.$refs.regoForm.init();
+			}
+
 		},
 		onUnload() {   
 		   uni.$off('xwscan');
