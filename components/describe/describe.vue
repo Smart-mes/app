@@ -74,22 +74,21 @@ export default {
       }
     },
     getValue(key,data){
-      // if(data[key]){
       if(this.valueDict&&this.valueDict[key]){
         return this.valueDict[key][data[key]]||'无';
       }else{
-        return data[key]||'无';
+        const val=data[key];
+        return val!==undefined&&val!==''?val:'无'
       }
-      // }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.title{ display:block;font-weight: bold; font-size: 32rpx; margin:0 0 20rpx 0;}
-  .border-radius{border-radius:10rpx;margin: 15rpx;}
-  .desc{
+.title{ display:block;font-weight: bold; font-size: 32rpx; margin:0 0 20rpx 0;}  
+.border-radius{border-radius:10rpx;margin: 15rpx;}
+.desc{
     padding: 30rpx;
     font-size: 28rpx;
     line-height: 1.7;

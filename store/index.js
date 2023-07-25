@@ -90,17 +90,17 @@ const state = {
 		// 	url: "/pages/frockManage/frockManage",
 		// },
 		{
-			icon: "container",
+			icon: "rego",
 			title: "物料注册",
 			url: "/pages/material/materialRego",
 		},
 		{
-			icon: "container",
+			icon: "bind",
 			title: "物料绑定",
 			url: "/pages/material/materialBind",
 		},
 		{
-			icon: "container",
+			icon: "receive",
 			title: "接料",
 			url: "/pages/material/materialCollect",
 		},				
