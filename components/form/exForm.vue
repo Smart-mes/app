@@ -51,6 +51,7 @@
       <u-col span="6"><u-button type="default" @click="reset">重置</u-button></u-col>
       <u-col span="6"><u-button type="primary" @click="submit">提交</u-button></u-col>
   </u-row>
+   <slot name="bottom" :data="formData"></slot>
   <u-select 
     v-model="selectShow" 
     :default-value="selectIndex" 
