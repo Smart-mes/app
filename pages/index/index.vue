@@ -71,8 +71,8 @@ export default {
   components: { juNavigatorGrid},
   data() {
     return {
-      companyName:"合普动力",
-      bannerUrl: "/static/images/banner/banner.jpg",
+      companyName:'广州华望汽车电子有限公司',
+      bannerUrl:'/static/images/banner/banner.jpg',
       // 菜单
       selectShow: false,
       lineList: [],  

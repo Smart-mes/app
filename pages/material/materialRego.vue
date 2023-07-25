@@ -113,21 +113,21 @@
 				this.setType(res.length);				
 			},		
 			machineChange(){
-				this.clear_storage();
+				this.clear_storage('stationCode');
 				uni.reLaunch({ url:'/pages/index/index' });
 			},
 			rejectHandle(){
         const {matCode,lotNo,inputQty}=this.$refs.regoForm.formData;
         if(!this.isRego&&inputQty!==5000){
-          this.$refs.regoForm.formData.inputQty=5000
+          this.$refs.regoForm.formData.inputQty=5000;
           return
         }
         if(lotNo){
-          this.$refs.regoForm.formData.lotNo=''
+          this.$refs.regoForm.formData.lotNo='';
           return
         }
         if(matCode){
-          this.$refs.regoForm.formData.matCode=''
+          this.$refs.regoForm.formData.matCode='';
           this.matCodeClear();
           return
         }

@@ -130,7 +130,7 @@
 				}
 			},
 			machineChange(){
-				this.clear_storage();
+				this.clear_storage('stationCode');
 				uni.reLaunch({ url:'/pages/index/index' });
 			},
 			async installHandle(){

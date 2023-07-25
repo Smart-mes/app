@@ -9,76 +9,76 @@ const state = {
 	hasLogin: !!userInfo,
 	userInfo,
 	menuList: [
-		{
-			icon: "analyse",
-			title: "效率分析",
-			url: "/pages/analyse/analyse",
-		},
-		{
-			icon: "fault",
-			title: "设备报障",
-			url: "/pages/device/failure",
-		},
+		// {
+		// 	icon: "analyse",
+		// 	title: "效率分析",
+		// 	url: "/pages/analyse/analyse",
+		// },
+		// {
+		// 	icon: "fault",
+		// 	title: "设备报障",
+		// 	url: "/pages/device/failure",
+		// },
 		// {
 		// 	icon: "meter",
 		// 	title: "效率管理",
 		// 	url: "/pages/effect/effect",
 		// },
-		{
-			icon: "quality",
-			title: "质量管理",
-			url: "/pages/quality/quality",
-		},
+		// {
+		// 	icon: "quality",
+		// 	title: "质量管理",
+		// 	url: "/pages/quality/quality",
+		// },
 		// {
 		// 	icon: "scan",
 		// 	title: "扫码查询",
 		// 	url: "/pages/scanCode/scanCode",
 		// },
-		{
-			icon: "through",
-			title: "直通率",
-			url: "/pages/passRate/passRate",
-		},
-		{
-			icon: "product",
-			title: "小时产量",
-			url: "/pages/UPH/UPH",
-		},
-		{
-			icon: "pass",
-			title: "计划达成",
-			url: "/pages/PAR/PAR",
-		},
-		{
-			icon: "qitao",
-			title: "齐套分析",
-			url: "/pages/qitao/qitao",
-		},
-		{
-			icon: "qualityTest",
-			title: "抽检",
-			url: "/pages/spotCheck/spotCheck",
-		},
-		{
-			icon: "qualityTest",
-			title: "首检",
-			url: "/pages/firstCheck/firstCheck",
-		},
-		{
-			icon: "andon",
-			title: "安灯管理",
-			url: "/pages/andon/andon",
-		},
-		{
-			icon: "maintain",
-			title: "设备保养",
-			url: "/pages/TPM/TPM",
-		},
-		{
-			icon: "equip",
-			title: "设备工装",
-			url: "/pages/equip/equip",
-		},
+		// {
+		// 	icon: "through",
+		// 	title: "直通率",
+		// 	url: "/pages/passRate/passRate",
+		// },
+		// {
+		// 	icon: "product",
+		// 	title: "小时产量",
+		// 	url: "/pages/UPH/UPH",
+		// },
+		// {
+		// 	icon: "pass",
+		// 	title: "计划达成",
+		// 	url: "/pages/PAR/PAR",
+		// },
+		// {
+		// 	icon: "qitao",
+		// 	title: "齐套分析",
+		// 	url: "/pages/qitao/qitao",
+		// },
+		// {
+		// 	icon: "qualityTest",
+		// 	title: "抽检",
+		// 	url: "/pages/spotCheck/spotCheck",
+		// },
+		// {
+		// 	icon: "qualityTest",
+		// 	title: "首检",
+		// 	url: "/pages/firstCheck/firstCheck",
+		// },
+		// {
+		// 	icon: "andon",
+		// 	title: "安灯管理",
+		// 	url: "/pages/andon/andon",
+		// },
+		// {
+		// 	icon: "maintain",
+		// 	title: "设备保养",
+		// 	url: "/pages/TPM/TPM",
+		// },
+		// {
+		// 	icon: "equip",
+		// 	title: "设备工装",
+		// 	url: "/pages/equip/equip",
+		// },
 		// {
 		// 	icon: "gongzhan",
 		// 	title: "工站物料",

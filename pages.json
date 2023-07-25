@@ -53,253 +53,38 @@
 				"navigationStyle": "custom"
 			}
 		},
-		// {
-		// 	"path": "pages/effect/effect",
-		// 	"style": {
-		// 		"navigationBarTitleText": "效率管理",
-		// 		"navigationStyle": "custom"
-		// 	}
-		// },
 		{
-			"path": "pages/quality/quality",
-			"style": {
-				"navigationBarTitleText": "工单不良汇总",
-				"navigationStyle": "custom"
-			}
-		},
-		// {
-		// 	"path": "pages/scanCode/scanCode",
-		// 	"style": {
-		// 		"navigationBarTitleText": "扫码查询",
-		// 		"navigationStyle": "custom"
-		// 	}
-		// },
-		{
-			"path": "pages/info/info",
-			"style": {
-				"navigationBarTitleText": "我的消息",
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/info/infoDetails",
-			"style": {
-				"navigationBarTitleText": "我的消息详情",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/my/my",
-			"style": {
-				"navigationBarTitleText": "我的",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/retrospect/retrospect",
-			"style": {
-				"navigationBarTitleText": "工艺追溯",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/device/failure",
-			"style": {
-				"navigationBarTitleText": "设备报障",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/device/failureForm",
-			"style": {
-				"navigationBarTitleText": "设备报障提交",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
-			}
-		},
-		{
-			"path": "pages/passRate/passRate",
-			"style": {
-				"navigationBarTitleText": "直通率",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/UPH/UPH",
-			"style": {
-				"navigationBarTitleText": "小时产量",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/PAR/PAR",
-			"style": {
-				"navigationBarTitleText": "计划达成率",
-				 "navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/qitao/qitao",
-			"style": {
-				"navigationBarTitleText": "齐套分析",
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black"
-			}
-		},
-		{
-			"path": "pages/firstCheck/firstCheck",
-			"style": {
-				"navigationBarTitleText": "首检",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/firstCheck/createBill",
-			"style": {
-				"navigationBarTitleText": "首检创建任务",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/firstCheck/firstCheckHistory",
-			"style": {
-				"navigationBarTitleText": "首检历史单据",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/firstCheck/fillBill",
-			"style": {
-				"navigationBarTitleText": "首检填单",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/spotCheck/spotCheck",
-			"style": {
-				"navigationBarTitleText": "抽检",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/spotCheck/createSpot",
-			"style": {
-				"navigationBarTitleText": "抽检创建任务",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/spotCheck/spotHistory",
-			"style": {
-				"navigationBarTitleText": "抽检历史单据",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/spotCheck/fillSpot",
-			"style": {
-				"navigationBarTitleText": "抽检填单",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/andon/andon",
-			"style": {
-				"navigationBarTitleText": "安灯管理",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/andon/addAndon",
-			"style": {
-				"navigationBarTitleText": "添加安灯",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/andon/andonHistory",
-			"style": {
-				"navigationBarTitleText": "安灯历史",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/TPM/TPM",
-			"style": {
-				"navigationBarTitleText": "设备保养",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/TPM/TPMbill",
-			"style": {
-				"navigationBarTitleText": "保养填单",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/TPM/TPMhistory",
-			"style": {
-				"navigationBarTitleText": "保养历史单据",
-				"navigationStyle": "custom"
-			}
-		}, {
-			"path": "pages/equip/equip",
-			"style": {
-				"navigationBarTitleText": "设备工装",
-				"navigationStyle": "custom"
-			}
-		}
-		// ,{
-		// 	"path": "pages/sMaterials/sMaterials",
-		// 	"style": {
-		// 		"navigationBarTitleText": "工站物料",
-		// 		"navigationStyle": "custom",
-		// 		"enablePullDownRefresh": true
-		// 	}
-		// }
-		// ,{
-		// 		"path" : "pages/demo/demo",
-		// 		"style" :{
-		// 				"navigationBarTitleText": "demo",
-		// 				"enablePullDownRefresh": false
-		// 		}
-				
-		// }
-		// ,{
-		// 		"path" : "pages/frockManage/frockManage",
-		// 		"style" : {
-		// 				"navigationBarTitleText": "容器管理",
-		// 				"navigationStyle": "custom",
-		// 				"enablePullDownRefresh": true
-		// 		}				
-		// }
-        ,{
-            "path" : "pages/material/materialRego",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "物料注册",
-                "navigationStyle": "custom"
-            }
-            
-        }
-				,{
-					"path" : "pages/material/materialBind",
-					"style" :                                                                                    
-					{
-							"navigationBarTitleText": "物料绑定",
-							"navigationStyle": "custom"
-					}		
-			}
-			,{
-				"path" : "pages/material/materialCollect",
+				"path" : "pages/material/materialRego",
 				"style" :                                                                                    
 				{
-						"navigationBarTitleText": "接料",
+						"navigationBarTitleText": "物料注册",
 						"navigationStyle": "custom"
-				}		
+				}
+				
+		},
+		{
+			"path" : "pages/material/materialBind",
+			"style" :                                                                                    
+			{
+					"navigationBarTitleText": "物料绑定",
+					"navigationStyle": "custom"
+			}		
+		},
+		{
+			"path" : "pages/material/materialCollect",
+			"style" :                                                                                    
+			{
+					"navigationBarTitleText": "接料",
+					"navigationStyle": "custom"
+			}		
+	 },
+	 {
+		"path": "pages/my/my",
+		"style": {
+			"navigationBarTitleText": "我的",
+			"navigationStyle": "custom"
 		}
+	 }	
     ],
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",
@@ -323,25 +108,9 @@
 				"text": "生产"
 			},
 			{
-				"pagePath": "pages/device/device",
-				"text": "设备"
-			},
-			{
-				"pagePath": "pages/retrospect/retrospect",
-				"text": "工艺"
-			},
-			{
 				"pagePath": "pages/my/my",
 				"text": "我的"
 			}
 		]
 	}
-	// ,
-	// "condition": {
-	// 	"current": 0,
-	// 	"list": [{
-	// 		"name": "demo",
-	// 		"path": "pages/demo/demo"
-	// 	}]
-	// }
 }
