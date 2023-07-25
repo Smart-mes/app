@@ -13,7 +13,7 @@
 						<view class="w"><u-button type="info" size="mini" class="ml-20" @click="machineChange">切换</u-button></view>
 					</template>
 					<template v-slot:inputQtyRight="slotProps">
-						<view class="w">PCS</view>
+						<view class="w unit">PCS</view>
 					</template>
 					<!-- list -->
 					<template v-slot:matCodeBottom="slotProps">
@@ -224,5 +224,6 @@
 		 background-color:#f9fdede0;
 		 border: 1px solid #eee;
 		 }
-	.w{margin-left: 10rpx; width: 100rpx; text-align:center;}	 
+	.w{margin-left: 10rpx; width: 100rpx; text-align:center;}
+	.unit{color:$font-light-gray;}	 
 </style>
