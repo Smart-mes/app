@@ -112,30 +112,6 @@ export default {
     unreadLink(){uni.navigateTo({url:"/pages/info/info"})},
    async onPress(e){
       const {title,skipUrl}=e;
-      // if(title==='工站物料'){
-      //   // #ifdef APP-PLUS
-      //   uni.scanCode({
-      //     success: (res)=> this.workOrderFetch(res.result,skipUrl),
-      //     fail: () =>  this.$refs.uToast.show({ title: "扫码失败", type: "error" })     
-      //   });
-      //   // #endif
-      //   // #ifdef H5 
-      //    this.workOrderFetch('ANKZB01',skipUrl);       
-      //   // #endif  
-      // } else if(title==='容器管理'){
-      //   // #ifdef APP-PLUS
-      //   uni.scanCode({
-      //     success: (res)=> this.BContainerFetch(res.result,skipUrl),
-      //     fail: () =>  this.$refs.uToast.show({ title: "扫码失败", type: "error" })     
-      //   });
-      //   // #endif
-      //   // #ifdef H5 
-      //    this.BContainerFetch('c-001',skipUrl);       
-      //   // #endif  
-      // }else{
-      //   uni.navigateTo({url:skipUrl});
-      // }
-
         if(title==='物料注册'||title==='物料绑定'||title==='接料'){
           this.materialHandle(skipUrl);
         }else{
@@ -158,7 +134,7 @@ export default {
         if(this.stationCode){
           uni.navigateTo({url:`${skipUrl}?stationCode=${this.stationCode}`}); 
         }else{
-          this.BStationFetch('HWSMT01-01',skipUrl);
+          this.BStationFetch('HWSMT02-01',skipUrl);
         } 
         // #endif    
       },
@@ -169,21 +145,8 @@ export default {
           uni.navigateTo({url:`${skipUrl}?stationCode=${res[0].stationCode}`}); 
         }else{
           this.$refs.uToast.show({ title: "当前工位不存在", type: "error" })  
-        }   
-       
-      }
-  //   async workOrderFetch(param,skipUrl){
-  //       const res=await this.$http.request({url: '/api/MaterialInStation/WorkOrder',method: "GET",data: {stationCode:param}}); 
-  //       const materialParam= encodeURIComponent(JSON.stringify(res ));
-  //       uni.navigateTo({url:`${skipUrl}?param=${materialParam}`});     
-  //    },
-  //    async BContainerFetch(param,skipUrl){
-  //       const res=await this.$http.request({ url: '/api/BContainer',method: "GET", data: {containerCode:param}}); 
-  //       if(res.length){
-  //         const Bparam= encodeURIComponent(JSON.stringify(res[0]));
-  //         uni.navigateTo({url:`${skipUrl}?param=${Bparam}`}); 
-  //       }
-  //      },   
+        }         
+      }   
   },
   onLoad() {
   //  设置红点

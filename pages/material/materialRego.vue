@@ -77,6 +77,11 @@
 						confirm: (e)=>{
               this.lotNoHandle(e);
 						},
+						input:(e)=>{
+							if(!e){
+								this.$refs.regoForm.formData.inputQty=5000;
+							}
+						}	
 					}	
 				},			
 				},
@@ -108,6 +113,7 @@
 			async lotNoHandle(e){
 				const res=await this.lotNoFetch(e);
 				if(res.length){
+					  this.$refs.regoForm.formData.inputQty=res[0].lotQty;
 						this.toast('warning ',`${e}-批次号已存在`);		
 				}
 				this.setType(res.length);				
