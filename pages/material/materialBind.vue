@@ -66,7 +66,7 @@
 					event:{
 						lotNo:{
 							confirm: (e)=>{
-								 this.lotNoHandle(e);
+								if(e) this.lotNoHandle(e);
 							},
 							input:(e)=>{
 								if(!e){
@@ -78,13 +78,10 @@
 						},
 						feederCode:{
 							confirm:async (e)=>{
-                  this.feederHandle(e);
+								if(e) this.feederHandle(e);
 							},
 							input:(e)=>{
-								console.log('e:',e)
-								if(!e){
-								  this.clearFeeder();
-								}
+								if(!e) this.clearFeeder();
 						 }
 						}
 					},			

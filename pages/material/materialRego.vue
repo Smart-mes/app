@@ -65,22 +65,18 @@
 				event:{
 					matCode:{
 						confirm: (e)=>{
-								this.matCodeHandle(e);				
+								if(e) this.matCodeHandle(e);				
 						},
 						input:(e)=>{
-							if(!e){
-								this.clearData();
-							}
+							if(!e) this.clearData();
 						}							
 					},
 					lotNo:{
 						confirm: (e)=>{
-              this.lotNoHandle(e);
+              if(e) this.lotNoHandle(e);
 						},
 						input:(e)=>{
-							if(!e){
-								this.$refs.regoForm.formData.inputQty=5000;
-							}
+							if(!e) this.$refs.regoForm.formData.inputQty=5000; 
 						}	
 					}	
 				},			
