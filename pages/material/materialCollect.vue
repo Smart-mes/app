@@ -101,7 +101,6 @@
     },
 		methods: {
 			...mapMutations(['clear_storage']),
-
 			machineChange(){
 				this.clear_storage('stationCode');
 				uni.reLaunch({ url:'/pages/index/index' });
@@ -117,6 +116,9 @@
 						this.toast('success',`当前批次接料到:${this.feederData.feederCode}`);  						 								
 					}
 				}else{
+					  this.$refs.BindForm.formData.lotNo='';
+						this.clearLotNo();
+						this.clearFeeder();
 						this.toast('error',`${e}-没有注册`);		
 				}	
       },
@@ -128,14 +130,16 @@
 						this.installHandle();	
 					}							
 				}else{
+					this.$refs.BindForm.formData.feederCode='';
 					this.toast('error',`容器不存在`);		
 				}
 			},
 			async installHandle(){
-				await this.installFetch()
-				this.toast('success','接料成功');    
-        await this.getFeederData(this.$refs.BindForm.formData);
-				     
+				const {message}= await this.installFetch()
+				if(!!message){
+					this.toast('success','接料成功');    
+          await this.getFeederData(this.$refs.BindForm.formData);
+				}			     
 			},
 			async getFeederData(parame){
 				const feederList=await this.feederFetch(parame); 

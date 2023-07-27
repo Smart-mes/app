@@ -107,14 +107,15 @@
 				if(res.length) {
 					this.matCodeData=res[0];
 				}else{
-					this.toast('error',`${e}-没有注册`);	
+					this.$refs.regoForm.formData.matCode='';	
+					this.toast('error',`${e}-物料编号不存在`);
 				}	
 			},
 			async lotNoHandle(e){
 				const res=await this.lotNoFetch(e);
 				if(res.length){
-					  this.$refs.regoForm.formData.inputQty=res[0].lotQty;
-						this.toast('warning ',`${e}-批次号已存在`);		
+						this.$refs.regoForm.formData.lotQty='';	
+						this.toast('error',`${e}-批次号已存在`);		
 				}
 				this.setType(res.length);				
 			},		

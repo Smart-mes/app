@@ -81,6 +81,7 @@
                   this.feederHandle(e);
 							},
 							input:(e)=>{
+								console.log('e:',e)
 								if(!e){
 								  this.clearFeeder();
 								}
@@ -103,7 +104,6 @@
 			...mapMutations(['clear_storage']),
 			async lotNoHandle(e){
 					const res=await this.lotNoFetch(e);
-					console.log('res.length:',res.length)
 					if(res.length){
 						this.lotNoData=res[0];
 						if(res[0].state===1){							
@@ -117,6 +117,9 @@
 							}						 								
 						}
 					}else{
+						  this.$refs.BindForm.formData.lotNo='';
+							this.clearLotNo();
+						  this.clearFeeder();
 							this.toast('error',`${e}-没有注册`);		
 					}		
 			},
@@ -126,6 +129,8 @@
 					const feederList=this.getFeederData(this.$refs.BindForm.formData);
 					if(!feederList.length) this.installHandle();								
 				}else{
+					this.$refs.BindForm.formData.feederCode='';
+					this.clearFeeder();
 					this.toast('error',`容器不存在`);		
 				}
 			},
@@ -134,9 +139,11 @@
 				uni.reLaunch({ url:'/pages/index/index' });
 			},
 			async installHandle(){
-				await this.installFetch();
-				await this.toast('success','装入成功');		
-        await this.getFeederData(this.$refs.BindForm.formData);
+				const {message}=  await this.installFetch();
+				if(!!message){
+					await this.toast('success','装入成功');		
+          await this.getFeederData(this.$refs.BindForm.formData);
+				}
 			},
 			async getFeederData(parame){
 				const feederList=await this.feederFetch(parame); 
