@@ -107,15 +107,16 @@
 				if(res.length) {
 					this.matCodeData=res[0];
 				}else{
-					this.$refs.regoForm.formData.matCode='';	
+					this.$refs.regoForm.formData.matCode='';
+					this.rejectHandle();	
 					this.toast('error',`${e}-物料编号不存在`);
 				}	
 			},
 			async lotNoHandle(e){
 				const res=await this.lotNoFetch(e);
 				if(res.length){
-						this.$refs.regoForm.formData.lotQty='';	
-						this.toast('error',`${e}-批次号已存在`);		
+					this.$refs.regoForm.formData.lotNo='';
+					this.toast('error',`${e}-批次号已存在`);		
 				}
 				this.setType(res.length);				
 			},		
@@ -147,13 +148,14 @@
 				await this.clearData();
 			},
 			async checkInHandle(){
-				await this.checkInFetch({
+			const {code,message}=	await this.checkInFetch({
 					stationCode:this.stationCode,
 					...this.$refs.regoForm.formData,
 					workshop:this.line[0].value,
 					lotQty:this.$refs.regoForm.formData.inputQty
 				});
-				await this.toast('success','注册成功');
+			  const codeType=code==='ERROR'?'error':'success';
+				await this.toast(codeType,message);
 				await this.$refs.regoForm.clear();
 				await this.clearData();
 			},
