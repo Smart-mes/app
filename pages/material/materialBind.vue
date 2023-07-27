@@ -139,11 +139,13 @@
 				uni.reLaunch({ url:'/pages/index/index' });
 			},
 			async installHandle(){
-				const {message}=  await this.installFetch();
-				if(!!message){
-					await this.toast('success','装入成功');		
+				const {code,message}=  await this.installFetch();
+        if(code==='OK'){
+					await this.toast('success',message);		
           await this.getFeederData(this.$refs.BindForm.formData);
-				}
+				}else{
+          await this.toast('error',message);		
+				}				
 			},
 			async getFeederData(parame){
 				const feederList=await this.feederFetch(parame); 
@@ -159,7 +161,7 @@
 				await this.toast('success','卸载成功');		
 			},
 			toast(type,msg){
-				this.$refs.uToast.show({title:msg,type,position:'bottom'})
+				this.$refs.uToast.show({type,title:msg,position:'bottom'})
 			},
 			rejectHandle(){
 				const {lotNo,feederCode}=this.$refs.BindForm.formData;

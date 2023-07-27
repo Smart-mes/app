@@ -154,7 +154,7 @@
 					workshop:this.line[0].value,
 					lotQty:this.$refs.regoForm.formData.inputQty
 				});
-			  const codeType=code==='ERROR'?'error':'success';
+			  const codeType=code==='OK'?'success':'error';
 				await this.toast(codeType,message);
 				await this.$refs.regoForm.clear();
 				await this.clearData();

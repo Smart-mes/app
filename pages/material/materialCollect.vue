@@ -135,11 +135,13 @@
 				}
 			},
 			async installHandle(){
-				const {message}= await this.installFetch()
-				if(!!message){
-					this.toast('success','接料成功');    
+				const {code,message}=  await this.installFetch();
+        if(code==='OK'){
+					await this.toast('success',message);		
           await this.getFeederData(this.$refs.BindForm.formData);
-				}			     
+				}else{
+          await this.toast('error',message);		
+				}		     
 			},
 			async getFeederData(parame){
 				const feederList=await this.feederFetch(parame); 
