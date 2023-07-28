@@ -124,7 +124,10 @@
 				const toolList=await this.BWorkToolFetch(e);
 				if(toolList.length){
 					const feederList=this.getFeederData(this.$refs.BindForm.formData);
-					if(!feederList.length) this.installHandle();								
+					if(!feederList.length){
+				  	await	this.installHandle();
+					  await	this.resetHandle();			
+					} 					
 				}else{
 					this.$refs.BindForm.formData.feederCode='';
 					this.clearFeeder();

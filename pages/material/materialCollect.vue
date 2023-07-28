@@ -127,7 +127,8 @@
 				if(toolList.length){
 					const feederList=this.getFeederData(this.$refs.BindForm.formData);
 					if(!feederList.length){
-						this.installHandle();	
+				  	await	this.installHandle();
+					  await	this.resetHandle();		
 					}							
 				}else{
 					this.$refs.BindForm.formData.feederCode='';
