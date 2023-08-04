@@ -13,6 +13,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.custom-icon-logout:before {
+  content: "\e60c";
+}
+
 .custom-icon-rego:before {
   content: "\e606";
 }

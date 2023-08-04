@@ -109,10 +109,12 @@ export default {
     ...mapMutations(["set_line","set_storage"]),
     ...mapActions(["getLine","getUnread", "unreadPoll"]),
     selectConfirm(e) {this.set_line(e)},
-    unreadLink(){uni.navigateTo({url:"/pages/info/info"})},
+    unreadLink(){
+      // uni.navigateTo({url:"/pages/info/info"})
+    },
     async onPress(e){
       const {title,skipUrl}=e;
-      const isTtitle=title==='物料注册'||title==='物料注册'||title==='物料绑定'||title==='接料';
+      const isTtitle=title==='物料注销'||title==='物料注册'||title==='物料绑定'||title==='接料';
         if(isTtitle){
           this.materialHandle(skipUrl);
         }else{

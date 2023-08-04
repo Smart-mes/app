@@ -90,7 +90,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "物料注销",
-                "enablePullDownRefresh": false
+                "navigationStyle": "custom"
             }
             
         }

@@ -114,98 +114,98 @@ html,body{
   border-radius: 10rpx;
   background-color: $white-color;
 }
-// 展开收起列表
-.develop-list{
-  line-height: 1.7;
-	.develop-item{@extend .basic-box;}
-  .info{
-    .name{
-      text-align: left;
-      margin-right: 20px;
-      color: $font-gray;
-     }
-  }
-  .hd{
-    display: flex;
-    .left{flex: 1;}
-  }
-  .bd{
-    .info{font-size: $font-26;}
-  }
-}
+// // 展开收起列表
+// .develop-list{
+//   line-height: 1.7;
+// 	.develop-item{@extend .basic-box;}
+//   .info{
+//     .name{
+//       text-align: left;
+//       margin-right: 20px;
+//       color: $font-gray;
+//      }
+//   }
+//   .hd{
+//     display: flex;
+//     .left{flex: 1;}
+//   }
+//   .bd{
+//     .info{font-size: $font-26;}
+//   }
+// }
 // 单据列表
-.bill {
-  .title {
-    margin: 20rpx 20rpx 10rpx 20rpx;
-  }
-  .task-list {
-    margin-top: 20rpx;
-    .task-icon {
-      margin-right: 20rpx;
-    }
-    .task-item {
-      padding: 30rpx;
-      &:active {
-        background-color: #fff;
-      }
-    }
-    .col-name {
-      width: 140rpx;
-      margin-right: 20rpx;
-      text-align: right;
-    }
-    .task-right {
-      padding-left: 0;
-    }
-  }
-}
-// list
-.task-list{
-  padding-bottom: 15rpx;
-  .task-item {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin:15rpx 15rpx;
-    padding: 20rpx;
-    font-size: $font-28;
-    border-radius: 10rpx;
-    background-color: $white-color;
-    &:active { background-color: $hover-color;}
-    .task-left {flex: 1;line-height: 1.7;}
-    .task-right { padding-left: 50rpx;}
-    .row {
-      display: flex;
-      .col-name {
-        color: $font-light-gray; 
-        text-align: right;
-      }
-      .col-text {
-        flex: 1;
-        overflow: hidden;
-        word-break: break-word;
-     }
-    }
-  }
-}
-.info-list{
-  line-height: 1.7;
-  .info-item {
-    display: flex;
-    &-name {
-      margin-right: 20rpx;
-      flex-basis: 140rpx;
-      color: $font-light-gray; 
-      text-align: right;
-    }
-    &-text {
-      flex: 1;
-      overflow: hidden;
-      word-break: break-word;
-   }
-  }
-}
+// .bill {
+//   .title {
+//     margin: 20rpx 20rpx 10rpx 20rpx;
+//   }
+//   .task-list {
+//     margin-top: 20rpx;
+//     .task-icon {
+//       margin-right: 20rpx;
+//     }
+//     .task-item {
+//       padding: 30rpx;
+//       &:active {
+//         background-color: #fff;
+//       }
+//     }
+//     .col-name {
+//       width: 140rpx;
+//       margin-right: 20rpx;
+//       text-align: right;
+//     }
+//     .task-right {
+//       padding-left: 0;
+//     }
+//   }
+// }
+// // list
+// .task-list{
+//   padding-bottom: 15rpx;
+//   .task-item {
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: center;
+//     align-items: center;
+//     margin:15rpx 15rpx;
+//     padding: 20rpx;
+//     font-size: $font-28;
+//     border-radius: 10rpx;
+//     background-color: $white-color;
+//     &:active { background-color: $hover-color;}
+//     .task-left {flex: 1;line-height: 1.7;}
+//     .task-right { padding-left: 50rpx;}
+//     .row {
+//       display: flex;
+//       .col-name {
+//         color: $font-light-gray; 
+//         text-align: right;
+//       }
+//       .col-text {
+//         flex: 1;
+//         overflow: hidden;
+//         word-break: break-word;
+//      }
+//     }
+//   }
+// }
+// .info-list{
+//   line-height: 1.7;
+//   .info-item {
+//     display: flex;
+//     &-name {
+//       margin-right: 20rpx;
+//       flex-basis: 140rpx;
+//       color: $font-light-gray; 
+//       text-align: right;
+//     }
+//     &-text {
+//       flex: 1;
+//       overflow: hidden;
+//       word-break: break-word;
+//    }
+//   }
+// }
 .modal-content{
   padding: 30rpx;
   text-align: center;
@@ -233,6 +233,14 @@ html,body{
   display: flex;
   &-right{flex: 1;}
 }
+
+.material-tip{
+  margin-bottom: 20rpx;
+  padding: 10rpx;
+  background-color:#f9fdede0;
+  border: 1px solid #eee;
+  }
+.material-w{margin-left: 10rpx; width: 100rpx; text-align:center;}
 
 .operate-add{ padding: 10rpx;background-color:#00c84b;border-radius: 50%;}
 .operate-edit{padding: 10rpx;background-color:$blue-color;border-radius: 50%;}

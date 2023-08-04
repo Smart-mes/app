@@ -10,16 +10,16 @@
 				:isBtn="false"
 				>
 				<template v-slot:machineCodeRight="slotProps">
-					<view class="w"><u-button type="info" size="mini" class="ml-20" @click="machineChange">切换</u-button></view>
+					<view class="material-w"><u-button type="info" size="mini" class="ml-20" @click="machineChange">切换</u-button></view>
 				</template>
 				<!-- list -->
 				<template v-slot:lotNoBottom="slotProps">
-					<view class="tip">
+					<view class="material-tip">
 						<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="lotNoDict"  :data="lotNoData"/>	
 					</view>
 				</template>	
 				<template v-slot:feederCodeBottom="slotProps">
-					<view class="tip" >
+					<view class="material-tip" >
 						<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="feederDict"  :data="feederData">
 						  <template v-slot:right="slotProps"><u-button v-show="!!slotProps.data.feederCode" size="mini" @click="unloadHandle">卸载</u-button></template>
 						</ex-describe>		
@@ -228,7 +228,6 @@
 				this.$refs.BindForm.setData({machineCode});
         // this.$refs.BindForm.init();				
 			}
-
 		},
 		onUnload() {   
 		   uni.$off('xwscan');
@@ -253,11 +252,5 @@
 </script>
 
 <style lang="scss" scoped>
-  .tip{
-		 margin-bottom: 20rpx;
-		 padding: 10rpx;
-		 background-color:#f9fdede0;
-		 border: 1px solid #eee;
-		 }
 	.w{margin-left: 10rpx; width: 100rpx; text-align:center;}	 
 </style>

@@ -10,14 +10,14 @@
 				:isBtn="false"
 				>
 					<template v-slot:machineCodeRight="slotProps">
-						<view class="w"><u-button type="info" size="mini" class="ml-20" @click="machineChange">切换</u-button></view>
+						<view class="material-w"><u-button type="info" size="mini" class="ml-20" @click="machineChange">切换</u-button></view>
 					</template>
 					<template v-slot:inputQtyRight="slotProps">
-						<view class="w unit">PCS</view>
+						<view class="material-w unit">PCS</view>
 					</template>
 					<!-- list -->
 					<template v-slot:matCodeBottom="slotProps">
-						<view class="tip">
+						<view class="material-tip">
 							<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="matCodeDict"  :data="matCodeData"/>	
 						</view>
 					</template>
@@ -136,13 +136,13 @@
           return
         }
       },
-			async checkOutHandle(){
-				const {lotNo}=this.$refs.regoForm.formData;
-				await this.checkOutFetch(lotNo);
-				await this.toast('success','注销成功');
-				await this.$refs.regoForm.clear();
-				await this.clearData();
-			},
+			// async checkOutHandle(){
+			// 	const {lotNo}=this.$refs.regoForm.formData;
+			// 	await this.checkOutFetch(lotNo);
+			// 	await this.toast('success','注销成功');
+			// 	await this.$refs.regoForm.clear();
+			// 	await this.clearData();
+			// },
 			async checkInHandle(){
 			const {code,message}=	await this.checkInFetch({
 					stationCode:this.stationCode,
@@ -183,9 +183,9 @@
 			lotNoFetch(lotNo){
 				return  this.$http.request({url: '/api/PMaterialWip',method: "GET",data: {lotNo}}); 
 			},
-			checkOutFetch(lotNo){
-				return this.$http.request({url: '/api/MaterialInFeeder/CheckOut',method: "POST",data: {lotNo}}); 
-			},
+			// checkOutFetch(lotNo){
+			// 	return this.$http.request({url: '/api/MaterialInFeeder/CheckOut',method: "POST",data: {lotNo}}); 
+			// },
 			checkInFetch(parame){
 				return this.$http.request({url: '/api/MaterialInFeeder/CheckIn',method: "POST",data:parame});  
 			}
@@ -224,12 +224,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .tip{
-		 margin-bottom: 20rpx;
-		 padding: 10rpx;
-		 background-color:#f9fdede0;
-		 border: 1px solid #eee;
-		 }
-	.w{margin-left: 10rpx; width: 100rpx; text-align:center;}
+
 	.unit{color:$font-light-gray;}	 
 </style>
