@@ -27,8 +27,8 @@
 				</template>
 				<template v-slot:bottom="slotProps">
            <view class="sanTip">
-							<view v-if="!slotProps.data.lotNo">请扫描物料批次</view>
-							<view v-else-if="!slotProps.data.feederCode">请扫容器编号</view>						
+							<view v-if="!slotProps.data.feederCode">请扫飞达物料</view>
+							<view v-else-if="!slotProps.data.lotNo">请扫边仓物料</view>						
 					 </view>
 				</template>						
 			</ex-form>		
@@ -56,36 +56,36 @@
         isBack: true
         },
 				formOpts:{
-					formData:{machineCode:'',lotNo:'',feederCode:''},
+					formData:{machineCode:'',feederCode:'',lotNo:''},
 					formItem:[
 							{ label: "当前设备", props: "machineCode", type: "exInput",border: true,disabled:true,class:'disabled'},
-							{ label: "物料批次", props: "lotNo", type: "exInput",border: true},
-							{ label: "容器编号", props: "feederCode", type: "exInput",border: true},
+							{ label: "飞达物料", props: "feederCode", type: "exInput",border: true},
+							{ label: "边仓物料", props: "lotNo", type: "exInput",border: true},
+						
 					],
 					rules: {},
 					event:{
+						feederCode:{
+							confirm:async (e)=>{
+								if(e) this.feederHandle(e);
+							},
+							input:(e)=>{
+								if(!e){
+								  this.resetHandle();
+								}
+						 }
+						},
 						lotNo:{
 							confirm:async (e)=>{
 								if(e) this.lotNoHandle(e);
 							},
 							input:(e)=>{
 								if(!e){
-									this.clearLotNo();
-								  this.clearFeeder();
-									this.$refs.BindForm.formData.feederCode='';		
+									this.$refs.BindForm.formData.lotNo='';
+									this.clearLotNo();		
 								}
 						 }	
 						},
-						feederCode:{
-							confirm:async (e)=>{
-                if(e) this.feederHandle(e);
-							},
-							input:(e)=>{
-								if(!e){
-								  this.clearFeeder();
-								}
-						 }
-						}
 					},			
 				},
 				stationCode:'',
@@ -101,78 +101,107 @@
     },
 		methods: {
 			...mapMutations(['clear_storage']),
-			machineChange(){
-				this.clear_storage('stationCode');
-				uni.reLaunch({ url:'/pages/index/index' });
-			},
-			async lotNoHandle(e){
-				const res=await this.lotNoFetch(e);
-				if(res.length){
-					this.lotNoData=res[0];
-					if(res[0].state===1){							
-						const {lotNo}=this.$refs.BindForm.formData			
-						await	this.getFeederData({lotNo});
-						this.$refs.BindForm.formData.feederCode=this.feederData.feederCode;		
-						this.toast('success',`当前批次接料到:${this.feederData.feederCode}`);  						 								
-					}
-				}else{
-					  this.$refs.BindForm.formData.lotNo='';
-						this.clearLotNo();
-						this.clearFeeder();
-						this.toast('error',`${e}-没有注册`);		
-				}	
-      },
-			async feederHandle(e){
-				const toolList=await this.BWorkToolFetch(e);
-				if(toolList.length){
-					const feederList=this.getFeederData(this.$refs.BindForm.formData);
-					if(!feederList.length){
-				  	await	this.installHandle();
-					  await	this.resetHandle();		
-					}							
-				}else{
-					this.$refs.BindForm.formData.feederCode='';
-					this.toast('error',`容器不存在`);		
-				}
-			},
-			async installHandle(){
-				const {code,message}=  await this.installFetch();
-        if(code==='OK'){
-					await this.toast('success',message);		
-          await this.getFeederData(this.$refs.BindForm.formData);
-				}else{
-          await this.toast('error',message);		
-				}		     
-			},
-			async getFeederData(parame){
-				const feederList=await this.feederFetch(parame); 
-        if(feederList.length){
-          this.feederData=feederList[0];              
-        }
-        return feederList;
-			},
+// 			machineChange(){
+// 				this.clear_storage('stationCode');
+// 				uni.reLaunch({ url:'/pages/index/index' });
+// 			},
+// 			async lotNoHandle(e){
+// 				const res=await this.lotNoFetch(e);
+// 				if(res.length){
+// 					this.lotNoData=res[0];
+// 					if(res[0].state===1){							
+// 						const {lotNo}=this.$refs.BindForm.formData			
+// 						await	this.getFeederData({lotNo});
+// 						this.$refs.BindForm.formData.feederCode=this.feederData.feederCode;		
+// 						this.toast('success',`当前批次接料到:${this.feederData.feederCode}`);  						 								
+// 					}
+// 				}else{
+// 					  this.$refs.BindForm.formData.lotNo='';
+// 						this.clearLotNo();
+// 						this.clearFeeder();
+// 						this.toast('error',`${e}-没有注册`);		
+// 				}	
+//       },
+// 			async feederHandle(e){
+// 				const toolList=await this.BWorkToolFetch(e);
+// 				if(toolList.length){
+// 					const feederList=this.getFeederData(this.$refs.BindForm.formData);
+// 					if(!feederList.length){
+// 				  	await	this.installHandle();
+// 					  await	this.resetHandle();		
+// 					}							
+// 				}else{
+// 					this.$refs.BindForm.formData.feederCode='';
+// 					this.toast('error',`容器不存在`);		
+// 				}
+// 			},
+// 			async installHandle(){
+// 				const {code,message}=  await this.installFetch();
+//         if(code==='OK'){
+// 					await this.toast('success',message);		
+//           await this.getFeederData(this.$refs.BindForm.formData);
+// 				}else{
+//           await this.toast('error',message);		
+// 				}		     
+// 			},
+// 			async getFeederData(parame){
+// 				const feederList=await this.feederFetch(parame); 
+//         if(feederList.length){
+//           this.feederData=feederList[0];              
+//         }
+//         return feederList;
+// 			},
 			async unloadHandle(){
 				await	this.unloadFetch();
 				await this.clearFeeder();	
-				this.$refs.BindForm.formData.feederCode='';		
+				this.resetHandle();		
 				await this.toast('success','卸载成功');		
+			},
+      async feederHandle(e){
+			   const res= await this.feederFetch(e);
+					if(res.length){
+						  this.feederData=res[0];
+					}else{
+						this.$refs.BindForm.formData.feederCode='';
+						this.toast('error',`${e}-该物料批次没安装在飞达`);	
+				 }
+		 },
+		 async lotNoHandle(e){
+				const res= await this.lotNoFetch(e);
+				const state=res.length? res[0].state:''
+				if(state===0){
+						this.installHandle();
+				}else if(state===1){
+					this.$set(this.$refs.BindForm.formData,'lotNo','');
+					this.toast('error','物料批次已安装在飞达');
+				}else{
+					this.$set(this.$refs.BindForm.formData,'lotNo','');
+					this.toast('error','物料批次未注册');
+				}
+		 },		
+		 async installHandle(){
+				const {code,message}=  await this.installFetch();
+        if(code==='OK'){
+					await this.toast('success',message);
+					this.resetHandle();		
+				}else{
+          await this.toast('error',message);		
+				}		     
 			},
 			toast(type,msg){
 				this.$refs.uToast.show({title:msg,type,position:'bottom'})
 			},
 			rejectHandle(){
 				const {lotNo,feederCode}=this.$refs.BindForm.formData;
-				if(feederCode){
-          this.$refs.BindForm.formData.feederCode='';
-          this.clearFeeder();
-          return
-        }
         if(lotNo){
           this.$refs.BindForm.formData.lotNo='';
-          this.clearLotNo();
-          return
-        } 		
-
+         return void this.clearLotNo();
+          
+        } 
+        if(feederCode){
+          this.$refs.BindForm.formData.feederCode='';
+          return void this.clearFeeder();
+        }		
 			},
 			resetHandle(){
 				this.$refs.BindForm.clear();
@@ -180,7 +209,6 @@
 				this.clearFeeder();
 			},
 			clearLotNo(){
-				console.log('clearLotNo')
 				this.lotNoData={};
 			},
 			clearFeeder(){
@@ -192,11 +220,11 @@
 			lotNoFetch(lotNo){
 				return this.$http.request({url: '/api/PMaterialWip',method: "GET",data: {lotNo}}); 
 			},
-			BWorkToolFetch(feederCode){
-				return this.$http.request({url: '/api/BWorkTool',method: "GET",data: {workToolCode:feederCode}}); 
-			},
-			feederFetch(parame){
-				return this.$http.request({url: '/api/MaterialInFeeder',method: "GET",data: {...parame,stationCode:this.stationCode}}); 
+			// BWorkToolFetch(feederCode){
+			// 	return this.$http.request({url: '/api/BWorkTool',method: "GET",data: {workToolCode:feederCode}}); 
+			// },
+			feederFetch(feederCode){
+				return this.$http.request({url: '/api/MaterialInFeeder',method: "GET",data: {feederCode,stationCode:this.stationCode}}); 
 			},
 			installFetch(){
 				const parame={stationCode:this.stationCode,empCode:this.userInfo.empCode,...this.$refs.BindForm.formData,isAppend:true}
@@ -218,7 +246,7 @@
 			if(res.length){
 				const [{machineCode}]=res 
 				this.formOpts.formData.machineCode=machineCode;
-				this.$refs.BindForm.init();
+				this.$refs.BindForm.setData({machineCode});
 			}
 
 		},
@@ -229,16 +257,15 @@
 			uni.$off('xwscan') 
 			uni.$on('xwscan', (res)=> {
 			const code=this.$u.trim(res.code.replace(/\/n/g,''));
-			console.log('code:',code)
 			const BindForm=this.$refs.BindForm;
 			const {lotNo,feederCode}=BindForm.formData;
-				if(!lotNo){
-					BindForm.formData.lotNo=code;
-					return void this.lotNoHandle(code);	
-				}
 				if(!feederCode){
 					BindForm.formData.feederCode=code;
 					return void this.feederHandle(code);
+				}
+				if(!lotNo){
+					BindForm.formData.lotNo=code;
+					return void this.lotNoHandle(code);	
 				}
 			})
 		},

@@ -110,43 +110,43 @@ export default {
     ...mapActions(["getLine","getUnread", "unreadPoll"]),
     selectConfirm(e) {this.set_line(e)},
     unreadLink(){uni.navigateTo({url:"/pages/info/info"})},
-   async onPress(e){
+    async onPress(e){
       const {title,skipUrl}=e;
-        if(title==='物料注册'||title==='物料绑定'||title==='接料'){
+      const isTtitle=title==='物料注册'||title==='物料注册'||title==='物料绑定'||title==='接料';
+        if(isTtitle){
           this.materialHandle(skipUrl);
         }else{
           uni.navigateTo({url:skipUrl});
-        }
-       
-      },
-      materialHandle(skipUrl){
-        // #ifdef APP-PLUS
-        if(this.stationCode){
-          uni.navigateTo({url:`${skipUrl}?stationCode=${this.stationCode}`}); 
-        }else{
-          uni.scanCode({
-            success: (res)=> this.BStationFetch(res.result,skipUrl),
-            fail: () =>  this.$refs.uToast.show({ title: "扫码失败", type: "error" })     
-          });          
-        }
-        // #endif
-        // #ifdef H5 
-        if(this.stationCode){
-          uni.navigateTo({url:`${skipUrl}?stationCode=${this.stationCode}`}); 
-        }else{
-          this.BStationFetch('HWSMT02-01',skipUrl);
-        } 
-        // #endif    
-      },
-      async BStationFetch(stationCode,skipUrl){
-        const res=await this.$http.request({url: '/api/BStationList',method: "GET",data: {stationCode}}); 
-        if(res.length){
-          this.set_storage({key:'stationCode',data:stationCode})
-          uni.navigateTo({url:`${skipUrl}?stationCode=${res[0].stationCode}`}); 
-        }else{
-          this.$refs.uToast.show({ title: "当前工位不存在", type: "error" })  
-        }         
-      }   
+        }   
+    },
+    materialHandle(skipUrl){
+      // #ifdef APP-PLUS
+      if(this.stationCode){
+        uni.navigateTo({url:`${skipUrl}?stationCode=${this.stationCode}`}); 
+      }else{
+        uni.scanCode({
+          success: (res)=> this.BStationFetch(res.result,skipUrl),
+          fail: () =>  this.$refs.uToast.show({ title: "扫码失败", type: "error" })     
+        });          
+      }
+      // #endif
+      // #ifdef H5 
+      if(this.stationCode){
+        uni.navigateTo({url:`${skipUrl}?stationCode=${this.stationCode}`}); 
+      }else{
+        this.BStationFetch('HWSMT02-01',skipUrl);
+      } 
+      // #endif    
+    },
+    async BStationFetch(stationCode,skipUrl){
+      const res=await this.$http.request({url: '/api/BStationList',method: "GET",data: {stationCode}}); 
+      if(res.length){
+        this.set_storage({key:'stationCode',data:stationCode})
+        uni.navigateTo({url:`${skipUrl}?stationCode=${res[0].stationCode}`}); 
+      }else{
+        this.$refs.uToast.show({ title: "当前工位不存在", type: "error" })  
+      }         
+    }   
   },
   onLoad() {
   //  设置红点

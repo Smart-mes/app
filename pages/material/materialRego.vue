@@ -196,7 +196,8 @@
 			if(res.length){
 				const [{machineCode}] =res;
 				this.formOpts.formData.machineCode=machineCode;
-        this.$refs.regoForm.init();
+				this.$refs.regoForm.setData({machineCode});
+        // this.$refs.regoForm.init();
 			}
 
 		},

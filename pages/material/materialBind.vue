@@ -110,7 +110,7 @@
 								this.$refs.BindForm.formData.feederCode=this.feederData.feederCode;	
 							  this.toast('success',`当前批次已被绑定于:${this.feederData.feederCode}`);   
 							}else{
-								this.toast('error','不是对应工位号');	
+								this.toast('error','容器编号不存在');	
 							}						 								
 						}
 					}else{
@@ -225,7 +225,8 @@
 			if(res.length){
 				const [{machineCode}]=res;
 				this.formOpts.formData.machineCode=machineCode;
-        this.$refs.BindForm.init();				
+				this.$refs.BindForm.setData({machineCode});
+        // this.$refs.BindForm.init();				
 			}
 
 		},
@@ -236,7 +237,6 @@
 			uni.$off('xwscan') 
 			uni.$on('xwscan', (res)=> {
 			const code=this.$u.trim(res.code.replace(/\/n/g,''));
-			console.log('code:',code)
 			const BindForm=this.$refs.BindForm;
 			const {lotNo,feederCode}=BindForm.formData;
 				if(!lotNo){

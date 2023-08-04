@@ -116,7 +116,7 @@ export default{
         })
     },
     setData(data){
-      this.formData={...this.formData,data}  
+      this.formData={...this.formData,...data}  
     },
     selectHandle({type,props,list}){
       if(type==='select'){

@@ -92,6 +92,11 @@ const state = {
 		{
 			icon: "rego",
 			title: "物料注册",
+			url: "/pages/material/materialLogout",
+		},
+		{
+			icon: "rego",
+			title: "物料注册",
 			url: "/pages/material/materialRego",
 		},
 		{

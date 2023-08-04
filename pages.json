@@ -85,6 +85,15 @@
 			"navigationStyle": "custom"
 		}
 	 }	
+        ,{
+            "path" : "pages/material/materialLogout",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "物料注销",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTitleText": "阳普",
