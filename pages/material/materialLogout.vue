@@ -84,6 +84,7 @@ import { mapState ,mapMutations} from "vuex";
 					this.isLogout=false;
 				}else{
 					this.toast('error',`${e}-边仓物料不存在`);
+					this.lotNoClear();
 				}
 			},
 			async checkOutHandle(){
