@@ -21,7 +21,6 @@
 				<template v-slot:feederLotNoBottom="slotProps">
 					<view class="material-tip">
 						<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="feederDict"  :data="feederData">
-						  <!-- <template v-slot:right="slotProps"><u-button v-show="!!slotProps.data.feederCode" size="mini" @click="unloadHandle">卸料</u-button></template> -->
 						</ex-describe>		
 					</view>
 				</template>
@@ -67,14 +66,12 @@
 								if(e) this.feederHandle(e);
 							},
 							input:(e)=>{
-								if(!e){
-								  this.resetHandle();
-								}
+								if(!e) this.resetHandle();
 						 }
 						},
 						storeLotNo:{
 							confirm:async (e)=>{
-								if(e) this.lotNoHandle(e);
+								if(e) this.storeHandle(e);
 							},
 							input:(e)=>{
 								if(!e){
@@ -107,7 +104,7 @@
 						this.toast('error',`${e}-该物料批次没安装在飞达`);	
 				 }
 		 },
-		 async lotNoHandle(e){
+		 async storeHandle(e){
 				const res= await this.lotNoFetch(e);
 				const state=res.length? res[0].state:'';
 				if(state===0){
@@ -160,9 +157,6 @@
 			lotNoFetch(lotNo){
 				return this.$http.request({url: '/api/PMaterialWip',method: "GET",data: {lotNo}}); 
 			},
-			// BWorkToolFetch(feederCode){
-			// 	return this.$http.request({url: '/api/BWorkTool',method: "GET",data: {workToolCode:feederCode}}); 
-			// },
 			feederFetch(feederLotNo){
 				return this.$http.request({url: '/api/MaterialInFeeder',method: "GET",data: {lotNo:feederLotNo,stationCode:this.stationCode}}); 
 			},
@@ -172,20 +166,10 @@
 					empCode:this.userInfo.empCode,
 					lotNo:this.$refs.BindForm.formData.storeLotNo,
 					feederCode:this.feederData.feederCode,
-					// ...this.$refs.BindForm.formData,
 					isAppend:true
 				}
 				return this.$http.request({url: '/api/MaterialInFeeder/Install',method: "POST",data: parame})
 			},
-			// unloadFetch(){
-			// 	const parame={
-			// 		stationCode:this.stationCode,
-			// 		empCode:this.userInfo.empCode,
-			// 		...this.$refs.BindForm.formData,
-			// 		qty:this.feederData.qty
-			// 	}
-			// 	return this.$http.request({url: '/api/MaterialInFeeder/Uninstall',method: "POST",data: parame}); 
-			// },
 		},
 		async onLoad({stationCode}){
 			this.stationCode=stationCode;
@@ -212,7 +196,7 @@
 				}
 				if(!lotNo){
 					BindForm.formData.lotNo=code;
-					return void this.lotNoHandle(code);	
+					return void this.storeHandle(code);	
 				}
 			})
 		},

@@ -122,11 +122,16 @@
 			},
 			async feederHandle(e){
 				const toolList=await this.BWorkToolFetch(e);
+				
 				if(toolList.length){
-					const feederList=this.getFeederData(this.$refs.BindForm.formData);
+					const {feederCode}=this.$refs.BindForm.formData;
+					const feederList=await this.getFeederData({feederCode},false);
+			
 					if(!feederList.length){
 				  	await	this.installHandle();
 					  await	this.resetHandle();			
+					}else{
+						this.toast('error',`${e}容器已经绑定`);		
 					} 					
 				}else{
 					this.$refs.BindForm.formData.feederCode='';
@@ -142,15 +147,14 @@
 				const {code,message}=  await this.installFetch();
         if(code==='OK'){
 					await this.toast('success',message);		
-          await this.getFeederData(this.$refs.BindForm.formData);
 				}else{
           await this.toast('error',message);		
 				}				
 			},
-			async getFeederData(parame){
+			async getFeederData(parame,isFeeder=true){
 				const feederList=await this.feederFetch(parame); 
-        if(feederList.length){
-          this.feederData=feederList[0]             
+        if(feederList.length&&isFeeder){
+          this.feederData=feederList[0];             
         }
         return feederList;
 			},
@@ -225,8 +229,7 @@
 			if(res.length){
 				const [{machineCode}]=res;
 				this.formOpts.formData.machineCode=machineCode;
-				this.$refs.BindForm.setData({machineCode});
-        // this.$refs.BindForm.init();				
+				this.$refs.BindForm.setData({machineCode});			
 			}
 		},
 		onUnload() {   
@@ -252,5 +255,4 @@
 </script>
 
 <style lang="scss" scoped>
-	.w{margin-left: 10rpx; width: 100rpx; text-align:center;}	 
 </style>
