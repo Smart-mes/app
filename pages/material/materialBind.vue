@@ -110,7 +110,7 @@
 								this.$refs.BindForm.formData.feederCode=this.feederData.feederCode;	
 							  this.toast('success',`当前批次已被绑定于:${this.feederData.feederCode}`);   
 							}else{
-								this.toast('error','容器编号不存在');	
+								this.toast('error','物料不是闲置状态，不可以安装');	
 							}						 								
 						}
 					}else{

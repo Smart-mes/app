@@ -8,9 +8,9 @@
 				:formOpts="formOpts"
 				:isBtn="false"
 				>
-					<template v-slot:machineCodeRight="slotProps">
+					<!-- <template v-slot:machineCodeRight="slotProps">
 						<view class="material-w"><u-button type="info" size="mini" class="ml-20" @click="machineChange">切换</u-button></view>
-					</template>
+					</template> -->
 					<template v-slot:lotNoBottom="slotProps">
 						<view class="material-tip">
 							<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="lotNoDict"  :data="lotNoData"/>	
@@ -42,9 +42,9 @@ import { mapState ,mapMutations} from "vuex";
 			return {
 				navBar: {title: "物料注销",isBack: true},
 				formOpts:{
-					formData:{machineCode:'',lotNo:''},
+					formData:{lotNo:''},
 					formItem:[
-						{ label: "当前设备", props: "machineCode", type: "exInput",border: true,disabled:true,class:'disabled'},
+						// { label: "当前设备", props: "machineCode", type: "exInput",border: true,disabled:true,class:'disabled'},
 						{ label: "边仓物料", props: "lotNo", type: "exInput",border: true},
 					],
 					rules:{},
@@ -72,11 +72,11 @@ import { mapState ,mapMutations} from "vuex";
     ...mapState(["userInfo"])
     },
 		methods: {
-			...mapMutations(['clear_storage']),
-			machineChange(){
-				this.clear_storage('stationCode');
-				uni.reLaunch({ url:'/pages/index/index' });
-			},
+			// ...mapMutations(['clear_storage']),
+			// machineChange(){
+			// 	this.clear_storage('stationCode');
+			// 	uni.reLaunch({ url:'/pages/index/index' });
+			// },
 			async lotNoHandle(e){
 				const res= await this.lotNoFetch(e);
 				if(res.length){

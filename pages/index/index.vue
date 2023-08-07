@@ -114,7 +114,7 @@ export default {
     },
     async onPress(e){
       const {title,skipUrl}=e;
-      const isTtitle=title==='物料注销'||title==='物料注册'||title==='物料绑定'||title==='接料';
+      const isTtitle=title==='物料绑定'||title==='接料';
         if(isTtitle){
           this.materialHandle(skipUrl);
         }else{

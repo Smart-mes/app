@@ -9,9 +9,9 @@
 				:formOpts="formOpts"
 				:isBtn="false"
 				>
-					<template v-slot:machineCodeRight="slotProps">
+					<!-- <template v-slot:machineCodeRight="slotProps">
 						<view class="material-w"><u-button type="info" size="mini" class="ml-20" @click="machineChange">切换</u-button></view>
-					</template>
+					</template> -->
 					<template v-slot:inputQtyRight="slotProps">
 						<view class="material-w unit">PCS</view>
 					</template>
@@ -35,7 +35,6 @@
 		<view class="h-100"></view>
     <view class="fixBtn">
 			<u-row gutter="20">
-        <!-- <u-col span="6"><u-button type="default" :disabled="isOut" @click="checkOutHandle">注销</u-button></u-col> -->
 				<u-col span="6"><u-button type="default"  @click="rejectHandle">取消</u-button></u-col>
         <u-col span="6"><u-button  type="primary" :disabled="isRego"  @click="checkInHandle"> 注册 </u-button></u-col>
       </u-row> 			
@@ -54,9 +53,9 @@
         isBack: true
         },
 				formOpts:{
-					formData:{machineCode:'',matCode:'',lotNo:'',inputQty:5000},
+					formData:{matCode:'',lotNo:'',inputQty:5000},
 					formItem:[
-							{ label: "当前设备", props: "machineCode", type: "exInput",border: true,disabled:true,class:'disabled'},
+							// { label: "当前设备", props: "machineCode", type: "exInput",border: true,disabled:true,class:'disabled'},
 							{ label: "物料编号", props: "matCode", type: "exInput",border: true,change:true},
 							{ label: "物料批次", props: "lotNo", type: "exInput",border: true,change:true},
 							{ label: "批次数量", props: "inputQty", type: "numberBox",disabled:true,},
@@ -94,7 +93,7 @@
     ...mapState(['line']),
     },
 		methods: {
-			...mapMutations(['set_line','clear_storage']),
+			...mapMutations(['set_line']),
 			toast(type,msg){
 				this.$refs.uToast.show({title:msg,type,position:'bottom'})
 			},
@@ -116,10 +115,10 @@
 				}
 				this.setType(res.length);				
 			},		
-			machineChange(){
-				this.clear_storage('stationCode');
-				uni.reLaunch({ url:'/pages/index/index' });
-			},
+			// machineChange(){
+			// 	this.clear_storage('stationCode');
+			// 	uni.reLaunch({ url:'/pages/index/index' });
+			// },
 			rejectHandle(){
         const {matCode,lotNo,inputQty}=this.$refs.regoForm.formData;
         if(!this.isRego&&inputQty!==5000){
@@ -136,13 +135,6 @@
           return
         }
       },
-			// async checkOutHandle(){
-			// 	const {lotNo}=this.$refs.regoForm.formData;
-			// 	await this.checkOutFetch(lotNo);
-			// 	await this.toast('success','注销成功');
-			// 	await this.$refs.regoForm.clear();
-			// 	await this.clearData();
-			// },
 			async checkInHandle(){
 			const {code,message}=	await this.checkInFetch({
 					stationCode:this.stationCode,
@@ -165,7 +157,7 @@
 			},
 			setType(isType){
 			const {matCode,lotNo}=this.$refs.regoForm.formData
-				this.formOpts.formItem[3].disabled=!!isType;
+				this.formOpts.formItem[2].disabled=!!isType;
 				if(!matCode&&!lotNo){
 					this.isOut=	true;
 				  this.isRego=true;
@@ -174,33 +166,28 @@
 				  this.isRego=!!isType;
 				}
 			},
-			BStationFetch(stationCode){
-				return this.$http.request({url: '/api/BStationList',method: "GET",data: {stationCode}}); 
-			},
+			// BStationFetch(stationCode){
+			// 	return this.$http.request({url: '/api/BStationList',method: "GET",data: {stationCode}}); 
+			// },
 			matCodeFetch(matCode){
 			  return  this.$http.request({url: '/api/BMaterial',method: "GET",data: {matCode}}); 
 			},
 			lotNoFetch(lotNo){
 				return  this.$http.request({url: '/api/PMaterialWip',method: "GET",data: {lotNo}}); 
 			},
-			// checkOutFetch(lotNo){
-			// 	return this.$http.request({url: '/api/MaterialInFeeder/CheckOut',method: "POST",data: {lotNo}}); 
-			// },
 			checkInFetch(parame){
 				return this.$http.request({url: '/api/MaterialInFeeder/CheckIn',method: "POST",data:parame});  
 			}
 		},
-		async onLoad({stationCode}){
-			this.stationCode=stationCode;
-		  const res=await this.BStationFetch(stationCode);
-			if(res.length){
-				const [{machineCode}] =res;
-				this.formOpts.formData.machineCode=machineCode;
-				this.$refs.regoForm.setData({machineCode});
-        // this.$refs.regoForm.init();
-			}
-
-		},
+		// async onLoad({stationCode}){
+		// 	this.stationCode=stationCode;
+		//   const res=await this.BStationFetch(stationCode);
+		// 	if(res.length){
+		// 		const [{machineCode}] =res;
+		// 		this.formOpts.formData.machineCode=machineCode;
+		// 		this.$refs.regoForm.setData({machineCode});
+		// 	}
+		// },
 		onUnload() {   
 		   uni.$off('xwscan');
 		},
@@ -224,6 +211,5 @@
 </script>
 
 <style lang="scss" scoped>
-
 	.unit{color:$font-light-gray;}	 
 </style>
