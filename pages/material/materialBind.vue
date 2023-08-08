@@ -110,7 +110,7 @@
 								this.$refs.BindForm.formData.feederCode=this.feederData.feederCode;	
 							  this.toast('success',`当前批次已被绑定于:${this.feederData.feederCode}`);   
 							}else{
-								this.toast('error','物料不是闲置状态，不可以安装');	
+								this.toast('error','物料不是闲置状态');	
 							}						 								
 						}
 					}else{
@@ -121,8 +121,7 @@
 					}		
 			},
 			async feederHandle(e){
-				const toolList=await this.BWorkToolFetch(e);
-				
+				const toolList=await this.BWorkToolFetch(e);	
 				if(toolList.length){
 					const {feederCode}=this.$refs.BindForm.formData;
 					const feederList=await this.getFeederData({feederCode},false);

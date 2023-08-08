@@ -8,9 +8,6 @@
 				:formOpts="formOpts"
 				:isBtn="false"
 				>
-					<!-- <template v-slot:machineCodeRight="slotProps">
-						<view class="material-w"><u-button type="info" size="mini" class="ml-20" @click="machineChange">切换</u-button></view>
-					</template> -->
 					<template v-slot:lotNoBottom="slotProps">
 						<view class="material-tip">
 							<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="lotNoDict"  :data="lotNoData"/>	
@@ -44,7 +41,6 @@ import { mapState ,mapMutations} from "vuex";
 				formOpts:{
 					formData:{lotNo:''},
 					formItem:[
-						// { label: "当前设备", props: "machineCode", type: "exInput",border: true,disabled:true,class:'disabled'},
 						{ label: "边仓物料", props: "lotNo", type: "exInput",border: true},
 					],
 					rules:{},
@@ -72,11 +68,6 @@ import { mapState ,mapMutations} from "vuex";
     ...mapState(["userInfo"])
     },
 		methods: {
-			// ...mapMutations(['clear_storage']),
-			// machineChange(){
-			// 	this.clear_storage('stationCode');
-			// 	uni.reLaunch({ url:'/pages/index/index' });
-			// },
 			async lotNoHandle(e){
 				const res= await this.lotNoFetch(e);
 				if(res.length){
@@ -89,8 +80,9 @@ import { mapState ,mapMutations} from "vuex";
 			},
 			async checkOutHandle(){
 				const {lotNo}=this.$refs.Logout.formData;
-				await this.checkOutFetch(lotNo);
-				await this.toast('success','注销成功');
+				const {code,message} =await this.checkOutFetch(lotNo);
+				const toastType=code==='OK'?'success':'error'
+				await this.toast(toastType,message);
 				await this.lotNoClear();
 				
 			},
