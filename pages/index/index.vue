@@ -118,9 +118,16 @@ export default {
    async onPress(e){
       const {title,skipUrl}=e;
       if(title==='工站物料'){
+        this.workOrderHandle(skipUrl);
+      }else{
+        uni.navigateTo({url:skipUrl});
+      }
+    },
+    workOrderHandle(skipUrl){
         // #ifdef APP-PLUS
         uni.scanCode({
           success: (res)=> {  
+            console.log(res.result,skipUrl)
             this.initWorkOrder(res.result,skipUrl);   
           },
           fail: () => {
@@ -131,16 +138,11 @@ export default {
         // #ifdef H5 
          this.initWorkOrder('ANKZB01',skipUrl);       
         // #endif
-      }else{
-        uni.navigateTo({url:skipUrl});
-      }
     },
     async initWorkOrder(param,skipUrl){
       const res=await this.workOrderFetch({stationCode:param});
-      //  .then(res=>{
-          const materialParam= encodeURIComponent(JSON.stringify(res ));
-          uni.navigateTo({url:`${skipUrl}?param=${materialParam}`});
-        // });       
+      const materialParam= encodeURIComponent(JSON.stringify(res ));
+      uni.navigateTo({url:`${skipUrl}?param=${materialParam}`});    
      },
      workOrderFetch(params){
         return  this.$http.request({
