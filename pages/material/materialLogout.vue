@@ -3,7 +3,7 @@
 		<ex-TnavBar :title="navBar.title" :is-back="navBar.isBack" title-bold/>
 		 <ex-box :radius="false">
 				<ex-form 
-				ref="Logout"
+				ref="logoutForm"
 				:borderBottom="false"
 				:formOpts="formOpts"
 				:isBtn="false"
@@ -21,6 +21,7 @@
 			</ex-form>		
 		</ex-box>	
 		<u-toast ref="uToast" />
+		<xw-scan/>
 		<view class="h-100"></view>
     <view class="fixBtn">
 			<u-row gutter="20">
@@ -32,7 +33,7 @@
 </template>
 
 <script>
-import { mapState ,mapMutations} from "vuex";
+import { mapState} from "vuex";
 	export default {
 		name:'MaterialLogout',
 		data() {
@@ -47,13 +48,10 @@ import { mapState ,mapMutations} from "vuex";
 					event:{
 						lotNo:{
 							confirm: (e)=>{
-								if(e) this.lotNoHandle(e);
-								
+								if(e) this.lotNoHandle(e);						
 							},
 							input:(e)=>{
-								if(!e){
-									this.lotNoClear();
-								}
+								if(!e) this.lotNoClear();
 						 }	
 						},
 					}
@@ -79,7 +77,7 @@ import { mapState ,mapMutations} from "vuex";
 				}
 			},
 			async checkOutHandle(){
-				const {lotNo}=this.$refs.Logout.formData;
+				const {lotNo}=this.$refs.logoutForm.formData;
 				const {code,message} =await this.checkOutFetch(lotNo);
 				const toastType=code==='OK'?'success':'error'
 				await this.toast(toastType,message);
@@ -87,22 +85,16 @@ import { mapState ,mapMutations} from "vuex";
 				
 			},
 			rejectHandle(){
-        const {lotNo}=this.$refs.Logout.formData;
-        if(lotNo){
-          return void this.lotNoClear();
-        }
- 
+        const {lotNo}=this.$refs.logoutForm.formData;
+        if(lotNo) this.lotNoClear();
       },
 			lotNoClear(){
-				this.$refs.Logout.clear();
+				this.$refs.logoutForm.clear();
 				this.lotNoData={};
 				this.isLogout=true;
 			},
 			toast(type,msg){
 				this.$refs.uToast.show({title:msg,type,position:'bottom'})
-			},
-			BStationFetch(stationCode){
-				return this.$http.request({url: '/api/BStationList',method: "GET",data: {stationCode}}); 
 			},
 			lotNoFetch(lotNo){
 				return this.$http.request({url: '/api/PMaterialWip',method: "GET",data: {lotNo}}); 
@@ -111,16 +103,21 @@ import { mapState ,mapMutations} from "vuex";
 				return this.$http.request({url: '/api/MaterialInFeeder/CheckOut',method: "POST",data: {lotNo}}); 
 			},		
 		},
-		async onLoad({stationCode}){
-			this.stationCode=stationCode;
-			const res =await this.BStationFetch(stationCode);
-			if(res.length){
-				const [{machineCode}]=res;
-				this.formOpts.formData.machineCode=machineCode;
-				this.$refs.Logout.setData({machineCode});
-        // this.$refs.BindForm.init();				
-			}
-		},		
+		onUnload() {   
+		   uni.$off('xwscan');
+		},
+		onShow() {
+			uni.$off('xwscan') 
+			uni.$on('xwscan', (res)=> {
+			const code=this.$u.trim(res.code.replace(/\/n/g,''));
+			const logoutForm=this.$refs.logoutForm;
+			const {lotNo}=logoutForm.formData;
+				if(!lotNo){
+					logoutForm.formData.lotNo=lotNo;
+					 this.lotNoHandle(code);	
+				}			
+			})
+		}, 		
 	}
 </script>
 

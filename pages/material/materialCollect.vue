@@ -4,7 +4,7 @@
     <!-- nav -->
 		<ex-box :radius="false">
 				<ex-form 
-				ref="BindForm"
+				ref="collectForm"
 				:borderBottom="false"
 				:formOpts="formOpts"
 				:isBtn="false"
@@ -43,7 +43,6 @@
 		</view>
 	</view>
 </template>
-
 <script>
  import { mapState ,mapMutations} from "vuex";
 	export default {
@@ -75,7 +74,7 @@
 							},
 							input:(e)=>{
 								if(!e){
-									this.$refs.BindForm.formData.storeLotNo='';
+									this.$refs.collectForm.formData.storeLotNo='';
 									this.clearStore();		
 								}
 						 }	
@@ -100,48 +99,50 @@
 					if(res.length){
 						  this.feederData=res[0];
 					}else{
-						this.$refs.BindForm.formData.feederLotNo='';
+						this.$refs.collectForm.formData.feederLotNo='';
 						this.toast('error',`${e}-该物料批次没安装在飞达`);	
 				 }
 		 },
 		 async storeHandle(e){
 				const res= await this.lotNoFetch(e);
 				const state=res.length? res[0].state:'';
+				this.storeData=res[0];
 				if(state===0){
 						this.installHandle();
 				}else if(state===1){
-					this.$refs.BindForm.formData.storeLotNo='';
+					this.rejectHandle();
 					this.toast('error','物料批次已安装在飞达');
 				}else{
-					this.$refs.BindForm.formData.storeLotNo='';
+					this.rejectHandle();
 					this.toast('error','物料批次未注册');
 				}
 		 },		
 		 async installHandle(){
 				const {code,message}=  await this.installFetch();
         if(code==='OK'){
-					await this.toast('success',message);
 					this.resetHandle();		
+					await this.toast('success',message);
 				}else{
-          await this.toast('error',message);		
+					this.rejectHandle();
+          await this.toast('error',message);	
 				}		     
 			},
 			toast(type,msg){
 				this.$refs.uToast.show({title:msg,type,position:'bottom'})
 			},
 			rejectHandle(){
-				const {feederLotNo,storeLotNo}=this.$refs.BindForm.formData;
+				const {feederLotNo,storeLotNo}=this.$refs.collectForm.formData;
         if(storeLotNo){
-          this.$refs.BindForm.formData.storeLotNo='';
+          this.$refs.collectForm.formData.storeLotNo='';
          return void this.clearStore();       
         } 
         if(feederLotNo){
-          this.$refs.BindForm.formData.feederLotNo='';
+          this.$refs.collectForm.formData.feederLotNo='';
           return void this.clearFeeder();
         }		
 			},
 			resetHandle(){
-				this.$refs.BindForm.clear();
+				this.$refs.collectForm.clear();
 				this.clearStore();
 				this.clearFeeder();
 			},
@@ -164,7 +165,7 @@
 				const parame={
 					stationCode:this.stationCode,
 					empCode:this.userInfo.empCode,
-					lotNo:this.$refs.BindForm.formData.storeLotNo,
+					lotNo:this.$refs.collectForm.formData.storeLotNo,
 					feederCode:this.feederData.feederCode,
 					isAppend:true
 				}
@@ -177,9 +178,8 @@
 			if(res.length){
 				const [{machineCode}]=res 
 				this.formOpts.formData.machineCode=machineCode;
-				this.$refs.BindForm.setData({machineCode});
+				this.$refs.collectForm.setData({machineCode});
 			}
-
 		},
 		onUnload() {   
 		   uni.$off('xwscan');
@@ -188,14 +188,14 @@
 			uni.$off('xwscan') 
 			uni.$on('xwscan', (res)=> {
 			const code=this.$u.trim(res.code.replace(/\/n/g,''));
-			const BindForm=this.$refs.BindForm;
-			const {lotNo,feederCode}=BindForm.formData;
-				if(!feederCode){
-					BindForm.formData.feederCode=code;
+			const collectForm=this.$refs.collectForm;
+			const {feederLotNo,storeLotNo}=collectForm.formData;
+				if(!feederLotNo){
+					collectForm.formData.feederLotNo=code;
 					return void this.feederHandle(code);
 				}
-				if(!lotNo){
-					BindForm.formData.lotNo=code;
+				if(!storeLotNo){
+					collectForm.formData.storeLotNo=code;
 					return void this.storeHandle(code);	
 				}
 			})

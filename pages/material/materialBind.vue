@@ -4,7 +4,7 @@
     <!-- nav -->
 		<ex-box :radius="false">
 				<ex-form 
-				ref="BindForm"
+				ref="bindForm"
 				:borderBottom="false"
 				:formOpts="formOpts"
 				:isBtn="false"
@@ -21,7 +21,11 @@
 				<template v-slot:feederCodeBottom="slotProps">
 					<view class="material-tip" >
 						<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="feederDict"  :data="feederData">
-						  <template v-slot:right="slotProps"><u-button v-show="!!slotProps.data.feederCode" size="mini" @click="unloadHandle">卸载</u-button></template>
+						  <template v-slot:right="desData">
+								<u-button v-show="!!desData.data.feederCode" size="mini" @click="unloadHandle(desData.data)">
+									{{slotProps.data.lotNo===desData.data.lotNo?'卸载':'释放'}}
+								</u-button>
+							</template>
 						</ex-describe>		
 					</view>
 				</template>	
@@ -72,7 +76,7 @@
 								if(!e){
 									this.clearLotNo();
 								  this.clearFeeder();
-									this.$refs.BindForm.formData.feederCode='';		
+									this.$refs.bindForm.formData.feederCode='';		
 								}
 						 }	
 						},
@@ -104,17 +108,17 @@
 					if(res.length){
 						this.lotNoData=res[0];
 						if(res[0].state===1){							
-							const {lotNo}=this.$refs.BindForm.formData			
+							const {lotNo}=this.$refs.bindForm.formData			
 							await	this.getFeederData({lotNo});
 							if(this.feederData.feederCode){
-								this.$refs.BindForm.formData.feederCode=this.feederData.feederCode;	
+								this.$refs.bindForm.formData.feederCode=this.feederData.feederCode;	
 							  this.toast('success',`当前批次已被绑定于:${this.feederData.feederCode}`);   
 							}else{
 								this.toast('error','物料不是闲置状态');	
 							}						 								
 						}
 					}else{
-						  this.$refs.BindForm.formData.lotNo='';
+						  this.$refs.bindForm.formData.lotNo='';
 							this.clearLotNo();
 						  this.clearFeeder();
 							this.toast('error',`${e}-没有注册`);		
@@ -123,17 +127,16 @@
 			async feederHandle(e){
 				const toolList=await this.BWorkToolFetch(e);	
 				if(toolList.length){
-					const {feederCode}=this.$refs.BindForm.formData;
-					const feederList=await this.getFeederData({feederCode},false);
-			
+					const {feederCode}=this.$refs.bindForm.formData;
+					const feederList=await this.getFeederData({feederCode});		
 					if(!feederList.length){
 				  	await	this.installHandle();
 					  await	this.resetHandle();			
 					}else{
-						this.toast('error',`${e}容器已经绑定`);		
+						this.toast('error',`${e}容器已经绑定${this.feederData.lotNo}`);		
 					} 					
 				}else{
-					this.$refs.BindForm.formData.feederCode='';
+					this.$refs.bindForm.formData.feederCode='';
 					this.clearFeeder();
 					this.toast('error',`容器不存在`);		
 				}
@@ -157,31 +160,32 @@
         }
         return feederList;
 			},
-			async unloadHandle(){
-				await	this.unloadFetch();
+			async unloadHandle(parame){
+				const bindForm=this.$refs.bindForm.formData;
+				const msg=bindForm.lotNo===this.feederData.lotNo?'卸载成功':'释放成功'
+				await	this.unloadFetch(parame);
 				await this.clearFeeder();	
-				this.$refs.BindForm.formData.feederCode='';		
-				await this.toast('success','卸载成功');		
+				await this.toast('success',msg);	
+				bindForm.feederCode='';			
 			},
 			toast(type,msg){
 				this.$refs.uToast.show({type,title:msg,position:'bottom'})
 			},
 			rejectHandle(){
-				const {lotNo,feederCode}=this.$refs.BindForm.formData;
+				const {lotNo,feederCode}=this.$refs.bindForm.formData;
 				if(feederCode){
-          this.$refs.BindForm.formData.feederCode='';
+          this.$refs.bindForm.formData.feederCode='';
           this.clearFeeder();
           return
         }		
         if(lotNo){
-          this.$refs.BindForm.formData.lotNo='';
+          this.$refs.bindForm.formData.lotNo='';
            this.clearLotNo();
           return
         }
-	 
 			},
 			resetHandle(){
-				this.$refs.BindForm.clear();
+				this.$refs.bindForm.clear();
 				this.clearLotNo();
 				this.clearFeeder();
 			},
@@ -207,16 +211,17 @@
 				const parame={
 					stationCode:this.stationCode,
 					empCode:this.userInfo.empCode,
-					...this.$refs.BindForm.formData,
+					...this.$refs.bindForm.formData,
 					isAppend:false 
 				}
 				return this.$http.request({url: '/api/MaterialInFeeder/Install',method: "POST",data: parame}); 
 			},
-			unloadFetch(){
+			unloadFetch({feederCode, lotNo}){
 				const parame={
 					stationCode:this.stationCode,
 					empCode:this.userInfo.empCode,
-					...this.$refs.BindForm.formData,
+					feederCode,
+					lotNo,
 					qty:this.feederData.qty
 				}
 				return this.$http.request({url: '/api/MaterialInFeeder/Uninstall',method: "POST",data: parame}); 
@@ -228,7 +233,7 @@
 			if(res.length){
 				const [{machineCode}]=res;
 				this.formOpts.formData.machineCode=machineCode;
-				this.$refs.BindForm.setData({machineCode});			
+				this.$refs.bindForm.setData({machineCode});			
 			}
 		},
 		onUnload() {   
@@ -238,14 +243,14 @@
 			uni.$off('xwscan') 
 			uni.$on('xwscan', (res)=> {
 			const code=this.$u.trim(res.code.replace(/\/n/g,''));
-			const BindForm=this.$refs.BindForm;
-			const {lotNo,feederCode}=BindForm.formData;
+			const bindForm=this.$refs.bindForm;
+			const {lotNo,feederCode}=bindForm.formData;
 				if(!lotNo){
-					BindForm.formData.lotNo=code;
+					bindForm.formData.lotNo=code;
 					return void this.lotNoHandle(code);	
 				}
 				if(!feederCode){
-					BindForm.formData.feederCode=code;
+					bindForm.formData.feederCode=code;
 					return void this.feederHandle(code);
 				}
 			})

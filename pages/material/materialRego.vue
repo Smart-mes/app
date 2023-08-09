@@ -9,9 +9,6 @@
 				:formOpts="formOpts"
 				:isBtn="false"
 				>
-					<!-- <template v-slot:machineCodeRight="slotProps">
-						<view class="material-w"><u-button type="info" size="mini" class="ml-20" @click="machineChange">切换</u-button></view>
-					</template> -->
 					<template v-slot:inputQtyRight="slotProps">
 						<view class="material-w unit">PCS</view>
 					</template>
@@ -55,7 +52,6 @@
 				formOpts:{
 					formData:{matCode:'',lotNo:'',inputQty:5000},
 					formItem:[
-							// { label: "当前设备", props: "machineCode", type: "exInput",border: true,disabled:true,class:'disabled'},
 							{ label: "物料编号", props: "matCode", type: "exInput",border: true,change:true},
 							{ label: "物料批次", props: "lotNo", type: "exInput",border: true,change:true},
 							{ label: "批次数量", props: "inputQty", type: "numberBox",disabled:true,},
@@ -80,7 +76,7 @@
 					}	
 				},			
 				},
-				stationCode:'',
+				stationCode:'HWSMT04-01',
 				matCodeDict:{matCode:'编号',matName:'名称'},
 				matCodeData:{},
 				isOut:true,
@@ -115,10 +111,6 @@
 				}
 				this.setType(res.length);				
 			},		
-			// machineChange(){
-			// 	this.clear_storage('stationCode');
-			// 	uni.reLaunch({ url:'/pages/index/index' });
-			// },
 			rejectHandle(){
         const {matCode,lotNo,inputQty}=this.$refs.regoForm.formData;
         if(!this.isRego&&inputQty!==5000){
@@ -166,9 +158,6 @@
 				  this.isRego=!!isType;
 				}
 			},
-			// BStationFetch(stationCode){
-			// 	return this.$http.request({url: '/api/BStationList',method: "GET",data: {stationCode}}); 
-			// },
 			matCodeFetch(matCode){
 			  return  this.$http.request({url: '/api/BMaterial',method: "GET",data: {matCode}}); 
 			},
@@ -179,15 +168,6 @@
 				return this.$http.request({url: '/api/MaterialInFeeder/CheckIn',method: "POST",data:parame});  
 			}
 		},
-		// async onLoad({stationCode}){
-		// 	this.stationCode=stationCode;
-		//   const res=await this.BStationFetch(stationCode);
-		// 	if(res.length){
-		// 		const [{machineCode}] =res;
-		// 		this.formOpts.formData.machineCode=machineCode;
-		// 		this.$refs.regoForm.setData({machineCode});
-		// 	}
-		// },
 		onUnload() {   
 		   uni.$off('xwscan');
 		},
