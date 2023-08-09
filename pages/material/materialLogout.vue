@@ -113,7 +113,7 @@ import { mapState} from "vuex";
 			const logoutForm=this.$refs.logoutForm;
 			const {lotNo}=logoutForm.formData;
 				if(!lotNo){
-					logoutForm.formData.lotNo=lotNo;
+					logoutForm.formData.lotNo=code;
 					 this.lotNoHandle(code);	
 				}			
 			})
