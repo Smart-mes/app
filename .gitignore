@@ -92,5 +92,5 @@ typings/
 
 #禁止提交
 node_modules/
-uni_modules/
+uni_modules/qiun-data-charts/
 unpackage/
