@@ -1,57 +1,70 @@
 <template>
   <view 
     class="ex-list" 
-    :class="{'ex-link':type==='link'}"  
+    :class="{'ex-link':isLink}"  
     :style="{...customStyle}">
     <!-- title -->
-    <view class="title">
-      <view class="title-left"><text>{{title}}</text></view>
+    <view class="title" v-if="title">
+      <view class="title-left">
+        <text class="title-text">{{title}}</text>
+      </view>
        <view class="title-Right">
-        <slot name="titleRight"></slot>
+         <slot name="titleRight"></slot>
       </view>
     </view>
     <!--list-->
     <view 
       class="list" 
-      :class="{'link-list':type==='link'}"  
-      :style="{flexDirection:(layout==='horizontal'?'row':'column')}" >
+      :class="{'link-list':isLink}">
         <div 
           v-for="item in data" :key="item[keyId]"
           class="list-row" 
-          :class="{'border-bottom':borderBottom,'link-list-row':type==='link','list-row-hover':hover}"  
-          :style="{...customItemStyle}" 
-           >
-           <view class="list-row-left">
-                <u-row>
-                    <block v-for="(value,key,i) in item"  :key="key">
-                       <block v-if="keyShow.includes(key)">
-                          <u-col v-if="typeof(value)==='string'"  span="12">
-                              <view class="list-col">
-                                  <view class="list-col-name" :style="{width:labelWidth,textAlign:labelAlign}">
-                                    {{dict[key]?dict[key]:key}}：
-                                  </view>
-                                  <view class="list-col-ontent">{{value}}</view>        
-                              </view>
-                          </u-col>
-                          <block v-else>
-                            <block v-for="(val,vkey,i) in value" v-if="keyShow.includes(vkey)">
-                                <u-col  span="12">
+          :class="{'border-top':borderTop,'link-list-row':isLink,'list-row-hover':hover}"  
+          :style="{...customItemStyle}">
+            <view class="list-row-left">
+                  <u-row style="flex-wrap: wrap;">
+                      <block v-for="(value,key) in lableDict" :key="key" v-if="key">
+                        <block v-if="typeof(value)==='object'">
+                              <block v-for="(val,vkey) in value" :key="vkey" v-if="lableDict[key][vkey]">
+                                <u-col span="12">
                                     <view class="list-col">
                                         <view class="list-col-name" :style="{width:labelWidth,textAlign:labelAlign}">
-                                          {{dict[vkey]?dict[vkey]:val}}：
+                                          {{val}}：
                                         </view>
-                                        <view class="dest-content">{{val}}</view>        
+                                        <view class="list-col-content" v-if="slotName&&slotName[key]&&slotName[key][vkey]">
+                                          <slot :name="`${key}-${vkey}`" :data="item"></slot>
+                                        </view>
+                                        <view class="list-col-content" v-else>
+                                          {{getVal(key,vkey,item)}}
+                                        </view> 
                                     </view>
                                 </u-col>                 
-                              </block>           
+                            </block>   
                           </block>
-                      </block>
-                  </block>
-              </u-row>              
-          </view>  
-          <view class="list-row-right">
-              <slot name="right"></slot>
-          </view>                  
+                          <block v-else>
+                              <u-col span="12">
+                                  <view class="list-col">
+                                      <view class="list-col-name" :style="{width:labelWidth,textAlign:labelAlign}">
+                                        {{value}}：
+                                      </view>                   
+                                      <view class="list-col-content" v-if="slotName&&slotName[key]">
+                                        <slot :name="key" :data="item"></slot>
+                                      </view>
+                                      <view class="list-col-content" v-else>
+                                        {{getValue(key,item)}}
+                                      </view>
+                                  </view>
+                              </u-col>                            
+                          </block> 
+                    </block>
+                    <u-col span="12">
+                        <slot name="bottom" :data="item"></slot>
+                    </u-col> 
+                </u-row>              
+            </view>  
+            <view class="list-row-right">
+                <slot name="right" :data="item"></slot>
+            </view> 
         </div>
       </view>
       <u-empty
@@ -68,22 +81,48 @@ export default {
   name:'List',
   props:{
     title:{type:String,default:''},
-    layout:{type:String,default:'horizontal'},    //horizontal | vertical
-    customStyle:{type:Object,default:()=>({})},
+    customStyle:{type:Object,default:null},
     customItemStyle:{type:Object,default:null},
     labelWidth:{type:String,default:'140rpx'},
     labelAlign:{type:String,default:'right'}, 
     data:{type:Array,default:()=>[]},
-    dict:{type:Object,default:null},
-    borderBottom:{type:Boolean,default:false},
-    keyShow:{type:Array,default:()=>[]},
+    lableDict:{type:Object,default:null},
+    valueDict:{type:Object,default:null},
     keyId:{type:String,default:'id'},
-    type:{type:String,default:'default'},
-    hover:{type:Boolean,default:false}
+    slotName:{type:Object,default:null},
+    type:{type:String,default:''},
+    hover:{type:Boolean,default:false},
+    borderTop:{type:Boolean,default:false},
+  },
+  computed: {
+    isLink:function(){
+      return this.type==='link';
+    }
+  },
+  methods: {
+    getVal(key,vkey,item){
+      if(item[key]){
+          if(this.valueDict&&this.valueDict[key]&&this.valueDict[key][vkey]){
+            return this.valueDict[key][vkey][item[key][vkey]];
+         }else{
+            return item[key][vkey]||'无';
+         }  
+      }    
+    },
+    getValue(key,item){
+      // if(item[key]){
+        if(this.valueDict&&this.valueDict[key]){
+          return this.valueDict[key][item[key]];
+        }else{
+          return item[key]||'无';
+        }
+      }
+    // }
   }
 }
 </script>
 <style lang="scss" scoped>
+.title-text{ display:block;font-weight: bold; font-size: 32rpx; margin:0 0 20rpx 0;}
  .ex-list{
   margin: 15rpx 0;
   padding:30rpx;background-color: #fff;
@@ -99,6 +138,7 @@ export default {
     } 
   }
   .list{
+    font-size: 28rpx;
     line-height: 1.7;
     word-break:break-all;
     .list-row-hover:hover{background-color: #f9f9f9;}
@@ -115,7 +155,7 @@ export default {
       &-name{
           text-align: right;
           overflow: hidden; 
-          margin-right:20rpx;
+          margin-right:10rpx;
           color: #999;
         }
         &-content{
@@ -127,14 +167,15 @@ export default {
     }
 
      &-item{display: flex;}
-     .border-bottom{border-bottom: 1px dashed #ddd;}
+     .border-top{border-top: 1px dashed #ddd;}
     } 
 
 }
 
 .ex-link{
-  background-color: initial;
+  margin-top: 0;
   padding: 0;
+  background-color: initial;
   .title{margin: 0 15rpx;}
   .link-list{
       margin:15rpx;
@@ -143,7 +184,7 @@ export default {
       &-row{
         border-radius:10rpx;
         margin:15rpx 0;
-        padding:15rpx
+        padding:30rpx
       }
   }  
 }
