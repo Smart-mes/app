@@ -26,7 +26,7 @@
 							</view>		
 							<view class="info-item">
 								<view class="info-item-name">设备：</view>
-								<view class="info-item-text">{{(dict.machine&&dict.machine[workOrder.stationCode])||'无'}}</view>
+								<view class="info-item-text">{{(dict.BMachine&&dict.BMachine[workOrder.machineCode])}}</view>
 							</view>	
 					</view>
 					<view  class="info-line"><u-line color="#ddd"/></view>								
@@ -125,7 +125,7 @@
 					<u-form ref="materialsForm" label-width="140rpx" :model="materialsForm">
 							<u-form-item  label="单元" prop="unit">
 								<u-input class="disabled" disabled v-model="materialsForm.unit"/>
-							</u-form-item>			
+							</u-form-item>
 							<u-row>
 								<u-col span="6">
 									<u-form-item   label="插槽" prop="slotNo">
@@ -138,10 +138,10 @@
 									</u-form-item>								
 								</u-col>
 						</u-row>
-						<u-form-item class="relative"  label="物料编号" prop="cMatCode" >
+							<u-form-item class="relative"  label="物料编号" prop="cMatCode" >
 								<u-input class="disabled" disabled  v-model="materialsForm.cMatCode" />
 							</u-form-item>
-							<u-form-item class="relative" required label="当前物料" prop="matCode" >
+							<u-form-item class="relative" required label="当前物料" prop="matCode">
 								<u-input class="disabled" disabled  v-model="materialsForm.matCode" />
 								<u-icon v-show="isMatCode" class="absolute matCode-icon" name="close" color="#e45656" size="28" />
 							</u-form-item>
@@ -150,14 +150,7 @@
 							</u-form-item>							
 							<!-- rawText -->
 							<u-form-item  label="料盘编号" prop="rawText" >
-								<view class="flex w-full" >
-								<view class="flex-1">
-									<u-input change focus v-model="materialsForm.rawText"  @input="materialsInput"/>
-								</view>
-								<view>
-									<u-icon name="scan" size="50" color="#666" @click="handleMaterialsScan"/>
-								</view>
-							</view>						
+								<u-input v-model="materialsForm.rawText" @confirm="rawTextConfirm"/>
 							</u-form-item>
 				</u-form>
 				<u-row class="m-t20" gutter="20">
@@ -185,6 +178,7 @@
 				 <text class="m-t20">装料未完成,剩余{{notFinishNum}}</text>
 			</view>
 		</u-modal>
+		<xw-scan/>
 		<u-toast ref="uToast" />
 	</view>
 </template>
@@ -199,7 +193,6 @@ import { mapState } from "vuex";
 				navBar: { title:'工站物料', isBack: true},
 				btnLoading:false,
 				popupShow:false,
-				// ismatCode:false,
 				materialsForm:{unit:'',slotNo:'',leftOrRight:'',cMatCode:'',matCode:'',lotNo:'',rawText:''},
 				materialsRules:{
 					matCode:{required: true,message: '不能为空',trigger: ['blur', 'change']},
@@ -237,8 +230,7 @@ import { mapState } from "vuex";
 					return !(cMatCode===matCode);
 				}else{
 					return false;
-				}
-				
+				}			
 			},
 			mList(){
 				const {unit,slotNo,leftOrRight}=this.dropdown;
@@ -248,12 +240,14 @@ import { mapState } from "vuex";
 					else return true;
 				})
 				.filter(fIrem=>{
-					if(slotNo) {return fIrem.slotNo===slotNo;}
+					if(slotNo) return fIrem.slotNo===slotNo
 					return true;
 				})
 				.filter(fIrem=>{
 					if(leftOrRight){
-						if(leftOrRight==='无'){	return !fIrem.leftOrRight}
+						if(leftOrRight==='无'){
+							return !fIrem.leftOrRight
+						}
 						return fIrem.leftOrRight===leftOrRight
 					} 
 					return true;
@@ -270,7 +264,7 @@ import { mapState } from "vuex";
 			customBack(){
 				console.log(this.notFinishNum)
 				if(this.notFinishNum) this.modelShow=true;
-			  else	uni.navigateBack();
+			 else	uni.navigateBack();
 			},
 			modelCancel(){
 				this.modelShow=false;
@@ -280,15 +274,6 @@ import { mapState } from "vuex";
 				if(this.notFinishNum){
 					uni.navigateBack();
 				}
-			},
-			async materialsInput(val){
-       if(val){
-				await this.initMaterials(val)
-				await this.handleSubmit();
-			 }else{
-				this.materialsForm.matCode='';
-				this.materialsForm.lotNo='';
-			 }	
 			},
 			handleDopen(i){
 				Object.entries(this.dropdown).forEach(([key],dIndex)=>{
@@ -320,7 +305,11 @@ import { mapState } from "vuex";
 			},
 			setFormData(){
 				Object.entries(this.materialsForm).forEach(([key,val])=>{	
-					this.materialsForm[key]=this.materialList[this.materialIndex][key];
+					if(key==='matCode'||key==='lotNo'){  
+						this.materialsForm[key]='';
+					}else{					
+						this.materialsForm[key]=this.materialList[this.materialIndex][key];
+					}
 				});				
 			},
 			handleAdd(i){
@@ -337,6 +326,10 @@ import { mapState } from "vuex";
 						this.$refs.uToast.show({title: "卸料成功",type: "success"});
 						this.getMateriallist();		
 				});
+			},
+			rawTextConfirm(val){
+				this.initMaterials(val);
+				this.handleSubmit();
 			},
 			 handleReset(){
 			    this.$refs.materialsForm.resetFields();
@@ -365,21 +358,6 @@ import { mapState } from "vuex";
 					} 
 			 });
 			},
-		  handleMaterialsScan(){
-        // #ifdef APP-PLUS
-        uni.scanCode({
-          success:(res)=> {
-						this.materialsForm.rawText=res.result;						 
-          },
-			    fail: () => {
-            this.$refs.uToast.show({ title: "扫码失败", type: "error" });
-          }
-        });
-        // #endif
-        // #ifdef H5
-				this.materialsForm.rawText='YB060072-2302044000001-0603N331J500CT'
-        // #endif				
-			},
 			initMaterials(param){		
 				const MaterialsData= this.getMaterials(param) 
 				if(MaterialsData){
@@ -399,7 +377,7 @@ import { mapState } from "vuex";
 			},	
 			async getMateriallist(){
 				  uni.showLoading({ title: "加载中", mask: true });
-				  const materialList=await this.materialFetch().catch(()=>{uni.hideLoading()});
+				  const materialList=await this.materialFetch().catch(()=>{ uni.hideLoading()});
 					this.materialList= materialList.map(mItem=>({...mItem,cMatCode:mItem.matCode}))
 				  uni.hideLoading();		
 			},
@@ -414,7 +392,7 @@ import { mapState } from "vuex";
         return  this.$http.request({
           url: '/api/Dictionary',
           method: "GET",
-          data:{keys: 'BStationList|machine|BLine'}
+          data:{keys: 'BStationList|BMachine|BLine'}
         });				
 			},		
 			materialFetch(){
@@ -433,9 +411,15 @@ import { mapState } from "vuex";
         });
 		 }
 		},
+		onReady(){
+			  const query = uni.createSelectorQuery().in(this);
+				query.select('#gap').boundingClientRect(data => {
+					this.stickyTop=data.height;
+				}).exec();
+		},
 		async onLoad(options){
 				this.unitList=new Array(4).fill({}).map((mapItem,i)=>({label:`${i+1}`,value:`${i+1}`,active:false}));
-				this.slotNoList=new Array(10).fill({}).map((mapItem,i)=>({label:`A${i+1}`,value:`A${i+1}`,active:false}));
+				this.slotNoList=new Array(11).fill({}).map((mapItem,i)=>({label:`${i+1}`,value:`${i+1}`,active:false}));
 				// param 
 				this.workOrder= JSON.parse(decodeURIComponent(options.param)); 
 				this.materialsForm.stationCode=this.workOrder.stationCode;
@@ -444,11 +428,16 @@ import { mapState } from "vuex";
 				this.dict={...dict,reg};		  
 				await this.getMateriallist();
 		},
-		onReady(){
-				const query = uni.createSelectorQuery().in(this);
-				query.select('#gap').boundingClientRect(data => {
-					this.stickyTop=data.height;
-				}).exec();
+		onUnload() {   
+		   uni.$off('xwscan');
+		},
+		onShow() {
+			uni.$off('xwscan') 
+			uni.$on('xwscan', (res)=> {
+			  const code=this.$u.trim(res.code.replace(/\/n/g,''));
+	      this.this.initMaterials(code);
+				this.handleSubmit();
+			})
 		},
 		onPageScroll(e) {
 			// let that = this;  

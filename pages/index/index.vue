@@ -59,6 +59,7 @@
     <ex-BNavBar :active="0"></ex-BNavBar>
      <!-- select -->
     <u-select mode="mutil-column-auto" v-model="selectShow" :list="lineList" @confirm="selectConfirm"/>
+    <xw-scan/>
     <u-toast ref="uToast" />
  </view>
 </template>
@@ -104,12 +105,6 @@ export default {
       });
     },
   },
-  onLoad() {
-  //  设置红点
-    this.getLine().then((res) => (this.lineList = res));
-    // this.getUnread();
-    // this.unreadPoll();
-  },
   methods: {
     ...mapMutations(["set_line"]),
     ...mapActions(["getLine", "getUnread", "unreadPoll"]),
@@ -127,7 +122,6 @@ export default {
         // #ifdef APP-PLUS
         uni.scanCode({
           success: (res)=> {  
-            console.log(res.result,skipUrl)
             this.initWorkOrder(res.result,skipUrl);   
           },
           fail: () => {
@@ -136,7 +130,7 @@ export default {
         });
         // #endif
         // #ifdef H5 
-         this.initWorkOrder('ANKZB01',skipUrl);       
+         this.initWorkOrder('SMT-TP-1',skipUrl);       
         // #endif
     },
     async initWorkOrder(param,skipUrl){
@@ -151,6 +145,20 @@ export default {
           data: params,
         });
     }
+  },
+  onLoad() {
+  //  设置红点
+    this.getLine().then((res) => (this.lineList = res));
+  },
+  onUnload() {   
+		   uni.$off('xwscan');
+	},
+  onShow() {
+    uni.$off('xwscan') 
+    uni.$on('xwscan', (res)=> {
+    const code=this.$u.trim(res.code.replace(/\/n/g,''));
+    this.initWorkOrder(code,'/pages/sMaterials/sMaterials');  
+    })
   },
 };
 </script>
