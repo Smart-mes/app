@@ -92,5 +92,4 @@ typings/
 
 #禁止提交
 node_modules/
-uni_modules/
 unpackage/
