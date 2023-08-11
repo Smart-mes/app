@@ -14,7 +14,9 @@
                       <view class="dest-name" :style="{width:labelWidth,textAlign:labelAlign}">
                         {{val}}：
                       </view>
-                      <view class="dest-content" v-if="slotName&&slotName[key]&&slotName[key][vkey]"><slot v-if="data[key]" :name="`${key}-${vkey}`" :data="data"></slot></view>
+                      <view class="dest-content" v-if="slotName&&slotName[key]&&slotName[key][vkey]">
+                        <slot :name="`${key}-${vkey}`" :data="data"></slot>
+                      </view>
                       <view class="list-col-content" v-else>
                         {{getVal(key,vkey,data)}}
                       </view>     
@@ -28,7 +30,7 @@
                         {{value}}：
                       </view>                       
                       <view class="dest-content" v-if="slotName&&slotName[key]">
-                        <slot v-if="data[key]"  :name="key" :data="data"></slot>
+                        <slot :name="key" :data="data"></slot>
                       </view>
                       <view class="dest-content" v-else>
                         {{getValue(key,data)}}
