@@ -10,27 +10,10 @@
 		  <!-- #endif -->	
 			<view id="info" class="info">
 				<view  class="info-box">
-				<view v-show="InfoShow">
-						<view  class="info-list">
-							<view class="info-item">
-								<view class="info-item-name">产线：</view>
-								<view class="info-item-text">{{dict.BLine&&dict.BLine[workOrder.lineCode]}}</view>
-							</view>
-							<view class="info-item">
-								<view class="info-item-name">工单：</view>
-								<view class="info-item-text">{{workOrder.orderNo}}</view>
-							</view>
-							<view class="info-item">
-								<view class="info-item-name">工位：</view>
-								<view class="info-item-text">{{dict.BStationList&&dict.BStationList[workOrder.stationCode]}}</view>
-							</view>		
-							<view class="info-item">
-								<view class="info-item-name">设备：</view>
-								<view class="info-item-text">{{(dict.BMachine&&dict.BMachine[workOrder.machineCode])}}</view>
-							</view>	
+					<view v-show="InfoShow" >
+						<exDescribe margin="0" :lableDict="infoLable" :valueDict="dict" :data="infoData"/>
+					   <view  class="info-line"><u-line color="#ddd"/></view>	
 					</view>
-					<view  class="info-line"><u-line color="#ddd"/></view>								
-				</view>							
 				<view class="info-operate">
 					<u-dropdown ref="uDropdown" height="60rpx" @open="handleDopen">
 						<u-dropdown-item  title="单元">
@@ -76,45 +59,21 @@
 				</view>							
 				</view>
 			</view> 
-		</u-sticky>						
+		</u-sticky>					
 		<!-- 列表 -->
 		<view class="operate-info basic-box m">
        <ex-title title="物料列表" class="p-30 p-b0">
 		     <view slot="right">已完成{{finishNum}}，一共有{{mList.length}}</view>
-			 </ex-title>	
-       <view class="m-list">
-					<!-- 1 -->
-				  <view class="m-item flex" v-for="(mItem,i) in mList" :key="i">
-						  <view class="flex-1">
-								<view class="info-list">
-										<view class="info-item">
-											<view class="info-item-name">位置：</view>
-											<view class="info-item-text">{{mItem.unit}}单元-{{mItem.slotNo}}{{mItem.leftOrRight?'-'+mItem.leftOrRight:''}}</view>
-										</view>
-										<view class="info-item">
-											<view class="info-item-name">物料编号：</view>
-											<view class="info-item-text">{{mItem.matCode}}</view>
-										</view>
-										<view class="info-item">
-											<view class="info-item-name">物料批次：</view>
-											<view class="info-item-text">{{mItem.lotNo||'无'}}</view>
-										</view>					
-								</view>								
-							</view>
-							<view class="m-operate flex align-items-center justify-content-center">
-								<u-icon v-if="mItem.lotNo" class="m-operate-icon m-operate-del" name="close"  size="30" color="#fff"  @click="handleDel(i)"/>
-								<u-icon v-else class="m-operate-icon m-operate-add" name="plus" size="30" color="#fff" @click="handleAdd(i)"/>
-							</view>
-					</view>	
-							<!-- 无数据 -->
-					<u-empty
-							v-show="!mList.length"
-							margin-top="30"
-							icon-size="100"
-							text="数据为空"
-							mode="data"
-			    />								
-			 </view>
+			 </ex-title>
+			 <ex-list borderTop :lableDict="maLable" :data="mList" :slotName="mSlot">
+				<template v-slot:position="slotProps">	
+					{{slotProps.data.unit}}单元-{{slotProps.data.slotNo}}{{slotProps.data.leftOrRight?'-'+slotProps.data.leftOrRight:''}}
+				</template>	
+				<template v-slot:right="slotProps">		
+					   <u-icon v-show="slotProps.data.lotNo" class="m-operate-icon m-operate-del" name="close"  size="30" color="#fff"  @click="handleDel(slotProps.data)"/>
+						 <u-icon v-show="!slotProps.data.lotNo" class="m-operate-icon m-operate-add" name="plus" size="30" color="#fff" @click="handleAdd(slotProps.data)"/>
+				</template>					
+			 </ex-list>	
 		</view>
 		<view class="overflow-hidden"/>
 		<!-- backTop -->
@@ -138,10 +97,10 @@
 									</u-form-item>								
 								</u-col>
 						</u-row>
-							<u-form-item class="relative"  label="物料编号" prop="cMatCode" >
+						<u-form-item class="relative"  label="物料编号" prop="cMatCode" >
 								<u-input class="disabled" disabled  v-model="materialsForm.cMatCode" />
 							</u-form-item>
-							<u-form-item class="relative" required label="当前物料" prop="matCode">
+							<u-form-item class="relative" required label="当前物料" prop="matCode" >
 								<u-input class="disabled" disabled  v-model="materialsForm.matCode" />
 								<u-icon v-show="isMatCode" class="absolute matCode-icon" name="close" color="#e45656" size="28" />
 							</u-form-item>
@@ -150,7 +109,7 @@
 							</u-form-item>							
 							<!-- rawText -->
 							<u-form-item  label="料盘编号" prop="rawText" >
-								<u-input v-model="materialsForm.rawText" @confirm="rawTextConfirm"/>
+									<u-input change  v-model="materialsForm.rawText"  @confirm="materialsConfirm"/>
 							</u-form-item>
 				</u-form>
 				<u-row class="m-t20" gutter="20">
@@ -178,7 +137,6 @@
 				 <text class="m-t20">装料未完成,剩余{{notFinishNum}}</text>
 			</view>
 		</u-modal>
-		<xw-scan/>
 		<u-toast ref="uToast" />
 	</view>
 </template>
@@ -189,6 +147,13 @@ import { mapState } from "vuex";
 		name:'SMaterials',
 		data() {
 			return {
+				infoLable:{lineCode:'产线',orderNo:'工单',stationCode:'工位',machineCode:'设备'},
+				infoData:{},
+				maLable:{position:'位置',cMatCode:'物料编号',lotNo:'物料批次'},
+				dict:{},
+        mSlot:{position:true},
+				materialIndex:0,	
+			  materialList:[],
 				modelShow:false,
 				navBar: { title:'工站物料', isBack: true},
 				btnLoading:false,
@@ -211,10 +176,6 @@ import { mapState } from "vuex";
 				sheetList:[
 					{text: '删除',color: 'red',active:false}
 				],
-				dict:{},
-				materialIndex:0,
-				workOrder:{},
-				materialList:[],
 				scrollTop:0,
 				stickyTop:0,		
 				isSticky:false,
@@ -230,7 +191,8 @@ import { mapState } from "vuex";
 					return !(cMatCode===matCode);
 				}else{
 					return false;
-				}			
+				}
+				
 			},
 			mList(){
 				const {unit,slotNo,leftOrRight}=this.dropdown;
@@ -262,7 +224,6 @@ import { mapState } from "vuex";
 		},
 		methods: {
 			customBack(){
-				console.log(this.notFinishNum)
 				if(this.notFinishNum) this.modelShow=true;
 			 else	uni.navigateBack();
 			},
@@ -271,9 +232,11 @@ import { mapState } from "vuex";
 			},
 			modelConfirm(){
 				this.modelShow=false;
-				if(this.notFinishNum){
-					uni.navigateBack();
-				}
+				uni.navigateBack();
+			},
+			async materialsConfirm(val){
+				 await this.initMaterials(val);
+				 await this.handleSubmit();	
 			},
 			handleDopen(i){
 				Object.entries(this.dropdown).forEach(([key],dIndex)=>{
@@ -299,8 +262,12 @@ import { mapState } from "vuex";
 				if(f) this.dropdown[prop]=f.value;			
 				this.$refs.uDropdown.close(f.value);
 			},
-			handleDel(i){
-				this.materialIndex=i;
+			handleAdd(item){
+				this.materialIndex=this.mList.findIndex(({id})=>id===item.id);
+				this.popupShow=true;
+			},
+			handleDel(item){
+				this.materialIndex=this.mList.findIndex(({id})=>id===item.id);
 				this.sheetShow=true;
 			},
 			setFormData(){
@@ -312,10 +279,6 @@ import { mapState } from "vuex";
 					}
 				});				
 			},
-			handleAdd(i){
-				this.materialIndex=i;
-				this.popupShow=true;
-			},
 			popupOpen(){
 				this.handleReset();
 				this.$refs.materialsForm.setRules(this.materialsRules);
@@ -324,12 +287,8 @@ import { mapState } from "vuex";
 				const param={...this.materialList[this.materialIndex],lotNo:''};
 				this.changeFetch(param).then(()=>{
 						this.$refs.uToast.show({title: "卸料成功",type: "success"});
-						this.getMateriallist();		
+						this.$set(this.materialList[this.materialIndex], 'lotNo', '');	
 				});
-			},
-			rawTextConfirm(val){
-				this.initMaterials(val);
-				this.handleSubmit();
 			},
 			 handleReset(){
 			    this.$refs.materialsForm.resetFields();
@@ -341,14 +300,14 @@ import { mapState } from "vuex";
 						this.btnLoading=true;	
 						const param={...this.materialList[this.materialIndex],...this.materialsForm,empCode:this.userInfo.empCode};
 						const changeData= await this.changeFetch(param).catch(()=>{
-								radio.play_ding_success();
+								radio.play_ding_fail();
 								this.btnLoading=false;	
 						});
 						this.btnLoading=false;	
-							
-						if(changeData){
+			
+						if(changeData.lotNo){
 							this.popupShow=false;
-							await this.getMateriallist();
+							this.$set(this.materialList[this.materialIndex], 'lotNo', changeData.lotNo);
 							if(!this.notFinishNum){
 								this.modelShow=true
 							}else{
@@ -358,18 +317,24 @@ import { mapState } from "vuex";
 					} 
 			 });
 			},
+		  // YB060072-2302044000001-0603N331J500CT
 			initMaterials(param){		
 				const MaterialsData= this.getMaterials(param) 
 				if(MaterialsData){
 					Object.entries(MaterialsData).forEach(([key,value])=>{
-						this.materialsForm[key]=value
+						if(key==='matCode'){
+							this.materialsForm[key]=`6HP${value}`
+						}else{
+							this.materialsForm[key]=value
+						}
+						
 					})
 				}else{
 					this.$refs.uToast.show({ title:`${param}错误`, type: "error" });
 				}  
 			},
 			getMaterials(param){
-				const fReg=this.dict.reg[this.workOrder.flowId];
+				const fReg=this.dict.reg[this.infoData.flowId];
 				const reg =fReg?fReg:this.dict.reg[0];
 				const data=(new RegExp(reg)).exec(param);
 				if(data) return data.groups;		
@@ -378,7 +343,7 @@ import { mapState } from "vuex";
 			async getMateriallist(){
 				  uni.showLoading({ title: "加载中", mask: true });
 				  const materialList=await this.materialFetch().catch(()=>{ uni.hideLoading()});
-					this.materialList= materialList.map(mItem=>({...mItem,cMatCode:mItem.matCode}))
+					this.materialList= materialList.map((mItem,i)=>({id:i,...mItem,cMatCode:mItem.matCode}))
 				  uni.hideLoading();		
 			},
 			regDictFetch(){
@@ -392,11 +357,11 @@ import { mapState } from "vuex";
         return  this.$http.request({
           url: '/api/Dictionary',
           method: "GET",
-          data:{keys: 'BStationList|BMachine|BLine'}
+          data:{keys: 'BStationList|machine|BLine'}
         });				
 			},		
 			materialFetch(){
-				const {flowId,stationCode}=this.workOrder;
+				const {flowId,stationCode}=this.infoData;
         return  this.$http.request({
           url: '/api/MaterialInStation',
           method: "GET",
@@ -411,39 +376,44 @@ import { mapState } from "vuex";
         });
 		 }
 		},
+		async onLoad(options){
+				this.unitList=new Array(4).fill({}).map((mapItem,i)=>({label:`${i+1}`,value:`${i+1}`,active:false}));
+				this.slotNoList=new Array(10).fill({}).map((mapItem,i)=>({label:`0${i+1}`,value:`0${i+1}`,active:false}));
+				// param 
+				this.infoData= JSON.parse(decodeURIComponent(options.param)); 
+				this.materialsForm.stationCode=this.infoData.stationCode;
+				const {BLine,BStationList,BMachine}=await this.dictFetch();
+        const {MaterialStation:{codeSplitRule:reg}}=await this.regDictFetch();
+				this.dict={lineCode:BLine,stationCode:BStationList,machineCode:BMachine,reg};		  
+				await this.getMateriallist();
+		},
+		onUnload() {uni.$off('xwscan')},
+    onShow() {
+			uni.$off('xwscan') 
+			uni.$on('xwscan', (res)=> {
+				if(this.popupShow){
+					const code=this.$u.trim(res.code.replace(/\/n/g,''));
+					this.materialsForm.rawText=code;
+					this.materialsConfirm(code);  
+				}else{
+					this.$refs.uToast.show({ title:'请选择物料', type: "error" });
+				}
+			})
+  },
 		onReady(){
-			  const query = uni.createSelectorQuery().in(this);
+				const query = uni.createSelectorQuery().in(this);
 				query.select('#gap').boundingClientRect(data => {
 					this.stickyTop=data.height;
 				}).exec();
 		},
-		async onLoad(options){
-				this.unitList=new Array(4).fill({}).map((mapItem,i)=>({label:`${i+1}`,value:`${i+1}`,active:false}));
-				this.slotNoList=new Array(11).fill({}).map((mapItem,i)=>({label:`${i+1}`,value:`${i+1}`,active:false}));
-				// param 
-				this.workOrder= JSON.parse(decodeURIComponent(options.param)); 
-				this.materialsForm.stationCode=this.workOrder.stationCode;
-				const dict=await this.dictFetch();
-        const {MaterialStation:{codeSplitRule:reg}}=await this.regDictFetch();
-				this.dict={...dict,reg};		  
-				await this.getMateriallist();
-		},
-		onUnload() {   
-		   uni.$off('xwscan');
-		},
-		onShow() {
-			uni.$off('xwscan') 
-			uni.$on('xwscan', (res)=> {
-			  const code=this.$u.trim(res.code.replace(/\/n/g,''));
-	      this.this.initMaterials(code);
-				this.handleSubmit();
-			})
-		},
 		onPageScroll(e) {
 			// let that = this;  
-      if(this.stickyTop<=e.scrollTop)	this.isSticky=true;
-			else this.isSticky=false;
-			 	
+      if(this.stickyTop<=e.scrollTop){
+				this.isSticky=true;
+			}else{
+				this.isSticky=false;	
+			}
+
 			if(this.scrollTop> e.scrollTop){  
 					this.InfoShow=true; 
 			}else{  				
@@ -456,7 +426,7 @@ import { mapState } from "vuex";
 			this.getMateriallist()
 			.then(() => uni.stopPullDownRefresh())
 			.catch(()=>uni.stopPullDownRefresh())
-  },
+    },
 	}
 </script>
 
@@ -466,8 +436,6 @@ import { mapState } from "vuex";
 .matCode-icon{right: 10rpx;}
 .info{
 	.info-box{background-color:#fff; padding: 10rpx 0;}
-  .info-operate{background-color:#fff;}
-	.info-list{padding: 10rpx 30rpx 0 30rpx;}
 	.info-line{margin: 10rpx 30rpx 0 30rpx;}
 }
 .model-info{
@@ -482,8 +450,7 @@ import { mapState } from "vuex";
 		.item-box {
 			margin-bottom: 20rpx;
 			display: flex;
-			flex-wrap: wrap;
-			
+			flex-wrap: wrap;		
 			.item {
 				margin: 10rpx 10rpx;
 				padding: 8rpx 40rpx;
