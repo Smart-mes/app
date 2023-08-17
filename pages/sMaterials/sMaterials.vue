@@ -100,7 +100,7 @@
 						<u-form-item class="relative"  label="物料编号" prop="cMatCode" >
 								<u-input class="disabled" disabled  v-model="materialsForm.cMatCode" />
 							</u-form-item>
-							<u-form-item class="relative" required label="当前物料" prop="matCode" >
+							<u-form-item class="relative" required label="料号结尾" prop="matCode" >
 								<u-input class="disabled" disabled  v-model="materialsForm.matCode" />
 								<u-icon v-show="isMatCode" class="absolute matCode-icon" name="close" color="#e45656" size="28" />
 							</u-form-item>
@@ -109,7 +109,7 @@
 							</u-form-item>							
 							<!-- rawText -->
 							<u-form-item  label="料盘编号" prop="rawText" >
-									<u-input change  v-model="materialsForm.rawText"  @confirm="materialsConfirm"/>
+									<u-input  v-model="materialsForm.rawText"  @confirm="materialsConfirm" @input="materialsInput"/>
 							</u-form-item>
 				</u-form>
 				<u-row class="m-t20" gutter="20">
@@ -152,7 +152,8 @@ import { mapState } from "vuex";
 				maLable:{position:'位置',cMatCode:'物料编号',lotNo:'物料批次'},
 				dict:{},
         mSlot:{position:true},
-				materialIndex:0,	
+				materialIndex:0,
+				materialId:0,	
 			  materialList:[],
 				modelShow:false,
 				navBar: { title:'工站物料', isBack: true},
@@ -188,11 +189,11 @@ import { mapState } from "vuex";
 			isMatCode(){
 				const {cMatCode,matCode}=this.materialsForm;
 				if(matCode){
-					return !(cMatCode===matCode);
-				}else{
-					return false;
+					let reg=/[a-zA-Z0-9]{3}$/;
+					let matCodeEnd=cMatCode.match(reg);
+					return	matCodeEnd?!(matCodeEnd[0]===matCode):true;
 				}
-				
+				return false;			
 			},
 			mList(){
 				const {unit,slotNo,leftOrRight}=this.dropdown;
@@ -238,6 +239,9 @@ import { mapState } from "vuex";
 				 await this.initMaterials(val);
 				 await this.handleSubmit();	
 			},
+			materialsInput(val){
+				console.log('val:',val)
+			},
 			handleDopen(i){
 				Object.entries(this.dropdown).forEach(([key],dIndex)=>{
 					if(dIndex===i&&this.dropdown[key]){
@@ -262,20 +266,26 @@ import { mapState } from "vuex";
 				if(f) this.dropdown[prop]=f.value;			
 				this.$refs.uDropdown.close(f.value);
 			},
-			handleAdd(item){
-				this.materialIndex=this.mList.findIndex(({id})=>id===item.id);
+			handleAdd({id}){
+				this.materialId=id;
+				// this.materialIndex=this.mList.findIndex(({id})=>id===item.id);
 				this.popupShow=true;
 			},
-			handleDel(item){
-				this.materialIndex=this.mList.findIndex(({id})=>id===item.id);
+			handleDel({id}){
+				// this.materialIndex=this.mList.findIndex(({id})=>id===item.id);
+				this.materialId=id;
 				this.sheetShow=true;
 			},
+			getIndex(key='materialList'){
+			  return this[key].findIndex(({id})=>id===this.materialId);
+			},
 			setFormData(){
-				Object.entries(this.materialsForm).forEach(([key,val])=>{	
+				const mIndex=this.getIndex('mList');
+				Object.entries(this.materialsForm).forEach(([key])=>{	
 					if(key==='matCode'||key==='lotNo'){  
 						this.materialsForm[key]='';
 					}else{					
-						this.materialsForm[key]=this.materialList[this.materialIndex][key];
+						this.materialsForm[key]=this.mList[mIndex][key];
 					}
 				});				
 			},
@@ -284,10 +294,11 @@ import { mapState } from "vuex";
 				this.$refs.materialsForm.setRules(this.materialsRules);
 			},
 			handleSheet(){
-				const param={...this.materialList[this.materialIndex],lotNo:''};
+				const materialIndex=this.getIndex();
+				const param={...this.materialList[materialIndex],lotNo:''};
 				this.changeFetch(param).then(()=>{
 						this.$refs.uToast.show({title: "卸料成功",type: "success"});
-						this.$set(this.materialList[this.materialIndex], 'lotNo', '');	
+						this.$set(this.materialList[materialIndex], 'lotNo', '');	
 				});
 			},
 			 handleReset(){
@@ -297,17 +308,16 @@ import { mapState } from "vuex";
 			async handleSubmit(){				
 				this.$refs.materialsForm.validate(async valid => {
 					if (valid) {
+						const materialIndex=this.getIndex();
 						this.btnLoading=true;	
-						const param={...this.materialList[this.materialIndex],...this.materialsForm,empCode:this.userInfo.empCode};
+						const param={...this.materialList[materialIndex],...this.materialsForm,empCode:this.userInfo.empCode};
 						const changeData= await this.changeFetch(param).catch(()=>{
 								radio.play_ding_fail();
-								this.btnLoading=false;	
 						});
 						this.btnLoading=false;	
-			
-						if(changeData.lotNo){
+						if(changeData){
 							this.popupShow=false;
-							this.$set(this.materialList[this.materialIndex], 'lotNo', changeData.lotNo);
+							this.$set(this.materialList[materialIndex], 'lotNo', changeData.lotNo);
 							if(!this.notFinishNum){
 								this.modelShow=true
 							}else{
@@ -322,12 +332,7 @@ import { mapState } from "vuex";
 				const MaterialsData= this.getMaterials(param) 
 				if(MaterialsData){
 					Object.entries(MaterialsData).forEach(([key,value])=>{
-						if(key==='matCode'){
-							this.materialsForm[key]=`6HP${value}`
-						}else{
-							this.materialsForm[key]=value
-						}
-						
+						this.materialsForm[key]=value;		
 					})
 				}else{
 					this.$refs.uToast.show({ title:`${param}错误`, type: "error" });

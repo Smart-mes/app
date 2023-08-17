@@ -19,7 +19,7 @@
       <!-- 用户信息 -->
       <view class="my-info">
         <u-cell-group>
-          <u-cell-item title="你的未读消息" @click="unreadLink">
+          <u-cell-item title="版本号">
             <u-icon
               slot="icon"
               name="circleDot"
@@ -27,18 +27,7 @@
               size="25"
               color="#999"
             />
-            <text class="info-time">一分钟前</text>
-            <u-badge :count="unreadCount" :absolute="false" />
-          </u-cell-item>
-          <u-cell-item title="你的未读任务">
-            <u-icon
-              slot="icon"
-              name="circleDot"
-              custom-prefix="custom-icon"
-              size="25"
-              color="#999"
-            />
-            <text class="info-time">一分钟前</text>
+            <text class="info-time">{{version}}</text>
             <u-badge count="0" :absolute="false" />
           </u-cell-item>
         </u-cell-group>
@@ -67,9 +56,16 @@ export default {
         background: { backgroundColor: "#1c7de6" },
       },
       spotVisible: false,
+      version:''
     };
   },
-  onLoad() {},
+  onLoad() {
+    //#ifdef APP-PLUS
+      plus.runtime.getProperty(plus.runtime.appid, (info) => {
+          this.version = info.version;
+      }) 
+    //#endif
+  },
   computed: {
     ...mapState(["unreadCount", "userInfo", "navTab"]),
   },
