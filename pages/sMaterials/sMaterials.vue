@@ -240,7 +240,9 @@ import { mapState } from "vuex";
 				 await this.handleSubmit();	
 			},
 			materialsInput(val){
-				console.log('val:',val)
+				if(!val){
+					this.handleReset();
+				}
 			},
 			handleDopen(i){
 				Object.entries(this.dropdown).forEach(([key],dIndex)=>{
