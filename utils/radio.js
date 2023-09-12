@@ -4,7 +4,7 @@
 function play_ding_success() {
     const innerAudioContext = uni.createInnerAudioContext();
     innerAudioContext.autoplay = true;
-    innerAudioContext.src = '/static/radio/fail.mp3';
+    innerAudioContext.src = '/static/radio/success.mp3';
     innerAudioContext.onPlay(() => {});
     innerAudioContext.onError((res) => {
       this.$u.toast(res.errMsg);

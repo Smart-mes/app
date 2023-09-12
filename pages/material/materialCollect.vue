@@ -45,6 +45,7 @@
 </template>
 <script>
  import { mapState ,mapMutations} from "vuex";
+ import radio from "@/utils/radio.js"
 	export default {
 		name:"MaterialRego",
 		data() {
@@ -94,13 +95,25 @@
     },
 		methods: {
 			...mapMutations(['clear_storage']),
+			toast(type,msg){
+				this.$refs.uToast.show({title:msg,type,position:'bottom'})
+			},
+			errorTip(msg){
+				uni.vibrateLong({
+					success: ()=>this.toast('error',msg)					
+				});	
+			},
+			machineChange(){
+				this.clear_storage('stationCode');
+				uni.reLaunch({ url:'/pages/index/index' });
+			},
       async feederHandle(e){
 			   const res= await this.feederFetch(e);
 					if(res.length){
 						  this.feederData=res[0];
 					}else{
+						this.errorTip(`${e}-该物料批次没安装在飞达`);
 						this.$refs.collectForm.formData.feederLotNo='';
-						this.toast('error',`${e}-该物料批次没安装在飞达`);	
 				 }
 		 },
 		 async storeHandle(e){
@@ -110,25 +123,35 @@
 				if(state===0){
 						this.installHandle();
 				}else if(state===1){
+					this.errorTip('物料批次已安装在飞达');
 					this.rejectHandle();
-					this.toast('error','物料批次已安装在飞达');
 				}else{
+					this.errorTip('物料批次未注册');
 					this.rejectHandle();
-					this.toast('error','物料批次未注册');
 				}
 		 },		
 		 async installHandle(){
-				const {code,message}=  await this.installFetch();
+				const {code,message}=await this.$http.request({
+						url: '/api/MaterialInFeeder/Install',
+						method: "POST",
+						data: {
+							stationCode:this.stationCode,
+							empCode:this.userInfo.empCode,
+							lotNo:this.$refs.collectForm.formData.storeLotNo,
+							feederCode:this.feederData.feederCode,
+							isAppend:true
+					}
+				});
+				console.log(code,message)		
         if(code==='OK'){
 					this.resetHandle();		
-					await this.toast('success',message);
+					this.toast('success',message);	
+					radio.play_ding_success();
 				}else{
+					this.errorTip(message);
 					this.rejectHandle();
-          await this.toast('error',message);	
+					
 				}		     
-			},
-			toast(type,msg){
-				this.$refs.uToast.show({title:msg,type,position:'bottom'})
 			},
 			rejectHandle(){
 				const {feederLotNo,storeLotNo}=this.$refs.collectForm.formData;
@@ -160,16 +183,6 @@
 			},
 			feederFetch(feederLotNo){
 				return this.$http.request({url: '/api/MaterialInFeeder',method: "GET",data: {lotNo:feederLotNo,stationCode:this.stationCode}}); 
-			},
-			installFetch(){
-				const parame={
-					stationCode:this.stationCode,
-					empCode:this.userInfo.empCode,
-					lotNo:this.$refs.collectForm.formData.storeLotNo,
-					feederCode:this.feederData.feederCode,
-					isAppend:true
-				}
-				return this.$http.request({url: '/api/MaterialInFeeder/Install',method: "POST",data: parame})
 			},
 		},
 		async onLoad({stationCode}){

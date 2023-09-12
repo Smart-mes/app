@@ -34,6 +34,7 @@
 
 <script>
 import { mapState} from "vuex";
+import radio from "@/utils/radio.js"
 	export default {
 		name:'MaterialLogout',
 		data() {
@@ -66,23 +67,35 @@ import { mapState} from "vuex";
     ...mapState(["userInfo"])
     },
 		methods: {
+			toast(type,msg){
+				this.$refs.uToast.show({title:msg,type,position:'bottom'})
+			},
+			errorTip(msg){
+				uni.vibrateLong({
+					success: ()=>this.toast('error',msg)					
+				});	
+			},
 			async lotNoHandle(e){
 				const res= await this.lotNoFetch(e);
 				if(res.length){
 					this.lotNoData=res[0];
 					this.isLogout=false;
 				}else{
-					this.toast('error',`${e}-边仓物料不存在`);
+					this.errorTip(`${e}-边仓物料不存在`);
 					this.lotNoClear();
 				}
 			},
 			async checkOutHandle(){
 				const {lotNo}=this.$refs.logoutForm.formData;
 				const {code,message} =await this.checkOutFetch(lotNo);
-				const toastType=code==='OK'?'success':'error'
-				await this.toast(toastType,message);
-				await this.lotNoClear();
-				
+				if(code==='OK'){
+					this.toast('success',message);	
+					radio.play_ding_success();
+				}else{
+					this.errorTip(message);
+					this.rejectHandle();
+				}	
+				  this.lotNoClear();
 			},
 			rejectHandle(){
         const {lotNo}=this.$refs.logoutForm.formData;
@@ -92,9 +105,6 @@ import { mapState} from "vuex";
 				this.$refs.logoutForm.clear();
 				this.lotNoData={};
 				this.isLogout=true;
-			},
-			toast(type,msg){
-				this.$refs.uToast.show({title:msg,type,position:'bottom'})
 			},
 			lotNoFetch(lotNo){
 				return this.$http.request({url: '/api/PMaterialWip',method: "GET",data: {lotNo}}); 

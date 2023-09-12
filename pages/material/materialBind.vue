@@ -22,7 +22,7 @@
 					<view class="material-tip" >
 						<ex-describe labelWidth="60" margin="0" style="padding: 0; background-color:initial;" :lableDict="feederDict"  :data="feederData">
 						  <template v-slot:right="desData">
-								<u-button v-show="!!desData.data.feederCode" size="mini" @click="unloadHandle(desData.data)">
+								<u-button v-show="!!desData.data.feederCode" size="mini" @click="unloadFetch(desData.data)">
 									{{slotProps.data.lotNo===desData.data.lotNo?'卸载':'释放'}}
 								</u-button>
 							</template>
@@ -51,6 +51,7 @@
 
 <script>
  import { mapState ,mapMutations} from "vuex";
+ import radio from "@/utils/radio.js"
 	export default {
 		name:"MaterialRego",
 		data() {
@@ -103,6 +104,18 @@
     },
 		methods: {
 			...mapMutations(['clear_storage']),
+			toast(type,msg){
+				this.$refs.uToast.show({title:msg,type,position:'bottom'})
+			},
+			errorTip(msg){
+				uni.vibrateLong({
+					success: ()=>this.toast('error',msg)					
+				});	
+			},
+			successTip(msg){
+				radio.play_ding_success();
+				this.toast('success',msg);		
+			},
 			async lotNoHandle(e){
 					const res=await this.lotNoFetch(e);
 					if(res.length){
@@ -111,17 +124,17 @@
 							const {lotNo}=this.$refs.bindForm.formData			
 							await	this.getFeederData({lotNo});
 							if(this.feederData.feederCode){
-								this.$refs.bindForm.formData.feederCode=this.feederData.feederCode;	
-							  this.toast('success',`当前批次已被绑定于:${this.feederData.feederCode}`);   
+								this.toast('warning',`当前批次已被绑定于:${this.feederData.feederCode}`)	
+								this.$refs.bindForm.formData.feederCode=this.feederData.feederCode;	 								 
 							}else{
-								this.toast('error','物料不是闲置状态');	
+								this.errorTip('物料不是闲置状态'); 
 							}						 								
 						}
 					}else{
 						  this.$refs.bindForm.formData.lotNo='';
 							this.clearLotNo();
 						  this.clearFeeder();
-							this.toast('error',`${e}-没有注册`);		
+							this.errorTip(`${e}-没有注册`); 		
 					}		
 			},
 			async feederHandle(e){
@@ -130,28 +143,20 @@
 					const {feederCode}=this.$refs.bindForm.formData;
 					const feederList=await this.getFeederData({feederCode});		
 					if(!feederList.length){
-				  	await	this.installHandle();
+				  	await	this.installFetch();
 					  await	this.resetHandle();			
 					}else{
-						this.toast('error',`${e}容器已经绑定${this.feederData.lotNo}`);		
+						this.toast('warning',`${e}容器已经绑定${this.feederData.lotNo}`) 	
 					} 					
 				}else{
+					this.errorTip('容器不存在'); 
 					this.$refs.bindForm.formData.feederCode='';
 					this.clearFeeder();
-					this.toast('error',`容器不存在`);		
 				}
 			},
 			machineChange(){
 				this.clear_storage('stationCode');
 				uni.reLaunch({ url:'/pages/index/index' });
-			},
-			async installHandle(){
-				const {code,message}=  await this.installFetch();
-        if(code==='OK'){
-					await this.toast('success',message);		
-				}else{
-          await this.toast('error',message);		
-				}				
 			},
 			async getFeederData(parame,isFeeder=true){
 				const feederList=await this.feederFetch(parame); 
@@ -160,28 +165,51 @@
         }
         return feederList;
 			},
-			async unloadHandle(parame){
-				const bindForm=this.$refs.bindForm.formData;
-				const msg=bindForm.lotNo===this.feederData.lotNo?'卸载成功':'释放成功'
-				await	this.unloadFetch(parame);
-				await this.clearFeeder();	
-				await this.toast('success',msg);	
-				bindForm.feederCode='';			
+			async installFetch(){
+					const {code,message}=  await this.$http.request({
+						url: '/api/MaterialInFeeder/Install',
+						method: "POST",
+						data: {
+							stationCode:this.stationCode,
+							empCode:this.userInfo.empCode,
+							...this.$refs.bindForm.formData,
+							isAppend:false 
+						}
+				  }); 
+				if(code==='OK'){
+					this.successTip(message);	
+				}else{
+					this.errorTip(message);						
+				}	
 			},
-			toast(type,msg){
-				this.$refs.uToast.show({type,title:msg,position:'bottom'})
+			async unloadFetch({feederCode, lotNo}){
+				const bindForm=this.$refs.bindForm.formData;			
+				await	this.$http.request({
+					url: '/api/MaterialInFeeder/Uninstall',
+					method: "POST",
+					data: {
+						stationCode:this.stationCode,
+						empCode:this.userInfo.empCode,
+						feederCode,
+						lotNo,
+						qty:this.feederData.qty
+					}
+			  }).then(()=>{
+					const msg=bindForm.lotNo===this.feederData.lotNo?'卸载成功':'释放成功';				
+					this.successTip(msg);	
+				})
+				await this.clearFeeder();	
+				bindForm.feederCode='';			
 			},
 			rejectHandle(){
 				const {lotNo,feederCode}=this.$refs.bindForm.formData;
 				if(feederCode){
           this.$refs.bindForm.formData.feederCode='';
-          this.clearFeeder();
-          return
+         return void this.clearFeeder();         
         }		
         if(lotNo){
           this.$refs.bindForm.formData.lotNo='';
-           this.clearLotNo();
-          return
+          return void this.clearLotNo();       
         }
 			},
 			resetHandle(){
@@ -206,25 +234,6 @@
 			},
 			feederFetch(parame){
 				return this.$http.request({url: '/api/MaterialInFeeder',method: "GET",data: {...parame,stationCode:this.stationCode}}); 
-			},
-			installFetch(){
-				const parame={
-					stationCode:this.stationCode,
-					empCode:this.userInfo.empCode,
-					...this.$refs.bindForm.formData,
-					isAppend:false 
-				}
-				return this.$http.request({url: '/api/MaterialInFeeder/Install',method: "POST",data: parame}); 
-			},
-			unloadFetch({feederCode, lotNo}){
-				const parame={
-					stationCode:this.stationCode,
-					empCode:this.userInfo.empCode,
-					feederCode,
-					lotNo,
-					qty:this.feederData.qty
-				}
-				return this.$http.request({url: '/api/MaterialInFeeder/Uninstall',method: "POST",data: parame}); 
 			},
 		},
 		async onLoad({stationCode}){

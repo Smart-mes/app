@@ -41,6 +41,16 @@
             <text class="info-time">一分钟前</text>
             <u-badge count="0" :absolute="false" />
           </u-cell-item>
+          <u-cell-item title="版本号">
+            <u-icon
+              slot="icon"
+              name="circleDot"
+              custom-prefix="custom-icon"
+              size="25"
+              color="#999"
+            />
+            <text class="info-time">{{version}}</text>
+          </u-cell-item>
         </u-cell-group>
       </view>
       <!--我的消息-->
@@ -67,9 +77,16 @@ export default {
         background: { backgroundColor: "#1c7de6" },
       },
       spotVisible: false,
+      version:''
     };
   },
-  onLoad() {},
+  onLoad() {
+    //#ifdef APP-PLUS
+      plus.runtime.getProperty(plus.runtime.appid, (info) => {
+          this.version = info.version;
+      }) 
+    //#endif
+  },
   computed: {
     ...mapState(["unreadCount", "userInfo", "navTab"]),
   },

@@ -41,6 +41,7 @@
 
 <script>
   import { mapState ,mapMutations} from "vuex";
+	import radio from "@/utils/radio.js"
 	export default {
 		name:"MaterialRego",
 		data() {
@@ -60,7 +61,7 @@
 				event:{
 					matCode:{
 						confirm: (e)=>{
-								if(e) this.matCodeHandle(e);				
+							if(e) this.matCodeHandle(e);				
 						},
 						input:(e)=>{
 							if(!e) this.clearData();
@@ -93,38 +94,40 @@
 			toast(type,msg){
 				this.$refs.uToast.show({title:msg,type,position:'bottom'})
 			},
+			errorTip(msg){
+				uni.vibrateLong({
+					success: ()=>this.toast('error',msg)			
+				});	
+			},
 			async matCodeHandle(e){
 				const res=await this.matCodeFetch(e);
 				if(res.length) {
 					this.matCodeData=res[0];
 				}else{
 					this.$refs.regoForm.formData.matCode='';
-					this.rejectHandle();	
-					this.toast('error',`${e}-物料编号不存在`);
+					this.errorTip(`${e}-物料编号不存在`);	
+					this.rejectHandle();				
 				}	
 			},
 			async lotNoHandle(e){
 				const res=await this.lotNoFetch(e);
 				if(res.length){
+					this.errorTip(`${e}-批次号已存在`);	
 					this.$refs.regoForm.formData.lotNo='';
-					this.toast('error',`${e}-批次号已存在`);		
 				}
 				this.setType(res.length);				
 			},		
 			rejectHandle(){
         const {matCode,lotNo,inputQty}=this.$refs.regoForm.formData;
         if(!this.isRego&&inputQty!==5000){
-          this.$refs.regoForm.formData.inputQty=5000;
-          return
+	         return this.$refs.regoForm.formData.inputQty=5000;        
         }
         if(lotNo){
-          this.$refs.regoForm.formData.lotNo='';
-          return
+	        return  this.$refs.regoForm.formData.lotNo='';          
         }
         if(matCode){
           this.$refs.regoForm.formData.matCode='';
-          this.matCodeClear();
-          return
+         return void this.matCodeClear();       
         }
       },
 			async checkInHandle(){
@@ -134,10 +137,15 @@
 					workshop:this.line[0].value,
 					lotQty:this.$refs.regoForm.formData.inputQty
 				});
-			  const codeType=code==='OK'?'success':'error';
-				await this.toast(codeType,message);
-				await this.$refs.regoForm.clear();
-				await this.clearData();
+				if(code==='OK'){
+					this.toast('success',message);	
+					radio.play_ding_success();
+				}else{
+					this.rejectHandle();
+					this.errorTip(message);	
+				}	
+				this.$refs.regoForm.clear();
+				this.clearData();
 			},
 			matCodeClear(){
 				this.matCodeData={};
@@ -175,6 +183,7 @@
 			uni.$off('xwscan') 
 			uni.$on('xwscan', (res)=> {
 			const code=this.$u.trim(res.code.replace(/\/n/g,''));
+			console.log('code:',code)
 			const regoForm=this.$refs.regoForm;
 			const {matCode,lotNo}=regoForm.formData;
 				if(!matCode){
