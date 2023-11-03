@@ -73,7 +73,7 @@ export default {
  
   methods: {
     date(val) {
-      return moment().format('YYYY-MM-DD')
+      return moment(val).format('YYYY-MM-DD')
     },
     // tree树形
     fetchData(form) {
