@@ -32,28 +32,6 @@
 			}
 		},
 		{
-			"path": "pages/device/device",
-			"style": {
-				"navigationBarTitleText": "设备管理",
-				"navigationStyle": "custom",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/analyse/analyse",
-			"style": {
-				"navigationBarTitleText": "设备效率分析",
-				"navigationStyle": "custom"
-			}
-		},
-		{
-			"path": "pages/analyse/analyseDetail",
-			"style": {
-				"navigationBarTitleText": "设备效率分析详情",
-				"navigationStyle": "custom"
-			}
-		},
-		{
 				"path" : "pages/material/materialRego",
 				"style" :                                                                                    
 				{

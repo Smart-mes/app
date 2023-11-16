@@ -2,8 +2,8 @@
     "name" : "Smart.MES",
     "appid" : "__UNI__1BF5698",
     "description" : "支持跨平台部署,故障转移,具备了基本的异常不停线能力",
-    "versionName" : "1.0.3",
-    "versionCode" : 103,
+    "versionName" : "1.0.4",
+    "versionCode" : 104,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
